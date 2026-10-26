@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Node2Shell Deep Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600&display=swap">
+<style>
+/* Design plan
+   Colour: cool-neutral paper, slate ink, teal accent. Semantic red/amber/teal carry verdicts.
+   Type:   Plex Serif headings, Plex Sans body, Plex Mono for code and indicators.
+   Layout: one left-aligned content column; every block shares the left edge; prose is
+           measure-limited, wide blocks run to the column width. Nothing is centred. */
+:root {
+  --bg:#f4f6f7; --surface:#fff; --surface-2:#e9eef0; --ink:#101b22; --muted:#556772;
+  --line:#d2dbdf; --accent:#0f6674; --accent-soft:#e2f0f2;
+  --crit:#9a2028; --crit-soft:#fbeaea; --warn:#8a5a06; --warn-soft:#fdf3df;
+  --ok:#1c6a60; --ok-soft:#e3f1ee; --code-bg:#0d1820; --code-fg:#d7e6ee;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --serif:"IBM Plex Serif",ui-serif,Georgia,serif;
+  --col:980px; --prose:74ch;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#0b1218; --surface:#121c24; --surface-2:#18242d; --ink:#e6eef3; --muted:#90a3ae;
+    --line:#24313a; --accent:#5fbccb; --accent-soft:#0d2a30;
+    --crit:#ef868b; --crit-soft:#2a1416; --warn:#e6a344; --warn-soft:#241b0e;
+    --ok:#5cb9a9; --ok-soft:#102824; --code-bg:#060c11; --code-fg:#cfdde6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#0b1218; --surface:#121c24; --surface-2:#18242d; --ink:#e6eef3; --muted:#90a3ae;
+  --line:#24313a; --accent:#5fbccb; --accent-soft:#0d2a30;
+  --crit:#ef868b; --crit-soft:#2a1416; --warn:#e6a344; --warn-soft:#241b0e;
+  --ok:#5cb9a9; --ok-soft:#102824; --code-bg:#060c11; --code-fg:#cfdde6;
+  color-scheme: dark;
+}
+* { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:calc(var(--col) + 48px); margin:0 auto; padding:30px 24px 80px; }
+.masthead { border-top:3px solid var(--ink); padding-top:22px; }
+.eyebrow { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center;
+  font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:22px; }
+.tlp { border:1px solid var(--accent); color:var(--accent); padding:2px 7px; border-radius:3px; }
+h1 { font-family:var(--serif); font-size:clamp(1.7rem,3.4vw,2.35rem); line-height:1.12;
+  letter-spacing:-.01em; margin:0 0 14px; }
+.standfirst { font-size:1.05rem; color:var(--muted); max-width:var(--prose); margin:0 0 26px; }
+.meta { display:flex; flex-wrap:wrap; gap:6px 18px; font-family:var(--mono); font-size:11.5px;
+  text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-bottom:8px; }
+
+.verdict { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:26px 0 18px; }
+.vcard { background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:16px 18px; }
+.vcard .label { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.grade { font-family:var(--serif); font-size:1.28rem; display:block; margin-bottom:8px; }
+.grade.high { color:var(--ok); } .grade.med { color:var(--warn); } .grade.none { color:var(--crit); }
+.vcard p { margin:0 0 8px; font-size:14px; max-width:none; }
+.vcard .foot { color:var(--muted); font-size:12.5px; margin:0; }
+
+.callout { background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+  border-radius:4px; padding:16px 18px; margin:18px 0; }
+.callout.warn { border-left-color:var(--warn); }
+.callout.crit { border-left-color:var(--crit); }
+.callout .k { font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); display:block; margin-bottom:6px; }
+.callout p:last-child { margin-bottom:0; }
+
+.figures { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);
+  border:1px solid var(--line); border-radius:4px; overflow:hidden; margin:20px 0 8px; }
+.fig { background:var(--surface); padding:14px 16px; }
+.fig .n { display:block; font-family:var(--serif); font-size:1.3rem; }
+.fig .d { display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+
+section { margin-top:44px; }
+h2 { font-family:var(--serif); font-size:1.35rem; margin:0 0 6px; max-width:var(--prose); }
+h2::after { content:""; display:block; width:36px; height:2px; background:var(--accent);
+  opacity:.45; margin-top:12px; }
+h3 { font-family:var(--sans); font-size:1.02rem; font-weight:600; margin:30px 0 6px; max-width:var(--prose); }
+.sub { color:var(--muted); font-size:14.5px; margin:10px 0 18px; max-width:var(--prose); }
+p { margin:0 0 14px; max-width:var(--prose); }
+ul, ol { margin:0 0 14px; padding-left:1.3em; max-width:var(--prose); }
+li { margin-bottom:7px; }
+a { color:var(--accent); text-decoration-thickness:1px; text-underline-offset:2px; }
+code, .mono { font-family:var(--mono); font-size:.88em; }
+code { background:var(--surface-2); padding:.1em .34em; border-radius:3px; }
+pre { background:var(--code-bg); color:var(--code-fg); border-radius:4px; padding:16px 18px;
+  overflow-x:auto; margin:14px 0 20px; font-family:var(--mono); font-size:12.5px; line-height:1.6; }
+pre code { background:none; padding:0; color:inherit; font-size:inherit; }
+
+.tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:4px;
+  background:var(--surface); margin:10px 0 20px; }
+table { border-collapse:collapse; width:100%; min-width:560px; font-size:13.5px; }
+thead th { font-family:var(--mono); font-size:10.5px; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--muted); text-align:left; padding:10px 12px; border-bottom:1px solid var(--line);
+  white-space:nowrap; }
+tbody td { padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; }
+tbody tr:last-child td { border-bottom:0; }
+tbody tr:nth-child(even) { background:var(--surface-2); }
+
+.pill { display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.05em;
+  text-transform:uppercase; padding:2px 6px; border-radius:3px; white-space:nowrap; }
+.p-high { background:var(--ok-soft); color:var(--ok); }
+.p-med { background:var(--warn-soft); color:var(--warn); }
+.p-low { background:var(--crit-soft); color:var(--crit); }
+.p-none { background:var(--surface-2); color:var(--muted); }
+
+.note { font-size:13px; color:var(--muted); }
+footer { margin-top:56px; padding-top:20px; border-top:1px solid var(--line); }
+footer p { font-size:13px; color:var(--muted); }
+
+@media (max-width:820px) {
+  .verdict, .figures { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:560px) {
+  .wrap { padding:22px 16px 60px; }
+  .verdict, .figures { grid-template-columns:1fr; }
+  h1 { font-size:1.75rem; }
+  :root { --col:100%; --prose:100%; }
+}
+@media print { .tbl-wrap, pre { overflow:visible; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">
+    <span class="tlp">TLP:CLEAR</span>
+    <span>Deep research · 26 Oct 2026</span>
+    <span>Node2Shell / HTTP2Shell / Broccoli2Shell</span>
+  </div>
+  <h1>Node2Shell &mdash; CVE-2026-111497</h1>
+  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation is still absent. Three claims, three different confidences.</p>
+  <div class="meta">
+    <span>Sources: 11 primary</span>
+    <span>PoC repos: 30–52</span>
+    <span>Network IOCs: none published</span>
+    <span>Queries run: 26 Oct 2026</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <div class="vcard">
+    <span class="label">The vulnerability</span>
+    <span class="grade high">REAL · HIGH</span>
+    <p>Out-of-bounds write in Google's reference Brotli decoder, <span class="mono">c/dec/decode.c</span>, present since 2018 and fixed upstream in February 2026.</p>
+    <p class="foot">CVSS 4.0 9.2 from the CNA; Node.js rates it High; NVD ingested 22 Oct, still <em>Awaiting Analysis</em>.</p>
+  </div>
+  <div class="vcard">
+    <span class="label">Code execution</span>
+    <span class="grade med">CONTESTED · MEDIUM</span>
+    <p>Two teams report RCE on stock builds. Imperva on Linux <em>arm64</em>, ELLIO on <em>x86-64</em> across four frameworks.</p>
+    <p class="foot">Both describe it as probabilistic, offset-specific and crash-heavy. At least one researcher argues the write is unreachable and the real impact is denial of service.</p>
+  </div>
+  <div class="vcard">
+    <span class="label">In-the-wild exploitation</span>
+    <span class="grade none">NONE CONFIRMED</span>
+    <p>No victim, no campaign, no KEV entry, no threat-actor reporting.</p>
+    <p class="foot">CISA SSVC on 23 Oct: exploitation <em>none</em>, technical impact <em>total</em>. Public PoC exists; reconnaissance scanning does.</p>
+  </div>
+</div>
+
+<div class="callout warn">
+  <span class="k">The distinction that decides your response</span>
+  <p>A crash in a Node.js worker is <strong>easy, reliable and public</strong>. Code execution is <strong>neither</strong>. Everything in the PoC ecosystem that "works" mostly works by killing the process &mdash; and because failed exploitation attempts also crash workers, <strong>an attacker who cannot get a shell still has a denial-of-service primitive</strong>. Patch on the RCE claim's plausibility, not on its proof.</p>
+</div>
+
+<div class="figures">
+  <div class="fig"><span class="n">8 mo</span><span class="d">fix sat unlabelled upstream</span></div>
+  <div class="fig"><span class="n">~5</span><span class="d">attempts to a shell (ELLIO, x86-64)</span></div>
+  <div class="fig"><span class="n">0.33</span><span class="d">EPSS, 98th percentile</span></div>
+  <div class="fig"><span class="n">0</span><span class="d">network IOCs published</span></div>
+</div>
+
+<section>
+  <h2>What the flaw actually is</h2>
+  <p class="sub">Read this before any of the exploitability argument, because the argument is entirely about whether this write is reachable.</p>
+  <p>Brotli's <code>DecodeBlockTypeAndLength()</code> must decide whether a malformed block switch is a <strong>fatal format error</strong> or a <strong>request for more input</strong>. It conflated the two: a fast path ignored the return value, so the streaming decoder treated an invalid block switch as "need more bytes" and kept appending into an <strong>eight-byte internal buffer</strong>. The overrun writes into adjacent decoder state.</p>
+  <p>The upstream fix is commit <code>0ed4268a</code> &mdash; <em>"Detect and report invalid stream earlier"</em> &mdash; which introduces the distinct error <code>BROTLI_DECODER_ERROR_FORMAT_BLOCK_SWITCH</code> (<code>-17</code>). Related commits: <code>50a9b70</code>, <code>b418fa8</code>, <code>da98063</code>.</p>
+  <div class="callout crit">
+    <span class="k">The detail that matters most for inventory</span>
+    <p><strong>The fix landed upstream in February 2026 and was not labelled a security fix.</strong> Disclosure followed eight months later, on 21 October, with the Node.js release. Anything that vendored, pinned or bundled a Brotli build between those dates is vulnerable regardless of when it was last "updated". A dependency manifest showing a recent build proves nothing; you have to know <em>which</em> Brotli that build contains.</p>
+  </div>
+  <p>Reported by <strong>OpenAI Codex Security</strong> &mdash; Khai Tran and Sylvie Mayer &mdash; and fixed by <span class="mono">mcollina</span> and <span class="mono">aduh95</span>. Tracked as <strong>CVE-2026-111497</strong> / <strong>GHSA-9v8h-qqgm-4m35</strong>, CWE-787 with CWE-252 as the root cause. Nicknames in circulation: <strong>Node2Shell</strong>, <strong>HTTP2Shell</strong>, <strong>Broccoli2Shell</strong>, <strong>Python2Shell</strong> &mdash; the proliferation of names is itself a sign the blast radius is not Node.js.</p>
+</section>
+
+<section>
+  <h2>One CVE, and a very long tail</h2>
+  <p class="sub">The single most useful thing in this report: the flaw is redistributed inside runtimes, wheels, proxies and vendored binaries. Node.js is the loudest carrier, not the only one.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Product / ecosystem</th><th>Vulnerable</th><th>Fixed</th></tr></thead>
+      <tbody>
+        <tr><td>Google Brotli (C reference)</td><td>1.0.3&ndash;1.0.9, 1.1.0, 1.2.0</td><td>1.0.10, 1.1.1, 1.2.1</td></tr>
+        <tr><td><strong>Node.js 22 / 24 / 26</strong></td><td>&lt;22.23.4 / &lt;24.22.1 / &lt;26.12.1</td><td><strong>22.23.4, 24.22.1, 26.12.1</strong></td></tr>
+        <tr><td>Node.js 18 / 20 / 23 / 25</td><td>all lines</td><td><span class="pill p-low">none &mdash; EOL</span></td></tr>
+        <tr><td>Bun</td><td>1.0.21&ndash;1.4.3</td><td>1.4.4</td></tr>
+        <tr><td>PyPI <code>Brotli</code></td><td>1.0.4, 1.0.6&ndash;1.0.9, 1.1.0, 1.2.0</td><td>1.2.1</td></tr>
+        <tr><td>PyPI <code>brotlicffi</code></td><td>1.0.9.0&ndash;1.0.9.2, 1.1.0.0, 1.2.0.0&ndash;1.2.0.2</td><td>1.2.1.0</td></tr>
+        <tr><td>Envoy</td><td>1.39.2, 1.38.5, 1.37.7, 1.36.11 and earlier</td><td>1.40.0 / 1.39.3 / 1.38.6 / 1.37.8 / 1.36.12</td></tr>
+        <tr><td>Istio</td><td>1.31.0&ndash;1.31.1, 1.30.0&ndash;1.30.5, 1.29.0&ndash;1.29.8</td><td>1.31.2, 1.30.6, 1.29.9</td></tr>
+        <tr><td>cdxgen (standalone)</td><td>&le;13.4.0, &le;12.8.8</td><td>13.5.0, 12.8.9</td></tr>
+        <tr><td>Debian bookworm / trixie</td><td>libbrotli</td><td>1.0.9-2+deb12u1 / 1.1.0-2+deb13u1</td></tr>
+        <tr><td>Ubuntu 24.04 / Alpine 3.24</td><td>libbrotli1 / brotli</td><td>1.1.0-2ubuntu0.1 / 1.2.1-r0</td></tr>
+        <tr><td>Go <code>andybalholm/brotli</code></td><td>before 23 Oct fix</td><td>fixed &mdash; <em>crash/panic only</em></td></tr>
+        <tr><td><strong>Still unfixed at publication</strong></td><td colspan="2"><strong>.NET runtime</strong> (bundles 1.1.0; hits <code>BrotliDecoder</code>, <code>BrotliStream</code>, <code>HttpClient</code> auto-decompression), DuckDB, ClickHouse, Apache Arrow (1.0.9), libjxl, NanaZip, 7-Zip-zstd, p7zip, EDK II firmware, GraalJS, YDB, Debian <code>nodejs</code>, Amazon Linux 2023, <code>woff2</code> built from a Makefile</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Also reported fixed: Chromium, Firefox, <code>ngx_brotli</code>, Brotli4j, Ghostscript, SumatraPDF, Ruby gem, PHP extension, UEFITool, MuPDF. Electron ships both a Chromium and a Node copy. Pure Java/JS/C# ports (pdf.js, iText, HtmlUnit) are stated <em>not</em> affected.</p>
+  <div class="callout">
+    <span class="k">The Python trap</span>
+    <p>You do not need to import Brotli to be exposed. <code>requests</code>, <code>urllib3</code>, <code>aiohttp</code>, <code>httpx</code> and Scrapy auto-decode <code>Content-Encoding: br</code> when either Brotli package is installed. Worse, <strong>earlier urllib3 guidance told users to require Brotli &ge;1.2.0 or brotlicffi &ge;1.2.0.0 &mdash; which are the last vulnerable releases.</strong> Extras such as <code>urllib3[brotli]</code>, <code>httpx[brotli]</code> and <code>aiohttp[speedups]</code> pull them in on purpose.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The renaming &mdash; three names in five days, and the third one is right</h2>
+  <p class="sub">The name changed twice, and each change was a correction of scope rather than branding. The final name is the one that should drive your inventory search.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Name</th><th>Date</th><th>Claimed scope</th><th>What it added</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Node2Shell</strong></td><td>21 Oct</td>
+          <td>Node.js</td>
+          <td>Node 22/24/26, Bun, and anything vendoring the decoder through a Node runtime</td>
+        </tr>
+        <tr>
+          <td><strong>HTTP2Shell</strong></td><td>23 Oct<br><span class="note">Aikido headline</span></td>
+          <td>Whatever decompresses HTTP</td>
+          <td><strong>Python</strong> (<code>Brotli</code>, <code>brotlicffi</code>, and everything that pulls them in), <strong>curl/libcurl</strong>, native <code>libbrotli</code>, <strong>Envoy</strong>, <strong>Istio</strong>, OS packages, C++ consumers. Aikido also notes &ldquo;another popular term: Broccoli2Shell&rdquo;</td>
+        </tr>
+        <tr>
+          <td><strong>Brotli2Shell</strong></td><td>25 Oct<br><span class="note">JFrog</span></td>
+          <td>The decoder, wherever it lives</td>
+          <td><strong>JPEG XL via FFmpeg</strong>, <strong>.NET</strong> compression and <code>HttpClient</code>, <strong>Apache Arrow / Parquet</strong>, <strong>ClickHouse</strong>. JFrog&rsquo;s argument: the bug &ldquo;belongs to the decoder, not to Node.js or HTTP itself&rdquo;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>What JFrog actually demonstrated beyond HTTP</h3>
+  <p>Aikido&rsquo;s rename widened the <em>HTTP</em> perimeter. JFrog then showed the perimeter is not HTTP at all:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Surface</th><th>Demonstrated</th><th>Impact reached</th></tr></thead>
+      <tbody>
+        <tr><td><strong>FFmpeg &rarr; libjxl &rarr; JPEG XL</strong></td><td>A crafted <code>.jxl</code> with a malformed <code>brob</code> box; valid outer structure with real image data, malformed metadata reaching the decoder</td><td><strong>Instruction-pointer control</strong>, crash at <code>0x414141414141</code>. RCE &ldquo;would require further exploitation&rdquo; and depends on build mitigations</td></tr>
+        <tr><td><strong>.NET</strong></td><td><code>BrotliStream</code> / <code>System.IO.Compression.Brotli</code> via a two-stage stream; also reachable through <code>HttpClient</code> auto-decompression and ASP.NET Core request-decompression middleware</td><td>Native <code>SIGSEGV</code></td></tr>
+        <tr><td><strong>Apache Arrow / pyarrow</strong></td><td>Brotli-compressed <strong>Parquet</strong> pages and the direct buffer-decompression API &mdash; <strong>no network involved</strong></td><td>A <strong>534-byte</strong> input caused an infinite loop and indefinite CPU consumption; Brotli 1.2.1 rejected the same input in under a second. <em>Issue still open</em></td></tr>
+        <tr><td><strong>ClickHouse</strong></td><td>A 23 MB request body with <code>Content-Encoding: br</code> &mdash; HTTP, but not Node</td><td>Segfault during decoder cleanup. <strong>Fix merged but no patched release shipped</strong> at publication</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <span class="k">Read the pattern, not just the list</span>
+    <p><strong>Not one of JFrog&rsquo;s four additional cases is a completed RCE.</strong> They are instruction-pointer control, native crashes, and an infinite loop. That is the third independent confirmation of the grading in this report: the primitive is real and reachable in far more places than Node, but the distance from the primitive to a shell is long, target-specific, and nobody has closed it outside Node.</p>
+    <p><strong>What they do prove is reachability</strong> &mdash; and reachability is the whole inventory problem. A 534-byte Parquet page that hangs a worker is a denial-of-service a file upload can deliver, with no HTTP stack in the path at all.</p>
+  </div>
+
+  <h3>The two questions, and the one mitigation that is widely misunderstood</h3>
+  <p>JFrog&rsquo;s framing is the right one to hand to an infrastructure team, because it splits one unanswerable question into two answerable ones:</p>
+  <ol>
+    <li><strong>Is the vulnerable implementation present?</strong> Bundled, linked, or inherited transitively &mdash; not just declared.</li>
+    <li><strong>Can untrusted input reach the decoder?</strong> Through a request body, a fetched response, a media file, a Parquet page, a firmware image.</li>
+  </ol>
+  <p>&ldquo;Yes&rdquo; to the first and &ldquo;no&rdquo; to the second is not an emergency. &ldquo;Yes&rdquo; to both is. Most inventories answer only the first, and a scanner match is evidence of presence, not proof of exploitability.</p>
+  <div class="callout crit">
+    <span class="k">Correction: removing <code>br</code> from <code>Accept-Encoding</code> is not a fix</span>
+    <p>A widespread mitigation circulating is to stop advertising Brotli in <code>Accept-Encoding</code>. <strong>On the outbound path that is insufficient</strong> &mdash; an attacker-controlled server can return <code>Content-Encoding: br</code> regardless of what you asked for, and a client that trusts the header will decode it. You must <strong>refuse to decode Brotli responses from untrusted origins</strong>, not merely decline to request them. Treat any guidance that stops at <code>Accept-Encoding</code> as incomplete.</p>
+    <p>The useful corollary, from Aikido: in default configurations <strong>Apache and nginx do not decode Brotli</strong>, so neither is a vulnerable carrier at the edge. The exposure is in the application and its client libraries, which is where inventories usually stop looking.</p>
+  </div>
+
+  <h3>How the rename has been received</h3>
+  <p>The naming proliferation is being mocked, and the mockery is worth knowing about because it predicts how the issue will be deprioritised. The most-shared formulation: <em>&ldquo;Three days from now &rarr; #php2shell. Today &rarr; #http2shell. One week from now &rarr; #server2shell. One year from now &rarr; #human2shell.&rdquo;</em> Another calls it a cyber soap opera that &ldquo;drowns devs in an avalanche of buzzwords&rdquo;.</p>
+  <p><strong>Both things are true.</strong> The name inflation is real and mildly absurd. But the sequence <em>underneath</em> it is a factual widening: each name was coined because someone demonstrated the decoder somewhere the previous name did not cover, and the last one came with four reproductions. The practical reading: <strong>ignore the marketing, act on the second question above</strong> &mdash; whether untrusted input reaches a vulnerable decoder in <em>your</em> estate, whatever the stack is called this week.</p>
+
+  <h3>Additional advisory identifiers</h3>
+  <p>If you are tracking remediation across language ecosystems, one CVE has several records: <strong>GHSA-9v8h-qqgm-4m35</strong> (general), <strong>PYSEC-2026-4322</strong> (PyPI <code>Brotli</code>), <strong>PYSEC-2026-4323</strong> (<code>brotlicffi</code>), and <strong>GHSA-3wvj-j6qm-62mr</strong> (Envoy). Dependency scanners keyed only to the CVE ID may miss the Python and Envoy entries.</p>
+</section>
+
+<section>
+  <h2>Attack paths</h2>
+  <p class="sub">Three shapes. The inbound one is the one WAFs see; the outbound one they never will.</p>
+
+  <h3>1 &mdash; Inbound: attacker sends the compressed body</h3>
+  <ul>
+    <li><strong>Express 5 with body-parser 2.x</strong> &mdash; <code>express.json()</code> and <code>raw()</code> inflate Brotli by default (<code>inflate: true</code>). This is the widest exposure in the ecosystem.</li>
+    <li><strong>Express 4</strong> &mdash; <em>not</em> exposed this way; its body-parser returns 415 for <code>br</code>.</li>
+    <li><strong>Koa family</strong> &mdash; <code>@koa/bodyparser</code>, <code>koa-body</code>, co-body; also Egg and Strapi.</li>
+    <li><strong>Fastify</strong> with <code>@fastify/compress</code>.</li>
+    <li><strong>Envoy / Istio</strong> with the Brotli decompressor enabled &mdash; the vulnerable code sits in the proxy, before your app.</li>
+  </ul>
+  <p>A bare <code>node:http</code> server does <strong>not</strong> decode request bodies on its own. Express and body-parser are <em>routes into</em> the decoder, not the source of the flaw &mdash; which is why patching the runtime beats patching the framework.</p>
+
+  <h3>2 &mdash; Outbound: attacker sends the compressed <em>response</em></h3>
+  <p>Any service that fetches a user-supplied URL and auto-decompresses the reply is exposed: Node <code>fetch()</code>/undici/axios/got, and Python <code>requests</code>/<code>urllib3</code>/<code>httpx</code>/<code>aiohttp</code>/Scrapy. The relevant features are the ones that fetch arbitrary URLs by design &mdash; <strong>webhooks, link previews, URL imports, image proxies, OIDC discovery, crawlers, and browsing AI agents</strong>.</p>
+  <div class="callout crit">
+    <span class="k">No WAF covers this path</span>
+    <p>Imperva states its rules cover inbound only. A server-side <code>fetch()</code> that pulls a hostile Brotli response is <strong>egress traffic your edge never inspects</strong> and never compressed on the way in. Teams that "added a WAF rule" and stopped there have covered roughly half the exposure &mdash; and the half that is easiest to weaponise, because the attacker controls the server answering the request.</p>
+  </div>
+
+  <h3>3 &mdash; File-borne</h3>
+  <p>Anything that decodes Brotli inside a container format: <strong>Parquet</strong>, <strong>JPEG XL</strong>, <strong>WOFF2</strong> fonts, some <strong>PDF</strong> paths, archives, and firmware images. This is why the "we don't serve compressed HTTP" answer is insufficient.</p>
+</section>
+
+<section>
+  <h2>The exploitability argument, both sides</h2>
+  <p class="sub">This is where the reporting diverges, and the divergence is substantive rather than tribal.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Claim</th><th>Who</th><th>What they actually showed</th><th>Grade</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>RCE on stock build, arm64</td><td>Imperva, 22 Oct</td>
+          <td>Execution against the official <span class="mono">node:24.22.0</span> Linux <strong>arm64</strong> image, in fresh containers, via both a <code>fetch()</code> response and an Express request body. &ldquo;Execution took multiple attempts&rdquo;; &ldquo;did not succeed on every attempt&rdquo;; other builds untested. <strong>PoC code not released.</strong> 24.22.1 rejected the input.</td>
+          <td><span class="pill p-med">MEDIUM</span></td>
+        </tr>
+        <tr>
+          <td>RCE on stock build, x86-64, four frameworks</td><td>ELLIO, ~25 Oct</td>
+          <td>Plain <code>node:http</code>, <span class="mono">node:24.22.0-slim</span> as root, Express 5.3.0 and Koa 3. Shell at <strong>~attempt 5 with ASLR on</strong>. Needed a <strong>per-build memory offset</strong> and a predictable <strong>accepted-socket fd</strong>; most of 400 Express attempts crashed the worker instead.</td>
+          <td><span class="pill p-med">MEDIUM</span></td>
+        </tr>
+        <tr>
+          <td>Write is unreachable; impact is DoS</td><td>Independent researcher, via social</td>
+          <td>Argues the out-of-bounds write cannot be reached in the intended path, and that the demonstrated &ldquo;RCE&rdquo; required a deliberately weakened, non-PIE, ASLR-off harness rather than a stock target.</td>
+          <td><span class="pill p-none">UNRESOLVED</span></td>
+        </tr>
+        <tr>
+          <td>No reliable public RCE PoC</td><td>Red Hat</td>
+          <td>Rates the issue Important, reports no reliable public RCE proof of concept; public repos broadly produce crashes.</td>
+          <td><span class="pill p-med">MEDIUM</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>How to read this.</strong> The two positive reports are not contradictory &mdash; they are on different architectures and both required repetition, which is what a heap-adjacent write under ASLR looks like. But neither released code, and both describe success as probabilistic. The sceptical position is not crankery: it correctly identifies that <em>a crash is not a shell</em>, and that some public demonstrations used harnesses that made success much easier.</p>
+  <p><strong>What is not in dispute:</strong> the patched release rejects the input <em>every time</em>, returning <code>400</code> with <code>ERR__ERROR_FORMAT_BLOCK_SWITCH</code>. That is a clean, usable verification signal.</p>
+  <div class="callout warn">
+    <span class="k">Two mechanical facts from ELLIO that decide your risk</span>
+    <ul>
+      <li><strong>Per-build offsets.</strong> Official Node builds are non-PIE, so code addresses are fixed; ASLR only randomises heap, stacks and arenas. An attacker measures the offset once per build and reuses it. <strong>Disabling ASLR is not a mitigation</strong> &mdash; a fixed layout can be measured once and exploited forever.</li>
+      <li><strong>A restart supervisor helps the attacker.</strong> Each crash gives a fresh process with a predictable socket fd. With a supervisor looping, attempts are cheap; without one, the service simply stays down. <em>Your resilience configuration is part of the attack surface.</em></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>The PoC landscape</h2>
+  <p class="sub">GitHub on 26 October: 30 repositories match <code>node2shell</code>, 52 match the CVE. First repos appeared roughly five hours after the Node.js release.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Repository</th><th>Stars</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">Rabbitbong/node2shell</span></td><td>82</td><td>Most-starred; exploit-oriented</td></tr>
+        <tr><td><span class="mono">assetnote/node2shell-scanner</span></td><td>57</td><td><strong>The one to use.</strong> High-fidelity detection from a named research team (Searchlight Cyber)</td></tr>
+        <tr><td><span class="mono">dimasma0305/CVE-2026-111497-POC</span></td><td>46</td><td>&ldquo;Reproducible local Brotli decoder proof&rdquo; &mdash; local, not remote</td></tr>
+        <tr><td><span class="mono">trailofbits/brotli-checker</span></td><td>46</td><td>Inventory skill for finding vulnerable Brotli copies &mdash; defensive</td></tr>
+        <tr><td><span class="mono">CaterMaoZi/CVE-2026-111497-POC</span></td><td>15</td><td>Chinese-language PoC</td></tr>
+        <tr><td><span class="mono">syrex1013</span>, <span class="mono">hypnguyen1209</span>, <span class="mono">ZeroHackOrg</span>, <span class="mono">shivrajem</span>, <span class="mono">tc4dy</span>, <span class="mono">TheFool-TAROT</span></td><td>3&ndash;8</td><td>Mixed PoC/lab/detector projects</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Grade the repos, not the star count.</strong> The pattern from the sibling PHP2Shell case repeats exactly: the most-starred artefact is the exploit-claiming one, the most <em>useful</em> artefact is a scanner from an established team, and the PoCs that "work" mostly crash the target. Two specific cautions:</p>
+  <ul>
+    <li><strong>Star count is not accuracy.</strong> A PoC that reliably crashes a stock build will accumulate stars while proving only a DoS.</li>
+    <li><strong>Headline-CVE repos are a malware vector.</strong> Multiple sources flag that fake exploit repositories for high-profile CVEs carry malware. If you must run one, treat the repository as untrusted code &mdash; not merely as a tool that might not work.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Detection</h2>
+  <p class="sub">There is no payload signature worth writing. The signals are version, crash, and process behaviour.</p>
+  <h3>On a patched system, the trigger is visible</h3>
+  <p>Patched builds answer malformed block switches with a specific error rather than silence:</p>
+  <pre><code>BROTLI_DECODER_ERROR_FORMAT_BLOCK_SWITCH   (-17)
+Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
+  <p>Hunting for <code>-17</code> on patched hosts is the cleanest way to find someone probing you. On <em>unpatched</em> hosts it never fires &mdash; absence proves nothing there.</p>
+
+  <h3>Crash to execution</h3>
+  <ul>
+    <li><strong>Node.js process crash followed by in-place program execution</strong> in the same workload &mdash; Sysdig's managed runtime rule, and the single best behavioural detection for this bug, because exploitation <em>requires</em> a crash-and-retry cycle.</li>
+    <li><strong>Shell or downloader spawned by a Node/Bun/Python worker</strong> &mdash; parent process is the discriminator, not the command. Same lesson as the PHP2Shell case.</li>
+    <li><strong>Repeated worker restarts under a supervisor</strong> correlated with inbound compressed bodies &mdash; the attacker's retry loop, seen from your side.</li>
+    <li><strong>Unexpected outbound fetch to a user-supplied host that returns Brotli</strong> &mdash; the outbound path, and the one that has no network signature at all.</li>
+    <li><strong>SIGSEGV / SIGABRT / heap-corruption aborts</strong> in Node, Bun, Python or Envoy &mdash; and note that these are also the DoS.</li>
+  </ul>
+  <div class="callout">
+    <span class="k">Core dumps are a data-loss event</span>
+    <p>Crashes can produce core dumps containing <strong>live credentials</strong> from the process heap. Containers often lack a working core handler, which is luck rather than design. If you enable core dumps for debugging, you have created a credential-exposure path on a service that a remote attacker can crash at will.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Response order</h2>
+  <ol>
+    <li><strong>Inventories the runtime, not the manifest.</strong> Ask each service which Brotli it actually links. Vendored and statically-linked copies are the whole problem, and SCA tools miss them.</li>
+    <li><strong>Patch to Node 22.23.4 / 24.22.1 / 26.12.1</strong>, Bun 1.4.4, Brotli 1.0.10 / 1.1.1 / 1.2.1, and the Envoy/Istio levels above. There is no runtime workaround.</li>
+    <li><strong>Close the inbound path in middleware while you wait:</strong> <code>express.json({ inflate: false })</code> returns 415 &mdash; note it also rejects gzip, so test first. Reject <code>Content-Encoding: br</code> on request bodies at the proxy or load balancer.</li>
+    <li><strong>Close the outbound path separately.</strong> Disable automatic response decompression on clients that fetch user-supplied URLs, or route those fetches through a proxy that refuses <code>br</code>. This is the step most teams will skip &mdash; and dropping <code>br</code> from <code>Accept-Encoding</code> does <em>not</em> achieve it, because a hostile server can send <code>Content-Encoding: br</code> anyway.</li>
+    <li><strong>Disable Envoy/Istio Brotli decompression</strong> if you run them &mdash; the decoder is in the proxy, upstream of any application control.</li>
+    <li><strong>Then hunt</strong> for <code>-17</code> on patched hosts, crash-then-execute patterns, and worker restart loops correlated with compressed request bodies.</li>
+  </ol>
+  <p class="note">Node 18, 20, 23 and 25 will never be fixed. If you are on one of those lines, the only remediation is to move.</p>
+</section>
+
+<section>
+  <h2>Indicators &mdash; and an honest accounting</h2>
+  <p class="sub">There are no network IOCs, and saying so precisely matters more than producing a list.</p>
+  <div class="callout crit">
+    <span class="k">What exists, and what does not</span>
+    <p><strong>No IPs, domains, URLs, hashes or C2 infrastructure have been published</strong> by any vendor for this vulnerability. That is expected: it is a memory-corruption bug in a compression library, and exploitation delivers a shell, not a beacon.</p>
+    <p>One commercial intel page advertises <strong>31 indicators and 9 detection rules</strong>, all behind a paywall &mdash; <strong>no values are disclosed</strong>, so they cannot be reproduced, graded, or cited here. A social post describing &ldquo;8 IOCs&rdquo; for that report overstates what is visible.</p>
+  </div>
+
+  <h3>The one observable that is genuinely in circulation</h3>
+  <p>ELLIO reported a reconnaissance scanner, and it is the only concrete artefact in the whole case:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Attribute</th><th>Observed</th></tr></thead>
+      <tbody>
+        <tr><td>User agent</td><td><span class="mono">Mozilla/5.0 (compatible; node2shell-check/1.0)</span></td></tr>
+        <tr><td>Origin</td><td>AS44620, registered in Turkey</td></tr>
+        <tr><td>Behaviour</td><td><code>GET /</code>, then <strong>20 POST bodies with <code>Content-Encoding: br</code></strong> in two bursts about two minutes apart: 5 malformed 1,032-byte stubs padded with &ldquo;A&rdquo;, and 15 valid Brotli streams across four sizes (largest 65,743 bytes)</td></tr>
+        <tr><td>Key negative</td><td><strong>None of the bodies carried the block-switch construct.</strong> It is mapping which hosts have a Brotli decode path, not exploiting them</td></tr>
+        <tr><td>Verdict logic</td><td>Bases its result on <code>Server</code> / <code>X-Powered-By</code> headers, and does <em>not</em> treat Brotli response compression as proof of vulnerability</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <span class="k">Do not date this scanner as pre-disclosure without checking</span>
+    <p>The same source dates its first sighting to <strong>13 June 2026</strong> &mdash; four months before the vulnerability had a name, and before the user agent string <code>node2shell-check/1.0</code> could plausibly exist. <strong>These two facts cannot both be true as stated.</strong> The likely explanation is that the first-seen date belongs to the ASN or the sensor, not to that user agent. It is a single source, unverified, and recorded here as a discrepancy rather than repeated as a pre-disclosure signal.</p>
+  </div>
+
+  <h3>Threat-feed membership, tested rather than assumed</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Source</th><th>Result</th><th>Reading</th></tr></thead>
+      <tbody>
+        <tr><td>ThreatFox</td><td><code>no_result</code></td><td>Tested negative &mdash; the query executed and returned nothing</td></tr>
+        <tr><td>URLhaus</td><td><code>no_results</code></td><td>Tested negative</td></tr>
+        <tr><td>OTX</td><td>2 pulses</td><td>Both generic CVE coverage (&ldquo;Brotli Decoder RCE Affecting Node.js, Bun and Python&rdquo;; a &ldquo;Known_Cve&rdquo; list). No actor, no infrastructure</td></tr>
+        <tr><td>CISA KEV</td><td>absent</td><td>Catalog <code>2026.10.23</code>, 1,756 entries. No Brotli entry of any kind</td></tr>
+        <tr><td>EPSS</td><td><strong>0.3278</strong> (98.3rd pct)</td><td>Unusually high for a CVE with no observed exploitation &mdash; consistent with &ldquo;public PoC exists&rdquo;, not with &ldquo;being used&rdquo;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">These feeds index malicious infrastructure and blocklists. They do not index attacking hosts seen by canaries, so a zero here is a statement about four feeds, not a survey. It is nonetheless the right answer for this CVE: a Brotli memory bug produces shells and crashes, not domains to block.</p>
+</section>
+
+<section>
+  <h2>What the reporting and the conversation say</h2>
+  <p class="sub">Collected 26 October. Reachability stated per source, because a blocked page and an empty page both return 200.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Source</th><th>State</th><th>Contribution</th></tr></thead>
+      <tbody>
+        <tr><td>Mastodon &mdash; <code>#node2shell</code> tag timeline</td><td><span class="pill p-high">read</span> 30 posts</td><td>The richest channel. Practitioner scepticism, the HTTP2Shell rename, tooling launches, and organisations disclosing service suspensions</td></tr>
+        <tr><td>Hacker News (Algolia)</td><td><span class="pill p-high">read</span></td><td>Submissions from 23 Oct; modest engagement compared with PHP2Shell &mdash; the topic has not captured general attention</td></tr>
+        <tr><td>Vendor and research blogs</td><td><span class="pill p-high">read</span></td><td>Node.js, Imperva, ELLIO, Sysdig, Phoenix Security, Okta, Vercel, Tanium, Strobes, Raven, Aikido</td></tr>
+        <tr><td>The Hacker News (thehackernews.com)</td><td><span class="pill p-medium">403</span></td><td>Returned HTTP 403 from this network &mdash; <strong>unexecuted, not absent</strong></td></tr>
+        <tr><td>X / Twitter</td><td><span class="pill p-none">not usable</span></td><td>Login-walled; only reachable through search indexing. &ldquo;Not seen on X&rdquo; is a statement about an index</td></tr>
+        <tr><td>Bluesky</td><td><span class="pill p-none">not usable</span></td><td>Direct API 403; posts visible only via <code>bsky.brid.gy</code> bridges that surface on Mastodon</td></tr>
+        <tr><td>Reddit</td><td><span class="pill p-none">not usable</span></td><td>403 interstitial; not read</td></tr>
+        <tr><td>Telegram</td><td><span class="pill p-none">unexecuted</span></td><td>No channel identified for this topic; not queried</td></tr>
+        <tr><td><strong>Dark web / closed forums</strong></td><td><span class="pill p-none">unavailable</span></td><td><strong>No Tor access in this environment.</strong> Substituted with abuse.ch, OTX and public reporting. Any claim about closed-forum interest in this CVE would be fabricated, so none is made</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Four themes</h3>
+  <ul>
+    <li><strong>Fatigue is the dominant register.</strong> A third critical RCE in a week, after PHP2Shell, produced open cynicism rather than alarm &mdash; comparisons to a &ldquo;cyber soap opera&rdquo;, jokes about which runtime is next, and administrators describing weekend triage. Fatigue is an operational risk: it is the mechanism by which a real finding gets under-prioritised.</li>
+    <li><strong>The renaming to HTTP2Shell is substantive, not cosmetic.</strong> It reflects the realisation that the decoder sits in proxies and Python clients too. Several posts treat the rename as the moment the blast radius became clear.</li>
+    <li><strong>The exploitability argument is being had in public, by people who know the code.</strong> The strongest sceptical post makes a narrow, checkable claim about <em>reachability of the write</em> and about weakened harnesses. That is a technical dispute, not noise, and it is reflected in the grading above.</li>
+    <li><strong>Some organisations have already withdrawn service.</strong> At least one open-data project suspended its API; a forum operator was publicly asked whether it had gone down over the vulnerability. Expect more precautionary downtime than confirmed incidents &mdash; which will inflate the apparent severity of the event in retrospect.</li>
+  </ul>
+  <div class="callout">
+    <span class="k">A caution on social sourcing</span>
+    <p>Several posts circulate a &ldquo;9 detections, 8 IOCs&rdquo; claim from a commercial intel page. The page itself advertises 31 indicators and 9 rules, all paywalled. <strong>The number in circulation does not match the source</strong>, and none of the values are visible. Do not carry counts you cannot inspect.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Method and limits</h2>
+  <ul>
+    <li><strong>Passive only.</strong> No scanning, no exploitation, no contact with any listed host.</li>
+    <li><strong>No dark-web collection.</strong> No Tor in this environment; substituted with abuse.ch (ThreatFox, URLhaus), OTX and public reporting, and labelled as substitution rather than coverage.</li>
+    <li><strong>One source returned 403</strong> (The Hacker News) and is recorded as unexecuted, not as a negative.</li>
+    <li><strong>Two RCE claims are second-hand in detail.</strong> Neither Imperva nor ELLIO released exploit code, so reproducibility rests on their descriptions. We did not attempt reproduction &mdash; no vulnerable runtime was built here.</li>
+    <li><strong>Version tables are from vendor and distributor advisories</strong>, consolidated from one detailed secondary source. Confirm the rows you act on against your own distributor.</li>
+    <li><strong>The scanner observation is single-source</strong> and internally inconsistent on dates; treat it as a lead.</li>
+    <li><strong>EPSS and KEV were queried live</strong> on 26 October and will drift.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Sources</h2>
+  <ul class="src">
+    <li><strong>Node.js</strong> &mdash; <a href="https://nodejs.org/en/blog/vulnerability/october-2026-security-releases">Wednesday, October 21, 2026 Security Releases</a>. Primary. Ten CVEs; the Brotli entry verbatim; fixed versions per line; no exploitation statement.</li>
+    <li><strong>NVD</strong> &mdash; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111497">CVE-2026-111497</a>, ingested 22 Oct 2026, status <em>Awaiting Analysis</em>, CVSS 4.0 9.2. Queried directly.</li>
+    <li><strong>Imperva</strong> &mdash; <a href="https://www.imperva.com/blog/node2shell-from-brotli-data-to-remote-code-execution/">Node2Shell: From Brotli Data to Remote Code Execution</a>, 22 Oct 2026. The arm64 RCE claim and its caveats.</li>
+    <li><strong>ELLIO</strong> &mdash; <a href="https://ellio.tech/en/blog/node2shell-cve-2026-111497-rce-on-stock-nodejs-builds/">Node2Shell / HTTP2Shell / Broccoli2Shell: RCE analysis</a>. The x86-64 reproduction, per-build offsets, socket-fd requirement, and the <code>node2shell-check</code> scanner observation.</li>
+    <li><strong>Sysdig</strong> &mdash; <a href="https://www.sysdig.com/blog/node2shell-cve-2026-111497-detecting-the-node-js-brotli-rce">Detecting the Node.js Brotli RCE</a>. Crash-to-execution runtime rule.</li>
+    <li><strong>Phoenix Security</strong> &mdash; <a href="https://phoenix.security/http2shell-node2shell-cve-2026-111497-brotli-decoder-out-of-bounds-write/">HTTP2Shell: Brotli RCE in Node.js and Python</a>. The consolidated affected-version table, upstream commit lineage, and still-unfixed list.</li>
+    <li><strong>Okta Security</strong> &mdash; <a href="https://sec.okta.com/articles/2026/10/node2shell-node.js-brotli-flaw-cve-2026-111497/">Node2Shell: Node.js Brotli flaw</a>.</li>
+    <li><strong>Vercel</strong> &mdash; <a href="https://vercel.com/kb/bulletin/node-js-security-advisory">Node.js security advisory</a>. WAF mitigation deployed.</li>
+    <li><strong>Tanium</strong> &mdash; <a href="https://www.tanium.com/blog/http2shell-find-and-fix-vulnerable-brotli-copies-with-tanium">Finding and fixing vulnerable Brotli copies</a>; <strong>Strobes</strong> &mdash; <a href="https://strobes.co/blog/http2shell-brotli-rce-cve-2026-111497/">HTTP2Shell analysis</a>.</li>
+    <li><strong>Aikido</strong> &mdash; <a href="https://www.aikido.dev/blog/python-packages-vulnerable-node2shell-brotli-cve-2026-111497">Node2Shell evolves to HTTP2Shell</a>, 23 Oct (updated 25 Oct). The rename to HTTP2Shell; Python, curl/libcurl, Envoy, Istio, Bun added; PYSEC identifiers; the Apache/nginx negative.</li>
+    <li><strong>JFrog Security Research</strong> &mdash; <a href="https://research.jfrog.com/post/brotli2shell-beyond-node2shell-and-http2shell/">Brotli2Shell: Beyond Node(2Shell) and HTTP(2Shell)</a>, 25 Oct. FFmpeg/JPEG XL, .NET, Apache Arrow/Parquet and ClickHouse reproductions &mdash; and the two-question reachability test.</li>
+    <li><strong>Upwind</strong> &mdash; <a href="https://www.upwind.io/feed/http2shell-cve-2026-111497-one-brotli-bug-rce-across-the-http-stack">One Brotli bug, RCE across the HTTP stack</a>; <strong>Safeguard</strong> &mdash; <a href="https://safeguard.sh/resources/blog/http2shell-brotli-cve-2026-111497-python-envoy-istio-bun">Brotli CVE in Python, Envoy, Istio, Bun, curl</a>.</li>
+    <li><strong>Repositories</strong> &mdash; <a href="https://github.com/assetnote/node2shell-scanner">assetnote/node2shell-scanner</a>; <a href="https://github.com/trailofbits/brotli-checker">trailofbits/brotli-checker</a>. Counts from the GitHub search API, 26 Oct.</li>
+    <li><strong>Feeds</strong> &mdash; CISA KEV catalog <code>2026.10.23</code> (fetched directly); FIRST EPSS API, 25 Oct value; ThreatFox, URLhaus and OTX queried 26 Oct.</li>
+  </ul>
+</section>
+
+<footer>
+  <p><strong>Scope.</strong> Passive research only. No scanning, no exploitation attempt, no contact with any host named in third-party reporting. Case directory: <span class="mono">investigations/node2shell-2026-10-26</span>.</p>
+  <p><strong>Standing instruction.</strong> The three confidences in the verdict band are deliberately separate. The vulnerability is certain; code execution is contested by competent people on both sides; in-the-wild exploitation has not been observed. Collapsing them into &ldquo;critical RCE, patch now&rdquo; gets the patch advice right and the threat picture wrong.</p>
+</footer>
+
+</div>
+</body>
+</html>
