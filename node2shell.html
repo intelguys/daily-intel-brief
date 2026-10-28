@@ -137,16 +137,16 @@ footer p { font-size:13px; color:var(--muted); }
 <header class="masthead">
   <div class="eyebrow">
     <span class="tlp">TLP:CLEAR</span>
-    <span>Deep research · 26 Oct 2026</span>
+    <span>Deep research · 26 Oct 2026 · updated 28 Oct</span>
     <span>Node2Shell / HTTP2Shell / Broccoli2Shell</span>
   </div>
   <h1>Node2Shell &mdash; CVE-2026-111497</h1>
-  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation is still absent. Three claims, three different confidences.</p>
+  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation has now been <em>attempted</em> once, and it failed. Three claims, three different confidences &mdash; the 28 October update moves one of them.</p>
   <div class="meta">
-    <span>Sources: 11 primary</span>
-    <span>PoC repos: 30–52</span>
-    <span>Network IOCs: none published</span>
-    <span>Queries run: 26 Oct 2026</span>
+    <span>Sources: 11 primary + 9 in update</span>
+    <span>PoC repos: 39 (name) / 69 (CVE)</span>
+    <span>Network IOCs: 1 IP, 1 hash</span>
+    <span>Queries: 26 + 28 Oct 2026</span>
   </div>
 </header>
 
@@ -165,9 +165,9 @@ footer p { font-size:13px; color:var(--muted); }
   </div>
   <div class="vcard">
     <span class="label">In-the-wild exploitation</span>
-    <span class="grade none">NONE CONFIRMED</span>
-    <p>No victim, no campaign, no KEV entry, no threat-actor reporting.</p>
-    <p class="foot">CISA SSVC on 23 Oct: exploitation <em>none</em>, technical impact <em>total</em>. Public PoC exists; reconnaissance scanning does.</p>
+    <span class="grade med">ATTEMPTED · NO VICTIM</span>
+    <p>One observed exploit attempt (26 Oct), which <strong>failed</strong>. No victim, no campaign, no actor.</p>
+    <p class="foot"><strong>In CISA KEV since 27 Oct</strong> (remediation due 10 Nov) on evidence of active exploitation; CISA SSVC moved from <em>none</em> to <em>active</em>. The attempt failing does not make the listing wrong &mdash; it makes it a lower bound.</p>
   </div>
 </div>
 
@@ -179,9 +179,87 @@ footer p { font-size:13px; color:var(--muted); }
 <div class="figures">
   <div class="fig"><span class="n">8 mo</span><span class="d">fix sat unlabelled upstream</span></div>
   <div class="fig"><span class="n">~5</span><span class="d">attempts to a shell (ELLIO, x86-64)</span></div>
-  <div class="fig"><span class="n">0.33</span><span class="d">EPSS, 98th percentile</span></div>
-  <div class="fig"><span class="n">0</span><span class="d">network IOCs published</span></div>
+  <div class="fig"><span class="n">0.55</span><span class="d">EPSS, 99th percentile (27 Oct)</span></div>
+  <div class="fig"><span class="n">1+1</span><span class="d">IP and hash published (26 Oct)</span></div>
 </div>
+
+<section>
+  <h2>Update &mdash; 28 October: KEV, one attempt, and two claims that had to be corrected</h2>
+  <p class="sub">Three things changed since 26 October. One invalidates a headline in this brief (&ldquo;no KEV entry&rdquo;), one narrows another (&ldquo;no network IOCs&rdquo;), and one fixes a carrier table that was already stale when it was published.</p>
+
+  <div class="callout crit">
+    <span class="k">CISA KEV, 27 October &mdash; catalog <code>2026.10.27</code>, 1,760 entries</span>
+    <p><strong>CVE-2026-111497 is listed.</strong> Vendor <em>Google</em>, product <em>Brotli</em>, name <strong>&ldquo;Google Brotli Unchecked Return Value Vulnerability&rdquo;</strong>, added <strong>27 October</strong>, <strong><code>dueDate 2026-11-10</code></strong>, CWEs 252 and 787, <code>knownRansomwareCampaignUse: Unknown</code>, <code>forensicTriage: No</code>. Fetched directly from the <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json">KEV JSON feed</a> on 28 October and announced in the <a href="https://www.cisa.gov/news-events/alerts/2026/10/27/cisa-adds-two-known-exploited-vulnerabilities-catalog">27 October alert</a>.</p>
+    <p>The machine-readable reason is in the NVD record &mdash; a CISA Coordinator <strong>SSVC block timestamped 27 October 19:53 UTC</strong> with <code>exploitation: active</code>, <code>automatable: no</code>, <code>technicalImpact: total</code>. That reverses the <code>exploitation: none</code> this brief quoted from 23 October. EPSS followed: <strong>0.55483, 99.03rd percentile</strong> on 27 October, up from 0.3278.</p>
+    <p><strong>KEV does not mean a shell was obtained.</strong> It records that exploitation was observed. The single observed attempt, below, failed &mdash; and a failed attempt against a memory-corruption bug is still a remote crash primitive, which is why the listing is defensible on the evidence available.</p>
+  </div>
+
+  <h3>The one in-the-wild attempt &mdash; 26 October, 15:08 UTC, from <code>94.154.43.7</code></h3>
+  <p><a href="https://ellio.tech/en/blog/node2shell-cve-2026-111497-rce-on-stock-nodejs-builds/">ELLIO recorded exploit traffic on 26 October</a>, one day after its own reconnaissance-scanner observation. The detail is unusually complete, and it is the first time this case can describe an actual attack rather than a scanner.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Attribute</th><th>Observed</th></tr></thead>
+      <tbody>
+        <tr><td>Time</td><td>26 Oct 2026, <strong>15:08 UTC</strong></td></tr>
+        <tr><td>Source</td><td><code>94.154.43.7</code> &mdash; first observed 15 Dec 2025, active 47 of the last 90 days, 25 behaviour tags, six CVEs on record, previously seen on <strong>PHP2Shell</strong>, GlobalProtect and FortiOS SSL-VPN probing</td></tr>
+        <tr><td>Request body</td><td><strong>23,069,983 bytes</strong>, SHA-256 <code class="mono">7fcbdaaecd4419e2930927844f3b772668204737a4e7602a2290c991c93c5c4b</code></td></tr>
+        <tr><td>Structure</td><td>Two stages: a <strong>1,031-byte</strong> instruction block and a 256-byte stage two. The first 23,069,727 bytes reproduce the <em>public</em> stream generator byte for byte; the <strong>ROP chain is original</strong> &mdash; the third distinct construction observed</td></tr>
+        <tr><td>Target</td><td>One specific binary: official <strong>Node.js v24.22.0, x86-64</strong>. Every address in the chain presumes it</td></tr>
+        <tr><td>Result</td><td><strong>Failed.</strong> ELLIO's test of the attacker's chain: <strong>zero hits in 50 attempts</strong> against a pristine target. The pivot works and the process crashes, but it never reaches <code>execvp</code>. Their description: &ldquo;a working framework with a defective last 12 instructions&rdquo;</td></tr>
+        <tr><td>Difference from a working chain</td><td>The attacker's chain redirects <strong>stdin only</strong>, so commands go in and nothing comes out. ELLIO's own chain redirects both, which is why its recordings show <code>id</code> and <code>uname -a</code> answering back</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><strong>Why this matters more than the KEV label:</strong> it shows a real actor building on the public PoC with an original final stage and getting it wrong. That is what first-generation exploitation of a hard memory-corruption bug looks like, and it is the most likely shape of the next attempt too &mdash; which is also why <strong>crash telemetry is the durable detection</strong>, not shell telemetry.</p>
+
+  <h3>Corrections to this brief&rsquo;s own statements</h3>
+  <ul>
+    <li><strong>&ldquo;No KEV entry&rdquo; &mdash; wrong as of 27 October.</strong> Corrected above.</li>
+    <li><strong>&ldquo;ZERO network IOCs&rdquo; &mdash; wrong as of 26 October.</strong> Two values now exist, both corroborated by two sources: the source IP and the request-body hash above. <code>iocs/iocs.csv</code> has been updated from header-only to two rows, and <code>iocs/INDICATORS.md</code> now carries the correction rather than the original claim.</li>
+    <li><strong>&ldquo;Still unfixed at publication: .NET&rdquo; &mdash; wrong at the time of writing.</strong> Microsoft shipped an out-of-band fix on <strong>25 October</strong>: <a href="https://github.com/dotnet/announcements/issues/494">advisory, .NET 8.0.33 / 9.0.22 / 10.0.14 / 11.0.0-rc.3</a>, rated <strong>CVSS 3.1 8.1</strong>. Two mitigating facts in the advisory: ASP.NET Core request decompression and <code>HttpClient</code> automatic decompression are <strong>off by default</strong>, and .NET Framework is unaffected.</li>
+    <li><strong>Amazon Linux 2023 &mdash; also fixed, and the brief missed it.</strong> <code>ALAS2023-2026-3334 (important): brotli</code>, published 24 October, plus <code>ALAS2023-2026-3330</code> for <code>nodejs24</code>. Verified in the ALAS RSS feed on 28 October.</li>
+  </ul>
+
+  <h3>The carrier tail has moved &mdash; and one new carrier is a firewall</h3>
+  <p>The tail this brief called &ldquo;still unfixed&rdquo; split in three directions. Full tracker: <a href="https://broccoli2shell.com">broccoli2shell.com</a>, updated 27 October.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>State</th><th>Products</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Fixed in a release</strong></td><td>.NET 8.0.33 / 9.0.22 / 10.0.14 / 11.0.0-rc.3 (25 Oct); Amazon Linux 2023; <strong>Red Hat</strong> RHEL 8/9/10 via RHSA-2026:90501 / 90495 / 90449 (26 Oct); Oracle Linux ELSA-2026-500514; AlmaLinux; Debian DSA-6582-1 and DLA-4855-1; Ubuntu (23 Oct, updated 26 Oct); Alpine 3.21/3.23/edge; NanaZip 7.0.1882.0; Ruby gem 0.9.1; PHP brotli ext 0.21.1; UEFITool A76; MuPDF 1.28.0; Ghostscript 10.07.1rc1; Go <code>andybalholm/brotli</code> v1.2.7 (tag only, no release object)</td></tr>
+        <tr><td><strong>Fix merged, not released</strong></td><td><strong>ClickHouse</strong> (PR #127419, backported to 26.3/26.8/26.9/26.10 LTS &mdash; latest release pre-dates it); <strong>libjxl</strong> (PR #5062); <strong>GraalJS</strong>; <strong>YDB</strong></td></tr>
+        <tr><td><strong>Still unfixed</strong></td><td><strong>DuckDB</strong> (PR #27791 open); <strong>Apache Arrow</strong> (bundles 1.0.9; PR #55167 approved, blocked on wheels); <strong>7-Zip-zstd</strong>; <strong>p7zip</strong>; <strong>EDK II</strong>; <strong>woff2</strong> Makefile build; <strong>Debian <code>nodejs</code></strong> in bookworm-security (18.20.4) and trixie-security (20.19.2) &mdash; only sid is fixed; <strong>Pillow, pyarrow, curl-cffi, pycurl</strong> wheels that vendor their own decoder</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <span class="k">New carrier &mdash; and it is the opposite footprint to PHP2Shell on the same product</span>
+    <p><a href="https://security.paloaltonetworks.com/CVE-2026-111497">PAN-OS is affected</a> where <strong>Brotli inspection and TLS/SSL decryption are both enabled on the dataplane</strong> &mdash; no management-interface impact, and Brotli inspection does not exist before <strong>11.2.4</strong>, so 11.1 and 10.2 are out of scope. Fixed in <code>12.2.4-h1</code>, <code>12.1.7-h11</code>, <code>11.2.10-h17</code>; several branches were still on ETA between 27 and 30 October.</p>
+    <p><strong>Hotfix trap:</strong> <code>11.2.10-h16</code> &mdash; the hotfix that fixes PHP2Shell &mdash; does <strong>not</strong> fix this one. <code>11.2.10-h17</code> covers both. On the same product, the PHP CVEs hit the <em>management</em> plane and this one hits the <em>dataplane</em>; a team that applied h16 for PHP2Shell will believe it is patched and will not be.</p>
+  </div>
+  <p>Two more carriers worth adding to inventory: <strong><code>git-remote-https</code></strong> wherever libcurl is built with brotli (true on most distributions), and <strong>FFmpeg &ge;8.1 with <code>--enable-libjxl</code></strong>, where libjxl decodes Brotli-compressed Exif metadata in a crafted <code>.jxl</code>. Also <strong>brotli4j &lt;1.24.0</strong> for Java.</p>
+
+  <h3>The exploitability contest &mdash; where it actually stands</h3>
+  <p>Neither position has been refuted, and the honest reading is that they are now answering different questions.</p>
+  <ul>
+    <li><strong>For reachability:</strong> ELLIO re-demonstrated a shell on <strong>stock, unmodified Node.js 24.22.0 x86-64 against four targets</strong> (plain <code>node:http</code>, official <code>node:24.22.0-slim</code> as root, Express 5.3.0, Koa 3), default configuration, ASLR left on, at roughly <strong>attempt 5</strong>. That is broader than Imperva's arm64-only result.</li>
+    <li><strong>For the dissent:</strong> <strong>Red Hat still states there is no public, reliable remote-code-execution proof of concept</strong>, and rates the issue <em>Important</em> at CVSS 8.1 with <code>AC:High</code> rather than Critical &mdash; citing ASLR, NX, FORTIFY and SELinux. That remains true: ELLIO and Imperva have both withheld exploit code.</li>
+    <li><strong>What would settle it</strong> is released code that works on a default build without per-build tuning. Nobody has published that, and the only in-the-wild attempt did not work.</li>
+  </ul>
+
+  <h3>Detection and exposure</h3>
+  <ul>
+    <li><strong>New rule packs.</strong> <a href="https://github.com/ionsec/node2shell-detector">ionsec/node2shell-detector</a> (created 26 Oct) ships <strong>14 Sigma, 14 Suricata (SIDs 1006600&ndash;1006699), ModSecurity and 7 YARA rules</strong>, with a 25-entry fingerprint catalogue including the <code>Content-Encoding: br</code> request shapes. Blevene&rsquo;s gist adds 8 Sigma rules and Suricata <strong>sid 2026114971</strong> (inbound br token) plus an egress flowbits pair. Fortinet ships IPS DB <strong>37.321</strong>; Rapid7 added an authenticated check in its 26 Oct content release.</li>
+    <li><strong>Better behavioural signals than &ldquo;crash then execution&rdquo;.</strong> Misses mostly crash the worker, so look for <strong>bursts of Node.js segfaults/restarts right after large <code>br</code> bodies</strong> &mdash; and treat the resulting core dumps as a data-loss event, because with <code>systemd-coredump</code> they land in <code>/var/lib/systemd/coredump</code> and can contain other users&rsquo; session tokens. Note the failure mode differs by ecosystem: <strong>Python Brotli/brotlicffi, the PHP extension&rsquo;s streaming API and the Ruby gem hang instead of crashing; PHP spins at 100% CPU</strong>.</li>
+    <li><strong>Do not use <code>process.versions.brotli</code> as a patch check.</strong> It reads <strong>1.2.0 on both patched and unpatched Node.js builds</strong>. Check the Node release version instead.</li>
+    <li><strong>Exposure is still unmeasured.</strong> Akamai is quoted as finding 61% of networks on affected Node.js versions (the page returned <strong>403</strong> here &mdash; <em>unexecuted</em>, quote is second-hand); the Phoenix tracker reports ~80 products with <strong>38 fixed, 12 in progress, 19 still vulnerable</strong> as of 26 Oct. No Shadowserver, Censys or Shodan count was obtainable.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="k">A trap for anyone checking this CVE today</span>
+    <p>Several vendor pages are <strong>stamped with a 27 October update date and still say the opposite of this update</strong>: Rapid7&rsquo;s reads &ldquo;not aware of exploitation in the wild&rdquo; and &ldquo;not listed in CISA&rsquo;s KEV&rdquo;; Tenable&rsquo;s FAQ and BleepingComputer&rsquo;s 26 October piece say the same. All three are superseded by the 27 October KEV entry. <strong>Check the KEV feed, not the vendor&rsquo;s page date.</strong></p>
+  </div>
+</section>
 
 <section>
   <h2>What the flaw actually is</h2>
@@ -418,12 +496,24 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
 
 <section>
   <h2>Indicators &mdash; and an honest accounting</h2>
-  <p class="sub">There are no network IOCs, and saying so precisely matters more than producing a list.</p>
+  <p class="sub">On 26 October this section said there were no network IOCs. That was true then and is wrong now &mdash; two values exist, both from the 26 October attempt, and both corroborated by two sources.</p>
   <div class="callout crit">
-    <span class="k">What exists, and what does not</span>
-    <p><strong>No IPs, domains, URLs, hashes or C2 infrastructure have been published</strong> by any vendor for this vulnerability. That is expected: it is a memory-corruption bug in a compression library, and exploitation delivers a shell, not a beacon.</p>
-    <p>One commercial intel page advertises <strong>31 indicators and 9 detection rules</strong>, all behind a paywall &mdash; <strong>no values are disclosed</strong>, so they cannot be reproduced, graded, or cited here. A social post describing &ldquo;8 IOCs&rdquo; for that report overstates what is visible.</p>
+    <span class="k">Corrected 28 October &mdash; the list is short, but it is not empty</span>
+    <p><strong>One IP and one request-body hash</strong> have been published, and both are in <code>iocs/iocs.csv</code>. They describe <em>one actor&rsquo;s single failed attempt</em>, not a campaign. Everything else in circulation is either a scanner or paywalled.</p>
+    <p>Still true, and worth keeping: one commercial intel page advertises <strong>31 indicators and 9 detection rules</strong>, all behind a paywall &mdash; <strong>no values are disclosed</strong>, so they cannot be reproduced, graded, or cited. A social post describing &ldquo;8 IOCs&rdquo; for that report overstates what is visible.</p>
   </div>
+
+  <h3>The two published values &mdash; 26 October</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>Value</th><th>What it is</th><th>Sources</th></tr></thead>
+      <tbody>
+        <tr><td>IPv4</td><td><code>94.154.43.7</code></td><td>Source of the single observed exploit attempt, 26 Oct 15:08 UTC. Long-running multi-purpose scanner: first seen 15 Dec 2025, active 47 of the last 90 days, 25 behaviour tags, six CVEs, and prior <strong>PHP2Shell</strong> exploitation as well as GlobalProtect and FortiOS SSL-VPN probing</td><td>ELLIO, plus GreyNoise <code>noise: true</code> / <code>malicious</code>, last seen 27 Oct &mdash; two independent sources</td></tr>
+        <tr><td>SHA-256</td><td><code class="mono">7fcbdaaecd4419e2930927844f3b772668204737a4e7602a2290c991c93c5c4b</code></td><td>The 23,069,983-byte Brotli request body built for Node.js 24.22.0 x86-64. Public delivery layer, <strong>original ROP chain</strong></td><td>ELLIO and ctxsec report the identical full value</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><strong>What is not here:</strong> no domains, no payload paths, no new user agents, no C2. The scanner UA below is the <em>already-known</em> artefact, not a new one. And note the grading: the IP is an opportunistic multi-purpose host &mdash; blocking it costs little but catches one actor, not a campaign; the hash is the more durable artefact, because a retargeted body will change bytes but a replay of this one will not.</p>
 
   <h3>The one observable that is genuinely in circulation</h3>
   <p>ELLIO reported a reconnaissance scanner, and it is the only concrete artefact in the whole case:</p>
@@ -449,15 +539,15 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
     <table>
       <thead><tr><th>Source</th><th>Result</th><th>Reading</th></tr></thead>
       <tbody>
-        <tr><td>ThreatFox</td><td><code>no_result</code></td><td>Tested negative &mdash; the query executed and returned nothing</td></tr>
+        <tr><td>ThreatFox</td><td><code>no_result</code></td><td>Tested negative, 26 Oct &mdash; the query executed and returned nothing. Re-tested 28 Oct, still <code>no_result</code> for the CVE ID and for both product names</td></tr>
         <tr><td>URLhaus</td><td><code>no_results</code></td><td>Tested negative</td></tr>
         <tr><td>OTX</td><td>2 pulses</td><td>Both generic CVE coverage (&ldquo;Brotli Decoder RCE Affecting Node.js, Bun and Python&rdquo;; a &ldquo;Known_Cve&rdquo; list). No actor, no infrastructure</td></tr>
-        <tr><td>CISA KEV</td><td>absent</td><td>Catalog <code>2026.10.23</code>, 1,756 entries. No Brotli entry of any kind</td></tr>
-        <tr><td>EPSS</td><td><strong>0.3278</strong> (98.3rd pct)</td><td>Unusually high for a CVE with no observed exploitation &mdash; consistent with &ldquo;public PoC exists&rdquo;, not with &ldquo;being used&rdquo;</td></tr>
+        <tr><td>CISA KEV</td><td><strong>PRESENT</strong> &mdash; added 27 Oct</td><td>Catalog <code>2026.10.27</code>, <strong>1,760</strong> entries; <code>dueDate 2026-11-10</code>. <strong>This row read &ldquo;absent&rdquo; on 26 Oct and is the single largest correction in the update above</strong></td></tr>
+        <tr><td>EPSS</td><td><strong>0.55483</strong> (99.03rd pct, 27 Oct)</td><td>Up from 0.3278 on 25 Oct. The model re-priced on the KEV listing; it does not add technical information about reachability</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="note">These feeds index malicious infrastructure and blocklists. They do not index attacking hosts seen by canaries, so a zero here is a statement about four feeds, not a survey. It is nonetheless the right answer for this CVE: a Brotli memory bug produces shells and crashes, not domains to block.</p>
+  <p class="note">These feeds index malicious infrastructure and blocklists. They do not index attacking hosts seen by canaries, so a zero here was always a statement about four feeds, not a survey &mdash; which is exactly how the 26 October indicator set was missed. The lesson generalises: <strong>vendor and honeypot telemetry is where attacking hosts appear first; the feeds are where they arrive later, if at all.</strong></p>
 </section>
 
 <section>
@@ -502,7 +592,10 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
     <li><strong>Two RCE claims are second-hand in detail.</strong> Neither Imperva nor ELLIO released exploit code, so reproducibility rests on their descriptions. We did not attempt reproduction &mdash; no vulnerable runtime was built here.</li>
     <li><strong>Version tables are from vendor and distributor advisories</strong>, consolidated from one detailed secondary source. Confirm the rows you act on against your own distributor.</li>
     <li><strong>The scanner observation is single-source</strong> and internally inconsistent on dates; treat it as a lead.</li>
-    <li><strong>EPSS and KEV were queried live</strong> on 26 October and will drift.</li>
+    <li><strong>EPSS and KEV are queried live and drift.</strong> KEV was re-fetched on 28 October (<code>2026.10.27</code>, 1,760) and the case&rsquo;s earlier &ldquo;absent&rdquo; reading corrected as a result.</li>
+    <li><strong>The 28 October update is a delta pass, not a fresh full sweep.</strong> Some sources were unreachable and are recorded as <em>unexecuted</em>, not as negative: Akamai&rsquo;s exposure post (403), SANS ISC&rsquo;s diary search API (non-functional &mdash; identical response for two different queries), two openSUSE advisories (HTTP 202, zero bytes), and the Debian DSA pages (JS challenge). No Shadowserver or Censys count was obtainable, so <strong>exposure remains unmeasured</strong>.</li>
+    <li><strong>No content audit of the new PoC repositories was performed.</strong> &ldquo;No backdoored PoC was identified&rdquo; means nothing was flagged by the sources read &mdash; it is <em>unverified</em>, not a clean bill.</li>
+    <li><strong>Note the second CVE that keyword search surfaces.</strong> <code>CVE-2026-116579</code> (Autobahn-Python, unbounded Brotli decompression, CVSS 5.9) is a <em>different bug</em> in a different product. It appears in any &ldquo;brotli&rdquo; search and must not be merged into this case.</li>
   </ul>
 </section>
 
@@ -524,11 +617,27 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
     <li><strong>Repositories</strong> &mdash; <a href="https://github.com/assetnote/node2shell-scanner">assetnote/node2shell-scanner</a>; <a href="https://github.com/trailofbits/brotli-checker">trailofbits/brotli-checker</a>. Counts from the GitHub search API, 26 Oct.</li>
     <li><strong>Feeds</strong> &mdash; CISA KEV catalog <code>2026.10.23</code> (fetched directly); FIRST EPSS API, 25 Oct value; ThreatFox, URLhaus and OTX queried 26 Oct.</li>
   </ul>
+  <h3 style="margin-top:26px;">Added in the 28 October update</h3>
+  <ul class="src">
+    <li><strong>CISA KEV</strong> &mdash; <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json">catalog <code>2026.10.27</code></a>, fetched 28 Oct: <strong>1,760 entries, CVE-2026-111497 added 27 Oct, due 10 Nov</strong>. Announcement: <a href="https://www.cisa.gov/news-events/alerts/2026/10/27/cisa-adds-two-known-exploited-vulnerabilities-catalog">27 Oct alert</a>. Primary.</li>
+    <li><strong>NVD</strong> &mdash; <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-111497">CVE-2026-111497</a>, re-fetched 28 Oct: status moved to <strong>Undergoing Analysis</strong>, CISA SSVC block <code>exploitation: active</code> timestamped 27 Oct 19:53 UTC. Primary.</li>
+    <li><strong>ELLIO</strong> &mdash; <a href="https://ellio.tech/en/blog/node2shell-cve-2026-111497-rce-on-stock-nodejs-builds/">the 26 October update</a>: the in-the-wild attempt, its two-stage structure, and the zero-of-fifty result against a pristine target. Primary for the IOC values.</li>
+    <li><strong>ctxsec</strong> &mdash; <a href="https://ctxsec.com/items/hunt-node2shell-ellio-in-the-wild-exploit-94-154-43-7">hunt note on the same attempt</a>: identical SHA-256, scanner shape, and the per-ecosystem failure modes. Secondary, independent on the hash.</li>
+    <li><strong>GreyNoise</strong> &mdash; community API for <code>94.154.43.7</code>: <code>noise: true</code>, <code>malicious</code>, last seen 27 Oct. Queried directly.</li>
+    <li><strong>Microsoft</strong> &mdash; <a href="https://github.com/dotnet/announcements/issues/494">Security Advisory CVE-2026-111497, .NET</a>, 25 Oct: 8.0.33 / 9.0.22 / 10.0.14 / 11.0.0-rc.3, CVSS 3.1 8.1, defaults stated. Primary.</li>
+    <li><strong>Amazon</strong> &mdash; ALAS RSS: <code>ALAS2023-2026-3334 (important): brotli</code> and <code>ALAS2023-2026-3330</code> (nodejs24), 24 Oct. Primary. AL2 carries no matching item &mdash; <strong>not established, not cleared</strong>.</li>
+    <li><strong>Red Hat</strong> &mdash; <a href="https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-111497.json">security data API</a>: <em>Important</em>, CVSS 8.1, <code>AC:High</code>, RHSA-2026:90501 / 90495 / 90449 on 26 Oct, <strong>&ldquo;no public, reliable RCE PoC&rdquo;</strong>. Primary.</li>
+    <li><strong>Palo Alto Networks</strong> &mdash; <a href="https://security.paloaltonetworks.com/CVE-2026-111497">CVE-2026-111497</a>: dataplane Brotli inspection + TLS/SSL decryption, no management-plane impact, <code>11.2.10-h16</code> fixes PHP only. Primary.</li>
+    <li><strong>broccoli2shell.com</strong> &mdash; <a href="https://broccoli2shell.com">the carrier tracker</a>, updated 27 Oct: fixed / merged-not-released / still-unfixed split, plus the newly added carriers. Secondary, consolidating vendor advisories.</li>
+    <li><strong>IONSEC</strong> &mdash; <a href="https://github.com/ionsec/node2shell-detector">node2shell-detector</a>, created 26 Oct: 14 Sigma, 14 Suricata, ModSecurity, 7 YARA, fingerprint catalogue N2S-01&ndash;25. Content not audited here.</li>
+    <li><strong>Blevene</strong> &mdash; <a href="https://gist.github.com/Blevene/7d9d769f54826e1fe770d8c19d5ef0b2">detection gist v4</a> (25 Oct): 8 Sigma rules, Suricata 2026114971&ndash;73, the egress flowbits pair, and the note that the crafted stream is not content-matchable.</li>
+    <li><strong>MS-ISAC</strong> &mdash; <a href="https://www.cisecurity.org/advisory/a-vulnerability-in-brotli-library-could-allow-for-remote-code-execution_2026-120">advisory 2026-120</a>, updated 27 Oct from &ldquo;no reports&rdquo; to &ldquo;exploitation attempts reported by third parties&rdquo;.</li>
+  </ul>
 </section>
 
 <footer>
   <p><strong>Scope.</strong> Passive research only. No scanning, no exploitation attempt, no contact with any host named in third-party reporting. Case directory: <span class="mono">investigations/node2shell-2026-10-26</span>.</p>
-  <p><strong>Standing instruction.</strong> The three confidences in the verdict band are deliberately separate. The vulnerability is certain; code execution is contested by competent people on both sides; in-the-wild exploitation has not been observed. Collapsing them into &ldquo;critical RCE, patch now&rdquo; gets the patch advice right and the threat picture wrong.</p>
+  <p><strong>Standing instruction.</strong> The three confidences in the verdict band are deliberately separate. The vulnerability is certain; code execution is contested by competent people on both sides; exploitation has been <em>attempted once, and failed</em>, and is now recorded in CISA KEV on that basis. Collapsing them into &ldquo;critical RCE, patch now&rdquo; gets the patch advice right and the threat picture wrong &mdash; but so does reading a KEV listing as proof that a shell was obtained. <strong>Revision history:</strong> 26 October (first publication), 28 October (KEV, in-the-wild attempt, IOC correction, carrier updates).</p>
 </footer>
 
 </div>
