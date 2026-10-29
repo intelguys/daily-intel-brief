@@ -1,0 +1,653 @@
+<title>Financial Threat Brief 29 Oct 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: single reading column on a cool paper ground; regional sections as ruled
+     blocks; evidence carried in mono. Confidence is encoded by weight, not valence. */
+  :root {
+    --paper:      #f1f3f6;
+    --surface:    #ffffff;
+    --surface-2:  #e8ecf1;
+    --ink:        #0f151d;
+    --ink-2:      #4c5765;
+    --ink-3:      #78828f;
+    --rule:       #d5dbe3;
+    --rule-strong:#b6bfca;
+    --accent:     #1b4a70;
+    --accent-soft:#dce7f0;
+    --signal:     #9c5609;
+    --signal-soft:#f6e6cf;
+    --crit:       #8e2a2a;
+    --crit-soft:  #f4dede;
+    --ok:         #2c5e46;
+    --ok-soft:    #dcebe2;
+    --shadow:     0 1px 2px rgba(15,21,29,.06), 0 8px 24px -18px rgba(15,21,29,.35);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #0b1016;
+      --surface:    #131a22;
+      --surface-2:  #1a232d;
+      --ink:        #e5ecf3;
+      --ink-2:      #a3b0bd;
+      --ink-3:      #7d8b99;
+      --rule:       #26313c;
+      --rule-strong:#3a4754;
+      --accent:     #7fb3db;
+      --accent-soft:#17293a;
+      --signal:     #d9a05a;
+      --signal-soft:#33240f;
+      --crit:       #e68a8a;
+      --crit-soft:  #3a1a1a;
+      --ok:         #7fc6a3;
+      --ok-soft:    #122c22;
+      --shadow:     0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:      #0b1016;
+    --surface:    #131a22;
+    --surface-2:  #1a232d;
+    --ink:        #e5ecf3;
+    --ink-2:      #a3b0bd;
+    --ink-3:      #7d8b99;
+    --rule:       #26313c;
+    --rule-strong:#3a4754;
+    --accent:     #7fb3db;
+    --accent-soft:#17293a;
+    --signal:     #d9a05a;
+    --signal-soft:#33240f;
+    --crit:       #e68a8a;
+    --crit-soft:  #3a1a1a;
+    --ok:         #7fc6a3;
+    --ok-soft:    #122c22;
+    --shadow:     0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.62;
+    margin: 0;
+    padding-block: 0 4rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1020px; margin: 0 auto; }
+
+  /* ── masthead ─────────────────────────────────────────── */
+  .tlp {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .6rem;
+    justify-content: space-between;
+    padding: .7rem 0;
+    border-bottom: 2px solid var(--signal);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--signal);
+  }
+  .tlp span:last-child { color: var(--ink-3); letter-spacing: .06em; }
+
+  header.masthead { padding-block: 2.2rem 1.8rem; }
+  h1 {
+    font-family: Spectral, Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(1.85rem, 4.4vw, 2.9rem);
+    line-height: 1.12;
+    letter-spacing: -.015em;
+    margin: 0 0 .7rem;
+    text-wrap: balance;
+  }
+  .subhead {
+    font-size: clamp(1rem, 2vw, 1.12rem);
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 1.8rem 0 0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .meta div { background: var(--surface); padding: .7rem .85rem; min-width: 0; }
+  .meta dt {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .64rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 .2rem;
+  }
+  .meta dd { margin: 0; font-size: .88rem; color: var(--ink); line-height: 1.45; }
+
+  /* ── sections ─────────────────────────────────────────── */
+  section { margin-top: 3rem; }
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 .5rem;
+  }
+  h2 {
+    font-family: Spectral, Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(1.3rem, 2.6vw, 1.62rem);
+    line-height: 1.22;
+    letter-spacing: -.01em;
+    margin: 0 0 .35rem;
+    padding-bottom: .7rem;
+    border-bottom: 1px solid var(--rule-strong);
+    text-wrap: balance;
+  }
+  .lede { color: var(--ink-2); max-width: 68ch; margin: .9rem 0 0; text-wrap: pretty; }
+  p { max-width: 68ch; text-wrap: pretty; }
+
+  /* ── key judgements ───────────────────────────────────── */
+  .kj { list-style: none; margin: 1.4rem 0 0; padding: 0; display: grid; gap: 0; }
+  .kj li {
+    display: grid;
+    grid-template-columns: 3px 1fr auto;
+    gap: 1rem;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .kj li:first-child { border-top: 1px solid var(--rule); }
+  .kj .bar { align-self: stretch; border-radius: 2px; background: var(--accent); }
+  .kj .bar.m { background: var(--ink-3); }
+  .kj .bar.l { background: var(--rule-strong); }
+  .kj p { margin: 0; max-width: 62ch; }
+  .kj strong { font-weight: 600; }
+
+  /* ── confidence chips ─────────────────────────────────── */
+  .chip {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .2rem .5rem; border-radius: 2px; white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .chip.high { background: var(--ok-soft); color: var(--ok); border-color: var(--ok); }
+  .chip.med  { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+  .chip.low  { background: var(--surface-2); color: var(--ink-2); border-color: var(--rule-strong); }
+  .chip.unk  { background: transparent; color: var(--ink-3); border-color: var(--rule-strong); font-style: italic; }
+  .chip.crit { background: var(--crit-soft); color: var(--crit); border-color: var(--crit); }
+
+  /* ── finding cards ────────────────────────────────────── */
+  .findings { display: grid; gap: 1.1rem; margin-top: 1.5rem; }
+  .finding {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    padding: 1.15rem 1.25rem 1.25rem;
+    min-width: 0;
+  }
+  .finding > header {
+    display: flex; flex-wrap: wrap; gap: .55rem .8rem;
+    align-items: baseline; justify-content: space-between;
+    margin-bottom: .55rem;
+  }
+  .finding h3 {
+    font-size: 1.02rem; font-weight: 600; line-height: 1.35;
+    margin: 0; letter-spacing: -.005em; min-width: 0;
+  }
+  .finding .tags { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+  .finding p { margin: 0 0 .6rem; font-size: .93rem; color: var(--ink-2); }
+  .finding p:last-child { margin-bottom: 0; }
+  .finding p strong { color: var(--ink); font-weight: 600; }
+  .means {
+    display: block;
+    margin-top: .75rem;
+    padding-top: .7rem;
+    border-top: 1px dashed var(--rule-strong);
+    font-size: .9rem;
+    color: var(--ink);
+  }
+  .means b {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; display: block; margin-bottom: .15rem;
+  }
+  .unverified {
+    border-left: 3px solid var(--signal);
+  }
+
+  /* ── tables ───────────────────────────────────────────── */
+  .tablewrap { overflow-x: auto; margin-top: 1.4rem; border: 1px solid var(--rule); border-radius: 3px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; min-width: 640px; }
+  caption {
+    text-align: left; caption-side: top;
+    padding: .8rem .9rem .1rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .64rem; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  th, td { text-align: left; padding: .68rem .9rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  thead th {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .63rem; letter-spacing: .11em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 500;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--rule-strong);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.mono, th.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .79rem; font-variant-numeric: tabular-nums; }
+  td.strike { color: var(--ink-3); }
+
+  /* ── recommendations ──────────────────────────────────── */
+  .recs { display: grid; gap: 1.6rem; margin-top: 1.5rem; }
+  .recgroup h3 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--signal); font-weight: 500;
+    margin: 0 0 .7rem;
+  }
+  .recs ol { margin: 0; padding-left: 1.25rem; display: grid; gap: .8rem; }
+  .recs li { max-width: 66ch; font-size: .93rem; }
+  .recs li b { font-weight: 600; }
+
+  /* ── misc ─────────────────────────────────────────────── */
+  .note {
+    margin-top: 1.4rem;
+    padding: .95rem 1.1rem;
+    background: var(--surface-2);
+    border-left: 3px solid var(--rule-strong);
+    border-radius: 0 3px 3px 0;
+    font-size: .89rem;
+    color: var(--ink-2);
+    max-width: 68ch;
+  }
+  .note b { color: var(--ink); }
+  .cite {
+    margin: .75rem 0 0;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .69rem;
+    line-height: 1.6;
+    color: var(--ink-3);
+    overflow-wrap: anywhere;
+  }
+  .cite a, .register a, td a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .register {
+    display: grid; gap: 1.5rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin-top: 1.4rem;
+  }
+  .register h3 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .63rem; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--signal); font-weight: 500; margin: 0 0 .55rem;
+  }
+  .register ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+  .register li { font-size: .79rem; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
+  .register li span { display: block; color: var(--ink-3); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .66rem; }
+  code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .86em;
+    background: var(--surface-2);
+    padding: .08em .32em;
+    border-radius: 2px;
+  }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  footer {
+    margin-top: 3.2rem; padding-top: 1.2rem;
+    border-top: 2px solid var(--signal);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .7rem; letter-spacing: .04em;
+    color: var(--ink-3);
+    display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; justify-content: space-between;
+  }
+
+  @media (max-width: 640px) {
+    .kj li { grid-template-columns: 3px 1fr; }
+    .kj li .chip { grid-column: 2; justify-self: start; margin-top: .5rem; }
+    .finding { padding: 1rem 1rem 1.1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+  @page{ size:A4; margin:14mm 15mm 16mm }
+</style>
+
+<div class="wrap">  <div class="tlp">
+    <span>TLP:AMBER — organization only</span>
+    <span>Financial Sector Strategic Intelligence</span>
+  </div>
+
+  <header class="masthead">
+    <h1>The Extortion Site Came Down, the Probe Opened, and a Kernel Bug With a Two-Day Deadline</h1>
+    <p class="subhead">New and materially updated cyber threats to the financial sector across APAC, EMEA and AMER — covering 28 October 00:00 to 29 October 02:30 (UTC).</p>
+
+    <dl class="meta">
+      <div><dt>Window</dt><dd>28 Oct 00:00 → 29 Oct 02:30 UTC</dd></div>
+      <div><dt>Regions</dt><dd>APAC · EMEA · AMER</dd></div>
+      <div><dt>Classification</dt><dd>TLP:AMBER — internal,<br>named recipients</dd></div>
+      <div><dt>Method</dt><dd>Open-web collection; no dark-web access; FS-ISAC member bulletins not reviewed</dd></div>
+      <div><dt>Prior briefs</dt><dd>15, 16, 19, 28 Oct 2026</dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <p class="eyebrow">Key judgements</p>
+    <h2 id="kj">Six things leadership should know from the last 24 hours</h2>
+    <ul class="kj">
+      <li>
+        <span class="bar" aria-hidden="true"></span>
+        <p><strong>GMO's refusal to pay produced a measurable result within a day.</strong> The extortion site was suspended by its domain registrar in the early hours of <strong>28 October</strong>, and GMO's <strong>USD 1 M bounty</strong> drew <strong>113 tips in its first six hours</strong>. This is the first recent case in the sector where a public non-payment posture can be shown to have disrupted publication.</p>
+        <span class="chip high">High</span>
+      </li>
+      <li>
+        <span class="bar" aria-hidden="true"></span>
+        <p><strong>Korea moved from disclosure to state response.</strong> The National Office of Investigation opened a preliminary probe on <strong>28 October</strong>, and the presidential National Security Office convened an emergency meeting with FSC, FSS, the science ministry, PIPC, FSI and KISA. Police are not ruling out the same actor behind the September and October waves.</p>
+        <span class="chip high">High</span>
+      </li>
+      <li>
+        <span class="bar" aria-hidden="true"></span>
+        <p><strong>The victim profile has broadened beyond banks.</strong> Securities, asset management, an insurer and a crypto exchange are now in the confirmed set; reporting on 29 October counts <strong>20 publicly identified firms</strong>. The recurring entry point is <strong>external-facing, non-core systems</strong> — account-opening servers, web systems, internal groupware — not transaction networks.</p>
+        <span class="chip high">High</span>
+      </li>
+      <li>
+        <span class="bar" aria-hidden="true"></span>
+        <p><strong>A Linux kernel flaw entered KEV with a 31 October deadline — two days.</strong> <code>CVE-2026-46300</code> concerns shared-fragment handling in socket-buffer coalescing that can cause <strong>ESP input processing to decrypt shared fragments in place</strong>, touching page-cache-backed data. It is local-vector (CVSS 7.8) yet KEV-listed, which means it is being used in real chains — most plausibly as a post-access step on hypervisors and VPN hosts.</p>
+        <span class="chip high">High</span>
+      </li>
+      <li>
+        <span class="bar" aria-hidden="true"></span>
+        <p><strong>The first genuine insurer claim of the window is Akira's.</strong> A leak-site entry posted 28 October as “Insurance Services” resolves to <strong>CHAT Insurance</strong>, an Ontario commercial/home/auto insurer with 20,000+ policyholders, claiming ~112 GB. It is an <strong>unverified claim</strong>, and it is the only financial-institution claim in the window that survived verification.</p>
+        <span class="chip low">Low</span>
+      </li>
+      <li>
+        <span class="bar" aria-hidden="true"></span>
+        <p><strong>No named EMEA or AMER institutional incident was found.</strong> That is a statement about the sources consulted. The live EMEA item remains the <strong>31 October</strong> ECB deadline for AI-related cyber action plans.</p>
+        <span class="chip unk">Unknown</span>
+      </li>
+    </ul>
+  </section>
+
+  <section id="apac">
+    <p class="eyebrow">APAC</p>
+    <h2>Japan's non-payment test, and Korea's shift to a state-level response</h2>
+    <p class="lede">Both stories advanced materially in the window, and both moved on the <em>response</em> side rather than the intrusion side.</p>
+
+    <div class="findings">
+
+      <article class="finding">
+        <header>
+          <h3>Japan — GMO: the leak site was suspended, and the bounty is working</h3>
+          <div class="tags"><span class="chip high">High</span><span class="chip crit">In window</span></div>
+        </header>
+        <p>By roughly <strong>04:00 JST on 28 October</strong> the US-based registrar behind the extortion site suspended the domain and a mirror, taking the publication channel offline. GMO had refused the demand outright and stated it would never comply. The attackers had threatened to publish another customer's data <strong>each day at noon</strong>; the first release, on 27 October, appeared to be one customer's photograph, name, address and financial/online activity details.</p>
+        <p><strong>The bounty is the operationally interesting part.</strong> GMO opened its “GMO Cybercrime Bounty” at <strong>12:00 JST on 28 October</strong>, capped at <strong>USD 1 million (~¥150 M)</strong>, seeking the perpetrators' identities, infrastructure (servers, IPs, domains), crypto fund flows and command chain. Japanese reporting counts <strong>113 tips in the first six hours</strong>. Compensation is tiered: ¥5,000 goodwill plus ¥10,000 (basic data), ¥15,000 (financial/authentication data) or ¥25,000 (highly private data) per category, capped at ¥3 M per disclosure.</p>
+        <p><strong>Why this matters beyond Japan.</strong> Scope remains “more than 26,000 servers/customers affected” and unconfirmed by GMO. A registrar takedown plus a paid-tips programme is a template that other financial-adjacent victims will be asked about — and it worked faster than the criminal process usually does. It also carries a cost nobody has quantified: the data was already published once.</p>
+        <p class="cite">Sources: <a href="https://internet.gmo/en/news/article/258/" target="_blank" rel="noopener noreferrer">GMO — 12th report, 27 Oct</a> · <a href="https://internet.gmo/en/ir/pdf/irlibrary/gmointernet_e_disclose_20261028.pdf" target="_blank" rel="noopener noreferrer">GMO — response policy notice, 28 Oct</a> · <a href="https://www.japantimes.co.jp/news/2026/10/28/japan/crime-legal/gmo-hacker-website-shutdown/" target="_blank" rel="noopener noreferrer">Japan Times — site shut down, 28 Oct</a> · <a href="https://www.asahi.com/ajw/articles/17001406" target="_blank" rel="noopener noreferrer">Asahi — extortion site knocked offline, 28 Oct</a> · <a href="https://news.yahoo.co.jp/articles/61e56f743353f2526dfe1c791af0ab9d59142f68" target="_blank" rel="noopener noreferrer">Yomiuri — 113 tips in six hours</a></p>
+      </article>
+
+      <article class="finding">
+        <header>
+          <h3>Korea — police probe and a presidential emergency meeting</h3>
+          <div class="tags"><span class="chip high">High</span><span class="chip crit">In window</span></div>
+        </header>
+        <p>The <strong>National Office of Investigation</strong> opened a preliminary (pre-indictment) inquiry on the morning of <strong>28 October</strong>, handled by the same team already working the earlier financial-sector cases; police are reported as <strong>not ruling out a common actor</strong> across the September and October waves. The same day, the presidential <strong>National Security Office</strong> (deputy chief Song Ki-ho) convened an emergency meeting with the FSC, FSS, the science ministry, the Personal Information Protection Commission, the Financial Security Institute and KISA.</p>
+        <p>On <strong>29 October</strong> the FSS governor told the board chairs of eight bank holding companies that AI-enabled simultaneous attacks may become routine, and criticised firms treating security compliance as a formality. Reporting on the same day counts <strong>20 publicly identified financial firms</strong> affected and notes the wave has spread from banks to <strong>securities, asset management, insurance and crypto</strong>. A stalled “Digital Finance Safety Act” is back under scrutiny, and the FSC has said bank-level security standards will be extended to the virtual-asset sector.</p>
+        <p><strong>The entry-point pattern is the transferable finding:</strong> account-opening servers, web systems and internal groupware — external-facing but non-core. No reporting describes access to transaction networks.</p>
+        <p class="cite">Sources: <a href="https://en.yna.co.kr/view/AEN20261028007151315" target="_blank" rel="noopener noreferrer">Yonhap — presidential emergency meeting, 28 Oct</a> · <a href="https://www.digitaltoday.co.kr/en/view/120765/police-launch-probe-into-hacks-at-daishin-securities-bithumb-and-mirae-asset-management" target="_blank" rel="noopener noreferrer">DigitalToday — police probe, 28 Oct (updated 29 Oct)</a> · <a href="https://www.yna.co.kr/view/AKR20261028115900004" target="_blank" rel="noopener noreferrer">Yonhap — 경찰 내사 착수, 28 Oct</a> · <a href="https://en.etnews.com/20261029200005" target="_blank" rel="noopener noreferrer">Electronic Times — spread to securities, insurance, crypto, 29 Oct</a> · <a href="https://en.sedaily.com/finance/2026/10/29/korean-financial-firms-hacked-weekly-in-october-security" target="_blank" rel="noopener noreferrer">Seoul Economic Daily — weekly attacks, stalled bill, 29 Oct</a></p>
+      </article>
+
+      <article class="finding">
+        <header>
+          <h3>Korea — the four disclosures, kept on their own dates</h3>
+          <div class="tags"><span class="chip high">High</span><span class="chip low">Common-actor hypothesis unconfirmed</span></div>
+        </header>
+        <p><strong>Daishin Securities</strong> 38,490 customers — abnormal access 17 October, confirmed 26 October, announced 28 October. <strong>Bithumb</strong> — employee information via its internal mobile groupware; customer scope still being checked. <strong>Mirae Asset Global Investments</strong> — some internal business-system information, no personal credit data or financial loss confirmed; FSS inspection under way. <strong>KB Kookmin</strong> — revised from 119 to 2,210 on 27 October.</p>
+        <p>These remain four disclosures, not one incident. The common-actor question is now formally in front of the police; until they report, treating the wave as one campaign is a hypothesis with official attention, not a finding.</p>
+        <p class="cite">Sources: <a href="https://www.koreatimes.co.kr/business/banking-finance/20261028/cover-story-bithumb-mirae-asset-daishin-join-growing-list-of-cyberattack-victims" target="_blank" rel="noopener noreferrer">Korea Times, 28 Oct</a> · <a href="https://en.sedaily.com/society/2026/10/28/hacking-spreads-to-brokerages-and-crypto-exchanges-police" target="_blank" rel="noopener noreferrer">Seoul Economic Daily, 28 Oct</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section id="emea">
+    <p class="eyebrow">EMEA</p>
+    <h2>No named incident — and the ECB deadline is in two days</h2>
+    <p class="lede">Nothing in the window meets the bar for a named European financial-institution incident in the sources consulted. The live item is a supervisory deadline, not an intrusion.</p>
+
+    <div class="findings">
+      <article class="finding">
+        <header>
+          <h3>ECB — AI-related cyber action plans due 31 October</h3>
+          <div class="tags"><span class="chip high">High</span><span class="chip crit">Two days</span></div>
+        </header>
+        <p>Significant institutions must submit concrete AI-related cyber action plans to their Joint Supervisory Teams by <strong>31 October 2026</strong>. The requirement was reiterated publicly on 20 October. For a board, this is now a documentation-completeness question rather than a policy question: what is submitted has to be evidenced, and the Korean wave gives a concrete scenario to test it against.</p>
+        <p class="cite">Sources: <a href="https://www.bis.org/speeches/20261027-strength-through-resilience-adaptability-and-trust-insurance-stronger-europe" target="_blank" rel="noopener noreferrer">BIS — Elderson speech, 27 Oct</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section id="amer">
+    <p class="eyebrow">AMER</p>
+    <h2>One insurer claim that survives verification, and a kernel bug on a two-day clock</h2>
+    <p class="lede">Two of the three “financial” leak-feed rows this window were false positives on the sector field. The one that held is an insurer.</p>
+
+    <div class="findings">
+      <article class="finding">
+        <header>
+          <h3>Akira claims CHAT Insurance — the only financial claim that verified</h3>
+          <div class="tags"><span class="chip low">Low</span><span class="chip unk">Unverified claim</span></div>
+        </header>
+        <p>A leak-site entry posted <strong>28 October 12:58 UTC</strong> under the generic name “Insurance Services” resolves to <strong>CHAT Insurance</strong>, an Ontario commercial, home, auto and travel insurer founded in 2015 with about ten offices and 20,000+ policyholders. The claim describes ~112 GB including employee identity documents (passports, licences, birth certificates), client PII for roughly 250 individuals, contracts and NDAs. No ransom figure or sample was disclosed at the time of writing, and <strong>no company statement was found</strong>.</p>
+        <p><strong>Handling:</strong> a claim is not an incident. But an insurer with 20,000 policyholders in a claim of this shape is worth a vendor-risk question if you place business with it or rely on it as a broker counterparty.</p>
+        <p class="cite">Sources: <a href="https://ransomware.live/id/SW5zdXJhbmNlIFNlcnZpY2VzQGFraXJh" target="_blank" rel="noopener noreferrer">ransomware.live — Akira victim record</a> · <a href="https://threatcluster.io/dark-web/victim/insurance-services-b58056576bd42bfd" target="_blank" rel="noopener noreferrer">ThreatCluster listing</a> · <a href="https://www.yazoul.net/intel/claim/2026-10-28-chat-insurance-ransomware-claim-by-akira-oct-2026/" target="_blank" rel="noopener noreferrer">Yazoul — unverified-claim caveat, 28 Oct</a></p>
+      </article>
+
+      <article class="finding">
+        <header>
+          <h3>Linux kernel CVE-2026-46300 — KEV with a 31 October deadline</h3>
+          <div class="tags"><span class="chip high">High</span><span class="chip crit">Due 31 Oct</span></div>
+        </header>
+        <p>Added to KEV on <strong>28 October</strong> with <code>forensicTriage: Yes</code> and a deadline of <strong>31 October</strong>. The flaw is a missing initialisation in socket-buffer coalescing: <code>skb_try_coalesce()</code> can fail to preserve the shared-fragment marker, with the result that <strong>ESP input processing decrypts shared fragments in place</strong>, allowing unintended modification of page-cache-backed data.</p>
+        <p><strong>Read the vector, not the score.</strong> NVD lists CVSS 7.8 with <code>AV:L/PR:L</code> — local, low privileges. A KEV listing on a local vector means it is being used inside real intrusion chains, most plausibly as a post-access step against hypervisors, container hosts and IPsec endpoints. For a financial estate, the population that matters is <strong>virtualisation hosts and site-to-site VPN gateways</strong>, not desktops.</p>
+        <p class="cite">Sources: <a href="https://www.cisa.gov/news-events/alerts/2026/10/28/cisa-adds-two-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV alert, 28 Oct</a> · <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-46300" target="_blank" rel="noopener noreferrer">NVD — CVE-2026-46300</a></p>
+      </article>
+
+      <article class="finding">
+        <header>
+          <h3>VMware ESX CVE-2026-41709 — a KEV entry that is really about hiding</h3>
+          <div class="tags"><span class="chip high">High</span><span class="chip unk">CVSS 2.7</span></div>
+        </header>
+        <p>Also added on <strong>28 October</strong>, due <strong>11 November</strong>: insufficient logging in VMware ESX, exploitable by an actor who already holds <strong>administrator</strong> access, allowing operations to be performed without being logged. NVD scores it <strong>2.7</strong>; the KEV listing is the more informative signal. <strong>This is an anti-forensics primitive</strong> — its value to an attacker is that it degrades exactly the logs a financial institution would rely on during an incident, which makes it relevant to the Korean and Japanese cases even though it is not their entry point.</p>
+        <p class="cite">Sources: <a href="https://www.cisa.gov/news-events/alerts/2026/10/28/cisa-adds-two-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV alert, 28 Oct</a> · <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41709" target="_blank" rel="noopener noreferrer">NVD — CVE-2026-41709</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section id="themes">
+    <p class="eyebrow">Cross-regional</p>
+    <h2>What outlasts the individual incidents</h2>
+    <div class="findings">
+      <article class="finding">
+        <header><h3>1 · Non-core systems are carrying the losses</h3></header>
+        <p>Account-opening servers, groupware, web front ends, a VPS platform for FX traders. In every case this week the compromised component sat outside the transaction network — which is where the detection investment usually sits. The control that would have helped is <strong>treating external-facing internal systems as tier-1</strong>: log depth, segmentation, and the same monitoring as core.</p>
+      </article>
+      <article class="finding">
+        <header><h3>2 · Non-payment now has a worked example — and a cost</h3></header>
+        <p>GMO refused, lost the data once, then saw the publication channel suspended within a day and drew 113 bounty tips in six hours. That is a better outcome than paying, and it is not a clean one: the data is already out. Boards should rehearse this path with the cost stated honestly rather than presented as a win.</p>
+      </article>
+      <article class="finding">
+        <header><h3>3 · The sector-tag on leak feeds is unreliable, and this window proves it</h3></header>
+        <p>Of three “financial/insurance/bank” rows, one was a genuine insurer (CHAT), one was a UK fashion retailer tagged “Insurance”, and one was a Pennsylvania architecture firm whose blurb contains the word “bank”. <strong>Verify the victim's business before it enters an incident count</strong> — this is the third window in a row where the tag misled.</p>
+      </article>
+      <article class="finding">
+        <header><h3>4 · Two KEV entries with infrastructure relevance, both with short deadlines</h3></header>
+        <p>A local-vector kernel flaw due in two days and an anti-forensics flaw in ESX due in thirteen. Neither is a banking-core vulnerability; both sit in the layer that everything else runs on.</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Recommendations</p>
+    <h2 id="recs">What we would do, and by when</h2>
+    <div class="recs">
+      <div class="recgroup">
+        <h3>Immediate · 0–7 days</h3>
+        <ol>
+          <li><b>Patch or mitigate CVE-2026-46300 on hypervisors, container hosts and IPsec endpoints by 31 October.</b> Treat the local vector as a chain step, not as low risk; confirm kernel versions on the virtualisation layer, where patching is slowest.</li>
+          <li><b>Submit the ECB AI-related cyber action plan by 31 October</b> where in scope, and use the Korean entry-point pattern (account-opening servers, groupware, web front ends) as the test scenario.</li>
+          <li><b>Inventory VMware ESX logging configuration</b> and confirm that administrative actions are captured out-of-band. CVE-2026-41709 is an anti-forensics primitive; the mitigation is a log path an ESX admin cannot silently disable.</li>
+          <li><b>Check any exposure to CHAT Insurance</b> if it appears in your broker or vendor chain — a claim, not an incident, but the counterparty question is cheap to ask.</li>
+        </ol>
+      </div>
+      <div class="recgroup">
+        <h3>Short term · 1–4 weeks</h3>
+        <ol>
+          <li><b>Re-tier external-facing non-core systems</b> — account opening, groupware, marketing and web front ends — to tier-1 monitoring and segmentation.</li>
+          <li><b>Rehearse the non-payment playbook</b> (registrar takedown, bounty, compensation tiers, communications) using GMO as the worked example, with legal and comms in the room.</li>
+          <li><b>Add a victim-verification step to leak-feed intake</b> so sector tags are confirmed against the entity's actual business before counting.</li>
+        </ol>
+      </div>
+      <div class="recgroup">
+        <h3>Strategic · 1–6 months</h3>
+        <ol>
+          <li><b>Treat third-party platforms that hold trading sessions, policyholder data or customer PII as in-scope for your own resilience testing</b>, not just for contractual assurances.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Date verification</p>
+    <h2>Items that looked new and were not — and two sector mislabels</h2>
+    <p class="lede">Every item below circulated in the last 24 hours as if current, or arrived tagged with a sector it does not operate in.</p>
+    <div class="tablewrap">
+      <table>
+        <caption>Checked against primary reporting or the entity's own business, not the aggregator entry</caption>
+        <thead>
+          <tr><th>Item as circulated</th><th>Apparent date</th><th>Actual position</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mirae Asset Life Insurance breach</td>
+            <td class="mono">28 Oct 2026</td>
+            <td class="mono">26 Oct 2026</td>
+            <td>First insurer in the wave, but outside this window; it is context for the 29 Oct “spread to insurance” reporting.</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.fsc.go.kr/eng/pr010101/87928" target="_blank" rel="noopener noreferrer">FSC — 16 firms, ~100,000 records</a></td>
+            <td class="mono">28–29 Oct 2026</td>
+            <td class="mono">14 Oct 2026</td>
+            <td>Still being re-dated by coverage; it is the FSC's <strong>14 October</strong> release.</td>
+          </tr>
+          <tr>
+            <td>“EWM Group” listed as <em>Insurance</em></td>
+            <td class="mono">28 Oct 2026</td>
+            <td class="mono">28 Oct 2026</td>
+            <td><strong>Sector mislabel.</strong> EWM Group is a UK fashion retailer (Bonmarché, Edinburgh Woollen Mill, Peacocks). The claim is real; the insurance tag is not.</td>
+          </tr>
+          <tr>
+            <td>“Noelker and Hull” matched on <em>bank</em></td>
+            <td class="mono">28 Oct 2026</td>
+            <td class="mono">28 Oct 2026</td>
+            <td><strong>Description false positive.</strong> A Pennsylvania architecture firm, not a financial institution. Its Rhysida post also carries an unusual “hypothetical red-team scenario” disclaimer.</td>
+          </tr>
+          <tr>
+            <td>Qilin — Power Funding (GB)</td>
+            <td class="mono">29 Oct 2026</td>
+            <td class="mono">26 Oct 11:54 UTC</td>
+            <td>Outside the window by more than two days.</td>
+          </tr>
+          <tr>
+            <td>PHP2Shell / Brotli KEV entries</td>
+            <td class="mono">“new”</td>
+            <td class="mono">26–27 Oct</td>
+            <td>Listed before this window; covered in the 28 Oct brief. Their remediation deadlines (29 Oct / 10 Nov) do fall inside it.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Confidence</p>
+    <h2>Why these judgements are not higher than they are</h2>
+    <div class="findings">
+      <article class="finding">
+        <header><h3>The Korean wave still may not be one campaign</h3></header>
+        <p>Four disclosures, four dates, four systems — and now a police hypothesis that they may share an actor. A hypothesis with official attention is still a hypothesis. We keep the incidents separate and say so.</p>
+      </article>
+      <article class="finding">
+        <header><h3>The GMO outcome is a snapshot, not a resolution</h3></header>
+        <p>A registrar suspension is reversible by a determined attacker with a new domain, and GMO itself warns replacement sites may appear. “Site down” and “attack stopped” are different claims.</p>
+      </article>
+      <article class="finding">
+        <header><h3>CHAT Insurance is a claim</h3></header>
+        <p>No company statement, no regulator filing, no sample. One tracker lists it as published, others explicitly hedge. It stays at Low.</p>
+      </article>
+      <article class="finding">
+        <header><h3>EMEA and AMER silence is a sourcing artefact</h3></header>
+        <p>FS-ISAC member bulletins were not available, and no European or US regulator published an incident notice in the window. The correct phrasing is “not found in the sources consulted”.</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Sources</p>
+    <h2>Source register</h2>
+    <div class="register">
+      <div>
+        <h3>Japan</h3>
+        <ul>
+          <li><a href="https://internet.gmo/en/news/article/258/" target="_blank" rel="noopener noreferrer">GMO Internet — 12th report</a><span>Primary · company · 27 Oct</span></li>
+          <li><a href="https://internet.gmo/en/ir/pdf/irlibrary/gmointernet_e_disclose_20261028.pdf" target="_blank" rel="noopener noreferrer">GMO Internet — response policy</a><span>Primary · company · 28 Oct</span></li>
+          <li><a href="https://www.japantimes.co.jp/news/2026/10/28/japan/crime-legal/gmo-hacker-website-shutdown/" target="_blank" rel="noopener noreferrer">Japan Times</a><span>Daily · 28 Oct · site suspension</span></li>
+          <li><a href="https://www.asahi.com/ajw/articles/17001406" target="_blank" rel="noopener noreferrer">Asahi Shimbun</a><span>Daily · 28 Oct</span></li>
+          <li><a href="https://news.yahoo.co.jp/articles/61e56f743353f2526dfe1c791af0ab9d59142f68" target="_blank" rel="noopener noreferrer">Yomiuri (via Yahoo)</a><span>Daily · 113 tips in six hours</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Korea</h3>
+        <ul>
+          <li><a href="https://en.yna.co.kr/view/AEN20261028007151315" target="_blank" rel="noopener noreferrer">Yonhap — emergency meeting</a><span>Wire · 28 Oct</span></li>
+          <li><a href="https://www.yna.co.kr/view/AKR20261028115900004" target="_blank" rel="noopener noreferrer">Yonhap — police 내사</a><span>Wire · 28 Oct</span></li>
+          <li><a href="https://en.etnews.com/20261029200005" target="_blank" rel="noopener noreferrer">Electronic Times</a><span>Trade · 29 Oct · sector spread</span></li>
+          <li><a href="https://en.sedaily.com/finance/2026/10/29/korean-financial-firms-hacked-weekly-in-october-security" target="_blank" rel="noopener noreferrer">Seoul Economic Daily</a><span>Daily · 29 Oct · policy</span></li>
+          <li><a href="https://www.koreatimes.co.kr/business/banking-finance/20261028/cover-story-bithumb-mirae-asset-daishin-join-growing-list-of-cyberattack-victims" target="_blank" rel="noopener noreferrer">Korea Times</a><span>Daily · 28 Oct</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Vulnerabilities</h3>
+        <ul>
+          <li><a href="https://www.cisa.gov/news-events/alerts/2026/10/28/cisa-adds-two-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA — KEV additions, 28 Oct</a><span>Government · primary</span></li>
+          <li><a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-46300" target="_blank" rel="noopener noreferrer">NVD — CVE-2026-46300</a><span>Primary · CVSS 7.8, AV:L</span></li>
+          <li><a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41709" target="_blank" rel="noopener noreferrer">NVD — CVE-2026-41709</a><span>Primary · CVSS 2.7</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Leak-feed claims</h3>
+        <ul>
+          <li><a href="https://ransomware.live/id/SW5zdXJhbmNlIFNlcnZpY2VzQGFraXJh" target="_blank" rel="noopener noreferrer">ransomware.live — Akira / CHAT Insurance</a><span>Aggregator · <strong>claim only</strong></span></li>
+          <li><a href="https://www.yazoul.net/intel/claim/2026-10-28-chat-insurance-ransomware-claim-by-akira-oct-2026/" target="_blank" rel="noopener noreferrer">Yazoul — caveat on the same claim</a><span>Aggregator · unverified</span></li>
+          <li><a href="https://www.hookphish.com/blog/ransomware-group-rhysida-hits-noelker-and-hull/" target="_blank" rel="noopener noreferrer">HookPhish — Noelker and Hull</a><span>Blog · <strong>sector false positive</strong></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>TLP:AMBER · Internal use · Not for external distribution</span>
+    <span>Compiled 29 Oct 2026, 10:30 SGT · Window 28 Oct 00:00 → 29 Oct 02:30 UTC</span>
+  </footer>
+
+</div>
