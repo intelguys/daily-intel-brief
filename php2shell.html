@@ -561,6 +561,72 @@
     </div>
   </section>
 
+  <section id="update-29">
+    <p class="eyebrow">Update &middot; 29 October</p>
+    <h2>The chain is now official: CISA names these CVEs as the route to a root webshell</h2>
+    <p class="lede">Three things moved. CISA's KEV text states the chain explicitly; GreyNoise logged successful command execution rather than attempts; and a second victim-side report describes firewalls rooted with this pair plus a kernel flaw.</p>
+
+    <div class="callout crit">
+      <span class="label">KEV &mdash; CVE-2026-46300, added 28 Oct, due 31 Oct</span>
+      <p>The kernel flaw is not the story; <strong>the sentence about it is</strong>. CISA's description states it
+      <em>&ldquo;can be chained with CVE-2026-109618 and CVE-2026-109619 to implant PHP webshells and run
+      commands as root&rdquo;</em> &mdash; verified directly in the KEV feed (catalog <code>2026.10.28</code>,
+      1,762 entries), <code>forensicTriage: Yes</code>, deadline <strong>31 October</strong>.</p>
+      <p><strong>What this changes:</strong> the case no longer rests on &ldquo;attempts plus honeypot shells&rdquo;.
+      The US government now describes this pair as a route to root and to webshell implantation. <strong>What it
+      does not change:</strong> no victim is named, and a chain description is not an incident record.</p>
+    </div>
+
+    <h3>GreyNoise: successful exploitation, from one address</h3>
+    <p>Its live page (29 Oct 02:15 UTC) records <strong>5 confirmed successful exploitations from
+    <code>2.59.133.151</code></strong> (AS58212 dataforest GmbH, DE) with the process chain
+    <strong><code>apache2 &rarr; sh</code></strong> and commands <code>curl 37455255:7</code> /
+    <code>curl 37455255:4</code> followed by <code>sleep 5</code>. Fleet totals: <strong>240,193 sessions,
+    209,916 exploitation attempts, 30,277 recon, 416 attacker IPs</strong>.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Artefact</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>JA4H (exploit HTTP)</td><td><code>ge11nn030000_52193b36b64e_000000000000_000000000000</code><br><code>po11nn050000_c79a52b7736c_000000000000_000000000000</code></td></tr>
+          <tr><td>JA4T</td><td><code>64240_2-4-8-1-3_1460_7</code> · <code>64240_2-4-8-1-3_1460_9</code></td></tr>
+          <tr><td>Multipart boundaries</td><td><code>----lf</code> · <code>----rceStock</code></td></tr>
+          <tr><td>New path</td><td><code>/upload.php</code> (3.6 MB, 2 POST)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="subtle" style="font-size:13px;">These are sensor-side successes. They confirm that the chain
+    reaches command execution in the wild; they do not identify a production victim.</p>
+
+    <h3>Victim-side report: 25 rooted servers, and the chain is named</h3>
+    <p><a href="https://dreamgroup.com/blog/chained-php2shell-exploit-roots-25-servers/">Dream's write-up</a>
+    (26 Oct, covered by <a href="https://www.securityweek.com/china-linked-hackers-exploit-php2shell-to-root-firewalls/">SecurityWeek</a>
+    on 28 Oct) describes <strong>24 firewalls plus one internal firewall-management server rooted</strong>,
+    using <strong>PHP2Shell chained with CVE-2026-46300</strong>: a 103-byte PHP root webshell, an 8-port
+    reverse SSH tunnel, SOCKS5, <code>iox</code>, PAM persistence (<code>/etc/pam.d/su</code>,
+    <code>pam_permit.so</code>) and <code>rc.local</code>. <strong>No hashes, filenames or C2 are
+    published</strong> &mdash; it is a narrative, not an IOC set. SecurityWeek calls the actors
+    &ldquo;China-linked&rdquo;; Dream does not. Dream counts three servers at one US government-affiliated
+    organisation where SecurityWeek counts two.</p>
+
+    <h3>First Windows/IIS claim &mdash; real customer, no artefacts</h3>
+    <p><a href="https://www.morphisec.com/blog/php2shell-is-hitting-windows-servers-in-the-wild-we-stopped-it/">Morphisec</a>
+    (28 Oct) reports a <strong>customer</strong> Windows server where the chain
+    <code>w3wp.exe &rarr; php-cgi.exe &rarr; cmd.exe</code> launched a packed binary with PEB-walk shellcode.
+    <strong>Code execution through the PHP flaw succeeded</strong>; the follow-on payload landed on a decoy and
+    the reverse shell to the C2 was blocked. <strong>No hashes, C2, IPs, versions or filenames</strong> were
+    published. Single source, vendor narrative.</p>
+
+    <h3>Product matrix and status, 28&ndash;29 October</h3>
+    <ul>
+      <li><strong>Citrix NetScaler fixed</strong>: <code>14.1-73.49+</code>, <code>13.1-64.32+</code>, 13.1 FIPS/NDcPP <code>13.1.37.286+</code>.</li>
+      <li><strong>Cisco</strong>: two <em>new</em> vulnerable products &mdash; <strong>ISE Portal Builder</strong> (taken offline, <strong>no released fix</strong>) and Unified Industrial Wireless (fix planned <strong>March 2027</strong>).</li>
+      <li><strong>Juniper J-Web</strong>: reachable but <strong>not exploitable</strong> for 109618; not vulnerable to 109619.</li>
+      <li><strong>PAN-OS</strong>: <code>11.2.7-h23</code> and <code>12.2.4-h1</code> released; <code>12.1.4-h13</code> and <code>10.2.10-h42</code> still <strong>ETA 29 Oct</strong> at the time of writing.</li>
+      <li><strong>NCSC-NL</strong>: 757 products tracked, 218 vulnerable / 144 fixed.</li>
+      <li><strong>Status</strong>: NVD both <em>Analyzed</em>, EPSS <strong>0.99999</strong> unchanged; no PHP source release after 21 Oct (the 26 Oct Windows rebuilds are Brotli fixes); <code>CVE-2026-115560</code> still has <strong>no record</strong> in either registry.</li>
+    </ul>
+  </section>
+
   <section id="update-28">
     <p class="eyebrow">Update &middot; 28 October</p>
     <h2>Listed in KEV, a second sensor's indicator set, and an export that was missing its best evidence</h2>
