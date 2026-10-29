@@ -184,6 +184,31 @@ footer p { font-size:13px; color:var(--muted); }
 </div>
 
 <section>
+  <h2>Update &mdash; 29 October: CISA confirms, a first IOC set appears, still no victim</h2>
+  <p class="sub">The picture hardened without changing: exploitation is now officially confirmed, telemetry has produced the first address list, and nothing in the window shows a successful shell against a production target.</p>
+
+  <div class="callout warn">
+    <span class="k">CISA confirmed exploitation publicly &mdash; 28 October</span>
+    <p>Reported by SecurityWeek, alongside Previdian's record of <strong>one attempt on 27 October from a US-based IP</strong> (not published), with the explicit qualification that the attempt <strong>did not succeed</strong>. Broadcom's advisory makes no in-the-wild statement. The Canadian Cyber Centre's <strong>AL26-027 (28 Oct)</strong> carries <strong>zero IOCs</strong> and no compromise statement.</p>
+    <p><strong>So the standing grading holds:</strong> the vulnerability is certain, code execution is contested-but-demonstrated in labs, and in-the-wild exploitation is now <em>confirmed as attempts</em> with <strong>no successful RCE and no victim</strong>.</p>
+    <p class="cite">Sources: <a href="https://www.securityweek.com/cisa-warns-of-node2shell-exploitation-as-honeypots-log-attack-attempts/" target="_blank" rel="noopener noreferrer">SecurityWeek, 28 Oct</a> · <a href="https://www.cyber.gc.ca/en/alerts-advisories/al26-027-critical-vulnerability-impacting-google-brotli-cve-2026-111497" target="_blank" rel="noopener noreferrer">Canadian Cyber Centre AL26-027</a></p>
+  </div>
+
+  <h3>The first public IOC set &mdash; Zscaler, 28 October</h3>
+  <p>Deception telemetry from the first 24 hours: <strong>20 source IPs, 12 customers, 402 events</strong>, split <strong>40% reconnaissance / 60% exploitation</strong>. The five exploitation addresses &mdash; <code>49.37.46.99</code>, <code>34.10.240.142</code>, <code>188.245.184.87</code>, <code>52.46.50.66</code>, <code>136.111.197.96</code> &mdash; are now in <code>iocs/iocs.csv</code> at MONITOR. No payload, outcome or victim detail accompanies them.</p>
+  <p><strong>The durable part is the fingerprints, not the addresses:</strong> <code>t13d251100_b78ed14e2fd0_ab7e3b40a677</code> for the <strong>22/23-byte invalid block-switch seeds</strong>, <code>t13d4312h1_c7886603b240_b26ce05bbdd6</code> for malformed-Brotli plus Node-path recon, and <code>t13d1714h1_ab0a1bf427ad_5e078a691127</code> for the 14-byte <code>{"ping":1}</code> sweep. Address lists rotate; a JA4 that encodes the trigger does not.</p>
+  <p class="cite">Source: <a href="https://www.zscaler.com/blogs/security-research/cve-2026-111497-node2shell-http2shell-vulnerability-may-allow-rce" target="_blank" rel="noopener noreferrer">Zscaler ThreatLabz, 28 Oct</a></p>
+
+  <h3>Carrier and instrument status</h3>
+  <ul>
+    <li><strong>No carrier fix landed.</strong> Node.js shipped <code>v24.22.2</code> and <code>v26.13.0</code> on 28 October &mdash; <strong>neither carries Brotli content</strong> (V8 backports; the 26.x release is an LTS transition). .NET unchanged since 25 Oct. No in-window release for ClickHouse, DuckDB, Arrow, libjxl, 7-Zip-zstd, YDB, woff2 or Bun. <strong>Debian <code>nodejs</code> remains <code>vulnerable</code> in bookworm, trixie and forky</strong> &mdash; fixed only in sid.</li>
+    <li><strong>Broadcom VMSA-2026-0008.1 (updated 28 Oct) still reads "Patch pending" on every row</strong>, and the revision removed VMware vSphere Foundation &mdash; remaining rows are VCF only.</li>
+    <li><strong>EPSS rose to 0.87988</strong> (99.76th percentile, 28 Oct), up from 0.55483. NVD is <em>Analyzed</em>, 9.8 / 9.2.</li>
+    <li><strong>No credible new exploit</strong> &mdash; the 28 Oct repositories are pinned-image proofs, crash-only labs or discovery tooling. No patch bypass.</li>
+  </ul>
+</section>
+
+<section>
   <h2>Update &mdash; 28 October: KEV, one attempt, and two claims that had to be corrected</h2>
   <p class="sub">Three things changed since 26 October. One invalidates a headline in this brief (&ldquo;no KEV entry&rdquo;), one narrows another (&ldquo;no network IOCs&rdquo;), and one fixes a carrier table that was already stale when it was published.</p>
 
