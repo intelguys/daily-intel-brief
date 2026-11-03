@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Tuesday BFSI Cyber Threat Intelligence Briefing — 3 November 2026</title>
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#fffdf8; --surface2:#eceadf; --ink:#1c1e22; --muted:#5c6068;
+  --line:#d8d3c4; --accent:#8a3324; --accent2:#1f4e5f; --warn:#9a6a12; --ok:#2e6b4f;
+  --chip:#efe9db; --crit:#8a3324; --high:#b35c1e; --med:#9a6a12;
+  --shadow:0 1px 3px rgba(28,30,34,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14161a; --surface:#1d2025; --surface2:#262a31; --ink:#ece9e2; --muted:#a7abb3;
+    --line:#3a3e46; --accent:#e08a76; --accent2:#7fb8c9; --warn:#d9b45c; --ok:#7fc79e;
+    --chip:#2b2f36; --crit:#f0927f; --high:#eda26a; --med:#d9b45c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
+h2{font-size:1.55rem;margin:0 0 6px}
+h3{font-size:1.12rem}
+a{color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+section{margin-top:44px}
+.sec-head{border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* Masthead */
+.mast{padding:34px 0 8px}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.mast h1{font-size:2.35rem;margin:10px 0 8px;max-width:20ch}
+.mast .sub{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:.83rem;box-shadow:var(--shadow)}
+.meta b{font-weight:700}
+
+/* Follow-up tracker */
+.tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.track{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.track .t-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.track .t-status{font-family:Georgia,serif;font-size:1.15rem;margin:5px 0 4px}
+.track p{margin:0;font-size:.86rem;color:var(--muted)}
+.st-passed{color:var(--crit)} .st-due{color:var(--high)} .st-pending{color:var(--warn)} .st-done{color:var(--ok)}
+
+/* Executive summary */
+.exec{display:grid;gap:12px}
+.exec-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.exec-num{font-family:Georgia,serif;font-size:2rem;line-height:1;color:var(--accent);flex:0 0 auto}
+.exec-card p{margin:0}
+.exec-card b{font-weight:700}
+
+/* Badges */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:3px 9px;background:var(--chip);color:var(--ink);vertical-align:middle}
+.badge.red{background:var(--crit);color:#fff}
+.badge.amber{background:var(--warn);color:#fff}
+.badge.teal{background:var(--accent2);color:#fff}
+.badge.grey{background:var(--chip);color:var(--muted)}
+@media (prefers-color-scheme: dark){.badge.red,.badge.amber,.badge.teal{color:#14161a}}
+
+/* Actor cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actor{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.actor .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.actor h3{margin-bottom:4px}
+.actor .target{color:var(--accent2);font-weight:600;font-size:.92rem;margin:0 0 10px}
+.actor dl{margin:0;display:grid;gap:8px}
+.actor dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.actor dd{margin:2px 0 0;font-size:.93rem}
+.actor .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+.none-card{border:1px dashed var(--line);border-radius:8px;padding:16px 18px;color:var(--muted);background:transparent;margin-top:14px}
+.none-card b{color:var(--ink)}
+
+/* Vuln table */
+.vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
+.vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line)}
+th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+tbody tr:last-child td{border-bottom:none}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:nowrap}
+.score{font-weight:700}
+.score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
+.status{font-size:.78rem;font-weight:700}
+.status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
+.count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+/* Two-col panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:8px}
+.panel p,.panel li{font-size:.94rem}
+.panel ul{margin:6px 0 0;padding-left:20px}
+.panel li{margin-bottom:7px}
+
+/* IOC + actions */
+.ioc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.ioc h3{margin-bottom:8px}
+.ioc ul{margin:6px 0 0;padding-left:20px}
+.ioc li{margin-bottom:8px;font-size:.94rem}
+.ioc .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+ol.actions{counter-reset:step;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.actions li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px 14px 52px;position:relative;box-shadow:var(--shadow);font-size:.95rem}
+ol.actions li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+@media (prefers-color-scheme: dark){ol.actions li::before{color:#14161a}}
+
+/* Unverified */
+.unverified{border:1px solid var(--warn);border-radius:8px;padding:18px;background:var(--surface)}
+.unverified ul{margin:8px 0 0;padding-left:20px}
+.unverified li{margin-bottom:8px;font-size:.94rem}
+
+/* Sources */
+.sources{font-size:.88rem}
+.sources li{margin-bottom:6px;overflow-wrap:anywhere}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  .tracker{grid-template-columns:1fr 1fr}
+  .actor-grid,.panels{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tbody tr{border-bottom:2px solid var(--line);padding:8px 0}
+  td{border-bottom:none;padding:5px 12px}
+  td.cve{white-space:normal;font-size:.95rem}
+  td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+}
+@media (max-width:460px){.tracker{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <div class="kicker">BFSI Cyber Threat Intelligence · Tuesday Edition</div>
+  <h1>Tuesday BFSI Cyber Threat Briefing</h1>
+  <p class="sub">New reports that affect banks, financial services and insurers. Each item says what is confirmed, what is disputed, and what is still unknown. Claims are not treated as facts.</p>
+  <div class="meta-row">
+    <span class="meta"><b>Window:</b> 2 Nov ~10:45 SGT → 3 Nov 2026, 10:45 SGT (24 hours)</span>
+    <span class="meta"><b>Published:</b> Tuesday 3 November 2026</span>
+    <span class="meta"><b>Dedup:</b> Monday edition (30 Oct – 2 Nov) items appear only as status updates</span>
+  </div>
+
+  <div class="tracker" aria-label="Flagged follow-up tracker">
+    <div class="track">
+      <div class="t-label">Ivanti CVE-2026-111357 · deadline 2 Nov</div>
+      <div class="t-status st-passed">Passed</div>
+      <p>No new victim, exploit code, or completion statement was found in this window. That is not proof that all systems are safe. The second CVE in the chain is due 13 Nov.</p>
+    </div>
+    <div class="track">
+      <div class="t-label">Siemens CVE-2026-110936 · deadline</div>
+      <div class="t-status st-due">Due today, 3 Nov</div>
+      <p>No proof of completed fixes was found in this window. No proof is not proof of failure. It is a gap to close today. Confirm Software Center ≥ V4.0.9.8.</p>
+    </div>
+    <div class="track">
+      <div class="t-label">Binance proof-of-reserves</div>
+      <div class="t-status st-pending">Still pending</div>
+      <p>The full zero-knowledge proof was due “by Tuesday 3 Nov (UTC)”. The UTC day had not ended at the 10:45 SGT cutoff. Only the 31 Oct snapshot was public. Critique: even when it arrives, a proof of reserves shows holdings on one date. It does not show what the exchange owes.</p>
+    </div>
+    <div class="track">
+      <div class="t-label">Google Android November bulletin</div>
+      <div class="t-status st-done">Published 2 Nov</div>
+      <p>216 fixes, 23 critical. No exploitation was flagged. That means none was reported in the bulletin. It does not prove none occurred. See the watchlist below.</p>
+    </div>
+  </div>
+</header>
+
+<section aria-labelledby="exec-h">
+  <div class="sec-head"><h2 id="exec-h">Executive summary</h2></div>
+  <div class="exec">
+    <div class="exec-card"><div class="exec-num">1</div>
+      <p><b>Mercado Bitcoin and Binance are the most serious items.</b> They are two separate incidents. Mercado Bitcoin, Brazil's largest exchange, was drained across 17 blockchains in the early hours of 2 Nov. About $10m was frozen. No attacker was named, and how the attacker got in is unknown. Critique: the ~$49m total is a researcher's estimate. The exchange's own figure is about $38m. They measure different things and must not be added together. The exchange's promise of no customer loss is its own claim, not independent proof. Separately, Binance lost about $6.3bn. The FBI blames North Korea's TraderTraitor/Lazarus cluster. North Korea denied this on 3 Nov. Net outflows were $3.64bn. Fake “$150 compensation” scams are using the incident to target customers.</p>
+    </div>
+    <div class="exec-card"><div class="exec-num">2</div>
+      <p><b>Ivanti is the top patch-and-hunt priority.</b> The federal deadline for CVE-2026-111357 passed on 2 Nov. The second deadline, for CVE-2026-118527, is 13 Nov. Siemens CVE-2026-110936 is due <b>today, 3 Nov</b>. Critique: a passed deadline does not mean every system is safe. Patching alone does not answer whether a system was already used. Activity held only in memory may not be seen by Ivanti's Integrity Checker. A clean check is therefore not proof that a system was never touched. The risk is direct: these flaws can give an attacker a foothold, then access to identity and credential stores.</p>
+    </div>
+    <div class="exec-card"><div class="exec-num">3</div>
+      <p><b>Vendor risk is the second theme.</b> Abrigo restored Sageworks on 2 Nov. The platform had been shut down after “irregular activity”. More than 2,400 US banks and credit unions were affected. Borrower-facing features were still down. Critique: “irregular activity” does not answer the key question — was data taken, or not? The claim against AU Small Finance Bank, via a Salesforce-hosted platform, is also unverified. The bank says core systems are unaffected. CTOS restored credit-reporting services. In each case, the problem sits with a vendor, but the bank must still show what was, and was not, exposed.</p>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:12px">No new FIN7, LockBit, RansomHub, Cl0p or bank-focused Initial Access Broker campaign was found in this window. That is a limit of what was published and searched. It is not evidence that those groups were inactive. “Confirmed exploitation” below means a CISA KEV listing, a vendor confirmation, or a named incident-response account. It does not mean a leak-site claim or an aggregator's assertion. A leak-site listing date is not a compromise date.</p>
+</section>
+
+<section aria-labelledby="actors-h">
+  <div class="sec-head">
+    <h2 id="actors-h">Threat actor activity</h2>
+    <p>Who is claimed to have acted, who was targeted, how, and with what effect. MITRE ATT&amp;CK labels are shown only where a source published them. Analyst mappings and unverified claims are labelled as such, and each card notes what the claim does not prove.</p>
+  </div>
+  <div class="filters" role="group" aria-label="Filter threat actor cards">
+    <button type="button" data-filter="all" aria-pressed="true">All</button>
+    <button type="button" data-filter="new" aria-pressed="false">New in window</button>
+    <button type="button" data-filter="update" aria-pressed="false">Status updates</button>
+    <button type="button" data-filter="unverified" aria-pressed="false">Unverified / claims</button>
+    <button type="button" data-filter="fraud" aria-pressed="false">Fraud</button>
+  </div>
+  <div class="actor-grid" id="actorGrid">
+
+    <article class="actor" data-cat="update">
+      <div class="badges"><span class="badge teal">Status update</span><span class="badge">State-sponsored</span></div>
+      <h3>TraderTraitor / Lazarus Group (North Korea)</h3>
+      <p class="target">Crypto exchange · Global — Binance (Binance.com; US platform said unaffected)</p>
+      <dl>
+        <div><dt>TTPs</dt><dd>Access may have started with a compromised DevOps engineer's laptop. It then reached a service container, and unauthorised withdrawals followed. This is an analyst mapping (T1078 Valid Accounts / T1566 Phishing). Binance has <b>not finally confirmed</b> how access began. It later said “additional points of breach” were found. Funds were converted mostly to ETH, then moved through DeFi and instant-swap services (T1020 / T1496-adjacent, per FBI via Help Net Security). The FBI listed 628 addresses to block: 608 ETH, 19 BTC, 1 SOL.</dd></div>
+        <div><dt>Impact</dt><dd>About $6.3bn was stolen on 29 Oct. Reporting calls it the largest crypto theft on record. About $3bn was frozen on the first day (Tether/Circle et al.). Binance says about 95% of stolen assets were replaced from its treasury, futures insurance and emergency reserves. Net outflow was $3.64bn in 9.5 hours on 1 Nov ($4.649bn out / $1.01bn in; 2.1% of $171bn AUM, per Binance). On 3 Nov, North Korea denied involvement via Kim Yo-jong (“absurd rhetoric” / “trite provocation”). Critique: a denial does not disprove the FBI attribution. The attribution does not make it certain either. The full evidence is not public. The outflow and replacement figures also come from Binance itself. They are useful, but they are not audited.</dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="new">
+      <div class="badges"><span class="badge red">New in window</span><span class="badge">No attribution published</span></div>
+      <h3>Unknown actor — Mercado Bitcoin incident</h3>
+      <p class="target">Crypto exchange · Brazil</p>
+      <dl>
+        <div><dt>TTPs</dt><dd>Funds were drained “in waves” across 17 blockchains. The largest tranches were BTC and ETH, plus Base, Tron and Polygon. <b>No entry method was published.</b> Do not assume phishing, malware, or abuse of valid access.</dd></div>
+        <div><dt>Impact</dt><dd>About $49m was stolen early on 2 Nov (Chainalysis estimate). The exchange gives different figures: about $38m in “assets involved” and $11m blocked. The two methods <b>must not be added together</b>. About $10m was frozen (over $9m USDT via Tether, plus Paxos / Anchorage / Ripple / Circle coordination). Services were suspended, with no reopening time given. Critique: what is not known matters more here. We do not know how the attacker got in, who they were, or whether customers lost money. The promise of no customer loss is the exchange's own claim.</dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="new unverified">
+      <div class="badges"><span class="badge red">New leak listing</span><span class="badge amber">Unverified claim</span></div>
+      <h3>Akira — ransomware, double extortion</h3>
+      <p class="target">Financial services · United States — Princeton Management</p>
+      <dl>
+        <div><dt>TTPs</dt><dd>Double extortion: data is taken, then encrypted, then published on a leak site (T1567 Exfiltration / T1486 Data Encrypted for Impact). That is the standard Akira model, per the source. It is <b>not confirmed by the victim in this case</b>. Note the classification problem: Princeton Management is a property-management firm in the leak post. The tracking site classifies it as financial services.</dd></div>
+        <div><dt>Impact</dt><dd>A leak post dated 2 Nov 2026 claims 130 GB “will be uploaded soon”. It lists employee PII (phones, addresses, scans, military-veteran information), contracts, client and partner information, financial records, specs and drawings. Critique: a leak-site listing is a claim, not proof of a breach. <b>No ransom amount, no compromise date, and no victim confirmation were found.</b></dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="new unverified">
+      <div class="badges"><span class="badge red">New leak listing</span><span class="badge amber">Unverified claim</span></div>
+      <h3>Pear / PEAR Team — ransomware, double extortion</h3>
+      <p class="target">Financial services · United States — Neiman &amp; Company, Inc.</p>
+      <dl>
+        <div><dt>TTPs</dt><dd>Double extortion (T1567 / T1486). That is the standard model, per the source. It is not confirmed for this victim.</dd></div>
+        <div><dt>Impact</dt><dd>The leak listing is dated 2 Nov 2026. The tracker attributes 137 victims to the group. Critique: that total comes from the tracker. It is not proof in this case. <b>The data said to be stolen was not independently verified. No compromise date or victim confirmation was found.</b></dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="new unverified">
+      <div class="badges"><span class="badge red">Leak published in window</span><span class="badge">Incident is older</span></div>
+      <h3>Settra — ransomware</h3>
+      <p class="target">Financial services · United Kingdom — Kingdom Title (kingdomtitle.net)</p>
+      <dl>
+        <div><dt>TTPs</dt><dd>Data theft is the main extortion tactic (T1567). The attack route is <b>not confirmed</b> by the source.</dd></div>
+        <div><dt>Impact</dt><dd>The leak was published on 2 Nov 2026. The incident is estimated at 8 Oct 2026. Critique: the two dates must not be mixed. Publication is not the date of compromise. The leak summary shows an incoming book transfer of $15,319,440, an outgoing wire of $14,947,415, trial balances totalling $1,277,500.31 (2,972 positive balances), personal auto, umbrella and boat insurance policies, and payment notes. These figures come from the leak summary. They were not confirmed by the victim in the sources found.</dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="update">
+      <div class="badges"><span class="badge teal">Follow-up in window</span><span class="badge">Edge / VPN chain</span></div>
+      <h3>UTA0576 — Ivanti Connect Secure chain</h3>
+      <p class="target">Edge/VPN users, incl. financial firms on Ivanti Connect Secure · Global</p>
+      <dl>
+        <div><dt>TTPs</dt><dd>Three flaws are chained to reach unauthenticated root: CVE-2026-104935 (auth bypass / RCE), CVE-2026-118527 (predictable upload) and CVE-2026-111357 (privilege escalation). Credentials are then stolen. Active Directory is queried for Windows LAPS passwords and BitLocker recovery keys (T1003 OS Credential Dumping / T1555 Credentials from Password Stores — an analyst mapping of the reported behaviour). This is not FIN7 or Scattered Spider.</dd></div>
+        <div><dt>Impact</dt><dd>Ivanti says the impact is “limited to a small number of customers” (via HOL). Critique: that phrase is the vendor's. It does not name the customers or the data taken. CISA lists ransomware use as unknown. No public exploit code is cited in the advisories. The risk is a foothold plus theft from identity stores. There is no confirmed BFSI victim in this window.</dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="unverified">
+      <div class="badges"><span class="badge amber">Claim only</span><span class="badge">Unverified</span></div>
+      <h3>ScarlettGroup — claim against AU Small Finance Bank</h3>
+      <p class="target">Banking · India — via a Salesforce-hosted SaaS platform (vehicle-loan customers)</p>
+      <dl>
+        <div><dt>TTPs</dt><dd><b>Claim only. The method is not established.</b> The data said to be taken: KYC, PAN/Aadhaar, bank statements, credit reports / CIBIL, loan agreements, CRM data, and employee audit logs.</dd></div>
+        <div><dt>Impact</dt><dd>The bank said on 2 Nov that it is investigating. It says core systems are unaffected and services are normal. Salesforce said (Saturday) it found no flaw at its end. Critique: those statements do not settle the claim. The bank has not said no data was taken. Salesforce has not said where the data came from. The number affected, and whether the Salesforce platform is the source, are <b>not confirmed</b>. Treat this as an unverified claim, not a confirmed breach.</dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="unverified">
+      <div class="badges"><span class="badge amber">Allegation only</span><span class="badge">Supply chain</span></div>
+      <h3>ShinyHunters — allegation via Abrigo history</h3>
+      <p class="target">Fintech · US banks &amp; credit unions — Abrigo</p>
+      <dl>
+        <div><dt>TTPs</dt><dd><b>Allegation only:</b> an earlier claim that 1.7m Salesforce records were taken from Abrigo (names, emails, phones, employee and account data). <b>No link has been established</b> to the current Sageworks outage. The two must not be merged.</dd></div>
+        <div><dt>Impact</dt><dd>There is no confirmed breach for the old claim or for the current outage. Critique: no confirmation is not the same as proof that nothing happened. Researchers advise rotating Sageworks API keys as a precaution.</dd></div>
+      </dl>
+    </article>
+
+    <article class="actor" data-cat="fraud">
+      <div class="badges"><span class="badge red">Reported in window</span><span class="badge">Mule accounts</span></div>
+      <h3>Unnamed fraud syndicate — Assam STF arrests</h3>
+      <p class="target">Banking · India — mule accounts, incl. an SBI account</p>
+      <dl>
+        <div><dt>TTPs</dt><dd>Mule-account laundering. Money moved in and out quickly over 47 days (22 Jun – 5 Aug 2026). The network operated across states for about 2 years (T1078-adjacent account abuse; this is a police account, not a MITRE-mapped campaign).</dd></div>
+        <div><dt>Impact</dt><dd>Six people were arrested on 28–30 Oct. This was reported on 2 Nov at 21:03 SGT. “Several crores” were allegedly siphoned. Critique: “allegedly” matters. The amounts come from the police account. A suspected Pakistan-intelligence link is <b>under probe only. It is not established</b>.</dd></div>
+      </dl>
+    </article>
+
+  </div>
+  <div class="none-card"><b>No new item was found in this window</b> for FIN7 / Carbanak, Scattered Spider, LockBit, RansomHub, Cl0p, or Initial Access Brokers selling bank access. Scattered Spider appears only in a general 2 Nov podcast on helpdesk social engineering and lookalike domains. That is not a new incident. Older reporting (for example, September 2025) was not added back. Critique: absence in search is not proof of inactivity.</div>
+</section>
+
+<section aria-labelledby="vuln-h">
+  <div class="sec-head">
+    <h2 id="vuln-h">Vulnerability watchlist</h2>
+    <p>Fourteen rows from the research report. Scores that disagree are shown as disputed. One listing is unconfirmed and is flagged as such. A high score alone does not mean a flaw is being used. A low score in a chain does not mean low risk. Filter by status, or search by CVE or product.</p>
+  </div>
+  <div class="filters" role="group" aria-label="Filter vulnerabilities by exploitation status">
+    <button type="button" data-vfilter="all" aria-pressed="true">All</button>
+    <button type="button" data-vfilter="wild" aria-pressed="false">In the wild</button>
+    <button type="button" data-vfilter="none" aria-pressed="false">Not exploited / no PoC</button>
+    <button type="button" data-vfilter="verify" aria-pressed="false">Verify before acting</button>
+  </div>
+  <div class="vuln-tools">
+    <input type="search" id="vulnSearch" placeholder="Search — try “Ivanti”, “Fineract”, or a CVE number…" aria-label="Search vulnerability watchlist" />
+  </div>
+  <table id="vulnTable">
+    <thead><tr>
+      <th scope="col">CVE ID</th><th scope="col">CVSS</th><th scope="col">Affected product</th>
+      <th scope="col">Exploitation status</th><th scope="col">Relevance to finance</th>
+    </tr></thead>
+    <tbody>
+      <tr data-status="wild">
+        <td class="cve" data-l="CVE ID">CVE-2026-111357</td>
+        <td data-l="CVSS"><span class="score high">8.8</span> <span class="muted">— disputed: 7.0 in CVETodo (1 Nov); not reconciled in sources</span></td>
+        <td data-l="Affected product">Ivanti Connect Secure (25.1.1.2, 22.8R2.5; fixed in 25.1.1.3 / 22.8R2.6)</td>
+        <td data-l="Exploitation status"><span class="status wild">In the wild</span> — CISA KEV 30 Oct, chained with CVE-2026-104935 / 118527; forensic triage required; federal deadline was 2 Nov</td>
+        <td data-l="Relevance to finance">Edge VPN for remote and bank-branch access. A root foothold, plus theft of AD, LAPS and BitLocker credentials, threatens the identity systems of any financial firm on Connect Secure</td>
+      </tr>
+      <tr data-status="wild">
+        <td class="cve" data-l="CVE ID">CVE-2026-118527</td>
+        <td data-l="CVSS"><span class="score med">4.3</span></td>
+        <td data-l="Affected product">Ivanti Connect Secure (same builds as above)</td>
+        <td data-l="Exploitation status"><span class="status wild">In the wild (chained)</span> — CISA KEV 30 Oct; authenticated predictable file upload (wu.cgi → /home/runtime/tmp/, MD5 filename, Perl race); federal deadline 13 Nov</td>
+        <td data-l="Relevance to finance">Same chain as above; the low standalone score understates the chained impact</td>
+      </tr>
+      <tr data-status="wild">
+        <td class="cve" data-l="CVE ID">CVE-2026-104935</td>
+        <td data-l="CVSS"><span class="score high">8.6</span></td>
+        <td data-l="Affected product">Ivanti Connect Secure (fixed in 13 Oct builds, then superseded)</td>
+        <td data-l="Exploitation status"><span class="status wild">In the wild</span> — auth bypass / RCE at the front of the chain; CISA KEV, federal deadline 16 Oct (passed)</td>
+        <td data-l="Relevance to finance">Entry point for the Ivanti chain above</td>
+      </tr>
+      <tr data-status="wild">
+        <td class="cve" data-l="CVE ID">CVE-2026-110936</td>
+        <td data-l="CVSS"><span class="score high">8.4</span> <span class="muted">(CVSS v4.0) / 6.7 (v3.1) — both published, different scoring versions</span></td>
+        <td data-l="Affected product">Siemens Software Center (&lt; V4.0.9.8)</td>
+        <td data-l="Exploitation status"><span class="status wild">In the wild</span> — CISA KEV 20 Oct; exploited via the Romulus ClickFix campaign (malicious DLL beside the genuine signed Software Center); federal deadline <b>today, 3 Nov</b>; ransomware use unknown</td>
+        <td data-l="Relevance to finance">Indirect. This is not a core-banking product. Act first only where Software Center is installed. The wider lesson is the method: a malicious DLL beside a genuine signed tool, delivered by ClickFix. That method can be reused against bank workstations</td>
+      </tr>
+      <tr data-status="wild">
+        <td class="cve" data-l="CVE ID">CVE-2026-97229</td>
+        <td data-l="CVSS"><span class="score crit">10.0</span></td>
+        <td data-l="Affected product">GitLab CE/EE (19.2 &lt;19.2.8, 19.3 &lt;19.3.5, 19.4 &lt;19.4.2)</td>
+        <td data-l="Exploitation status"><span class="status wild">In the wild</span> — CISA KEV; unauthenticated RCE in CI/CD (regex validation); Alpine Linux targeted 20–21 Oct, worker crashes, full rebuild after log gaps</td>
+        <td data-l="Relevance to finance">DevOps and CI supply chain for fintech and bank engineering teams. A GitLab RCE is a path to code and secrets. It is not only a dev-tool bug</td>
+      </tr>
+      <tr data-status="wild">
+        <td class="cve" data-l="CVE ID">CVE-2026-76418</td>
+        <td data-l="CVSS"><span class="score high">8.6</span></td>
+        <td data-l="Affected product">Cisco Secure Firewall ASA / FTD</td>
+        <td data-l="Exploitation status"><span class="status wild">In the wild</span> — CISA KEV 29 Oct (per VECTR-CAST); unchecked return value → NULL dereference, unauthenticated remote DoS (restart)</td>
+        <td data-l="Relevance to finance">Edge firewall availability for branches, payment and VPN paths; DoS-only, not RCE, per reporting</td>
+      </tr>
+      <tr data-status="verify">
+        <td class="cve" data-l="CVE ID">CVE-2026-41709</td>
+        <td data-l="CVSS"><span class="score high">8.8</span></td>
+        <td data-l="Affected product">VMware ESXi 8.0 / 9.0, VMware Cloud Foundation (per a single source)</td>
+        <td data-l="Exploitation status"><span class="status verify">Unconfirmed</span> — claimed KEV addition on 2 Nov from a single low-authority source only (logging-evasion / hostd desynchronisation; alleged Warp Panda / UNC5221 use). Verify against CISA KEV before acting</td>
+        <td data-l="Relevance to finance">If true, hiding hypervisor logs and reading guest disks would threaten virtualised core and payment systems. Critique: one low-authority source is not enough. Do not treat this as confirmed</td>
+      </tr>
+      <tr data-status="none">
+        <td class="cve" data-l="CVE ID">CVE-2026-64618</td>
+        <td data-l="CVSS"><span class="score crit">9.8</span> <span class="muted">(secondary source; the Apache advisory itself gives no CVSS and rates severity “important”)</span></td>
+        <td data-l="Affected product">Apache Fineract through 1.15.0 (fixed in 1.16.1) — advanced search API <span style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem">/fineract-provider/api/v1/search/advance</span>, outStandingAmountPercentageCondition</td>
+        <td data-l="Exploitation status"><span class="status none">Not exploited / no PoC</span> — per the SecurityOnline 2 Nov roundup</td>
+        <td data-l="Relevance to finance"><b>Direct:</b> Fineract is a core and digital-banking platform. SQL injection in loan search could expose or change financial records, if the system is exposed to the internet or to a wide internal network. Critique: the 9.8 score comes from a secondary source. Apache itself gives no score and calls the flaw “important”. Serious does not yet mean exploited — no use was recorded</td>
+      </tr>
+      <tr data-status="none">
+        <td class="cve" data-l="CVE ID">CVE-2026-65874</td>
+        <td data-l="CVSS"><span class="score high">8.8</span></td>
+        <td data-l="Affected product">Apache Fineract ≤1.15.0 (fixed in 1.16.1) — Center / datatable endpoints, ORDER BY SQLi (authenticated read access, regex bypass)</td>
+        <td data-l="Exploitation status"><span class="status none">Not exploited / no PoC</span> — per the same roundup</td>
+        <td data-l="Relevance to finance">Direct, same as above</td>
+      </tr>
+      <tr data-status="none">
+        <td class="cve" data-l="CVE ID">CVE-2026-89774</td>
+        <td data-l="CVSS"><span class="score high">8.8</span></td>
+        <td data-l="Affected product">Android kernel Bluetooth (SCO) — Android 14–17</td>
+        <td data-l="Exploitation status"><span class="status none">Not exploited</span> — November bulletin; no exploitation flagged, no confirmed PoC</td>
+        <td data-l="Relevance to finance">Mobile-banking fleet: Bluetooth kernel flaw on staff/customer devices; patch via the 2026-11-05 patch level</td>
+      </tr>
+      <tr data-status="none">
+        <td class="cve" data-l="CVE ID">CVE-2026-55275 / 55283 / 58984</td>
+        <td data-l="CVSS"><span class="score high">8.4</span> <span class="muted">each</span></td>
+        <td data-l="Affected product">Android System (55275: Android 16+; remote/local privilege escalation)</td>
+        <td data-l="Exploitation status"><span class="status none">Not exploited</span> — November bulletin</td>
+        <td data-l="Relevance to finance">Mobile-banking / BYOD privilege-escalation risk; no targeted exploitation flagged</td>
+      </tr>
+      <tr data-status="none">
+        <td class="cve" data-l="CVE ID">CVE-2026-58885</td>
+        <td data-l="CVSS"><span class="score high">8.4</span></td>
+        <td data-l="Affected product">Android (confused-deputy permission bypass, local privilege escalation, no user interaction)</td>
+        <td data-l="Exploitation status"><span class="status none">Not exploited</span>, not in KEV</td>
+        <td data-l="Relevance to finance">Same mobile-fleet relevance</td>
+      </tr>
+      <tr data-status="none">
+        <td class="cve" data-l="CVE ID">CVE-2026-58882 (“SMS of Death”)</td>
+        <td data-l="CVSS"><span class="muted">Not scored in sources found</span></td>
+        <td data-l="Affected product">Android telephony framework, Android 12+ (Pixel / Galaxy reported); WAP Push background processing</td>
+        <td data-l="Exploitation status"><span class="status none">PoC published 29 Oct (pre-window)</span>; patch in Oct/Nov updates for Android 14+; older unpatched devices remain exposed</td>
+        <td data-l="Relevance to finance">Mobile availability risk for banking customers and staff: signal loss or a bootloop after about 20 rapid messages. On the evidence found, this is <b>not</b> a credential-theft route. Do not present it as one</td>
+      </tr>
+      <tr data-status="none">
+        <td class="cve" data-l="CVE ID">CVE-2026-103310</td>
+        <td data-l="CVSS"><span class="score med">5.3</span></td>
+        <td data-l="Affected product">PayHere Payment Gateway WordPress plugin 2.4.0–2.4.5 (merchant secret unset by default)</td>
+        <td data-l="Exploitation status"><span class="status none">Not assessed</span> — published 2 Nov; unauthenticated forged payment notifications can mark orders paid without payment</td>
+        <td data-l="Relevance to finance">Payments: relevant only where this plugin fronts a merchant checkout; not a core SWIFT / bank-gateway flaw</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="count-note" id="vulnCount">Showing all 14 watchlist rows.</p>
+  <p class="small muted"><b>Bulletin totals, for triage:</b> the Android November bulletin has 216 fixes, 23 of them critical (65 Framework, 53 System, 30 MediaTek). They sit across patch levels 2026-11-01 (119 fixes) and 2026-11-05 (97 kernel and chipset fixes). The 2026-11-05 level covers the bulletin. Critique: a fix count is not a risk ranking. Most of these flaws have no reported use. The Apache 2 Nov roundup also covers Syncope identity flaws (including CVE-2026-113687, a sandbox escape, reported 2 Nov 22:05) and Arrow Rust CVE-2026-111959. The Syncope scores could not be verified from the snippet, so they are not shown as single rows.</p>
+</section>
+
+<section aria-labelledby="supply-h">
+  <div class="sec-head">
+    <h2 id="supply-h">Supply chain &amp; third-party risk</h2>
+    <p>The problem is often at the vendor, not the bank. A service coming back is not the same as an answer on cause or exposure.</p>
+  </div>
+  <div class="panels">
+    <div class="panel">
+      <h3>Abrigo / Sageworks — restored, unconfirmed</h3>
+      <p>Sageworks was taken offline on 30 Oct after “irregular activity”. It was partly restored on 2 Nov (reported 2 Nov 14:00 ET by BleepingComputer). More than 2,400 US banks and credit unions were affected. Borrower-facing features were still down. Critique: Abrigo called this “irregular activity”, not a breach. That wording leaves the main question open: was data taken, or not? There is <b>no breach confirmation</b> for the outage. No link has been shown to the earlier ShinyHunters claim of 1.7m Salesforce records taken from Abrigo. Researchers advise rotating Sageworks API keys as a precaution.</p>
+    </div>
+    <div class="panel">
+      <h3>AU Small Finance Bank — claim still unverified</h3>
+      <p>The bank said on 2 Nov that it is investigating a possible leak on a Salesforce-hosted SaaS platform. It says core systems are unaffected and services are normal. Salesforce said it found no flaw at its end. Critique: “core systems are unaffected” does not rule out a leak from the hosted platform. The ScarlettGroup claim — KYC, PAN/Aadhaar, bank statements, CIBIL reports, loan agreements — remains <b>unconfirmed</b>. So do the customer count and whether the Salesforce platform is the source.</p>
+    </div>
+    <div class="panel">
+      <h3>CTOS — services restored</h3>
+      <p>CTOS restored credit-reporting services after a cybersecurity breach. This was reported on 2 Nov (BursaKL). Critique: the report gives no detail on what was exposed. Restoration alone does not answer that question.</p>
+    </div>
+    <div class="panel">
+      <h3>Spandana Sphoorty — status update only</h3>
+      <p>Business Standard (2 Nov 13:31 IST) adds detail. The ~₹7.8 crore in unauthorised transfers on 1 Nov went to <b>82 beneficiary accounts</b>. Services were stopped. A complaint was lodged on 1 Nov. A cyber-fraud insurance claim is being filed. Critique: a claim being filed is not a claim accepted or paid. It should not be read as “no loss”. <b>No recovery, reversal, or freeze was confirmed in this window.</b> This item was in the Monday briefing. It is not new.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="fraud-h">
+  <div class="sec-head">
+    <h2 id="fraud-h">Emerging fraud &amp; attack vectors</h2>
+  </div>
+  <div class="panels">
+    <div class="panel">
+      <h3>Fake Binance “$150 compensation” scams</h3>
+      <p>Fake “$150 compensation” screenshots are circulating. So are “check your reward hub” and claim links. They use the Binance incident as a lure. Binance states <b>no cash-voucher campaign is running</b>. Proposed community rewards were still waiting for regulatory approval at 1 Nov. Critique: the scam's claim is false on Binance's own statement. Warn customers through official channels only. Do not repeat the claim links.</p>
+    </div>
+    <div class="panel">
+      <h3>Mule-account laundering — Assam, India</h3>
+      <p>Six arrests were made on 28–30 Oct and reported on 2 Nov. The network operated across states for about 2 years. It included an SBI account. Money was credited, then withdrawn quickly, over 47 days (22 Jun – 5 Aug 2026). “Several crores” were allegedly siphoned. Critique: these are police claims at arrest stage. The suspected Pakistan-intelligence link is under probe only.</p>
+    </div>
+    <div class="panel">
+      <h3>DDoS — multi-day attacks are the planning case</h3>
+      <p>Qrator reporting (2 Nov) describes a Cyprus bank hit by a <b>200-hour DDoS attack in Q3 2026</b>. Fintech accounted for 31.3% of Q3 DDoS. Critique: these are one vendor's figures for one quarter. They are a reason to plan for multi-day attacks, not a measure of any one bank's risk. The practical point stands: test multi-day DDoS plans and keep DORA-aligned resilience evidence. Do not plan for a single day only.</p>
+    </div>
+    <div class="panel">
+      <h3>CyberDakait mobile trojans — context, not new</h3>
+      <p>A 3 Nov Netcrook republication is recirculating an older Group-IB report, dated 28 Oct. It lists 7 families (GhostBat/GhostGrab, cyb3rx, appkjl, godz, d-passive, d-shine, tenxen), 17,960 devices, 7,611,443 SMS intercepted, 11 Indian banks and 2 government programmes impersonated, APKs via phishing and GitHub, and Firebase/Telegram C2. Critique: republication is not new activity. <b>This is not a new 24-hour item.</b> It is included only because it is recirculating.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="ioc-h">
+  <div class="sec-head">
+    <h2 id="ioc-h">Indicators &amp; defensive actions</h2>
+    <p>Only indicators the sources actually published are listed. Where no technical indicators were published, that gap is stated. It is not filled in.</p>
+  </div>
+
+  <div class="ioc">
+    <h3>Notable IOCs &amp; behavioural indicators</h3>
+    <ul>
+      <li><b>Binance / TraderTraitor (FBI, 31 Oct, republished 2 Nov):</b> 628 wallet addresses to block — 608 Ethereum, 19 Bitcoin, 1 Solana. Stolen funds were converted mostly to ETH. Onward laundering via DeFi and instant-swap services is expected. Screen deposits, withdrawals and any counterparty that touches these addresses. Note: a freeze is not a return of funds.</li>
+      <li><b>Mercado Bitcoin:</b> no wallet addresses, hashes, or domains were published in the Chainalysis blog excerpt found. The only indicator is behaviour: a multi-chain drain “in waves”, largest in BTC/ETH, then Base/Tron/Polygon. Critique: without addresses, there is nothing to block from this source. The useful window is the first hours, when stablecoin issuers can still freeze funds. Prioritise issuer and law-enforcement escalation over address lists that were not published.</li>
+      <li><b>Ivanti chain:</b> hunt for <span class="mono">wu.cgi</span> uploads in <span class="mono">/home/runtime/tmp/</span> under MD5-named files, Perl execution racing deletion, <span class="mono">dsinvoked</span> config-trust abuse, AD queries for LAPS passwords and BitLocker recovery keys, and any Connect Secure appliance still on ≤25.1.1.2 / ≤22.8R2.5 (or 25.1.2.2 per VECTR-CAST). A clean Integrity Checker result does <b>not</b> clear an appliance.</li>
+      <li><b>Akira / Pear / Settra:</b> no hashes, IPs, or domains were in the leak-tracker sources found. The only indicators are the leak claims themselves (130 GB pending for Princeton; wire amounts and trial-balance totals for Kingdom Title). Use them to scope exposure — were those records in the claimed set? Do not treat them as technical indicators.</li>
+      <li><b>Fraud:</b> fake Binance “$150 compensation” screenshots and “check your reward hub” / claim links. Assam mule pattern: money is credited, then withdrawn quickly, in the same account, over weeks.</li>
+      <li><b>Sageworks / Salesforce third-party:</b> no indicators were published. The only signal is behaviour: a vendor “irregular activity” shutdown (30 Oct), a partial restoration (2 Nov), and no breach confirmation. Use vendor status pages and API-key rotation as the control. Do not wait for a vendor indicator feed that does not exist here.</li>
+    </ul>
+  </div>
+
+  <h3 style="margin:20px 0 10px">Prioritised actions — SOC</h3>
+  <ol class="actions">
+    <li>Block or screen the FBI's 628 TraderTraitor addresses. Alert on any ETH-conversion or DeFi-swap pattern that touches Binance- or Mercado-related flows. Warn customers about the fake-$150 scam through official channels only. Do not repeat the claim links.</li>
+    <li>Hunt the Ivanti and Siemens estates today. Confirm every Connect Secure node is on 25.1.1.3 / 22.8R2.6. Also complete forensic triage for CVE-2026-111357. The deadline has passed, and patching alone does not close the question. Confirm Siemens Software Center ≥ V4.0.9.8 (due today). Check ClickFix and DLL-sideloading detections.</li>
+    <li>Treat Abrigo/Sageworks and Salesforce-hosted loan platforms as exposed until the vendor proves otherwise. Rotate Sageworks API keys. Review vendor-access logs and the data shared with the platform. Ask Abrigo and Salesforce for written scope: which fields, which customers, and whether data was taken — yes or no. Do not close the item on “services restored”.</li>
+    <li>Raise helpdesk and identity controls. This is the Scattered-Spider-style pattern. No new incident is needed to justify it. Check self-service password resets for executives, Azure Global Admin grants, Veeam service-account resets, and lookalike domains that imitate the bank.</li>
+    <li>Test DDoS readiness for more than one day. The Cyprus bank faced a 200-hour attack in Q3. Fintech took 31.3% of Q3 DDoS (Qrator). Keep tested, multi-day plans and DORA-aligned resilience evidence.</li>
+  </ol>
+
+  <h3 style="margin:22px 0 10px">Prioritised actions — Vulnerability Management</h3>
+  <ol class="actions">
+    <li><b>Today:</b> Ivanti 25.1.1.3 / 22.8R2.6, plus forensic triage. Siemens ≥ V4.0.9.8. GitLab to 19.2.8 / 19.3.5 / 19.4.2. Also check custom container images. They can drop required patches, as in the Alpine Linux case.</li>
+    <li><b>This week:</b> Cisco ASA/FTD for CVE-2026-76418 (DoS only, per reporting — do not treat it as RCE). Apache Fineract to 1.16.1 (both SQLi CVEs) and Syncope upgrades. Android fleet to the 2026-11-05 patch level (or the latest OEM build, plus Play system updates for Media and Codecs).</li>
+    <li><b>Verify before emergency change:</b> VMware CVE-2026-41709. Check CISA KEV and Broadcom VMSA-2026-0006.1 first. Do not cite the single-source claim as fact.</li>
+    <li><b>Watch. Do not yet close:</b> Binance's full ZK proof-of-reserves (due 3 Nov UTC). Re-check after the UTC day ends. Check that it covers balances after the 1 Nov withdrawals, not only the 31 Oct snapshot. Also watch: Abrigo's root-cause statement, the AU SFB investigation scope, and Mercado Bitcoin's reopening and final loss figure (Chainalysis ~$49m vs the exchange's ~$38m — still unreconciled).</li>
+  </ol>
+</section>
+
+<section aria-labelledby="unv-h">
+  <div class="sec-head"><h2 id="unv-h">Could not verify</h2></div>
+  <div class="unverified">
+    <ul>
+      <li>No new FIN7/Carbanak, LockBit, RansomHub, Cl0p, or bank-IAB reporting dated 2–3 Nov was found. Absence in search is not proof of inactivity.</li>
+      <li>No wallet addresses, hashes, or domains for Mercado Bitcoin, Akira/Princeton, Pear/Neiman, or Settra/Kingdom Title were published in the sources found. Without them, those items cannot be blocked or hunted as technical indicators.</li>
+      <li>No victim confirmation was found for Princeton Management, Neiman &amp; Company, or Kingdom Title (beyond leak posts). None was found for AU Small Finance Bank (beyond its investigation statement) or Abrigo (beyond “irregular activity”).</li>
+      <li>Binance's full ZK proof-of-reserves was not confirmed as published by the 10:45 SGT cutoff. No Siemens completion proof was found. No Ivanti post-deadline compliance statement was found. In each case, “not found” means not found in this window. It does not mean it does not exist.</li>
+      <li>Score conflicts are left open, not resolved: Ivanti CVE-2026-111357 (8.8 vs 7.0), Siemens CVE-2026-110936 (8.4 in v4 vs 6.7 in v3.1), Fineract CVE-2026-64618 (9.8 from a secondary source vs Apache “important”, with no CVSS).</li>
+      <li>Single-source claims from low-authority sites — notably VMware CVE-2026-41709 — are marked unconfirmed. They are not adopted as fact.</li>
+    </ul>
+  </div>
+</section>
+
+<section aria-labelledby="src-h">
+  <div class="sec-head"><h2 id="src-h">Sources</h2></div>
+  <ul class="sources">
+    <li>Binance — FBI attribution, scams, withdrawals: <a href="https://www.helpnetsecurity.com/2026/11/02/fbi-north-korea-binance-hack/">helpnetsecurity.com</a> (2 Nov 2026)</li>
+    <li>Binance — outflows / proof-of-reserves expectation: <a href="https://www.tbsnews.net/world/global-economy/binance-faces-364b-net-outflows-after-record-63b-cyber-heist-1589971">tbsnews.net</a> (2 Nov) · <a href="https://news.bitcoin.com/exchanges/binance-sheds-15-7b-proof-of-reserves-tuesday/">news.bitcoin.com</a> (2 Nov) · <a href="https://feld.com/archives/2026/11/binance-hack-update/">feld.com</a></li>
+    <li>North Korea denial: <a href="https://www.businesstimes.com.sg/companies-markets/banking-finance/north-korea-says-us-allegations-linking-it-binance-heist-are-absurd-rhetoric-kcna-says">businesstimes.com.sg</a> (3 Nov 09:00 SGT) · <a href="https://thursdaytimes.com/2026/11/03/news/international/north-korea-kim-yo-jong-denies-binance-hack-absurd/">thursdaytimes.com</a> (3 Nov)</li>
+    <li>Mercado Bitcoin: <a href="https://www.chainalysis.com/blog/chainalysis-response-mercado-bitcoin/">chainalysis.com</a> (2 Nov 22:59 UTC) · <a href="https://thedefiant.io/news/hacks/chainalysis-puts-mercado-bitcoin-hack-at-49-million-across-17-chains">thedefiant.io</a> (3 Nov 00:56 UTC)</li>
+    <li>Ivanti: <a href="https://www.helpnetsecurity.com/2026/11/02/cisa-to-federal-agencies-remediate-exploited-ivanti-connect-secure-vulnerabilities-cve-2026-111357-cve-2026-118527/">helpnetsecurity.com</a> (2 Nov) · <a href="https://www.scworld.com/brief/cisa-adds-ivanti-connect-secure-vulnerabilities-to-known-exploited-catalog">scworld.com</a> (2 Nov) · <a href="https://hol.org/blog/cve-2026-111357-ivanti-connect-secure-root-escalation-cisa-kev">hol.org</a></li>
+    <li>Siemens: <a href="https://infosecsignals.com/cves/CVE-2026-110936">infosecsignals.com</a> (updated 2 Nov 19:30 ET) · <a href="https://cve.threatint.com/CVE/CVE-2026-110936">cve.threatint.com</a></li>
+    <li>Android November bulletin: <a href="https://securityonline.info/android-security-update-november-2026/">securityonline.info</a> (3 Nov 01:45 UTC) · <a href="https://source.android.com/docs/security/bulletin/asb-overview">source.android.com</a> (bulletin index; Nov 2026 published 2 Nov)</li>
+    <li>GitLab / Cisco KEV: <a href="https://dev.to/tmgsvn/cisa-adds-exploited-gitlab-and-cisco-vulnerabilities-to-kev-4f79">dev.to</a> (2 Nov 03:35 UTC) · <a href="https://cyberwarrior76.substack.com/p/vectr-cast-14-day-cyber-threat-forecast-167">VECTR-CAST, Substack</a> (2 Nov)</li>
+    <li>Apache (Fineract / Syncope): <a href="https://securityonline.info/apache-security-vulnerabilities-syncope-fineract/">securityonline.info</a> (2 Nov roundup) · <a href="https://www.openwall.com/lists/oss-security/2026/10/30/4">openwall.com — Fineract advisory</a> (30 Oct)</li>
+    <li>VMware (unconfirmed, single source): <a href="https://sh3llc0d3.com/blog/broadcom-vmware-esxi-zero-day-logging-evasion-added-to-cisa-kev-inside-china-nexus-warp-panda-and-the-hypervisor-audit-suppression-tactic-cve-2026-41709/">sh3llc0d3.com</a></li>
+    <li>Ransomware listings: <a href="https://cyberthreatintelligence.net/ransomware-victim/princeton-management-akira-2026">Akira / Princeton Management</a> · <a href="https://cyberthreatintelligence.net/ransomware-victim/neiman-company-inc-pear-2026">Pear / Neiman &amp; Company</a> · <a href="https://qpulse.quasarcybertech.com/news/7705/settra-ransomware-group-targets-kingdom-title-exposes-financial-and-personal-data">Settra / Kingdom Title</a></li>
+    <li>Abrigo / Sageworks: <a href="https://www.bleepingcomputer.com/news/security/fintech-platform-sageworks-taken-offline-after-suspected-cyberattack/">bleepingcomputer.com</a> (2 Nov 14:00 ET)</li>
+    <li>AU Small Finance Bank: <a href="https://www.freepressjournal.in/tech/our-systems-are-unaffected-au-small-finance-bank-probes-potential-data-leak-on-salesforce-platform">freepressjournal.in</a> (2 Nov 11:49 IST)</li>
+    <li>CTOS: <a href="https://bursakl.com/news/ctos-restores-credit-reporting-services-after-cybersecurity-breach/n985">bursakl.com</a> (2 Nov)</li>
+    <li>Cyprus DDoS (Qrator): <a href="https://www.kiprinform.com/en/news/qrator-labs-cyprus-bank-hit-by-200-hour-ddos-attack-in-third-quarter-of-2026/">kiprinform.com</a> (2 Nov)</li>
+    <li>Assam mule fraud: <a href="https://www.freepressjournal.in/amp/india/assam-police-arrest-6-in-multi-crore-financial-fraud-case-probe-suspected-links-to-pakistani-intelligence-agencies">freepressjournal.in</a> (2 Nov)</li>
+    <li>Spandana Sphoorty status update: <a href="https://www.business-standard.com/amp/industry/news/spandana-sphoorty-financial-reports-rs-7-8-crore-cyber-fraud-126110200590_1.html">business-standard.com</a> (2 Nov)</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Tuesday BFSI Cyber Threat Intelligence Briefing · Reporting window 2 November ~10:45 SGT to 3 November 2026, 10:45 SGT. Figures are as reported by the sources cited, at the close of the window. Disputed and unverified items are labelled where they appear. They are not resolved here. A leak-site listing is not proof of a breach, of encryption, or of data theft.</p>
+</footer>
+
+</div>
+<script>
+(function(){
+  // Actor card filter
+  var actorBtns = document.querySelectorAll('[data-filter]');
+  var cards = document.querySelectorAll('#actorGrid .actor');
+  actorBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      actorBtns.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+      var f = btn.getAttribute('data-filter');
+      cards.forEach(function(card){
+        var cats = (card.getAttribute('data-cat')||'').split(' ');
+        card.style.display = (f==='all' || cats.indexOf(f) !== -1) ? '' : 'none';
+      });
+    });
+  });
+  // Vulnerability filter + search
+  var vulnBtns = document.querySelectorAll('[data-vfilter]');
+  var rows = document.querySelectorAll('#vulnTable tbody tr');
+  var search = document.getElementById('vulnSearch');
+  var count = document.getElementById('vulnCount');
+  var activeFilter = 'all';
+  function applyVuln(){
+    var q = (search.value || '').trim().toLowerCase();
+    var shown = 0;
+    rows.forEach(function(row){
+      var statusOk = (activeFilter==='all' || row.getAttribute('data-status')===activeFilter);
+      var textOk = (!q || row.textContent.toLowerCase().indexOf(q) !== -1);
+      var vis = statusOk && textOk;
+      row.style.display = vis ? '' : 'none';
+      if (vis) shown++;
+    });
+    count.textContent = shown === rows.length
+      ? 'Showing all ' + rows.length + ' watchlist rows.'
+      : 'Showing ' + shown + ' of ' + rows.length + ' watchlist rows.';
+  }
+  vulnBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      vulnBtns.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+      activeFilter = btn.getAttribute('data-vfilter');
+      applyVuln();
+    });
+  });
+  search.addEventListener('input', applyVuln);
+})();
+</script>
+</body>
+</html>
