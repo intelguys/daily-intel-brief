@@ -419,8 +419,47 @@
     .toc { display: none; }
   }
 </style>
+
+<style>
+/* Visual refresh, 4 Nov 2026 — presentation only. No content, table or figure was changed.
+   All colours come from the page's own --bg/--surface/--rule/--accent/--crit/--warn/--ok variables,
+   so the light and dark themes keep working exactly as before. */
+.reading-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 10001; background: transparent; }
+.reading-progress span { display: block; height: 100%; width: 0; background: var(--accent); }
+/* Sticky contents on desktop; static on mobile so it never eats the screen. */
+.toc { position: sticky; top: 3px; z-index: 100; box-shadow: 0 10px 28px rgba(0,0,0,.10); }
+@media (max-width: 700px) { .toc { position: static; box-shadow: none; } }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+/* Section rhythm: a clear divider between sections, and anchor jumps clear the sticky TOC. */
+section { scroll-margin-top: 150px; }
+section + section { border-top: 1px solid var(--rule); padding-top: 28px; }
+section > p { margin-bottom: 14px; }
+.to-contents { margin-top: 24px; font-size: 13px; }
+.to-contents a { color: var(--muted); text-decoration: none; }
+.to-contents a:hover { text-decoration: underline; color: var(--accent); }
+/* Status board: tiles become cards with air between them, instead of a 1px grid. */
+.board { gap: 12px; background: transparent; border: none; }
+.tile { border: 1px solid var(--rule); border-radius: 8px; }
+.tile .v { font-size: 1.6rem; }
+/* Tables: sticky headers inside their scroll containers, zebra rows, roomier cells. */
+.scroll table th { position: sticky; top: 0; background: var(--surface-2); z-index: 1; }
+.scroll table th, .scroll table td { padding: 10px 12px; }
+.scroll tbody tr:nth-child(even) td { background: var(--surface-2); }
+/* Callouts: a stronger accent edge and a soft shadow, severity colours unchanged. */
+.callout { border-left-width: 5px; border-radius: 6px; box-shadow: 0 2px 14px rgba(0,0,0,.06); }
+/* Timeline: a vertical accent rail, and the date in accent colour. */
+.timeline li { border-left: 3px solid var(--accent); padding-left: 16px; }
+.timeline .t { color: var(--accent); font-weight: 600; }
+/* Collapsible reference sections: open by default, summary is the collapse control. */
+.ref-details summary { cursor: pointer; color: var(--muted); font-size: 13px; margin: 12px 0; }
+.ref-details summary:hover { color: var(--accent); }
+/* Masthead: tighter headline tracking, nothing else changed. */
+.masthead h1 { letter-spacing: -0.02em; }
+</style>
 </head>
 <body>
+<div class="reading-progress" aria-hidden="true"><span id="reading-progress-fill"></span></div>
 
 <div class="wrap">
 
@@ -456,7 +495,7 @@
     </ol>
   </div>
 
-  <nav class="toc" aria-label="Contents">
+  <nav class="toc" id="toc" aria-label="Contents">
     <div class="toc-col">
       <p class="toc-h">Act now</p>
       <a href="#action-plan">Action plan</a>
@@ -465,7 +504,7 @@
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#update-28">Update, 28&nbsp;Oct</a>
+      <a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
       <a href="#situation">Confirmed &mdash; and withdrawn</a>
       <a href="#attribution">Attribution</a>
       <a href="#exploitation-status">Exploitation status</a>
@@ -563,7 +602,7 @@
         </tbody>
       </table>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
 <section id="update-04-nov">
 <p class="eyebrow">Update &middot; 4 November</p>
@@ -612,7 +651,7 @@
 <li><strong>BFSI, honestly thin:</strong> no named bank or payment breach attributed to PHP2Shell was found to 4 November. Plausible exposure is perimeter PHP (marketing/onboarding portals, vendor platforms, PHP e-commerce checkouts) and stolen API or payment-partner keys outliving the patch. Precautionary shutdowns (not breaches) were reported for Dutch, Finnish and Belgian government sites.</li>
 </ul>
 <p>Sources: <a href="https://security.paloaltonetworks.com/CVE-2026-109618" target="_blank" rel="noopener noreferrer">Palo Alto CVE-2026-109618 advisory</a> · <a href="https://www.csa.gov.sg/alerts-and-advisories/alerts/al-2026-157/" target="_blank" rel="noopener noreferrer">CSA Singapore AL-2026-157</a> · <a href="https://www.securityweek.com/php2shell-attacks-root-palo-alto-firewalls-but-fail-against-wordpress/" target="_blank" rel="noopener noreferrer">SecurityWeek, PHP2Shell attacks</a> · <a href="https://www.channelnewsasia.com/singapore/php-flaw-exploitation-mddi-6519861" target="_blank" rel="noopener noreferrer">Channel News Asia, Singapore Parliament</a> · <a href="https://securityonline.info/php2shell-affected-products-list/" target="_blank" rel="noopener noreferrer">NCSC inventory summary</a></p>
-</section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
 
 
@@ -680,7 +719,7 @@
       <li><strong>NCSC-NL</strong>: 757 products tracked, 218 vulnerable / 144 fixed.</li>
       <li><strong>Status</strong>: NVD both <em>Analyzed</em>, EPSS <strong>0.99999</strong> unchanged; no PHP source release after 21 Oct (the 26 Oct Windows rebuilds are Brotli fixes); <code>CVE-2026-115560</code> still has <strong>no record</strong> in either registry.</li>
     </ul>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="update-28">
     <p class="eyebrow">Update &middot; 28 October</p>
@@ -744,7 +783,7 @@
 
     <h3>Detection content moved</h3>
     <p><a href="https://github.com/corelight/php2shell-detect" target="_blank" rel="noopener noreferrer">corelight/php2shell-detect</a> was pushed again on <strong>28 October 02:08 UTC</strong> and now ships both Zeek notices (<code>PHP_Crash_Sequence</code>, <code>Multipart_Header_Flood</code>, <code>Large_Form_Key</code>, the serialized-collision family) and Suricata rules <strong>SIDs 3000650&ndash;3000652</strong> (POST body marker, response version header, phpinfo response body). CISA&rsquo;s SIGMA rule <code>261429</code> has not changed since 23 October.</p>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="situation">
     <p class="eyebrow">Update &middot; 26 October</p>
@@ -790,7 +829,7 @@
     <p>PHP published an <strong>informational advisory on 23 October</strong> for a third remote-code-execution path in the same feature area. The conditions are narrow and cumulative: an application must set <code>session.serialize_handler</code> to <code>php_binary</code> or <code>php_serialize</code> in configuration, then <strong>switch it to <code>php</code> at runtime with <code>ini_set()</code> before <code>session_start()</code></strong>, with <code>session.upload_progress</code> still enabled. The underlying hazard is old &mdash; PHP bug #71101 (2015), which warns that the serialize handler must not be switched for existing sessions.</p>
     <p>PHP Foundation executive director Elizabeth Barron: the flaw <em>&ldquo;requires a very unlikely combination of configuration and specific PHP application code&rdquo;</em> and <em>&ldquo;we do not expect to occur in practical use of PHP&rdquo;</em>. It is being held for the regular release cycle rather than an emergency fix, and will get a full advisory with the next bugfix release. <strong>Verified 26 October: no NVD record exists, and no PHP release has shipped since 21 October</strong> &mdash; 8.5.12, 8.4.27, 8.3.36 and 8.2.35 remain the newest on every branch. No exploitation reported.</p>
     <p>The practical consequence is one line: <strong>do not remove <code>session.upload_progress.enabled=0</code> after patching.</strong> It is the entire published mitigation for 115560, and Rapid7&rsquo;s ordering rule still applies &mdash; it must be set before request parsing, in <code>php.ini</code>, the FPM pool or the server config, and every worker restarted. <code>ini_set()</code> and <code>.user.ini</code> remain too late.</p>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="exploitation-status">
     <p class="eyebrow">Exploitation status</p>
@@ -820,7 +859,7 @@
       <p>Six sensors seeing attempts is strong evidence that scanning and PoC replay are widespread. As of 23 October it was <em>not</em> evidence of a working exploit in general circulation. As of 24 October it partly is: the honeypot capture proves public-class tooling reaches a shell, <strong>but only on targets matching the exploit&rsquo;s preconditions</strong> &mdash; one worker, low <code>memory_limit</code>, <code>session.upload_progress</code> on. The picture is therefore automated probing with working tooling against a population in which most production deployments do not match the profile. Success rate against <em>real</em> estates remains unknown, and Hunt.io&rsquo;s 123-target sample with zero successes is the best available lower bound on how hard this is.</p>
       <p>The earlier unsourced claim from <em>The News</em> &mdash; that Cloudflare had confirmed active exploitation &mdash; has been overtaken by events and was, in substance, closer to right than the four negative trackers suggested. It was still wrong to carry on that evidence at the time. Volume of reporting is not the same as quality of evidence, but here the reporting arrived before the evidence.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="attribution">
     <p class="eyebrow">Attribution &middot; 26 October</p>
@@ -950,7 +989,7 @@
       <p><code>15.204.59.70</code> and <code>162.35.99.94</code> &mdash; the only two addresses with packet-to-process RCE evidence &mdash; appear <strong>nowhere</strong> in CYFIRMA&rsquo;s 54 indicators. In the other direction, not one of the 15 staging addresses has any exploitation evidence attached to it, from any sensor reviewed here.</p>
       <p>Either the vendor&rsquo;s HUMINT describes a different actor from the one the honeypots caught, or it describes the same actor&rsquo;s <em>planning and access</em> layer while hands-on exploitation ran from separate, unlisted hosts. <strong>The second is more likely and is far more useful</strong>: it predicts that the staging set will never show up in exploitation telemetry, so treating its absence there as a contradiction would be a category error. It also means a blocklist built from either set protects you against neither cleanly &mdash; patch, hunt process parentage, and search for webshells.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="earlier-update">
     <p class="eyebrow">Earlier update &middot; 23 October</p>
@@ -1024,7 +1063,7 @@
       </table>
     </div>
     <p class="note">One tension worth recording: AWS explicitly recommends investigating its six addresses rather than blocking them, while this brief grades four of the eleven as BLOCK. The disagreement is about collateral, not about whether the hosts behaved maliciously. We block individual addresses, never the netblock, and run provider engagement in parallel.</p>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="vendor-advisory">
     <p class="eyebrow">Vendor advisory</p>
@@ -1115,7 +1154,7 @@
       <p>On 21 October a Fediverse post stated the exploit &ldquo;still works on 8.5.12&rdquo;, and the author separately judged it &ldquo;a <em>different</em> vulnerability&hellip; this is another one&rdquo;. It reached <a href="https://www.openwall.com/lists/oss-security/2026/10/21/17" target="_blank" rel="noopener noreferrer">oss-security</a> with the caveat &ldquo;not yet fully confirmed&rdquo;, and a follow-up reported that Canonical had asked php.org and been told the issue was &ldquo;unrelated and not a real issue&rdquo;, with a request that PHP reconfirm publicly.</p>
       <p>As of 02:00 UTC on 22 October there is <strong>no PHP reply in the archive, no reproducer, and no technical detail</strong>. That is the whole of the evidence. It does not support treating 8.5.12 as vulnerable, and it does not justify closing the incident either. Re-check the oss-security thread before you write your post-incident review.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="detection">
     <p class="eyebrow">Detection and hunting</p>
@@ -1227,7 +1266,7 @@ find /var/lib/php/sessions -name 'sess_*' -mtime -1 -user www-data -type f</code
       <span class="label">Honest limitation</span>
       <p>All of the above is derived from lab write-ups and vendor guidance, not from observed intrusions. None of it has been validated against real adversary traffic, and none of it is a substitute for the vendor advisory landing at 14:00 UTC. Re-baseline the rules against the official root cause before promoting anything from observe to block.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="action-plan">
     <p class="eyebrow">Action plan</p>
@@ -1276,7 +1315,7 @@ find /var/lib/php/sessions -name 'sess_*' -mtime -1 -user www-data -type f</code
       <span class="label">If you can only do one thing today</span>
       <p>Find every host where PHP runs under <strong><code>mod_php</code></strong>. That is the SAPI the advisory calls highest risk and the only one where a complete exploit was demonstrated over HTTP on default settings. FPM was not fully exploited, but it was not cleared either — source analysis calls it susceptible. If your estate is FPM-only, your urgency is real but your exposure is one step lower than a prefork <code>mod_php</code> shop's.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="exposure">
     <p class="eyebrow">Exposure</p>
@@ -1354,8 +1393,8 @@ find /var/lib/php/sessions -name 'sess_*' -mtime -1 -user www-data -type f</code
       <li><strong>Retraction lag is a live misinformation mechanism.</strong> The Unit&nbsp;42 intrusion story propagated for roughly twelve hours before the correction, and social posts carrying the un-retracted version were still circulating a day later. The same happened on a smaller scale with Sophos on 22 October. On this incident, <strong>advisories moved faster than the conversation about them</strong>.</li>
       <li><strong>Collateral effects are showing up outside security reporting.</strong> A game project, SuperTuxKart, took its servers offline and is rebuilding in Python; the Internet Archive, Orange, ANA, Swiss host Cyon (&gt;100,000 sites) and 32 UK government services took precautionary action. This is the &ldquo;hundreds of websites&rdquo; claim from 21 October, now with named examples.</li>
     </ol>
-  </section>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="indicators">
     <p class="eyebrow">Indicators</p>
@@ -1464,7 +1503,7 @@ b6c547e0e9a2bb26607df1521de96f4d5c9adf4621c28b7ab491587b21ae40f2  B1  disclosure
       <p><strong>Prioritise two.</strong> <code>221.14.159.134</code> and <code>103.216.220.92</code> are the only addresses here recorded as <em>attempting exploitation</em> rather than scanning. Neither has a GreyNoise classification.</p>
       <p><strong>Hunt the artifacts, not the addresses.</strong> A session file named <code>sess_xqsuvwz3n97wu8j3emz1axuo5y</code>, a <code>PWNED::</code> response, or a <code>/php2shell-probe-*.php</code> request in your logs is worth more than the IP list &mdash; addresses rotate, the tool&rsquo;s grammar does not.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="exploit-availability">
     <p class="eyebrow">Exploit availability</p>
@@ -1594,7 +1633,7 @@ b6c547e0e9a2bb26607df1521de96f4d5c9adf4621c28b7ab491587b21ae40f2  B1  disclosure
     </div>
 
     <p>Separately, watchTowr says it reproduced CVE-2026-109618 internally and is withholding detail until patches ship. That is a second, independent confirmation that the vulnerability is real — but it has not published a proof of concept, and should not be counted as a public exploit.</p>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="poc-ecosystem">
     <p class="eyebrow">Exploit ecosystem &middot; scraped 2026-10-22</p>
@@ -1789,7 +1828,7 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
     </div>
 
     <p class="note">Denominator: 23 of 427 known artefacts (426 GitHub repositories plus one off-GitHub Gitea). The aligned / mislabelled split describes the reviewed set, not the whole population. Full method, per-repository raw READMEs and the scrape itself are retained in <code>poc-review/</code>, with the written addendum in <code>POC-REVIEW-2026-10-22.md</code>.</p>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="ttps">
     <p class="eyebrow">TTPs</p>
@@ -1852,7 +1891,7 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <span class="label">Correction to this brief</span>
       <p>The first version of this section listed nine ATT&amp;CK techniques as "expected". That was wrong in method: it merged exploit capability, generic vendor hunting advice and speculation into one table, and the ATT&amp;CK column implied adversary behaviour where none has been observed. The Windows and web-shell rows had no supporting evidence at all. Use the confirmed table above; treat the rest as hunting hypotheses only.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="procedure">
     <p class="eyebrow">Procedure level</p>
@@ -1894,7 +1933,7 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <span class="label">What is absent from every procedure</span>
       <p>No command-and-control, no lateral movement, no exfiltration, no credential dumping, and no persistence beyond a session file. None of it appears in either PoC, so none of it belongs in a TTP briefing.</p>
     </div>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="timeline">
     <p class="eyebrow">Timeline</p>
@@ -1938,11 +1977,13 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
         <div class="e"><strong>PHP security release — scheduled, not yet shipped.</strong> Full details, affected versions and fixed versions are promised with the release. This is the only authoritative source for root cause and CVE mapping. <span class="note">(<a href="https://www.php.net/archive/2026.php" target="_blank" rel="noopener noreferrer">php.net archive</a>)</span></div>
       </li>
     </ul>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="appendix-a">
     <p class="eyebrow">Appendix A · retired models</p>
     <h2>Five competing models — all of them wrong</h2>
+<details open class="ref-details"><summary>Appendix A — click to collapse</summary>
+
     <div class="callout crit">
       <span class="label">Read this before the models below</span>
       <p>This section is retained as an audit trail of what the public believed between 03:55 and 13:44 UTC. <strong>Every model in it is now retired against the vendor advisory</strong>, which locates both CVEs in bailout and stale-state handling rather than in the session handler, the unserializer's destructor list, or <code>zend_user_unserialize()</code>. The resolution table in the advisory section above shows verdict by verdict.</p>
@@ -2065,11 +2106,15 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <p><span class="chip chip-warn">But it is probably not either CVE.</span> The write-up assigns <strong>no CVE identifier</strong>, and it notes PHP's standing 2017 policy that <code>unserialize()</code> memory-corruption bugs are not treated as security vulnerabilities. If that policy still holds, a 9.2 advisory is unlikely to be this. The likelier reading is that the leak bundled two different things: the session-handler CVEs that PHP is actually patching at 14:00 UTC, and a separate unserializer UAF that the leaker had also found and demonstrated.</p>
       <p><span class="chip chip-warn">Reproduction is claimed, not witnessed</span> — 10/10 local runs on PHP 8.5.5, and 3/3 remote against <code>php:8.5-apache</code> at roughly 2,375 HTTP requests per run. We have not reproduced it and cannot: no PHP runtime here. The remote precondition is genuinely strong — the target must load a <code>Serializable</code> class that recursively deserializes inner data <em>and</em> then enlarges the inner object's property table. The write-up itself calls real-world matches "uncommon".</p>
     </div>
-  </section>
+  
+</details>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="appendix-b">
     <p class="eyebrow">Appendix B · revision log</p>
     <h2>What this brief said before the advisory, in order</h2>
+<details open class="ref-details"><summary>Appendix B — click to collapse</summary>
+
     <p>Kept unedited. Between 03:55 and 13:44 UTC the vendor had published nothing, so every entry below is a snapshot of inference under uncertainty — including inferences that later turned out to be wrong. They are retained because failed hypotheses are evidence: they show which readings the public evidence supported before the source of truth existed, and how confidently the ecosystem acted on them.</p>
     <p>Where anything here disagrees with the advisory section near the top of this page, the advisory section is correct.</p>
 
@@ -2106,7 +2151,9 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
     <p><strong>The mitigation debate is closed by the vendor.</strong> PHP developer Gina Peter Banyard: <em>"no PHP2Shell mitigations would fully block potential attacks"</em>. That is now the official position and it retires the earlier three-way disagreement about whether disabling <code>upload_progress</code> was sufficient.</p>
     <p><strong>The repository population reached 161</strong> — from 35 at 09:10 and 102 at 13:35. Two significant changes to previously cited entries are detailed in the exploit-availability section: one repository was deleted and one renamed itself out of the blocking business.</p>
   </div>
-  </section>
+  
+</details>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="confidence">
     <p class="eyebrow">Confidence calibration</p>
@@ -2163,11 +2210,13 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <li><strong>Whether <em>The News</em>'s exploitation claim is true.</strong> No Cloudflare publication was found to support it. A negative from four vendors is not a refutation, but an unsourced sentence is not evidence either.</li>
     </ul>
     <p>No PoC was executed and no active scanning was performed against any target in producing this brief.</p>
-  </section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <section id="sources">
     <p class="eyebrow">Source register</p>
     <h2>Everything this brief rests on</h2>
+<details open class="ref-details"><summary>Source register — click to collapse</summary>
+
     <ul class="sources">
       <li><span class="src-title"><a href="https://www.php.net/archive/2026.php#2026-10-21-5" target="_blank" rel="noopener noreferrer">PHP.net — Security advisory: Critical remote code execution vulnerabilities, update now</a></span><span class="src-meta"><strong>Primary · the advisory itself · 13:44 UTC 21 Oct · fixed versions, both CVEs, full stopgap guidance</strong></span></li>
       <li><span class="src-title"><a href="https://www.vulncheck.com/blog/php2shell-vulnerabilities" target="_blank" rel="noopener noreferrer">VulnCheck &mdash; PHP2Shell vulnerabilities (Canary telemetry)</a></span><span class="src-meta">Vendor &middot; 21 Oct &middot; five attacking IPs with ASNs and timestamps, four user-agents, session and boundary artifacts, four SHA-256s, the webshell body, and the ASLR assessment</span></li>
@@ -2260,7 +2309,9 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <li><span class="src-title"><a href="https://github.com/corelight/php2shell-detect" target="_blank" rel="noopener noreferrer">Corelight — php2shell-detect (pushed 28 Oct 02:08 UTC)</a></span><span class="src-meta">Detection content · Zeek notices plus Suricata SIDs <strong>3000650&ndash;3000652</strong></span></li>
       <li><span class="src-title"><a href="https://github.com/VABISMO/php2shell-nginx-fpm-full-rce" target="_blank" rel="noopener noreferrer">VABISMO/php2shell-nginx-fpm-full-rce — claimed FPM RCE (pushed 27 Oct)</a></span><span class="src-meta">Self-published · &ldquo;verified profiles&rdquo; for five builds; <strong>contradicts the CNA record and was not tested here</strong> — unverified, do not cite as fact</span></li>
     </ul>
-  </section>
+  
+</details>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <footer>
     <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October; updated 26 October (confirmed exploitation, retractions, CVE-2026-115560, PAN-OS) and 28 October (KEV listing, Wiz indicator set, export regeneration 81&rarr;93, vendor matrix), 29 October (KEV Fragnesia chain, GreyNoise successes, Dream victim-side report) and 4 November (PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched). Sources are public reporting and direct measurement. TLP:CLEAR — the underlying reporting is public, and every measurement this brief adds is reproducible from public sources, with the endpoints and parameters recorded under <code>raw/</code>. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
@@ -2303,5 +2354,20 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
 
 
 <a href="index.html" style="position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#edf4f2;color:#07111b;text-decoration:none;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.35)">← Back to main page</a>
+
+<script>
+(function () {
+  var fill = document.getElementById('reading-progress-fill');
+  if (!fill) return;
+  function update() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    fill.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
 </body>
 </html>
