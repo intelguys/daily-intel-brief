@@ -151,36 +151,7 @@ footer p { font-size:13px; color:var(--muted); }
     <span>Queries: 26 + 28 Oct 2026</span>
   </div>
 </header>
-<section id="update-2026-11-04">
-<p>Latest first: this update sits above the original page, which follows unchanged below it.</p><h2>Update — 4 November 2026: what changed after 29 October</h2>
-<p>This section adds only post-cutoff findings. The original page above is unchanged. No confirmed production compromise, no new named victim, no new public IP IOC set and no named threat actor were found to 4 November.</p>
-<h3>Evidence ladder — keep these buckets separate</h3>
-<div class="tbl-wrap"><table><tr><th>Evidence</th><th>Status to 4 Nov</th></tr>
-<tr><td>CISA KEV listing (27 Oct)</td><td>Yes — KEV means exploitation in the wild met the listing threshold, not a named breach.</td></tr>
-<tr><td>Decoy / probing attempts</td><td>Zscaler: 402 decoy events, 20 IPs, 12 customers in the first 24 hours after disclosure (40% recon, 60% exploit attempts). Check Point telemetry below is probing, not compromise.</td></tr>
-<tr><td>Lab RCE</td><td>Disputed: lab RCE on unmodified Node.js 24.22.0 via Express 5 exists, with low per-attempt success; Red Hat says it knows of no reliable public PoC for code execution. Unresolved.</td></tr>
-<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 4 November.</strong> This row is empty on purpose — do not add attempts + KEV into a victim count.</td></tr></table></div>
-<h3>EPSS over time — dated points, never averaged</h3>
-<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>27 Oct — Tenable FAQ fetch</span><span>36%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:36%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>29 Oct — AhnLab</span><span>88.0%, 99.76th percentile</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:88%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>3 Nov — FIRST, via secondaries</span><span>~82.6–83%, 99.6th+ percentile</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:83%;background:var(--accent)"></div></div></div>
-<p>EPSS moves daily and sources differ; a chart without dates would mislead.</p>
-<h3>Check Point telemetry, 29 October — probing, not compromise</h3>
-<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>Requests with Brotli-encoded payloads (Check Point IPS telemetry only)</span><span>90.5%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:90%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>Patrowl automation fingerprint</span><span>33.8%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:34%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>Targeted upload / ingestion endpoints</span><span>24.5%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:25%;background:var(--accent)"></div></div></div>
-<p>Check Point explicitly states this does not confirm successful compromise, and the percentages are its telemetry, not global attack volume. The new behavioural addition is the Patrowl fingerprint, not a new IP list.</p>
-<h3>Timeline and fixes after 29 October</h3>
-<ul>
-<li><strong>29 Oct:</strong> Palo Alto completes PAN-OS Brotli fixes (11.2.4-h23, 12.1.4-h13, 12.1.10-h3); no PAN-OS exploitation known. Scope is narrow: PA/VM-Series only when Brotli inspection <em>and</em> TLS/SSL decryption are both on (Brotli off by default); management UI/API not affected. Datadog confirms in-the-wild exploitation and adds detections, with no new victim named in the summaries found.</li>
-<li><strong>30 Oct:</strong> Singapore CSA alert AL-2026-154 (CVSS 3.1 9.8, public PoC exists, flaw “reportedly being actively exploited”). CSA relays reported exploitation; the alert names no victim, actor or independently verified compromise. Affected: Node.js 22.x &lt;22.23.4, 24.x &lt;24.22.1, 26.x &lt;26.12.1, and Microsoft .NET 8–11.</li>
-<li><strong>1 Nov:</strong> Distribution backports complete per Mallory final update (Ubuntu, RHEL, Amazon Linux, SUSE — verify each distro advisory before listing exact package versions).</li>
-<li><strong>2 Nov:</strong> Arista advisory — VeloCloud Orchestrator affected via an <em>outbound</em> path: its outbound HTTP client processing a crafted Brotli response from an attacker-controlled or compromised endpoint, including via redirect. No mitigation available; inbound API paths reviewed with no Brotli decoding identified.</li>
-<li><strong>10 Nov — pending, not passed:</strong> CISA KEV federal remediation deadline. At the 4 November audit it was 6 days away; show it as a countdown, not as met or missed. Ransomware use: unknown.</li>
-</ul>
-<h3>Fix matrix beyond Node.js, and scorer note</h3>
-<p>Bun 1.4.4; Python Brotli 1.2.1 / brotlicffi 1.2.1.0; .NET 8.0.33, 9.0.22, 10.0.14, 11 RC3; Envoy 1.40.0 / 1.39.3 / 1.38.6 / 1.37.8 / 1.36.12; Istio 1.31.2 / 1.30.6 / 1.29.9; Ubuntu 26.04 brotli 1.2.0-3ubuntu0.1; Debian bookworm 1.0.9-2+deb12u1. Node 20.x / 23.x / 25.x receive no fix (end-of-life lines — migration, not patching).</p>
-<p>Scores are different scorers and scopes, not corrections of each other: Google CVSS 4.0 9.2, NVD CVSS 3.1 9.8, Red Hat 8.1, Microsoft .NET-specific 8.1 (CVSS 3.1); Node.js itself rates the issue High. “HTTP2Shell”, used increasingly by Check Point, is the same CVE, not a separate vulnerability; “Broccoli2Shell” / “Brotli2Shell” also circulate.</p>
-<p>Detection additions: Patrowl fingerprint in IPS telemetry; worker-crash bursts as a <em>possible</em> exploitation signal (crash ≠ compromise); bundled/static Brotli inventory (proxies, sidecars, container images), including Arista's outbound-redirect path.</p>
-<p>Patch-adoption chart: cannot be built from sources found. Do not substitute EPSS or Akamai exposure (“majority of networks run affected Node.js versions”) for adoption.</p>
-<p>Sources: <a href="https://blog.checkpoint.com/security/http2shell-the-brotli-vulnerability-that-extends-beyond-node-js/" target="_blank" rel="noopener noreferrer">Check Point, HTTP2Shell</a> · <a href="https://www.arista.com/en/support/advisories-notices/security-advisory/24853-security-advisory-0202" target="_blank" rel="noopener noreferrer">Arista advisory 0202</a> · <a href="https://mallory.ai/blog/node2shell-rapid-response" target="_blank" rel="noopener noreferrer">Mallory, Node2Shell rapid response</a> · <a href="https://opsbreakfix.com/blog/cve-2026-111497-brotli-decoder-node2shell/" target="_blank" rel="noopener noreferrer">CSA AL-2026-154 summary</a></p>
-</section>
+
 
 
 <div class="verdict">
@@ -215,6 +186,55 @@ footer p { font-size:13px; color:var(--muted); }
   <div class="fig"><span class="n">0.55</span><span class="d">EPSS, 99th percentile (27 Oct)</span></div>
   <div class="fig"><span class="n">1+1</span><span class="d">IP and hash published (26 Oct)</span></div>
 </div>
+
+
+<section>
+<h2>Update &mdash; 4 November: no confirmed compromise, KEV deadline still open</h2>
+<p class="sub">The picture did not harden further. No confirmed production compromise, no new named victim, no new public IP IOC set and no named threat actor were found to 4 November — and the KEV deadline that matters next had not yet passed.</p>
+<div class="callout warn">
+<span class="k">KEV deadline &mdash; 10 November, pending</span>
+<p>CISA KEV added 27 October, federal remediation due <strong>10 November</strong>, ransomware use &ldquo;unknown&rdquo;. At the 4 November audit the deadline was 6 days away; show it as a countdown, not as met or missed.</p>
+<p class="cite">Sources: <a href="https://opsbreakfix.com/blog/cve-2026-111497-brotli-decoder-node2shell/" target="_blank" rel="noopener noreferrer">CSA AL-2026-154 summary</a></p>
+</div>
+<h3>Evidence ladder</h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Evidence</th><th>Status to 4 Nov</th></tr></thead>
+<tbody>
+<tr><td>CISA KEV listing (27 Oct)</td><td>Yes — KEV means exploitation in the wild met the listing threshold, not a named breach.</td></tr>
+<tr><td>Decoy / probing attempts</td><td>Zscaler: 402 decoy events, 20 IPs, 12 customers in the first 24 hours after disclosure (40% recon, 60% exploit attempts). Check Point telemetry below is probing, not compromise.</td></tr>
+<tr><td>Lab RCE</td><td>Disputed: lab RCE on unmodified Node.js 24.22.0 via Express 5 exists, with low per-attempt success; Red Hat says it knows of no reliable public PoC for code execution. Unresolved.</td></tr>
+<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 4 November.</strong> This row is empty on purpose — do not add attempts + KEV into a victim count.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>EPSS, dated &mdash; not averaged</h3>
+<div class="figures">
+<div class="fig"><span class="n">36%</span><span class="d">EPSS — 27 Oct, Tenable FAQ fetch</span></div>
+<div class="fig"><span class="n">88%</span><span class="d">EPSS — 29 Oct, AhnLab, 99.76th percentile</span></div>
+<div class="fig"><span class="n">~83%</span><span class="d">EPSS — 3 Nov, FIRST via secondaries, 99.6th+ percentile</span></div>
+</div>
+<p>EPSS moves daily and sources differ; a chart without dates would mislead.</p>
+<h3>Check Point telemetry, 29 October</h3>
+<div class="figures">
+<div class="fig"><span class="n">90.5%</span><span class="d">requests with Brotli-encoded payloads, Check Point IPS telemetry only</span></div>
+<div class="fig"><span class="n">33.8%</span><span class="d">Patrowl automation fingerprint</span></div>
+<div class="fig"><span class="n">24.5%</span><span class="d">targeted upload / ingestion endpoints</span></div>
+</div>
+<p>Check Point explicitly states this does not confirm successful compromise, and the percentages are its telemetry, not global attack volume. The new behavioural addition is the Patrowl fingerprint, not a new IP list.</p>
+<h3>Fixes and the Arista outbound path</h3>
+<ul>
+<li><strong>29 Oct:</strong> Palo Alto completes PAN-OS Brotli fixes (<code>11.2.4-h23</code>, <code>12.1.4-h13</code>, <code>12.1.10-h3</code>); no PAN-OS exploitation known. Scope is narrow: PA/VM-Series only when Brotli inspection <em>and</em> TLS/SSL decryption are both on (Brotli off by default); management UI/API not affected. Datadog confirms in-the-wild exploitation and adds detections, with no new victim named in the summaries found.</li>
+<li><strong>30 Oct:</strong> Singapore CSA alert AL-2026-154 (CVSS 3.1 9.8, public PoC exists, flaw &ldquo;reportedly being actively exploited&rdquo;). CSA relays reported exploitation; the alert names no victim, actor or independently verified compromise. Affected: Node.js 22.x &lt;22.23.4, 24.x &lt;24.22.1, 26.x &lt;26.12.1, and Microsoft .NET 8–11.</li>
+<li><strong>1 Nov:</strong> Distribution backports complete per Mallory final update (Ubuntu, RHEL, Amazon Linux, SUSE — verify each distro advisory before listing exact package versions).</li>
+<li><strong>2 Nov:</strong> Arista advisory — VeloCloud Orchestrator affected via an <em>outbound</em> path: its outbound HTTP client processing a crafted Brotli response from an attacker-controlled or compromised endpoint, including via redirect. No mitigation available; inbound API paths reviewed with no Brotli decoding identified.</li>
+<li><strong>Scores, not corrections:</strong> Google CVSS 4.0 9.2, NVD CVSS 3.1 9.8, Red Hat 8.1, Microsoft .NET-specific 8.1 (CVSS 3.1); Node.js itself rates the issue High. &ldquo;HTTP2Shell&rdquo;, used increasingly by Check Point, is the same CVE, not a separate vulnerability.</li>
+<li><strong>Fix matrix beyond Node.js:</strong> Bun 1.4.4; Python Brotli 1.2.1 / brotlicffi 1.2.1.0; .NET 8.0.33, 9.0.22, 10.0.14, 11 RC3; Envoy 1.40.0 / 1.39.3 / 1.38.6 / 1.37.8 / 1.36.12; Istio 1.31.2 / 1.30.6 / 1.29.9; Ubuntu 26.04 brotli 1.2.0-3ubuntu0.1; Debian bookworm 1.0.9-2+deb12u1. Node 20.x / 23.x / 25.x receive no fix (end-of-life lines — migration, not patching).</li>
+<li><strong>Detection additions:</strong> Patrowl fingerprint in IPS telemetry; worker-crash bursts as a <em>possible</em> exploitation signal (crash &ne; compromise); bundled/static Brotli inventory (proxies, sidecars, container images), including Arista's outbound-redirect path.</li>
+<li><strong>Patch adoption:</strong> cannot be charted from sources found. Do not substitute EPSS or Akamai exposure (&ldquo;majority of networks run affected Node.js versions&rdquo;) for adoption.</li>
+</ul>
+<p class="cite">Sources: <a href="https://blog.checkpoint.com/security/http2shell-the-brotli-vulnerability-that-extends-beyond-node-js/" target="_blank" rel="noopener noreferrer">Check Point, HTTP2Shell</a> · <a href="https://www.arista.com/en/support/advisories-notices/security-advisory/24853-security-advisory-0202" target="_blank" rel="noopener noreferrer">Arista advisory 0202</a> · <a href="https://mallory.ai/blog/node2shell-rapid-response" target="_blank" rel="noopener noreferrer">Mallory, Node2Shell rapid response</a></p>
+</section>
 
 <section>
   <h2>Update &mdash; 29 October: CISA confirms, a first IOC set appears, still no victim</h2>

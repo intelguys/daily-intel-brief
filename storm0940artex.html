@@ -409,34 +409,7 @@ footer {
     </div>
   </div>
 </header>
-<section id="update-2026-11-04">
-<p>Latest first: this update sits above the original page, which follows unchanged below it.</p><h2>Update — 4 November 2026: ARTEX is now multi-actor</h2>
-<p>This section adds only newer material. The original page above is unchanged. Its thesis — tool ≠ actor — is now proven by three independent clusters, and any sentence implying “ARTEX = Storm-0940” is now wrong.</p>
-<h3>Actor × tool matrix — most “not published” cells are the finding</h3>
-<div class="tbl-wrap"><table><tr><th>Actor / cluster</th><th>Model</th><th>Confirmed post-exploitation</th><th>Distinguisher</th></tr>
-<tr><td>Storm-0940 / UNC7228 (overlap, not identity)</td><td>Frontier + open-source (GTIG cases)</td><td>Yes, in GTIG engagements; speed typically first account → deep access in ~4 hours, once in 15 minutes</td><td>Wiz dates it to at least Aug 2026, across US/Europe enterprise software, industrial automation, semiconductors and telecoms</td></tr>
-<tr><td>VAPOR PANDA (CrowdStrike, explicitly separate from Storm-0940)</td><td>DeepSeek + a second unidentified commercial model</td><td>9 organisations, BLOODALCHEMY backdoor</td><td>&gt;200 organisations in ≥14 countries in 11 days from 17 Oct; human operator steers at decision points</td></tr>
-<tr><td>Onyx / Pearl Sleet (North Korea, Microsoft)</td><td>Not stated</td><td>Not published for the NK ARTEX use</td><td>Microsoft: NK AI-enabled operations remain human-directed, not fully autonomous; no victim organisations named</td></tr>
-<tr><td>Financially-motivated ARTEX actors (GTIG)</td><td>Not stated per actor</td><td>Not published</td><td>Extortion motive, not state-actor tooling</td></tr>
-<tr><td>PentAGI operators (Asia / Aerospace, unattributed)</td><td>12+ LLM backends (PentAGI)</td><td>Some operations progressed to intrusion and persistence</td><td>Most observed activity stayed at WHOIS mapping / vulnerability scanning</td></tr>
-<tr><td>WorkOS (unattributed)</td><td>Not stated</td><td>Internal sales/marketing application, not production systems (company statement)</td><td>ARTEX link comes from the customer notice and CEO statements, not the public bulletin; do not attribute to any state actor</td></tr></table></div>
-<h3>GTIG / Mandiant, 30 October — the largest missing primary source</h3>
-<p>“ARTEX and Friends: Enter Agentic Offensive Frameworks” (Google Cloud Blog, verified live 4 Nov): since late August 2026, multiple actors have operated ARTEX, PentAGI, CAIRN, Hexstrike and potentially custom harnesses in Mandiant incident-response engagements, corroborated by research telemetry. ARTEX is a Go-based autonomous multi-agent LLM pentesting / offensive C2 platform with an embedded Next.js console and six specialised sub-agents. Its original repo by “Autumn-27” was taken down by its creator in October 2026 after abuse; proliferation continues via forks (ScopeWeaver, localised variant) and commercial ARTEX PRO. CAIRN and Hexstrike are named, but GTIG's published detail is far thinner — mark CAIRN as “named, detail not published in this post”, do not invent a feature list or victim set.</p>
-<p><strong>Behavioural markers — hunt these instead of IPs:</strong> bursts of 2–25 seconds (e.g. 27 events in 23 seconds probing AWS permissions); test-blob write/delete in ~330–400 ms; 8-second ARM deployment-validation sweep across 11 resource types; 500+ web-request fuzzing; 491 rotating <code>webhook.site</code> URLs; JSP webshells via MySQL <code>general_log_file</code> poisoning (<code>cl1217.jsp</code>, <code>f1219a.jsp</code>, <code>z1219.jsp</code> — ephemeral, incremental names); <code>artex-probe-*</code> files (5-digit incremental numbers) and accounts, passwords and email subjects containing <code>ArtexProbe</code>; Kerberoasting → SQL credential dump → offline cracking → DCSync; accounts created with <code>is_admin=true</code>; persistence via new SSH keys, Elastic IP, <code>t3.micro</code> jump hosts, password resets and new admin accounts; enumeration of 110,000+ AD objects; 100 GB volume creation / root-disk expansion to 60 GB as exfiltration preparation.</p>
-<p><strong>Stage model — forecast, not observation:</strong> current = Stage 5 (multiple lifecycle stages by LLM tooling in the wild, noisy but successful); Stage 6 (multi-agent, unsophisticated, little/no human interaction) in 1–3 months; Stage 7 (sophisticated, fully autonomous, stealthy) in 3–6 months. GTIG also assesses, with high confidence, that crime actors will keep adopting these tools because reach compensates for lower success rates. “Autonomous” framing must be precise: execution is automated and bursty, with extended pauses between bursts; intent and objectives remain human-directed in the observed cases.</p>
-<h3>ConnectWise remediation, 30 October — and what is still pending</h3>
-<ul>
-<li>Trust Center advisory (orig. 16 Oct, updated 30 Oct 21:00 UTC): <strong>Phases 1–2 complete, Phase 3 in progress.</strong> Phase 1 = backups/restores for re-authorised M365 tenants; Phase 2 = End-Customer Self-Service Portal + Backup Monitoring dashboards; Phase 3 (in progress) = Backup Health reporting, export jobs, billing/reporting; notifications in a later phase.</li>
-<li>Restoration via new security-hardened app “ConnectWise Cloud Backup for M365” (phased restoration began 28 Oct). Partners must reset the Cloud Services portal password, set up MFA if absent, re-authorise <em>each</em> tenant, and <strong>verify new snapshots complete</strong> — “re-authorization alone does not confirm that backups have resumed”. Old disabled apps must stay disabled unless ConnectWise instructs otherwise. Archives remain encrypted/isolated with no indication of compromise (vendor statement).</li>
-<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 4 November. The ConnectWise “indicator that fails its own dates” gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
-<li><strong>Re-consent risk, labelled as analyst inference, not vendor fact:</strong> restoration creates a re-entry point wherever partners re-consent in tenants not yet cleaned of persistence planted during the intrusion. Gated response order: clean tenant → re-consent → verify snapshot → monitor for re-created credentials. Do not treat restoration as closure; no ConnectWise “all clear” or final victim notification was found to 4 November.</li>
-<li><strong>Victim-count trap:</strong> 2,250+ (Storm-0940 tenant <em>attempts</em>), &gt;200 (VAPOR PANDA <em>targets</em>), 9 (VAPOR PANDA <em>confirmed post-exploitation</em>) and ~70% (second-hand: VAPOR PANDA targets confirmed <em>or</em> moderate-confidence intrusion) are four different denominators. Never add them, and never present 2,250 as “2,250 breached tenants” — Microsoft itself notes presence of an affected app or even successful authentication does not automatically mean data access or exfiltration.</li>
-</ul>
-<h3>WorkOS, 2 November — ARTEX-likely, unattributed</h3>
-<p>WorkOS disclosed unauthorised access to an internal sales/marketing application, detected 30 Oct 16:39 UTC. Public bulletin: “AI-assisted offensive security framework” used to automate recon/exploitation; data included CRM business contacts, account/relationship histories, and summaries/excerpts from sales calls, support discussions and customer Slack conversations; external access disabled; independent forensics firm engaged; production systems/application data not accessed (company statement). The ARTEX link comes from the customer notice (reposted on Hacker News) and CEO statements, not the public bulletin, with traffic from Hong Kong/China IPs — no addresses were published in the sources found, so none are listed here.</p>
-<p>Also note, as context only: South Korean financial-sector ARTEX activity (7 firms, late September, per secondary summaries) with officials saying attribution to any country was impossible. Include only as “ARTEX in Asian finance, unattributed” — do not fold it into Storm-0940 or VAPOR PANDA.</p>
-<p>Sources: <a href="https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks" target="_blank" rel="noopener noreferrer">GTIG, ARTEX and Friends</a> · <a href="https://www.microsoft.com/en-us/security/blog/2026/10/29/tracking-ai-adoption-in-north-korean-threat-actor-tradecraft/" target="_blank" rel="noopener noreferrer">Microsoft, AI adoption in North Korean tradecraft</a> · <a href="https://www.connectwise.com/company/trust/advisories" target="_blank" rel="noopener noreferrer">ConnectWise Trust Center advisories</a> · <a href="https://www.cybersecuritydive.com/news/agentic-pen-testing-tool-espionage-campaigns/873427/" target="_blank" rel="noopener noreferrer">Cybersecurity Dive, VAPOR PANDA</a></p>
-</section>
+
 
 
 <main class="wide">
@@ -470,6 +443,7 @@ footer {
     <h2>What happened</h2>
     <p class="sub">All times UTC. Corroborated by at least two independent observers unless marked as a vendor assertion.</p>
     <ul class="timeline">
+<li><span class="t">Late Aug</span><span class="e">GTIG/Mandiant first observe ARTEX, PentAGI, CAIRN and Hexstrike in live incident-response engagements, corroborated by research telemetry.</span></li>
       <li><span class="t">10–14 Oct</span><span class="e">Password spray from <span class="mono">144.172.64.99</span>: <b>327 accounts across 8 organisations</b>, 151,000+ failed logons, peak 2,900/min on 11 Oct. Roughly 98% of responses were lockouts. No successful authentication, token, Graph call or directory change.</span></li>
       <li><span class="t">15 Oct 01:58</span><span class="e">Cloud Management service principals begin self-assigning directory roles, mostly Exchange Administrator, across about 50 tenants.</span></li>
       <li><span class="t">15 Oct 03:44</span><span class="e">The Teams app adds itself to <b>Global Administrator</b>, twice, four minutes apart. A Python script plants client secrets on two other applications, set to expire in <b>2028</b>. Nine changes: six succeeded, three failed.</span></li>
@@ -478,9 +452,15 @@ footer {
       <li><span class="t">15 Oct 09:25</span><span class="e">Second, targeted wave against 16 tenants in policy, national-security, trade and critical-minerals sectors. A later sweep from 13:54 looks manual and reaches Exchange, SharePoint, Teams, ARM and Entra.</span></li>
       <li><span class="t">16 Oct 17:47</span><span class="e">ConnectWise issues its first advisory. By 19:00 Huntress has 162 confirmed compromised tenants.</span></li>
       <li><span class="t">17 Oct 05:01</span><span class="e">Cloud Backup access shut off. At <b>07:00 seven application identities are disabled</b>; certificates revoked at 17:00.</span></li>
+<li><span class="t">17 Oct</span><span class="e">CrowdStrike tracks the VAPOR PANDA campaign start — more than 200 organisations in at least 14 countries in 11 days, 9 confirmed post-exploitation, explicitly separate from Storm-0940.</span></li>
       <li><span class="t">19 Oct</span><span class="e">ConnectWise completes credential reset. Huntress reviews 10,000+ tenants and finds sign-in activity only from <span class="mono">144.172.64.128</span> and Microsoft-internal ranges.</span></li>
       <li><span class="t">21 Oct</span><span class="e">Microsoft publishes attribution to Storm-0940. Phased restoration begins.</span></li>
-    </ul>
+    
+<li><span class="t">28 Oct</span><span class="e">ConnectWise phased restoration begins, via the new security-hardened app &ldquo;ConnectWise Cloud Backup for M365&rdquo;.</span></li>
+<li><span class="t">29 Oct</span><span class="e">CrowdStrike publishes VAPOR PANDA; Microsoft publishes North-Korea ARTEX use by Onyx Sleet and Pearl Sleet, human-directed, not fully autonomous.</span></li>
+<li><span class="t">30 Oct</span><span class="e">GTIG publishes &ldquo;ARTEX and Friends&rdquo;; ConnectWise Phases 1–2 complete; WorkOS detects unauthorised access to an internal sales/marketing application at 16:39 UTC.</span></li>
+<li><span class="t">2 Nov</span><span class="e">WorkOS discloses the access, described in its customer notice as ARTEX-likely and unattributed; production systems/application data not accessed, per the company.</span></li>
+</ul>
   </section>
 
   <section>
@@ -573,6 +553,30 @@ footer {
     <p>Separately, CrowdStrike's leaked personal details for the Korean actor are unreliable, because the disclosed date of birth contradicts the stated age. They are UNCONFIRMED and should not drive action.</p>
   </section>
 
+<section>
+<h2>ARTEX, three actors &mdash; and two unattributed cases</h2>
+<p class="sub">Tool &ne; actor, now proven by three independent clusters. Any ARTEX detection must be followed by actor-separating evidence — infrastructure, targets, model, and post-exploitation tooling — not by the tool name alone.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Actor / cluster</th><th>Model</th><th>Confirmed post-exploitation</th><th>Distinguisher</th></tr></thead>
+<tbody>
+<tr><td>Storm-0940 / UNC7228 (overlap, not identity)</td><td>Frontier + open-source (GTIG cases)</td><td>Yes, in GTIG engagements; typically first account to deep access in ~4 hours, once in 15 minutes</td><td>Wiz dates it to at least Aug 2026, across US/Europe enterprise software, industrial automation, semiconductors and telecoms</td></tr>
+<tr><td>VAPOR PANDA (CrowdStrike, explicitly separate)</td><td>DeepSeek + a second unidentified commercial model</td><td>9 organisations, BLOODALCHEMY backdoor</td><td>&gt;200 organisations in &ge;14 countries in 11 days from 17 Oct; human operator steers at decision points</td></tr>
+<tr><td>Onyx / Pearl Sleet (North Korea, Microsoft)</td><td>Not stated</td><td>Not published for the NK ARTEX use</td><td>Microsoft: NK AI-enabled operations remain human-directed, not fully autonomous; no victim organisations named</td></tr>
+<tr><td>Financially-motivated ARTEX actors (GTIG)</td><td>Not stated per actor</td><td>Not published</td><td>Extortion motive, not state-actor tooling</td></tr>
+<tr><td>PentAGI operators (Asia / Aerospace, unattributed)</td><td>12+ LLM backends (PentAGI)</td><td>Some operations progressed to intrusion and persistence</td><td>Most observed activity stayed at WHOIS mapping / vulnerability scanning</td></tr>
+<tr><td>WorkOS (unattributed)</td><td>Not stated</td><td>Internal sales/marketing application, not production systems (company statement)</td><td>ARTEX link from the customer notice and CEO statements, not the public bulletin; do not attribute to any state actor</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>GTIG stage model — forecast, not observation:</strong> current = Stage 5 (multiple lifecycle stages by LLM tooling in the wild, noisy but successful); Stage 6 (multi-agent, unsophisticated, little/no human interaction) in 1–3 months; Stage 7 (sophisticated, fully autonomous, stealthy) in 3–6 months. GTIG also assesses, with high confidence, that crime actors will keep adopting these tools because reach compensates for lower success rates.</p>
+<p><strong>&ldquo;Autonomous&rdquo; framing, precisely:</strong> execution is automated and bursty, with extended pauses between bursts; intent and objectives remain human-directed in the observed cases. Do not describe observed ARTEX intrusions as fully autonomous.</p>
+<p><strong>Victim-count trap:</strong> 2,250+ (Storm-0940 tenant <em>attempts</em>), &gt;200 (VAPOR PANDA <em>targets</em>), 9 (VAPOR PANDA <em>confirmed post-exploitation</em>) and ~70% (second-hand: VAPOR PANDA targets confirmed <em>or</em> moderate-confidence intrusion) are four different denominators. Never add them, and never present 2,250 as &ldquo;2,250 breached tenants&rdquo; — Microsoft itself notes presence of an affected app or even successful authentication does not automatically mean data access or exfiltration.</p>
+<p>Sources: <a href="https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks" target="_blank" rel="noopener noreferrer">GTIG, ARTEX and Friends</a> · <a href="https://www.microsoft.com/en-us/security/blog/2026/10/29/tracking-ai-adoption-in-north-korean-threat-actor-tradecraft/" target="_blank" rel="noopener noreferrer">Microsoft, AI adoption in North Korean tradecraft</a> · <a href="https://www.cybersecuritydive.com/news/agentic-pen-testing-tool-espionage-campaigns/873427/" target="_blank" rel="noopener noreferrer">Cybersecurity Dive, VAPOR PANDA</a></p>
+</section>
+
+
+
   <section>
     <h2>Detection that survives the next IP</h2>
     <p class="sub">Normal ConnectWise egress is Azure private IPv6. Any public source for these application IDs is the anomaly worth alerting on.</p>
@@ -604,7 +608,19 @@ AADServicePrincipalSignInLogs
 | where isnotempty(InitiatedByApp) and InitiatedByApp != TargetApp</code></pre>
 
     <p class="note">There is no useful network signature for this intrusion. It is HTTPS to Microsoft's own endpoints, and the discriminator is identity, not payload. A rule matching these IPs has a shelf life of days.</p>
-  </section>
+  
+<h3>GTIG behavioural markers, 30 October</h3>
+<ul>
+<li>Bursts of 2–25 seconds (e.g. 27 events in 23 seconds probing AWS permissions); test-blob write/delete in ~330–400 ms; 8-second ARM deployment-validation sweep across 11 resource types; 500+ web-request fuzzing.</li>
+<li>491 rotating <span class="mono">webhook.site</span> URLs for C2/result exfiltration.</li>
+<li>JSP webshells via MySQL <code>general_log_file</code> poisoning (<span class="mono">cl1217.jsp</span>, <span class="mono">f1219a.jsp</span>, <span class="mono">z1219.jsp</span> — ephemeral, incremental names).</li>
+<li><span class="mono">artex-probe-*</span> files (5-digit incremental numbers) and accounts, passwords and email subjects containing <span class="mono">ArtexProbe</span>.</li>
+<li>Kerberoasting &rarr; SQL credential dump &rarr; offline cracking &rarr; DCSync; accounts created with <code>is_admin=true</code>; persistence via new SSH keys, Elastic IP, <code>t3.micro</code> jump hosts, password resets and new admin accounts.</li>
+<li>Enumeration of 110,000+ AD objects; 100 GB volume creation / root-disk expansion to 60 GB as exfiltration preparation.</li>
+</ul>
+<div class="callout"><strong>Static IOCs will not cover much of this activity</strong> — GTIG: much of it uses valid identities and supported functionality. Hunt the markers above in Entra/Graph, AWS/Azure control-plane, AD, web and MySQL logs, not just the next IP.</div>
+
+</section>
 
   <section>
     <h2>Response order</h2>
@@ -618,7 +634,16 @@ AADServicePrincipalSignInLogs
       <li><span class="box"></span><span>Only then remove credentials, with an authorised responder. Report to <span class="mono">SecurityPartnerSupport@ConnectWise.com</span> without secrets.</span></li>
     </ul>
     <p class="note">Structural note: workload-identity Conditional Access does not cover third-party multi-tenant SaaS applications. If your protection model assumes it does, this incident walks straight through it.</p>
-  </section>
+  
+<h3>ConnectWise restoration, 30 October</h3>
+<ul>
+<li>Trust Center advisory (orig. 16 Oct, updated 30 Oct 21:00 UTC): <strong>Phases 1–2 complete, Phase 3 in progress.</strong> Phase 1 = backups/restores for re-authorised M365 tenants; Phase 2 = End-Customer Self-Service Portal + Backup Monitoring dashboards; Phase 3 (in progress) = Backup Health reporting, export jobs, billing/reporting; notifications in a later phase.</li>
+<li>Restoration via the new security-hardened app &ldquo;ConnectWise Cloud Backup for M365&rdquo; (phased restoration began 28 Oct). Partners must reset the Cloud Services portal password, set up MFA if absent, re-authorise <em>each</em> tenant, and <strong>verify new snapshots complete</strong> — &ldquo;re-authorization alone does not confirm that backups have resumed&rdquo;. Old disabled apps must stay disabled unless ConnectWise instructs otherwise. Archives remain encrypted/isolated with no indication of compromise (vendor statement).</li>
+<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 4 November. The ConnectWise &ldquo;indicator that fails its own dates&rdquo; gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
+<li><strong>Re-consent risk, labelled as analyst inference, not vendor fact:</strong> restoration creates a re-entry point wherever partners re-consent in tenants not yet cleaned of persistence planted during the intrusion. Gated order: clean tenant &rarr; re-consent &rarr; verify snapshot &rarr; monitor for re-created credentials. Do not treat restoration as closure; no ConnectWise &ldquo;all clear&rdquo; or final victim notification was found to 4 November.</li>
+</ul>
+
+</section>
 
   <section>
     <h2>The tool is not the actor</h2>
@@ -643,7 +668,11 @@ AADServicePrincipalSignInLogs
       <li><span class="who">Zscaler ThreatLabz</span> — <a href="https://www.zscaler.com/blogs/security-research/threat-actor-abuses-agentic-ai-pentesting-framework-target-south-korean" target="_blank" rel="noopener noreferrer">Threat Actors Abuse AI Pentesting Framework</a>.</li>
       <li><span class="who">BleepingComputer</span> — <a href="https://www.bleepingcomputer.com/news/security/hacker-used-artex-ai-and-claude-agents-to-target-south-korean-banks/" target="_blank" rel="noopener noreferrer">Hacker used ARTEX AI and Claude agents to target South Korean banks</a>.</li>
       <li><span class="who">CyberScoop</span> — <a href="https://cyberscoop.com/microsoft-attributes-connectwise-supply-chain-attack-china-storm-0940/" target="_blank" rel="noopener noreferrer">Microsoft pins ConnectWise supply-chain attack to China-state aligned threat group</a>.</li>
-    </ul>
+    
+<li><span class="who">Google Threat Intelligence Group / Mandiant</span> — <a href="https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks" target="_blank" rel="noopener noreferrer">ARTEX and Friends: Enter Agentic Offensive Frameworks</a>, 30 Oct 2026.</li>
+<li><span class="who">Microsoft</span> — <a href="https://www.microsoft.com/en-us/security/blog/2026/10/29/tracking-ai-adoption-in-north-korean-threat-actor-tradecraft/" target="_blank" rel="noopener noreferrer">Tracking AI adoption in North Korean threat actor tradecraft</a>, 29 Oct 2026.</li>
+<li><span class="who">ConnectWise</span> — <a href="https://www.connectwise.com/company/trust/advisories" target="_blank" rel="noopener noreferrer">Trust Center advisories</a>, updated 30 Oct 2026 21:00 UTC (Phases 1–2 complete, Phase 3 in progress).</li>
+</ul>
   </section>
 
   <footer>
