@@ -432,8 +432,12 @@
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
-<section id="update-2026-11-04" style="max-width:900px;margin:40px auto;padding:24px;border:2px solid var(--accent);border-radius:12px;background:var(--surface);color:var(--fg, var(--ink));font-family:inherit">
-<p style="font-size:13px;margin:0 0 10px;color:inherit;opacity:.8">Latest first: this update sits above the original page, which follows unchanged below it.</p><h2 style="margin-top:0">Update — 4 November 2026: what changed after 28 October</h2>
+
+
+    <p class="subtitle">Intelligence brief for SOC and threat hunting teams. Two critical PHP remote-code-execution flaws in the request-lifecycle bailout path, patched on 21 October and under opportunistic mass exploitation within hours. This revision is organised for action: what the bugs are, who is attacking, how to detect them, what to do, with the day's forensics demoted to appendices.</p>
+  </header>
+<section id="update-2026-11-04">
+<p>Latest first: this update sits above the original page, which follows unchanged below it.</p><h2>Update — 4 November 2026: what changed after 28 October</h2>
 <p>This section adds only post-cutoff findings. The original page above is unchanged. Most items below are from secondary summaries of primary advisories; where a claim matters for action, re-check the primary advisory before acting. No new named PHP victim, no new public IOC set, and no published PHP patch-adoption percentage was found to 4 November.</p>
 <h3>Vendor inventory, 30 October — Dutch NCSC snapshot</h3>
 <p>929 products tracked, as stated. The categories below sum to 928 — a 1-product discrepancy in the secondary summary, flagged here rather than silently corrected.</p>
@@ -446,13 +450,13 @@
 </svg>
 <ul><li>Fixed: 165</li><li>Vulnerable: 217</li><li>Still under investigation: 345</li><li>Confirmed not affected: 201</li></ul>
 <h3>Patch and alert timeline</h3>
-<table style="width:100%;border-collapse:collapse"><tr><th style="text-align:left;border-bottom:1px solid var(--line, var(--rule));padding:6px">Date</th><th style="text-align:left;border-bottom:1px solid var(--line, var(--rule));padding:6px">Development</th></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">29 Oct</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Palo Alto completes all 20 PAN-OS hotfixes (last: 11.1.7-h12, late 29 Oct; one secondary says 30 Oct for the changelog). Exploit maturity: ATTACKED. Impact put at about 0.02% of the global installed base — a vendor scope figure, not a victim count.</td></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">29 Oct</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">PHP KEV deadline passes. No CISA compliance outcome was found published to 4 November — do not infer compliance from the passing of the date.</td></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">30 Oct</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Cisco advisory marked final (Expressway 15.5.21; Duo Access Gateway version to verify against the Cisco advisory). Dutch NCSC 929-product snapshot above.</td></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">31 Oct</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Fragnesia (CVE-2026-46300) KEV deadline passes, again with no published compliance outcome found.</td></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">3 Nov</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Singapore CSA alert AL-2026-157, verified live: extends beyond PAN-OS to Cisco (Duo Access Gateway, Expressway), Citrix (NetScaler ADC/Gateway), F5 (BIG-IP APM, Configuration utility) and Siemens (RUGGEDCOM APE1808 running affected PAN-OS), with chaining to Fragnesia to root. CSA says the product list is selected, not exhaustive — these are affected-product findings, not exploited-product findings except for PAN-OS.</td></tr>
-<tr><td style="padding:6px">4 Nov</td><td style="padding:6px">Singapore Parliament: no evidence PHP2Shell was exploited in Singapore government or critical-information-infrastructure systems. This is a negative finding for Singapore gov/CII only, not a global “no victims” claim.</td></tr></table>
+<div class="scroll"><table><tr><th>Date</th><th>Development</th></tr>
+<tr><td>29 Oct</td><td>Palo Alto completes all 20 PAN-OS hotfixes (last: 11.1.7-h12, late 29 Oct; one secondary says 30 Oct for the changelog). Exploit maturity: ATTACKED. Impact put at about 0.02% of the global installed base — a vendor scope figure, not a victim count.</td></tr>
+<tr><td>29 Oct</td><td>PHP KEV deadline passes. No CISA compliance outcome was found published to 4 November — do not infer compliance from the passing of the date.</td></tr>
+<tr><td>30 Oct</td><td>Cisco advisory marked final (Expressway 15.5.21; Duo Access Gateway version to verify against the Cisco advisory). Dutch NCSC 929-product snapshot above.</td></tr>
+<tr><td>31 Oct</td><td>Fragnesia (CVE-2026-46300) KEV deadline passes, again with no published compliance outcome found.</td></tr>
+<tr><td>3 Nov</td><td>Singapore CSA alert AL-2026-157, verified live: extends beyond PAN-OS to Cisco (Duo Access Gateway, Expressway), Citrix (NetScaler ADC/Gateway), F5 (BIG-IP APM, Configuration utility) and Siemens (RUGGEDCOM APE1808 running affected PAN-OS), with chaining to Fragnesia to root. CSA says the product list is selected, not exhaustive — these are affected-product findings, not exploited-product findings except for PAN-OS.</td></tr>
+<tr><td>4 Nov</td><td>Singapore Parliament: no evidence PHP2Shell was exploited in Singapore government or critical-information-infrastructure systems. This is a negative finding for Singapore gov/CII only, not a global “no victims” claim.</td></tr></table></div>
 <h3>Corrections and conflicts to hold</h3>
 <ul>
 <li><strong>25 rooted servers, clarified:</strong> 24 perimeter firewalls plus 1 subsequently compromised internal management server. Credential extraction and directory enumeration are confirmed; backdoor accounts, stolen signing keys and domain takeover are <em>not</em> confirmed.</li>
@@ -471,8 +475,6 @@
 <p>Sources: <a href="https://security.paloaltonetworks.com/CVE-2026-109618" target="_blank" rel="noopener noreferrer">Palo Alto CVE-2026-109618 advisory</a> · <a href="https://www.csa.gov.sg/alerts-and-advisories/alerts/al-2026-157/" target="_blank" rel="noopener noreferrer">CSA Singapore AL-2026-157</a> · <a href="https://www.securityweek.com/php2shell-attacks-root-palo-alto-firewalls-but-fail-against-wordpress/" target="_blank" rel="noopener noreferrer">SecurityWeek, PHP2Shell attacks</a> · <a href="https://www.channelnewsasia.com/singapore/php-flaw-exploitation-mddi-6519861" target="_blank" rel="noopener noreferrer">Channel News Asia, Singapore Parliament</a> · <a href="https://securityonline.info/php2shell-affected-products-list/" target="_blank" rel="noopener noreferrer">NCSC inventory summary</a></p>
 </section>
 
-    <p class="subtitle">Intelligence brief for SOC and threat hunting teams. Two critical PHP remote-code-execution flaws in the request-lifecycle bailout path, patched on 21 October and under opportunistic mass exploitation within hours. This revision is organised for action: what the bugs are, who is attacking, how to detect them, what to do, with the day's forensics demoted to appendices.</p>
-  </header>
 
   <div class="bluf" id="bluf">
     <h2>Bottom line</h2>

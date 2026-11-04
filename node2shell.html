@@ -141,21 +141,31 @@ footer p { font-size:13px; color:var(--muted); }
     <span>Node2Shell / HTTP2Shell / Broccoli2Shell</span>
   </div>
   <h1>Node2Shell &mdash; CVE-2026-111497</h1>
-<section id="update-2026-11-04" style="max-width:900px;margin:40px auto;padding:24px;border:2px solid var(--accent);border-radius:12px;background:var(--surface);color:var(--fg, var(--ink))">
-<p style="font-size:13px;margin:0 0 10px;color:inherit;opacity:.8">Latest first: this update sits above the original page, which follows unchanged below it.</p><h2 style="margin-top:0">Update — 4 November 2026: what changed after 29 October</h2>
+
+
+  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation has now been <em>attempted</em> once, and it failed. Three claims, three different confidences &mdash; the 28 October update moves one of them.</p>
+  <div class="meta">
+    <span>Sources: 11 primary + 9 in update</span>
+    <span>PoC repos: 39 (name) / 69 (CVE)</span>
+    <span>Network IOCs: 1 IP, 1 hash</span>
+    <span>Queries: 26 + 28 Oct 2026</span>
+  </div>
+</header>
+<section id="update-2026-11-04">
+<p>Latest first: this update sits above the original page, which follows unchanged below it.</p><h2>Update — 4 November 2026: what changed after 29 October</h2>
 <p>This section adds only post-cutoff findings. The original page above is unchanged. No confirmed production compromise, no new named victim, no new public IP IOC set and no named threat actor were found to 4 November.</p>
 <h3>Evidence ladder — keep these buckets separate</h3>
-<table style="width:100%;border-collapse:collapse"><tr><th style="text-align:left;border-bottom:1px solid var(--line, var(--rule));padding:6px">Evidence</th><th style="text-align:left;border-bottom:1px solid var(--line, var(--rule));padding:6px">Status to 4 Nov</th></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">CISA KEV listing (27 Oct)</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Yes — KEV means exploitation in the wild met the listing threshold, not a named breach.</td></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Decoy / probing attempts</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Zscaler: 402 decoy events, 20 IPs, 12 customers in the first 24 hours after disclosure (40% recon, 60% exploit attempts). Check Point telemetry below is probing, not compromise.</td></tr>
-<tr><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Lab RCE</td><td style="padding:6px;border-bottom:1px solid var(--line, var(--rule))">Disputed: lab RCE on unmodified Node.js 24.22.0 via Express 5 exists, with low per-attempt success; Red Hat says it knows of no reliable public PoC for code execution. Unresolved.</td></tr>
-<tr><td style="padding:6px"><strong>Confirmed production compromise</strong></td><td style="padding:6px"><strong>None named to 4 November.</strong> This row is empty on purpose — do not add attempts + KEV into a victim count.</td></tr></table>
+<div class="tbl-wrap"><table><tr><th>Evidence</th><th>Status to 4 Nov</th></tr>
+<tr><td>CISA KEV listing (27 Oct)</td><td>Yes — KEV means exploitation in the wild met the listing threshold, not a named breach.</td></tr>
+<tr><td>Decoy / probing attempts</td><td>Zscaler: 402 decoy events, 20 IPs, 12 customers in the first 24 hours after disclosure (40% recon, 60% exploit attempts). Check Point telemetry below is probing, not compromise.</td></tr>
+<tr><td>Lab RCE</td><td>Disputed: lab RCE on unmodified Node.js 24.22.0 via Express 5 exists, with low per-attempt success; Red Hat says it knows of no reliable public PoC for code execution. Unresolved.</td></tr>
+<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 4 November.</strong> This row is empty on purpose — do not add attempts + KEV into a victim count.</td></tr></table></div>
 <h3>EPSS over time — dated points, never averaged</h3>
 <div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>27 Oct — Tenable FAQ fetch</span><span>36%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:36%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>29 Oct — AhnLab</span><span>88.0%, 99.76th percentile</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:88%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>3 Nov — FIRST, via secondaries</span><span>~82.6–83%, 99.6th+ percentile</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:83%;background:var(--accent)"></div></div></div>
-<p style="font-size:13px;color:var(--muted)">EPSS moves daily and sources differ; a chart without dates would mislead.</p>
+<p>EPSS moves daily and sources differ; a chart without dates would mislead.</p>
 <h3>Check Point telemetry, 29 October — probing, not compromise</h3>
 <div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>Requests with Brotli-encoded payloads (Check Point IPS telemetry only)</span><span>90.5%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:90%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>Patrowl automation fingerprint</span><span>33.8%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:34%;background:var(--accent)"></div></div></div><div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>Targeted upload / ingestion endpoints</span><span>24.5%</span></div><div style="height:18px;background:var(--surface-2, #ddd);border-radius:9px;overflow:hidden"><div style="height:100%;width:25%;background:var(--accent)"></div></div></div>
-<p style="font-size:13px;color:var(--muted)">Check Point explicitly states this does not confirm successful compromise, and the percentages are its telemetry, not global attack volume. The new behavioural addition is the Patrowl fingerprint, not a new IP list.</p>
+<p>Check Point explicitly states this does not confirm successful compromise, and the percentages are its telemetry, not global attack volume. The new behavioural addition is the Patrowl fingerprint, not a new IP list.</p>
 <h3>Timeline and fixes after 29 October</h3>
 <ul>
 <li><strong>29 Oct:</strong> Palo Alto completes PAN-OS Brotli fixes (11.2.4-h23, 12.1.4-h13, 12.1.10-h3); no PAN-OS exploitation known. Scope is narrow: PA/VM-Series only when Brotli inspection <em>and</em> TLS/SSL decryption are both on (Brotli off by default); management UI/API not affected. Datadog confirms in-the-wild exploitation and adds detections, with no new victim named in the summaries found.</li>
@@ -172,14 +182,6 @@ footer p { font-size:13px; color:var(--muted); }
 <p>Sources: <a href="https://blog.checkpoint.com/security/http2shell-the-brotli-vulnerability-that-extends-beyond-node-js/" target="_blank" rel="noopener noreferrer">Check Point, HTTP2Shell</a> · <a href="https://www.arista.com/en/support/advisories-notices/security-advisory/24853-security-advisory-0202" target="_blank" rel="noopener noreferrer">Arista advisory 0202</a> · <a href="https://mallory.ai/blog/node2shell-rapid-response" target="_blank" rel="noopener noreferrer">Mallory, Node2Shell rapid response</a> · <a href="https://opsbreakfix.com/blog/cve-2026-111497-brotli-decoder-node2shell/" target="_blank" rel="noopener noreferrer">CSA AL-2026-154 summary</a></p>
 </section>
 
-  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation has now been <em>attempted</em> once, and it failed. Three claims, three different confidences &mdash; the 28 October update moves one of them.</p>
-  <div class="meta">
-    <span>Sources: 11 primary + 9 in update</span>
-    <span>PoC repos: 39 (name) / 69 (CVE)</span>
-    <span>Network IOCs: 1 IP, 1 hash</span>
-    <span>Queries: 26 + 28 Oct 2026</span>
-  </div>
-</header>
 
 <div class="verdict">
   <div class="vcard">
