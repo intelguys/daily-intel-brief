@@ -223,6 +223,30 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 </div>
 </section>
 
+<section aria-labelledby="ttp-h"><div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition. No mapping is invented where a source published none, and older research recirculated in-window is marked as context, not as a new sighting.</p></div>
+<table><thead><tr><th>MITRE technique</th><th>Behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection</th></tr></thead><tbody>
+<tr><td class="cve">T1078.004</td><td>Valid Accounts: Cloud Accounts</td><td>UNC6993 / LLMjacking — stolen cloud, GitHub and LLM keys used to run inference at the victim's expense</td><td>A stolen AI or cloud key is monetisable within hours. Alert on new principals, spend spikes, and unusual key locations. Reported in secondary summary of GTIG / Mandiant research.</td></tr>
+<tr><td class="cve">T1098.001</td><td>Account Manipulation: Additional Cloud Credentials</td><td>UNC6993 / LLMjacking — additional cloud credentials created / abused to sustain model access</td><td>Revoke-and-rotate, do not merely cap spend. Audit who can create additional credentials.</td></tr>
+<tr><td class="cve">T1059.004</td><td>Command and Scripting Interpreter: Unix Shell</td><td>Zscaler trojanised Terraform campaign — FLATROOF / ROOFDECK, recirculated 3 Nov</td><td>Context only. Underlying research is dated 8 Oct, so this is not a new 3 Nov attack.</td></tr>
+<tr><td class="cve">T1105</td><td>Ingress Tool Transfer</td><td>Zscaler trojanised Terraform campaign — FLATROOF / ROOFDECK, recirculated 3 Nov</td><td>Context only, same 8 Oct caveat as above.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Agent-tool behaviour — rapid, tool-driven command sequences from a single session</td><td>Agentic intrusions incl. UNC7228 — ARTEX, PentAGI, CAIRN since late Aug 2026</td><td>Detect the behaviour, not a malware name. GTIG stage-6/7 forecast is an assessment, not an observation.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Pre-auth bypass, then root command injection</td><td>Barracuda CVE-2026-116606 chained with CVE-2026-111560</td><td>Patch-before-exploitation, not a confirmed incident chain. Email is the phishing front door for every bank.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Update-channel compromise, credential harvesting, backdoor</td><td>cPGuard / OPSSHIELD — versions 5.88.12–5.88.19</td><td>Treat any server that installed those versions as potentially compromised, even if backdoor files are gone.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Firmware backdoor persisting across reboot</td><td>Videostrong / XCPE — 1.3m+ Android TV boxes</td><td>A control-domain takedown does not clean the device. Treat affected hardware as untrusted.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Lookalike-domain credential capture with cloaking</td><td>US bank phishing — 248 live domains, 189 US firms, 25 Oct</td><td>A page that looks dead on repeat visit may be cloaking, not takedown. Capture is a wire/ACH fraud precursor.</td></tr>
+</tbody></table>
+<p class="small muted">Recurring watch: valid-account / cloud-account abuse (T1078.004) links LLMjacking to broader cloud takeover — the same exposed endpoint or leaked key pattern recurs across actors. No other technique in this edition was published with a MITRE ID.</p>
+</section>
+
+<section aria-labelledby="ai-h"><div class="sec-head"><h2 id="ai-h">AI in the current threat landscape</h2><p>Standing coverage, added 4 November 2026. AI as a target, AI as a weapon or accelerator, and AI as a risk and control problem — kept separate, with forecasts marked as forecasts.</p></div>
+<div class="panels">
+<div class="panel"><h3>AI as a target — LLMjacking, live today</h3><p>Stolen service-account keys, GitHub tokens or LLM API keys, or exposed endpoints (including Ollama), are used to run inference at the victim's expense and resell it via "LLM mixer" services such as Jet Night. One actor made 500,000+ calls in under eight hours; charges above $100,000 in a day, up to about $1m before revocation. LiteLLM CVE-2026-40217 (8.8) turned ordinary virtual keys into PROXY_ADMIN credentials. No bank victim is named, and the figures are reported scales, not audited bank losses.</p></div>
+<div class="panel"><h3>AI as a weapon — agentic intrusions, live today</h3><p>Since late August 2026, actors have run ARTEX, PentAGI and CAIRN inside Mandiant engagements, turning high-level goals into commands via model APIs. GTIG places activity at stage 5 and predicts stage 6 within 1–3 months and stage 7 within 3–6 months. That forecast is an assessment, not an observation — no engagement counts or success rates are given.</p></div>
+<div class="panel"><h3>AI as a risk and control problem for BFSI</h3><p>Govern: (1) API and service-account key inventory and rotation; (2) endpoint exposure — Ollama / LiteLLM must not be internet-reachable without authentication; (3) spend and invocation monitoring, with revoke-and-rotate, not just spend caps; (4) agent-tool detection — rapid, tool-driven sequences from a single session; (5) open-source tooling — blocking one framework name does not block the technique.</p></div>
+<div class="panel"><h3>No new AI-scaled phishing item in this window</h3><p>No newly reported AI-generated phishing, vishing or deepfake campaign against a BFSI victim was found for 3–4 November. That is absence of reporting, not evidence it has stopped. The MoneySmart, HKMA and Belize warnings in this edition are conventional impersonation and are not re-labelled as AI campaigns without evidence.</p></div>
+</div>
+</section>
+
 <section aria-labelledby="ioc-h"><div class="sec-head"><h2 id="ioc-h">Indicators &amp; defensive actions</h2></div>
 <h3>Notable IOCs / behavioural indicators</h3>
 <ul>
