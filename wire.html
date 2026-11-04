@@ -82,19 +82,30 @@ button:hover { border-color: rgba(168,237,196,.45); }
     all.forEach(function (e) { seen.add(e.id); });
     firstLoad = false;
   }
-  async function loadWire() {
+  async function loadWire(manual) {
+    var btn = document.getElementById('refresh-btn');
+    if (manual) {
+      statusEl.textContent = 'Refreshing\u2026';
+      if (btn) { btn.disabled = true; btn.textContent = 'Refreshing\u2026'; }
+    }
     try {
       var res = await fetch('wire.json?t=' + Date.now(), { cache: 'no-store' });
       if (!res.ok) throw new Error('wire fetch failed');
+      var before = new Set(seen);
       lastData = await res.json();
-      statusEl.textContent = 'Last checked ' + lastData.last_checked_sgt + ' · next check ' + lastData.next_check_sgt + ' · auto-refresh every 5 minutes';
+      var allIds = [].concat(lastData.breaking || [], lastData.entries || []).map(function (e) { return e.id; });
+      var newCount = firstLoad ? 0 : allIds.filter(function (id) { return !before.has(id); }).length;
       render();
+      var now = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Singapore', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(new Date());
+      statusEl.textContent = 'Refreshed at ' + now + ' SGT \u2014 ' + (newCount > 0 ? newCount + ' new ' + (newCount === 1 ? 'entry' : 'entries') : 'no new entries') + ' \u00b7 Data last checked ' + lastData.last_checked_sgt + ' \u00b7 Next wire check ' + lastData.next_check_sgt + ' \u00b7 Auto-refresh every 5 minutes';
     } catch (err) {
-      statusEl.textContent = 'Could not refresh — showing last loaded data. Try Refresh now.';
+      statusEl.textContent = 'Could not refresh \u2014 showing last loaded data. Try Refresh now.';
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Refresh now'; }
     }
   }
   function start() { if (timer) clearInterval(timer); timer = setInterval(loadWire, 5 * 60 * 1000); }
-  document.getElementById('refresh-btn').addEventListener('click', loadWire);
+  document.getElementById('refresh-btn').addEventListener('click', function () { loadWire(true); });
   document.getElementById('pause-btn').addEventListener('click', function (ev) {
     paused = !paused;
     if (paused) { clearInterval(timer); timer = null; ev.target.textContent = 'Resume auto-refresh'; }
