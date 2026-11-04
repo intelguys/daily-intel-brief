@@ -428,7 +428,7 @@
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 · revised 29 Oct &middot; KEV listing, second sensor's IOC set, export catch-up, vendor matrix</span>
+      <span>Compiled 21 Oct 03:55 · revised 4 Nov &middot; PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched</span>
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -443,7 +443,7 @@
     <h2>Bottom line</h2>
     <ol>
       <li><strong>The exploit now works in the wild, and we have the packets.</strong> A honeypot operator published, on 24 October, <strong>35 complete execution-stage POSTs each followed within 400&nbsp;ms by a <code>/bin/sh</code> whose parent is <code>apache2</code> running as <code>uid=33</code></strong> &mdash; matched across target-side PCAP and kernel process events, from two source addresses, against three targets. That is the first direct evidence in this case that public-tooling-class exploitation reaches a shell. It is <em>not</em> a victim compromise: the targets were disposable honeypots deliberately built in the configuration the exploit needs. See the 26 October update.</li>
-      <li><strong>It is being exploited, at scale, right now.</strong> Hadrian: <em>&ldquo;We are now seeing php2shell exploited in the wild at scale&rdquo;</em>, and &ldquo;<em>most of the attacks we observe abuse PHP&rsquo;s session upload-progress path</em>&rdquo;. Cloudflare, Patchstack, Vega and watchTowr all reported attempts within hours of the patch. <strong>No successful in-the-wild <em>victim</em> compromise has been confirmed.</strong> Both compromise claims made in this case have been retracted &mdash; Sophos on 22 October, five hours after making it, and Unit&nbsp;42 on 25 October. Exploitation at scale, successful exploitation and victim compromise are three different claims; the first two are now evidenced, the third is not. See the 23 and 26 October updates.</li>
+      <li><strong>It is being exploited, at scale, right now.</strong> Hadrian: <em>&ldquo;We are now seeing php2shell exploited in the wild at scale&rdquo;</em>, and &ldquo;<em>most of the attacks we observe abuse PHP&rsquo;s session upload-progress path</em>&rdquo;. Cloudflare, Patchstack, Vega and watchTowr all reported attempts within hours of the patch. <strong>No successful in-the-wild <em>victim</em> compromise by a named victim organisation has been confirmed.</strong> Both named-organisation compromise claims made in this case have been retracted &mdash; Sophos on 22 October, five hours after making it, and Unit&nbsp;42 on 25 October. A separate, unretracted victim-side report (Dream, 26 Oct, in the 29 October update) describes 24 firewalls plus one internal management server rooted; it names no victim organisation. Exploitation at scale, successful exploitation and victim compromise are three different claims; the first two are now evidenced, the third is not. See the 23 and 26 October updates.</li>
       <li><strong>FPM is in scope, and the advisory text understated it.</strong> The GitHub advisory left PHP-FPM at &ldquo;considered susceptible by source analysis&rdquo;. The PHP security team&rsquo;s own <a href="https://www.openwall.com/lists/oss-security/2026/10/21/16" target="_blank" rel="noopener noreferrer">oss-security post</a> is stronger: <em>&ldquo;Unauthenticated RCE has been demonstrated against Apache mod_php and PHP-FPM.&rdquo;</em> If your estate is FPM-only, you are not in a second tier.</li>
       <li><strong>The mechanism is now properly documented &mdash; four bugs under two CVEs.</strong> <a href="https://www.wiz.io/blog/php2shell-php-rce" target="_blank" rel="noopener noreferrer">Wiz Research</a> describes 109618 as an upload-progress unserializer use-after-free plus a process-memory disclosure, and 109619 as a fatal-error backtrace use-after-free plus an OPcache type confusion. Every one is a <em>state-survives-a-bailout</em> bug: memory is freed out from under a global pointer, and the next request on the same worker uses it.</li>
       <li><strong>The session path the ecosystem built rules for is the one attackers are actually using</strong> &mdash; not because the leaked PoC was right about the root cause, but because <code>session.upload_progress</code> is the cheapest way to reach it. That partly reprieves the WAF rules deployed on 21 October, but only for 109619. Nothing in that rule set touches 109618.</li>
@@ -513,12 +513,12 @@
       <div class="tile">
         <div class="k">In CISA KEV</div>
         <div class="v">Yes</div>
-        <div class="n">Catalog <code>2026.10.27</code>, <strong>1,760</strong> entries &middot; both added 26 Oct, <strong>due 29 Oct</strong>, <code>forensicTriage: Yes</code></div>
+        <div class="n">Catalog <code>2026.10.27</code>, <strong>1,760</strong> entries, as of 28 Oct &middot; both added 26 Oct, <strong>due 29 Oct</strong>, <code>forensicTriage: Yes</code></div>
       </div>
       <div class="tile">
         <div class="k">Exploited in the wild</div>
         <div class="v">Yes &mdash; and now successful</div>
-        <div class="n">35 Apache-parent shells, PCAP + process-tree correlation, 24 Oct · <strong>still no confirmed victim compromise</strong> &mdash; both claims withdrawn</div>
+        <div class="n">35 Apache-parent shells, PCAP + process-tree correlation, 24 Oct · <strong>still no confirmed named-victim compromise</strong> &mdash; both named claims withdrawn; see Dream victim-side report, 29 Oct update</div>
       </div>
       <div class="tile">
         <div class="k">Public exploit</div>
@@ -527,8 +527,8 @@
       </div>
       <div class="tile">
         <div class="k">Repositories</div>
-        <div class="v">~1,000</div>
-        <div class="n">from 35 on 21 Oct · search saturates GitHub&rsquo;s 1,000 cap; 137 created 24&ndash;26 Oct alone</div>
+        <div class="v">1,091</div>
+        <div class="n">counted 28 Oct, from 35 on 21 Oct; 137 created 24&ndash;26 Oct alone</div>
       </div>
       <div class="tile">
         <div class="k">&nbsp;</div>
@@ -601,8 +601,8 @@
 <li><strong>25 rooted servers, clarified:</strong> 24 perimeter firewalls plus 1 subsequently compromised internal management server. Credential extraction and directory enumeration are confirmed; backdoor accounts, stolen signing keys and domain takeover are <em>not</em> confirmed.</li>
 <li><strong>Successful-exploitation counts are different measurements, not one count:</strong> GreyNoise &ldquo;from one address&rdquo; on the original page, &ldquo;at least six successful exploitations&rdquo; in a later secondary, 68,499 requests from 652 IPs in 73 countries with 174 delivering code/droppers, and WatchTowr success from a single German IP. Do not add them together.</li>
 <li><strong>WordPress vs PAN-OS:</strong> Wordfence/Defiant found no WordPress site known compromised via PHP2Shell as of 28 October, despite about 77,600 related requests from 2,000+ IPs (23–27 Oct). That does not contradict the PAN-OS servers; the surfaces differ.</li>
-<li><strong>DPRK targeting claim, unverified:</strong> CYFIRMA (29 Oct) claims a DPRK/Lazarus-ecosystem campaign and a captured 216-host target list across 10 countries, expanding by adversary claim to 581 hosts. The 581 is an adversary claim, the 216 is a captured list, not 216 compromises. Banking appears only in the target-sector mix — no named bank compromise is evidenced.</li>
-<li><strong>Scores:</strong> NVD CVSS 3.1: 9.8 for <code>CVE-2026-109618</code>, 8.1 for <code>CVE-2026-109619</code>, both still &ldquo;Undergoing Analysis&rdquo; at the 1 November check.</li>
+<li><strong>DPRK targeting claim, unverified:</strong> CYFIRMA advisory, first reported 23 October (v3 figure, 29 October), claims a DPRK/Lazarus-ecosystem campaign and a captured 216-host target list across 10 countries, expanding by adversary claim to 581 hosts, of which roughly one third (on the order of 70 hosts) had already been touched, per the earlier section — the list size is not a compromise count. The 581 is an adversary claim, the 216 is a captured list, not 216 compromises. Banking appears only in the target-sector mix — no named bank compromise is evidenced.</li>
+<li><strong>Scores:</strong> NVD CVSS 3.1: 9.8 for <code>CVE-2026-109618</code>, 8.1 for <code>CVE-2026-109619</code>, both still &ldquo;Undergoing Analysis&rdquo; at the 1 November check. Note: the status board at 28 October recorded NVD as Analyzed — the status is inconsistent in this page and should be re-verified against NVD before relying on either.</li>
 </ul>
 <h3>Still open, and what to hunt</h3>
 <ul>
@@ -2263,7 +2263,7 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
   </section>
 
   <footer>
-    <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October; updated 26 October (confirmed exploitation, retractions, CVE-2026-115560, PAN-OS) and 28 October (KEV listing, Wiz indicator set, export regeneration 81&rarr;93, vendor matrix). Sources are public reporting and direct measurement. TLP:CLEAR — the underlying reporting is public, and every measurement this brief adds is reproducible from public sources, with the endpoints and parameters recorded under <code>raw/</code>. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
+    <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October; updated 26 October (confirmed exploitation, retractions, CVE-2026-115560, PAN-OS) and 28 October (KEV listing, Wiz indicator set, export regeneration 81&rarr;93, vendor matrix), 29 October (KEV Fragnesia chain, GreyNoise successes, Dream victim-side report) and 4 November (PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched). Sources are public reporting and direct measurement. TLP:CLEAR — the underlying reporting is public, and every measurement this brief adds is reproducible from public sources, with the endpoints and parameters recorded under <code>raw/</code>. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
     <p>Re-validated against the official advisory at 14:05 UTC on 21 October, 02:00 UTC on 22 October, and again on 26 October against the KEV catalog, the NVD API, the PHP release API and the Palo Alto advisory. The retired models and the revision log are preserved unedited in Appendices A and B — where either disagrees with the main section, the main section is correct. Four corrections in this document are to its own earlier readings rather than to the sources: the discovery credit, the claim that the leaked bundle was aimed at the wrong subsystem throughout, the “no IOCs” position, and the PAN-OS item it recorded as unverified on 23 October and which is now confirmed by the vendor.</p>
     <p><strong>What has not changed across five days of revision:</strong> patch to 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35, restart every worker, keep <code>session.upload_progress.enabled=0</code> in place after patching, and hunt process parentage rather than request signatures. Everything that moved — the root-cause dispute, the retractions, the new CVE, the appliance exposure, the indicator set — moved around that core.</p>
   </footer>

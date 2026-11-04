@@ -396,16 +396,16 @@ footer {
   <div class="wrap">
     <div class="eyebrow">
       <span class="tlp">TLP:AMBER</span>
-      <span>Incident review · 22 Oct 2026</span>
+      <span>Incident review · 22 Oct 2026 · updated 4 Nov 2026</span>
     </div>
     <h1>Storm-0940, ARTEX, and the ConnectWise supply-chain compromise</h1>
 
 
-    <p class="standfirst">A review of Microsoft's 21 October report, checked against four other vendors and against our own telemetry. Two layers carry two different confidences.</p>
+    <p class="standfirst">A review of Microsoft's 21 October report, checked against other vendors and against our own telemetry, with checks re-run to 4 November. Two layers carry two different confidences.</p>
     <div class="meta">
-      <span>Sources: 6 primary</span>
-      <span>Indicators reviewed: 7 IPs, 3 domains, 8 app IDs</span>
-      <span>Queries run: 22 Oct 2026</span>
+      <span>Sources: 13 listed</span>
+      <span>Indicators reviewed: 7 IPs, 8 app IDs (domains: see text)</span>
+      <span>Queries run: 22 Oct 2026; re-checked to 4 Nov</span>
     </div>
   </div>
 </header>
@@ -435,7 +435,7 @@ footer {
   <div class="figures">
     <div class="fig"><span class="n">2,250+</span><span class="d">tenants the actor attempted</span></div>
     <div class="fig"><span class="n">2,900</span><span class="d">sign-in attempts per minute</span></div>
-    <div class="fig"><span class="n">&lt;3 h</span><span class="d">targeting to privileged access</span></div>
+    <div class="fig"><span class="n">&lt;3 h</span><span class="d">targeting to privileged access (ConnectWise case, vendor assertion)</span></div>
     <div class="fig"><span class="n">8 vs 3</span><span class="d">app IDs to check vs published</span></div>
   </div>
 
@@ -444,7 +444,7 @@ footer {
     <p class="sub">All times UTC. Corroborated by at least two independent observers unless marked as a vendor assertion.</p>
     <ul class="timeline">
 <li><span class="t">Late Aug</span><span class="e">GTIG/Mandiant first observe ARTEX, PentAGI, CAIRN and Hexstrike in live incident-response engagements, corroborated by research telemetry.</span></li>
-      <li><span class="t">10–14 Oct</span><span class="e">Password spray from <span class="mono">144.172.64.99</span>: <b>327 accounts across 8 organisations</b>, 151,000+ failed logons, peak 2,900/min on 11 Oct. Roughly 98% of responses were lockouts. No successful authentication, token, Graph call or directory change.</span></li>
+      <li><span class="t">10–14 Oct</span><span class="e">Password spray from <span class="mono">144.172.64.99</span>: <b>327 accounts across 8 organisations</b>, 151,000+ failed logons, peak 2,900/min on 11 Oct. Roughly 98% of responses were lockouts. No successful authentication, token, Graph call or directory change. The remainder is not broken out in the source — it is not successes, per the same entry.</span></li>
       <li><span class="t">15 Oct 01:58</span><span class="e">Cloud Management service principals begin self-assigning directory roles, mostly Exchange Administrator, across about 50 tenants.</span></li>
       <li><span class="t">15 Oct 03:44</span><span class="e">The Teams app adds itself to <b>Global Administrator</b>, twice, four minutes apart. A Python script plants client secrets on two other applications, set to expire in <b>2028</b>. Nine changes: six succeeded, three failed.</span></li>
       <li><span class="t">15 Oct 06:13</span><span class="e">The backup application authenticates from <span class="mono">144.172.64.128</span> in 17 of the first ~290 tenants checked.</span></li>
@@ -454,7 +454,7 @@ footer {
       <li><span class="t">17 Oct 05:01</span><span class="e">Cloud Backup access shut off. At <b>07:00 seven application identities are disabled</b>; certificates revoked at 17:00.</span></li>
 <li><span class="t">17 Oct</span><span class="e">CrowdStrike tracks the VAPOR PANDA campaign start — more than 200 organisations in at least 14 countries in 11 days, 9 confirmed post-exploitation, explicitly separate from Storm-0940.</span></li>
       <li><span class="t">19 Oct</span><span class="e">ConnectWise completes credential reset. Huntress reviews 10,000+ tenants and finds sign-in activity only from <span class="mono">144.172.64.128</span> and Microsoft-internal ranges.</span></li>
-      <li><span class="t">21 Oct</span><span class="e">Microsoft publishes attribution to Storm-0940. Phased restoration begins.</span></li>
+      <li><span class="t">21 Oct</span><span class="e">Microsoft publishes attribution to Storm-0940.</span></li>
     
 <li><span class="t">28 Oct</span><span class="e">ConnectWise phased restoration begins, via the new security-hardened app &ldquo;ConnectWise Cloud Backup for M365&rdquo;.</span></li>
 <li><span class="t">29 Oct</span><span class="e">CrowdStrike publishes VAPOR PANDA; Microsoft publishes North-Korea ARTEX use by Onyx Sleet and Pearl Sleet, human-directed, not fully autonomous.</span></li>

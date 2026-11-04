@@ -137,18 +137,18 @@ footer p { font-size:13px; color:var(--muted); }
 <header class="masthead">
   <div class="eyebrow">
     <span class="tlp">TLP:CLEAR</span>
-    <span>Deep research · 26 Oct 2026 · updated 29 Oct</span>
+    <span>Deep research · 26 Oct 2026 · updated 4 Nov 2026</span>
     <span>Node2Shell / HTTP2Shell / Broccoli2Shell</span>
   </div>
   <h1>Node2Shell &mdash; CVE-2026-111497</h1>
 
 
-  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation has now been <em>attempted</em> once, and it failed. Three claims, three different confidences &mdash; the 28 October update moves one of them.</p>
+  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation is now confirmed as attempts (Zscaler 402 decoy events; Datadog confirmation), with no successful production RCE and no victim named to 4 November. Three claims, three different confidences &mdash; the 28 October update moves one of them.</p>
   <div class="meta">
     <span>Sources: 11 primary + 9 in update</span>
-    <span>PoC repos: 39 (name) / 69 (CVE)</span>
-    <span>Network IOCs: 1 IP, 1 hash</span>
-    <span>Queries: 26 + 28 Oct 2026</span>
+    <span>PoC repos: 39 (name) / 69 (CVE) — masthead counts undated; body gives 30 / 52 on 26 Oct</span>
+    <span>Network IOCs: 1 IP, 1 hash (26 Oct); plus 5 Zscaler exploitation addresses (28 Oct)</span>
+    <span>Queries: 26 + 28 Oct 2026; re-checked to 4 Nov</span>
   </div>
 </header>
 
@@ -159,7 +159,7 @@ footer p { font-size:13px; color:var(--muted); }
     <span class="label">The vulnerability</span>
     <span class="grade high">REAL · HIGH</span>
     <p>Out-of-bounds write in Google's reference Brotli decoder, <span class="mono">c/dec/decode.c</span>, present since 2018 and fixed upstream in February 2026.</p>
-    <p class="foot">CVSS 4.0 9.2 from the CNA; Node.js rates it High; NVD ingested 22 Oct, still <em>Awaiting Analysis</em>.</p>
+    <p class="foot">CVSS 4.0 9.2 from the CNA; Node.js rates it High; NVD ingested 22 Oct, Analyzed by 28 Oct, 9.8 / 9.2.</p>
   </div>
   <div class="vcard">
     <span class="label">Code execution</span>
@@ -183,7 +183,7 @@ footer p { font-size:13px; color:var(--muted); }
 <div class="figures">
   <div class="fig"><span class="n">8 mo</span><span class="d">fix sat unlabelled upstream</span></div>
   <div class="fig"><span class="n">~5</span><span class="d">attempts to a shell (ELLIO, x86-64)</span></div>
-  <div class="fig"><span class="n">0.55</span><span class="d">EPSS, 99th percentile (27 Oct)</span></div>
+  <div class="fig"><span class="n">0.55</span><span class="d">EPSS (FIRST API), 99th percentile (27 Oct)</span></div>
   <div class="fig"><span class="n">1+1</span><span class="d">IP and hash published (26 Oct)</span></div>
 </div>
 
@@ -214,7 +214,7 @@ footer p { font-size:13px; color:var(--muted); }
 <div class="fig"><span class="n">88%</span><span class="d">EPSS — 29 Oct, AhnLab, 99.76th percentile</span></div>
 <div class="fig"><span class="n">~83%</span><span class="d">EPSS — 3 Nov, FIRST via secondaries, 99.6th+ percentile</span></div>
 </div>
-<p>EPSS moves daily and sources differ; a chart without dates would mislead.</p>
+<p>EPSS moves daily and sources differ; a chart without dates would mislead. 27 Oct values differ by source (FIRST 55% vs Tenable FAQ 36%); treat that as a source/method difference, not a daily move.</p>
 <h3>Check Point telemetry, 29 October</h3>
 <div class="figures">
 <div class="fig"><span class="n">90.5%</span><span class="d">requests with Brotli-encoded payloads, Check Point IPS telemetry only</span></div>
@@ -224,12 +224,12 @@ footer p { font-size:13px; color:var(--muted); }
 <p>Check Point explicitly states this does not confirm successful compromise, and the percentages are its telemetry, not global attack volume. The new behavioural addition is the Patrowl fingerprint, not a new IP list.</p>
 <h3>Fixes and the Arista outbound path</h3>
 <ul>
-<li><strong>29 Oct:</strong> Palo Alto completes PAN-OS Brotli fixes (<code>11.2.4-h23</code>, <code>12.1.4-h13</code>, <code>12.1.10-h3</code>); no PAN-OS exploitation known. Scope is narrow: PA/VM-Series only when Brotli inspection <em>and</em> TLS/SSL decryption are both on (Brotli off by default); management UI/API not affected. Datadog confirms in-the-wild exploitation and adds detections, with no new victim named in the summaries found.</li>
+<li><strong>29 Oct:</strong> Palo Alto completes the remaining listed PAN-OS Brotli hotfixes (<code>11.2.4-h23</code>, <code>12.1.4-h13</code>, <code>12.1.10-h3</code>); earlier branches listed 29 Oct are not repeated here; no PAN-OS exploitation known. Scope is narrow: PA/VM-Series only when Brotli inspection <em>and</em> TLS/SSL decryption are both on (Brotli off by default); management UI/API not affected. Datadog confirms in-the-wild exploitation and adds detections, with no new victim named in the summaries found.</li>
 <li><strong>30 Oct:</strong> Singapore CSA alert AL-2026-154 (CVSS 3.1 9.8, public PoC exists, flaw &ldquo;reportedly being actively exploited&rdquo;). CSA relays reported exploitation; the alert names no victim, actor or independently verified compromise. Affected: Node.js 22.x &lt;22.23.4, 24.x &lt;24.22.1, 26.x &lt;26.12.1, and Microsoft .NET 8–11.</li>
 <li><strong>1 Nov:</strong> Distribution backports complete per Mallory final update (Ubuntu, RHEL, Amazon Linux, SUSE — verify each distro advisory before listing exact package versions).</li>
 <li><strong>2 Nov:</strong> Arista advisory — VeloCloud Orchestrator affected via an <em>outbound</em> path: its outbound HTTP client processing a crafted Brotli response from an attacker-controlled or compromised endpoint, including via redirect. No mitigation available; inbound API paths reviewed with no Brotli decoding identified.</li>
 <li><strong>Scores, not corrections:</strong> Google CVSS 4.0 9.2, NVD CVSS 3.1 9.8, Red Hat 8.1, Microsoft .NET-specific 8.1 (CVSS 3.1); Node.js itself rates the issue High. &ldquo;HTTP2Shell&rdquo;, used increasingly by Check Point, is the same CVE, not a separate vulnerability.</li>
-<li><strong>Fix matrix beyond Node.js:</strong> Bun 1.4.4; Python Brotli 1.2.1 / brotlicffi 1.2.1.0; .NET 8.0.33, 9.0.22, 10.0.14, 11 RC3; Envoy 1.40.0 / 1.39.3 / 1.38.6 / 1.37.8 / 1.36.12; Istio 1.31.2 / 1.30.6 / 1.29.9; Ubuntu 26.04 brotli 1.2.0-3ubuntu0.1; Debian bookworm 1.0.9-2+deb12u1. Node 20.x / 23.x / 25.x receive no fix (end-of-life lines — migration, not patching).</li>
+<li><strong>Debian labelling:</strong> DSA-6582-1 / DLA-4855-1 are the Debian libbrotli package; the Debian nodejs bundle remained vulnerable except in sid.</li><li><strong>Fix matrix beyond Node.js:</strong> Bun 1.4.4; Python Brotli 1.2.1 / brotlicffi 1.2.1.0; .NET 8.0.33, 9.0.22, 10.0.14, 11 RC3; Envoy 1.40.0 / 1.39.3 / 1.38.6 / 1.37.8 / 1.36.12; Istio 1.31.2 / 1.30.6 / 1.29.9; Ubuntu 26.04 brotli 1.2.0-3ubuntu0.1; Debian bookworm 1.0.9-2+deb12u1. Node 20.x / 23.x / 25.x receive no fix (end-of-life lines — migration, not patching).</li>
 <li><strong>Detection additions:</strong> Patrowl fingerprint in IPS telemetry; worker-crash bursts as a <em>possible</em> exploitation signal (crash &ne; compromise); bundled/static Brotli inventory (proxies, sidecars, container images), including Arista's outbound-redirect path.</li>
 <li><strong>Patch adoption:</strong> cannot be charted from sources found. Do not substitute EPSS or Akamai exposure (&ldquo;majority of networks run affected Node.js versions&rdquo;) for adoption.</li>
 </ul>
@@ -330,7 +330,7 @@ footer p { font-size:13px; color:var(--muted); }
     <li><strong>New rule packs.</strong> <a href="https://github.com/ionsec/node2shell-detector" target="_blank" rel="noopener noreferrer">ionsec/node2shell-detector</a> (created 26 Oct) ships <strong>14 Sigma, 14 Suricata (SIDs 1006600&ndash;1006699), ModSecurity and 7 YARA rules</strong>, with a 25-entry fingerprint catalogue including the <code>Content-Encoding: br</code> request shapes. Blevene&rsquo;s gist adds 8 Sigma rules and Suricata <strong>sid 2026114971</strong> (inbound br token) plus an egress flowbits pair. Fortinet ships IPS DB <strong>37.321</strong>; Rapid7 added an authenticated check in its 26 Oct content release.</li>
     <li><strong>Better behavioural signals than &ldquo;crash then execution&rdquo;.</strong> Misses mostly crash the worker, so look for <strong>bursts of Node.js segfaults/restarts right after large <code>br</code> bodies</strong> &mdash; and treat the resulting core dumps as a data-loss event, because with <code>systemd-coredump</code> they land in <code>/var/lib/systemd/coredump</code> and can contain other users&rsquo; session tokens. Note the failure mode differs by ecosystem: <strong>Python Brotli/brotlicffi, the PHP extension&rsquo;s streaming API and the Ruby gem hang instead of crashing; PHP spins at 100% CPU</strong>.</li>
     <li><strong>Do not use <code>process.versions.brotli</code> as a patch check.</strong> It reads <strong>1.2.0 on both patched and unpatched Node.js builds</strong>. Check the Node release version instead.</li>
-    <li><strong>Exposure is still unmeasured.</strong> Akamai is quoted as finding 61% of networks on affected Node.js versions (the page returned <strong>403</strong> here &mdash; <em>unexecuted</em>, quote is second-hand); the Phoenix tracker reports ~80 products with <strong>38 fixed, 12 in progress, 19 still vulnerable</strong> as of 26 Oct. No Shadowserver, Censys or Shodan count was obtainable.</li>
+    <li><strong>Exposure is still unmeasured.</strong> Akamai is quoted as finding 61% of networks on affected Node.js versions (the page returned <strong>403</strong> here &mdash; <em>unexecuted</em>, quote is second-hand); the Phoenix tracker reports ~80 products with <strong>38 fixed, 12 in progress, 19 still vulnerable</strong> as of 26 Oct (11 uncategorised in the figures given; 38 + 12 + 19 = 69, not ~80). No Shadowserver, Censys or Shodan count was obtainable.</li>
   </ul>
 
   <div class="callout">
