@@ -1,9 +1,24 @@
 {
   "version": 1,
-  "updated_sgt": "2026-11-04T20:18:00+08:00",
-  "last_checked_sgt": "2026-11-04T20:18:00+08:00",
+  "updated_sgt": "2026-11-04T20:22:00+08:00",
+  "last_checked_sgt": "2026-11-04T20:22:00+08:00",
   "next_check_sgt": "2026-11-05T12:00:00+08:00",
-  "breaking": [],
+  "breaking": [
+    {
+      "id": "breaking-arkea-20261104",
+      "timestamp_sgt": "2026-11-04T18:18:00+08:00",
+      "severity": "high",
+      "status": "confirmed",
+      "type": "Named BFSI victim — confirmed attack",
+      "headline": "Crédit Mutuel Arkéa confirms cyberattack enabling fraudulent transactions",
+      "summary": "French banking group Crédit Mutuel Arkéa confirmed on 4 November 2026 that it was the target of a cyberattack that enabled fraudulent transactions. The bank says the incident is now under control, some transactions were temporarily suspended, regulators and supervisory authorities have been notified, and clients face no financial consequences.",
+      "known": "The bank's own statement, reported by CoinDesk, Bloomberg and Ledger Insights on 4 November, confirms the attack and the fraudulent transactions. Blockchain investigator ZachXBT first flagged a suspected loss of more than $106 million at an unnamed EU entity on 2 November and named Arkéa on 3 November, putting the total above $133 million; Bitquery traced $108.8 million in USDC withdrawals from Kraken, Crypto.com and OKX accounts over 1–2 November, and Crypto.com said it blocked funds linked to the incident.",
+      "unknown": "The bank has not confirmed the amount stolen, the attack method, which system was compromised, whether the funds were fiat or cryptocurrency, or how much, if anything, has been recovered. The $133 million figure is the investigator's estimate, repeated in the press, not a bank-confirmed loss.",
+      "bfsi_impact": "A named European bank victim with fraudulent transactions: peer banks should review controls on large and exchange-account withdrawals, verify transaction authorisation and suspension procedures, and watch for laundering of any linked funds through exchanges and instant-swap services. Under the EU Digital Operational Resilience Act, major ICT incidents carry a short initial reporting window, so EU-regulated peers should check their own incident-classification clocks.",
+      "source_name": "CoinDesk, 4 November 2026",
+      "source_url": "https://www.coindesk.com/business/2026/11/04/zachxbt-names-french-bank-credit-mutuel-arkea-as-suspected-victim-of-usd133-million-crypto-theft"
+    }
+  ],
   "entries": [
     {
       "id": "watch-wso2-20261105",
