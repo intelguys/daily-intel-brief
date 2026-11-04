@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "updated_sgt": "2026-11-04T20:18:00+08:00",
+  "last_checked_sgt": "2026-11-04T20:18:00+08:00",
+  "next_check_sgt": "2026-11-05T12:00:00+08:00",
+  "breaking": [],
+  "entries": [
+    {
+      "id": "watch-wso2-20261105",
+      "timestamp_sgt": "2026-11-04T09:00:00+08:00",
+      "severity": "watch",
+      "status": "confirmed",
+      "type": "Vulnerability deadline",
+      "headline": "WSO2 Open Banking CVE-2025-11969 — KEV deadline 5 November",
+      "summary": "Deadline watch carried from the 4 November daily brief. Not a new breaking item on 4 November itself.",
+      "known": "Listed in CISA Known Exploited Vulnerabilities with a 5 November remediation deadline, as reported in the 4 November brief.",
+      "unknown": "Whether affected BFSI deployments have completed remediation by the deadline — no compliance outcome was published in the brief.",
+      "bfsi_impact": "Open banking / API deployments using affected WSO2 versions should confirm patching before the deadline.",
+      "source_name": "Daily brief, 4 November 2026",
+      "source_url": "11042026.html"
+    },
+    {
+      "id": "watch-wordpress-20261106",
+      "timestamp_sgt": "2026-11-04T09:00:00+08:00",
+      "severity": "watch",
+      "status": "confirmed",
+      "type": "Vulnerability deadline",
+      "headline": "WordPress CVE-2026-119977 — KEV deadline 6 November",
+      "summary": "Deadline watch carried from the 4 November daily brief. Not a new breaking item on 4 November itself.",
+      "known": "The only new KEV entry in the 4 November brief, with a Friday 6 November deadline; patch to 7.1.4, as reported in the brief.",
+      "unknown": "No successful compromise via this race was publicly confirmed in the brief.",
+      "bfsi_impact": "WordPress estates, including marketing and customer-facing sites run by financial firms, should patch before the deadline.",
+      "source_name": "Daily brief, 4 November 2026",
+      "source_url": "11042026.html"
+    }
+  ]
+}

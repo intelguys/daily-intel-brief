@@ -108,18 +108,26 @@
 			.card { min-height: 190px; }
 		}
 		@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
-	</style>
+	
+.wire-banner { margin: 18px 0 0; padding: 14px 18px; border: 1px solid var(--gold); border-radius: 7px; background: rgba(239,201,134,.12); font-size: 14px; line-height: 1.6; }
+.wire-banner.critical { border-color: #f0927f; background: rgba(240,146,127,.14); }
+.wire-banner .wire-sev { font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+.wire-banner a { color: var(--mint); text-decoration: underline; }
+#wire-ticker-link { color: var(--mint); white-space: nowrap; }
+</style>
 </head>
 <body>
 	<header class="shell topbar">
 		<a class="brand" href="index.html" aria-label="Fieldnotes home"><span class="brand-mark">F</span><span>FIELDNOTES</span></a>
 		<nav class="nav" aria-label="Main navigation">
-			<a href="11042026.html">Daily brief</a>
+			<a href="wire.html">Live wire</a><a href="11042026.html">Daily brief</a>
 			<a href="#research">Analysis</a>
 			<a href="11042026.html#sources">Sources</a>
 			<a class="nav-cta" href="11042026.html">Open the brief&nbsp; ↗</a>
 		</nav>
 	</header>
+<div class="shell"><div id="wire-banner" class="wire-banner" hidden><span class="wire-sev" id="wire-banner-sev"></span> <span id="wire-banner-text"></span> <a href="wire.html">View wire &rarr;</a></div></div>
+
 
 	<main>
 		<section class="shell hero" aria-labelledby="hero-title">
@@ -140,9 +148,7 @@
 			</div>
 		</section>
 
-		<div class="ticker" aria-label="Status">
-			<div class="shell ticker-inner"><span class="live-dot" aria-hidden="true"></span><span>Intelligence, in context</span><span>—</span><span>Evidence before noise</span><time id="today"></time></div>
-		</div>
+		<div class="ticker" aria-label="Status"><div class="shell ticker-inner"><span class="live-dot" aria-hidden="true"></span><span id="wire-ticker-text">Loading wire&hellip;</span><a id="wire-ticker-link" href="wire.html">View wire &rarr;</a><time id="wire-last-checked"></time><time id="today"></time></div></div>
 
 		<section class="shell section" id="explore" aria-labelledby="explore-title">
 			<div class="section-heading">
@@ -154,6 +160,7 @@
 					<div class="card-top"><span class="card-icon" aria-hidden="true">◷</span><span class="card-index">01 / DAILY</span></div>
 					<h3>The daily brief</h3><p>The essential developments, distilled into a focused read.</p><span class="card-link">VIEW BRIEF <span aria-hidden="true">↗</span></span>
 				</a>
+<a class="card" href="wire.html"><div class="card-top"><span class="card-icon" aria-hidden="true">&#9679;</span><span class="card-index">LIVE / WIRE</span></div><h3>Live wire</h3><p>Breaking BFSI items as they are verified, refreshing every 5 minutes.</p><span class="card-link">VIEW WIRE <span aria-hidden="true">&rarr;</span></span></a>
 				<a class="card" href="#research">
 					<div class="card-top"><span class="card-icon" aria-hidden="true">⌁</span><span class="card-index">02 / CONTEXT</span></div>
 					<h3>Analysis &amp; outlook</h3><p>Connect the dots with deeper context and forward-looking perspectives.</p><span class="card-link">EXPLORE ANALYSIS <span aria-hidden="true">↗</span></span>
@@ -238,7 +245,41 @@
 
 	<footer><div class="shell footer-inner"><span>FIELDNOTES &nbsp;·&nbsp; Shared intelligence, thoughtfully considered.</span><span>Stay curious. Verify the signal.</span></div></footer>
 	<script>
-		document.getElementById('today').textContent = new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date());
-	</script>
+(function () {
+  var todayEl = document.getElementById('today');
+  if (todayEl) { todayEl.textContent = new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date()); }
+  var banner = document.getElementById('wire-banner');
+  var bannerSev = document.getElementById('wire-banner-sev');
+  var bannerText = document.getElementById('wire-banner-text');
+  var tickerText = document.getElementById('wire-ticker-text');
+  var lastChecked = document.getElementById('wire-last-checked');
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  async function loadWire() {
+    try {
+      var res = await fetch('wire.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('wire fetch failed');
+      var data = await res.json();
+      if (lastChecked) lastChecked.textContent = 'Last checked ' + esc(data.last_checked_sgt || '');
+      var breaking = (data.breaking || []);
+      if (breaking.length > 0) {
+        var b = breaking[0];
+        banner.hidden = false;
+        banner.classList.toggle('critical', b.severity === 'critical');
+        if (bannerSev) bannerSev.textContent = (b.severity || 'breaking').toUpperCase() + ' · ' + esc(b.status || '');
+        if (bannerText) bannerText.textContent = esc(b.headline || '');
+        if (tickerText) tickerText.textContent = esc(b.headline || '');
+      } else {
+        banner.hidden = true;
+        var first = (data.entries || [])[0];
+        if (tickerText) tickerText.textContent = first ? ('Watch: ' + esc(first.headline || '')) : 'No active breaking item';
+      }
+    } catch (e) {
+      if (lastChecked) lastChecked.textContent = 'Could not refresh — showing last loaded wire';
+    }
+  }
+  loadWire();
+  setInterval(loadWire, 5 * 60 * 1000);
+})();
+</script>
 </body>
 </html>

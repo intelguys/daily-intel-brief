@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live wire — Fieldnotes</title>
+<style>
+:root { color-scheme: dark; --bg: #07111b; --panel: #0c1924; --line: rgba(165,194,207,.15); --muted: #91a5b1; --text: #edf4f2; --mint: #a8edc4; --gold: #efc986; --red: #f0927f; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+a { color: inherit; }
+.shell { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+.topbar { height: 82px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; letter-spacing: .08em; text-decoration: none; }
+.brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid rgba(168,237,196,.45); border-radius: 10px; color: var(--mint); font-size: 17px; }
+.nav { display: flex; align-items: center; gap: 30px; color: #b6c4ca; font-size: 13px; }
+.nav a { text-decoration: none; } .nav a:hover { color: var(--mint); }
+h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(36px, 5vw, 56px); font-weight: 400; margin: 28px 0 8px; }
+.intro { color: #aebdc3; line-height: 1.7; max-width: 72ch; }
+.controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 20px 0; }
+button, select { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 5px; padding: 9px 13px; font-size: 13px; cursor: pointer; }
+button:hover { border-color: rgba(168,237,196,.45); }
+#wire-status { color: var(--muted); font-size: 13px; }
+.entry { background: linear-gradient(145deg, rgba(17,34,45,.92), rgba(10,23,33,.88)); border: 1px solid var(--line); border-radius: 7px; padding: 20px 22px; margin: 14px 0; }
+.entry h2 { font-family: Georgia, serif; font-weight: 400; margin: 8px 0; font-size: 22px; line-height: 1.3; }
+.entry p { color: #c6d2d6; line-height: 1.7; font-size: 14px; }
+.badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); }
+.badge.critical { color: var(--red); border-color: var(--red); }
+.badge.high { color: var(--gold); border-color: var(--gold); }
+.badge.watch { color: var(--mint); border-color: var(--mint); }
+.badge.new { background: var(--mint); color: #10251c; border-color: var(--mint); margin-left: 8px; }
+.meta { color: var(--muted); font-size: 12px; }
+.entry a.source { color: var(--mint); }
+.empty { border: 1px dashed var(--line); border-radius: 7px; padding: 24px; color: var(--muted); line-height: 1.7; }
+.back { display: inline-block; margin: 24px 0 40px; color: var(--mint); }
+</style>
+</head>
+<body>
+<header class="shell topbar"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FIELDNOTES</span></a><nav class="nav"><a href="index.html">Home</a><a href="11042026.html">Daily brief</a></nav></header>
+<main class="shell">
+<h1>Live wire</h1>
+<p class="intro">Breaking BFSI items as they are verified. This page refreshes itself every 5 minutes from <code>wire.json</code> — no reload, no lost scroll position. A social post alone is never shown as confirmed: every entry carries its verification status, and sources open in a new tab.</p>
+<div class="controls">
+<button id="refresh-btn" type="button">Refresh now</button>
+<button id="pause-btn" type="button">Pause auto-refresh</button>
+<label>Filter <select id="filter"><option value="all">All</option><option value="critical">Critical</option><option value="high">High</option><option value="watch">Watch</option></select></label>
+<span id="wire-status">Loading wire&hellip;</span>
+</div>
+<div id="wire-entries"></div>
+<a class="back" href="index.html">&larr; Back to main page</a>
+</main>
+<script>
+(function () {
+  var seen = new Set();
+  var firstLoad = true;
+  var timer = null;
+  var paused = false;
+  var entriesEl = document.getElementById('wire-entries');
+  var statusEl = document.getElementById('wire-status');
+  var filterEl = document.getElementById('filter');
+  var lastData = null;
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function render() {
+    if (!lastData) return;
+    var filter = filterEl.value;
+    var all = [].concat(lastData.breaking || [], lastData.entries || []);
+    var shown = all.filter(function (e) { return filter === 'all' || e.severity === filter; });
+    if (shown.length === 0) {
+      entriesEl.innerHTML = '<div class="empty">No entries at this filter. No active breaking item at the last check.</div>';
+      return;
+    }
+    entriesEl.innerHTML = shown.map(function (e) {
+      var isNew = !firstLoad && !seen.has(e.id);
+      return '<article class="entry"><span class="badge ' + esc(e.severity) + '">' + esc(e.severity) + '</span> <span class="badge">' + esc(e.status) + '</span>' + (isNew ? '<span class="badge new">NEW</span>' : '') +
+        '<h2>' + esc(e.headline) + '</h2><p class="meta">' + esc(e.timestamp_sgt || '') + ' · ' + esc(e.type || '') + '</p>' +
+        '<p>' + esc(e.summary || '') + '</p>' +
+        '<p><strong>Known:</strong> ' + esc(e.known || '') + '</p>' +
+        '<p><strong>Not known:</strong> ' + esc(e.unknown || '') + '</p>' +
+        '<p><strong>BFSI impact:</strong> ' + esc(e.bfsi_impact || '') + '</p>' +
+        '<p>Source: <a class="source" href="' + esc(e.source_url || '#') + '" target="_blank" rel="noopener noreferrer">' + esc(e.source_name || 'Source') + '</a></p></article>';
+    }).join('');
+    all.forEach(function (e) { seen.add(e.id); });
+    firstLoad = false;
+  }
+  async function loadWire() {
+    try {
+      var res = await fetch('wire.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('wire fetch failed');
+      lastData = await res.json();
+      statusEl.textContent = 'Last checked ' + lastData.last_checked_sgt + ' · next check ' + lastData.next_check_sgt + ' · auto-refresh every 5 minutes';
+      render();
+    } catch (err) {
+      statusEl.textContent = 'Could not refresh — showing last loaded data. Try Refresh now.';
+    }
+  }
+  function start() { if (timer) clearInterval(timer); timer = setInterval(loadWire, 5 * 60 * 1000); }
+  document.getElementById('refresh-btn').addEventListener('click', loadWire);
+  document.getElementById('pause-btn').addEventListener('click', function (ev) {
+    paused = !paused;
+    if (paused) { clearInterval(timer); timer = null; ev.target.textContent = 'Resume auto-refresh'; }
+    else { start(); ev.target.textContent = 'Pause auto-refresh'; }
+  });
+  filterEl.addEventListener('change', render);
+  loadWire();
+  start();
+})();
+</script>
+</body>
+</html>
