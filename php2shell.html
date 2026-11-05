@@ -467,7 +467,7 @@ section > p { margin-bottom: 14px; }
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 · revised 4 Nov &middot; PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched</span>
+      <span>Compiled 21 Oct 03:55 · revised 5 Nov &middot; PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -504,7 +504,7 @@ section > p { margin-bottom: 14px; }
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
+      <a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
       <a href="#situation">Confirmed &mdash; and withdrawn</a>
       <a href="#attribution">Attribution</a>
       <a href="#exploitation-status">Exploitation status</a>
@@ -603,6 +603,41 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-05-nov">
+<p class="eyebrow">Update &middot; 5 November</p>
+<h2>Patch uptake measured at last: 29 million servers still flawed, and no mass-breach wave</h2>
+<p class="lede">The first patch-adoption measurement since the 21 October fixes puts the unpatched population at 29 million of 46 million scannable servers running a vulnerable PHP version — about two weeks on, nearly two-thirds still flawed. No new named PHP victim, no new public IOC set and no new PAN-OS victim count were found to 5 November, and Kaspersky's two-week review reports no mass-breach wave.</p>
+<div class="callout">
+<span class="label">Censys patch uptake &mdash; Kaspersky, 3 November</span>
+<p>Of the <strong>46 million scannable servers running a vulnerable PHP version, 29 million still contain the flaws</strong>, per Censys data cited by Kaspersky on 3 November. Censys tracks remediation on a live public dashboard. The article does not state the snapshot date of the 29-million figure — treat it as a 3 November publication, not a dated measurement.</p>
+</div>
+<h3>Patch uptake, three measurements</h3>
+<p>The 4 November update recorded that no published patch-adoption percentage had been found. That line is now superseded: the Censys figure below is the first such measurement since the fixes, and it sits alongside the two October measurements already in this brief. The denominators differ — do not average them.</p>
+<div class="board">
+<div class="tile"><div class="k">Still flawed</div><div class="v">29m</div><div class="n">Of 46m scannable servers running a vulnerable PHP version — Censys, via Kaspersky, 3 Nov</div></div>
+<div class="tile"><div class="k">Scannable base</div><div class="v">46m</div><div class="n">Servers running a vulnerable PHP version, per the same Censys count</div></div>
+<div class="tile"><div class="k">Mass-breach wave</div><div class="v">None reported</div><div class="n">Kaspersky, 3 Nov: “no reports of mass breaches”; mass compromise “remains unconfirmed”</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Measurement</th><th>Date</th><th>What it says</th></tr></thead>
+<tbody>
+<tr><td>Censys, via Kaspersky</td><td>3 Nov</td><td>29m of 46m scannable servers running a vulnerable PHP version still contain the flaws (~63%). Snapshot date not stated in the article.</td></tr>
+<tr><td>Vu Agency</td><td>22–23 Oct</td><td>24% on a fixed release of 824,947 version-reporting sites, +23% Hostinger inferred patched. See <a href="#context">“Did anyone actually patch?”</a> below.</td></tr>
+<tr><td>Qualys</td><td>Oct</td><td>199,000 instances patched within 12 hours of disclosure, against ~110m instances on end-of-life PHP that will never receive a vendor fix. See below.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>It supersedes the 4 November line</strong> that no published patch-adoption percentage had been found. About 63% of the Censys scannable base is still flawed — quote the figure with its denominator attached, not as a bare percentage.</li>
+<li><strong>It does not change the victim picture.</strong> Exploitation at scale and successful honeypot shells are evidenced; confirmed named-victim compromise is still not. Kaspersky's “no mass breaches” is consistent with that, not a contradiction of it.</li>
+<li><strong>Version strings still under-count patching.</strong> CloudLinux/Plesk backports keep old version numbers, and Hostinger patched without changing the string — the 29m is a scannable-servers count, not a census of unpatched hosts.</li>
+<li><code>CVE-2026-115560</code> remains unpatched at the 5 November check; fix planned for the next regular PHP release, date unannounced; mitigation remains <code>session.upload_progress.enabled=0</code>.</li>
+</ul>
+<p>Sources: <a href="https://www.kaspersky.co.uk/blog/php2shell-two-weeks-after-patches/31035/" target="_blank" rel="noopener noreferrer">Kaspersky — PHP2Shell: what we know about the threat two weeks later, 3 Nov</a> · <a href="https://php2shell.censys.com/" target="_blank" rel="noopener noreferrer">Censys — PHP2Shell remediation dashboard</a></p>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
 <section id="update-04-nov">
 <p class="eyebrow">Update &middot; 4 November</p>
@@ -2308,13 +2343,15 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <li><span class="src-title"><a href="https://socradar.io/blog/php2shell-weaponized-japanese-real-estate-extortion/" target="_blank" rel="noopener noreferrer">SOCRadar — &ldquo;weaponized&rdquo; Japanese real-estate extortion (27 Oct)</a></span><span class="src-meta">Vendor · a real intrusion, but <strong>not a PHP2Shell compromise</strong>: the PHP2Shell package post-dates the 9&ndash;11 Oct wave and there is no saved output of successful exploitation of a live site</span></li>
       <li><span class="src-title"><a href="https://github.com/corelight/php2shell-detect" target="_blank" rel="noopener noreferrer">Corelight — php2shell-detect (pushed 28 Oct 02:08 UTC)</a></span><span class="src-meta">Detection content · Zeek notices plus Suricata SIDs <strong>3000650&ndash;3000652</strong></span></li>
       <li><span class="src-title"><a href="https://github.com/VABISMO/php2shell-nginx-fpm-full-rce" target="_blank" rel="noopener noreferrer">VABISMO/php2shell-nginx-fpm-full-rce — claimed FPM RCE (pushed 27 Oct)</a></span><span class="src-meta">Self-published · &ldquo;verified profiles&rdquo; for five builds; <strong>contradicts the CNA record and was not tested here</strong> — unverified, do not cite as fact</span></li>
+      <li><span class="src-title"><a href="https://www.kaspersky.co.uk/blog/php2shell-two-weeks-after-patches/31035/" target="_blank" rel="noopener noreferrer">Kaspersky — PHP2Shell: what we know about the threat two weeks later, 3 Nov</a></span><span class="src-meta">Vendor · Censys data: <strong>29m of 46m scannable servers</strong> running a vulnerable PHP version still contain the flaws; <strong>no mass-breach wave reported</strong>; snapshot date of the 29m figure not stated</span></li>
+      <li><span class="src-title"><a href="https://php2shell.censys.com/" target="_blank" rel="noopener noreferrer">Censys — PHP2Shell remediation dashboard</a></span><span class="src-meta">Live public dashboard tracking remediation of the vulnerable PHP population</span></li>
     </ul>
   
 </details>
 <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <footer>
-    <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October; updated 26 October (confirmed exploitation, retractions, CVE-2026-115560, PAN-OS) and 28 October (KEV listing, Wiz indicator set, export regeneration 81&rarr;93, vendor matrix), 29 October (KEV Fragnesia chain, GreyNoise successes, Dream victim-side report) and 4 November (PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched). Sources are public reporting and direct measurement. TLP:CLEAR — the underlying reporting is public, and every measurement this brief adds is reproducible from public sources, with the endpoints and parameters recorded under <code>raw/</code>. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
+    <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October; updated 26 October (confirmed exploitation, retractions, CVE-2026-115560, PAN-OS) and 28 October (KEV listing, Wiz indicator set, export regeneration 81&rarr;93, vendor matrix), 29 October (KEV Fragnesia chain, GreyNoise successes, Dream victim-side report) and 4 November (PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched), and 5 November (Censys patch uptake, 29m of 46m scannable servers still flawed; no mass-breach wave reported). Sources are public reporting and direct measurement. TLP:CLEAR — the underlying reporting is public, and every measurement this brief adds is reproducible from public sources, with the endpoints and parameters recorded under <code>raw/</code>. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
     <p>Re-validated against the official advisory at 14:05 UTC on 21 October, 02:00 UTC on 22 October, and again on 26 October against the KEV catalog, the NVD API, the PHP release API and the Palo Alto advisory. The retired models and the revision log are preserved unedited in Appendices A and B — where either disagrees with the main section, the main section is correct. Four corrections in this document are to its own earlier readings rather than to the sources: the discovery credit, the claim that the leaked bundle was aimed at the wrong subsystem throughout, the “no IOCs” position, and the PAN-OS item it recorded as unverified on 23 October and which is now confirmed by the vendor.</p>
     <p><strong>What has not changed across five days of revision:</strong> patch to 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35, restart every worker, keep <code>session.upload_progress.enabled=0</code> in place after patching, and hunt process parentage rather than request signatures. Everything that moved — the root-cause dispute, the retractions, the new CVE, the appliance exposure, the indicator set — moved around that core.</p>
   </footer>
