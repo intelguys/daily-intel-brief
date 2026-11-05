@@ -18,9 +18,9 @@
       "bfsi_impact": "A named European bank victim with fraudulent transactions: peer banks should review controls on large and exchange-account withdrawals, verify transaction authorisation and suspension procedures, and watch for laundering of any linked funds through exchanges and instant-swap services. Under the EU Digital Operational Resilience Act, major ICT incidents carry a short initial reporting window, so EU-regulated peers should check their own incident-classification clocks. Third-party platform access is now a confirmed route in this case: review service-provider platforms that can reach the bank directly, not only customer-facing channels.",
       "headline": "Cr\u00e9dit Mutuel Ark\u00e9a confirms cyberattack enabling fraudulent transactions",
       "id": "breaking-arkea-20261104",
-      "known": "The bank's own statement, reported by CoinDesk, Bloomberg and Ledger Insights on 4 November, confirms the attack and the fraudulent transactions. Blockchain investigator ZachXBT first flagged a suspected loss of more than $106 million at an unnamed EU entity on 2 November and named Ark\u00e9a on 3 November, putting the total above $133 million; Bitquery traced $108.8 million in USDC withdrawals from Kraken, Crypto.com and OKX accounts over 1\u20132 November, and Crypto.com said it blocked funds linked to the incident. In a further statement on the evening of 4 November, reported by AFP/Reuters and updated by CNA at 00:57 SGT on 5 November, the bank said attackers reached Ark\u00e9a directly through the platform of one of its service providers \u2014 not through Fortuneo, and not through client accounts \u2014 used the bank's own account to transfer funds to other banks, and then converted funds into cryptocurrency via specialist platforms; a portion of funds was blocked and recovery efforts are under way. The bank gave a provisional estimate of about \u20ac100 million, validated the order of magnitude of the reported $133 million (about \u20ac118 million) figure, but has not confirmed a final figure. The Paris public prosecutor's office has opened an investigation into an attack on an automated data processing system by an organised group.",
+      "known": "The bank's own statement, reported by CoinDesk, Bloomberg and Ledger Insights on 4 November, confirms the attack and the fraudulent transactions. Blockchain investigator ZachXBT first flagged a suspected loss of more than $106 million at an unnamed EU entity on 2 November and named Ark\u00e9a on 3 November, putting the total above $133 million; Bitquery traced $108.8 million in USDC withdrawals from Kraken, Crypto.com and OKX accounts over 1\u20132 November, and Crypto.com said it blocked funds linked to the incident. In a further statement on the evening of 4 November, reported by AFP/Reuters and updated by CNA at 00:57 SGT on 5 November, the bank said attackers reached Ark\u00e9a directly through the platform of one of its service providers \u2014 not through Fortuneo, and not through client accounts \u2014 used the bank's own account to transfer funds to other banks, and then converted funds into cryptocurrency via specialist platforms; a portion of funds was blocked and recovery efforts are under way. The bank gave a provisional estimate of about \u20ac100 million, validated the order of magnitude of the reported $133 million (about \u20ac118 million) figure, but has not confirmed a final figure. The Paris public prosecutor's office has opened an investigation into an attack on an automated data processing system by an organised group. On 5 November the bank said nearly all operations had resumed after security checks and additional safeguards, customer funds were unaffected, and the losses were lower than the $133 million figure reported in the press and not of a nature to undermine the group's financial strength.",
       "severity": "high",
-      "source_name": "Reuters / AFP via CNA, 4\u20135 November 2026",
+      "source_name": "Reuters / AFP via CNA, 4-5 November 2026; Cointelegraph, 5 November 2026",
       "source_url": "https://www.channelnewsasia.com/business/french-bank-credit-mutuel-arkea-counting-losses-cyberattack-6524451",
       "status": "confirmed",
       "summary": "French banking group Cr\u00e9dit Mutuel Ark\u00e9a confirmed on 4 November 2026 that it was the target of a cyberattack that enabled fraudulent transactions. The bank says the incident is now under control, some transactions were temporarily suspended, regulators and supervisory authorities have been notified, and clients face no financial consequences. In its evening update the bank gave a provisional estimate of about \u20ac100 million, with the final figure still being assessed.",
@@ -30,6 +30,20 @@
     }
   ],
   "entries": [
+    {
+      "bfsi_impact": "APAC banks and firms with Korean operations should watch the FSC inspection programme and the planned CEO-accountability measures; the wave shows small virtual-asset and electronic-payment firms are the weakest link, and leaked personal data may feed voice-phishing against bank customers.",
+      "headline": "South Korea regulator discloses 40 breaches at 37 financial firms; sector-wide inspections ordered",
+      "id": "entry-korea-fsc-20261105",
+      "known": "The Financial Services Commission announced the measures on 5 November at an industry-wide forum chaired by Chairman Lee Eok-won, attended by the Financial Supervisory Service and the Korea Financial Security Institute. No individual users have yet suffered direct financial losses, and no account passwords that could enable fraudulent transactions were confirmed among the leaked data. The FSC will inspect about 580 financial entities by year-end, plans to lift network-separation rules, launch an AI-based security framework, and draft a Digital Finance Safety Act by the first quarter of 2027. The incidents include previously reported breaches at brokerages, insurers and virtual-asset firms.",
+      "severity": "watch",
+      "source_name": "Korea Herald, 5 November 2026",
+      "source_url": "https://biz.heraldcorp.com/article/10926433",
+      "status": "confirmed",
+      "summary": "South Korea's Financial Services Commission said 40 cybersecurity incidents were reported at 37 financial firms between 30 September and 5 November 2026, exposing about 473,000 records, with about \u20a91 billion (about US$746,000) stolen from company-managed funds at some electronic financial service providers, virtual asset businesses and P2P lenders.",
+      "timestamp_sgt": "2026-11-05T08:00:00+08:00",
+      "type": "Sector alert \u2014 regulator response",
+      "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
+    },
     {
       "bfsi_impact": "Open banking / API deployments using affected WSO2 versions should confirm patching before the deadline.",
       "headline": "WSO2 Open Banking CVE-2025-11969 \u2014 KEV deadline 5 November",
@@ -59,8 +73,8 @@
       "unknown": "No successful compromise via this race was publicly confirmed in the brief."
     }
   ],
-  "last_checked_sgt": "2026-11-05T11:59:00+08:00",
-  "next_check_sgt": "2026-11-05T16:00:00+08:00",
-  "updated_sgt": "2026-11-05T11:59:00+08:00",
+  "last_checked_sgt": "2026-11-05T15:59:25+08:00",
+  "next_check_sgt": "2026-11-05T20:00:00+08:00",
+  "updated_sgt": "2026-11-05T15:59:25+08:00",
   "version": 1
 }
