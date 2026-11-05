@@ -396,16 +396,16 @@ footer {
   <div class="wrap">
     <div class="eyebrow">
       <span class="tlp">TLP:AMBER</span>
-      <span>Incident review · 22 Oct 2026 · updated 4 Nov 2026</span>
+      <span>Incident review · 22 Oct 2026 · updated 5 Nov 2026</span>
     </div>
     <h1>Storm-0940, ARTEX, and the ConnectWise supply-chain compromise</h1>
 
 
-    <p class="standfirst">A review of Microsoft's 21 October report, checked against other vendors and against our own telemetry, with checks re-run to 4 November. Two layers carry two different confidences.</p>
+    <p class="standfirst">A review of Microsoft's 21 October report, checked against other vendors and against our own telemetry, with checks re-run to 5 November. Two layers carry two different confidences.</p>
     <div class="meta">
       <span>Sources: 13 listed</span>
       <span>Indicators reviewed: 7 IPs, 8 app IDs (domains: see text)</span>
-      <span>Queries run: 22 Oct 2026; re-checked to 4 Nov</span>
+      <span>Queries run: 22 Oct 2026; re-checked to 5 Nov</span>
     </div>
   </div>
 </header>
@@ -460,6 +460,8 @@ footer {
 <li><span class="t">29 Oct</span><span class="e">CrowdStrike publishes VAPOR PANDA; Microsoft publishes North-Korea ARTEX use by Onyx Sleet and Pearl Sleet, human-directed, not fully autonomous.</span></li>
 <li><span class="t">30 Oct</span><span class="e">GTIG publishes &ldquo;ARTEX and Friends&rdquo;; ConnectWise Phases 1–2 complete; WorkOS detects unauthorised access to an internal sales/marketing application at 16:39 UTC.</span></li>
 <li><span class="t">2 Nov</span><span class="e">WorkOS discloses the access, described in its customer notice as ARTEX-likely and unattributed; production systems/application data not accessed, per the company.</span></li>
+<li><span class="t">3 Nov</span><span class="e">ConnectWise restores Backup Health reporting, Export jobs and Marketplace APIs; SaaS Security and Cloud Automation fully restored.</span></li>
+<li><span class="t">4 Nov 18:55</span><span class="e">ConnectWise Trust Center update: Phase 3 partially complete and Phase 4 partially available — core notifications live; billing still in progress and the platform backup dashboard not yet fully restored.</span></li>
 </ul>
   </section>
 
@@ -635,12 +637,12 @@ AADServicePrincipalSignInLogs
     </ul>
     <p class="note">Structural note: workload-identity Conditional Access does not cover third-party multi-tenant SaaS applications. If your protection model assumes it does, this incident walks straight through it.</p>
   
-<h3>ConnectWise restoration, 30 October</h3>
+<h3>ConnectWise restoration, 4 November</h3>
 <ul>
-<li>Trust Center advisory (orig. 16 Oct, updated 30 Oct 21:00 UTC): <strong>Phases 1–2 complete, Phase 3 in progress.</strong> Phase 1 = backups/restores for re-authorised M365 tenants; Phase 2 = End-Customer Self-Service Portal + Backup Monitoring dashboards; Phase 3 (in progress) = Backup Health reporting, export jobs, billing/reporting; notifications in a later phase.</li>
+<li>Trust Center advisory (orig. 16 Oct, updated 4 Nov 18:55 UTC): <strong>Phases 1–2 complete, Phase 3 partially complete, Phase 4 partially available.</strong> Phase 1 = backups/restores for re-authorised M365 tenants; Phase 2 = End-Customer Self-Service Portal + Backup Monitoring dashboards; Phase 3 = Backup Health reporting and Export jobs available since 3 Nov, billing (including Billing API and Management portal billing reports) still in progress; Phase 4 = core notifications live, additional notifications being enabled gradually. Marketplace APIs restored 3 Nov; SaaS Security and Cloud Automation fully restored; platform backup dashboard not yet fully restored.</li>
 <li>Restoration via the new security-hardened app &ldquo;ConnectWise Cloud Backup for M365&rdquo; (phased restoration began 28 Oct). Partners must reset the Cloud Services portal password, set up MFA if absent, re-authorise <em>each</em> tenant, and <strong>verify new snapshots complete</strong> — &ldquo;re-authorization alone does not confirm that backups have resumed&rdquo;. Old disabled apps must stay disabled unless ConnectWise instructs otherwise. Archives remain encrypted/isolated with no indication of compromise (vendor statement).</li>
-<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 4 November. The ConnectWise &ldquo;indicator that fails its own dates&rdquo; gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
-<li><strong>Re-consent risk, labelled as analyst inference, not vendor fact:</strong> restoration creates a re-entry point wherever partners re-consent in tenants not yet cleaned of persistence planted during the intrusion. Gated order: clean tenant &rarr; re-consent &rarr; verify snapshot &rarr; monitor for re-created credentials. Do not treat restoration as closure; no ConnectWise &ldquo;all clear&rdquo; or final victim notification was found to 4 November.</li>
+<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 5 November. The ConnectWise &ldquo;indicator that fails its own dates&rdquo; gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
+<li><strong>Re-consent risk, labelled as analyst inference, not vendor fact:</strong> restoration creates a re-entry point wherever partners re-consent in tenants not yet cleaned of persistence planted during the intrusion. Gated order: clean tenant &rarr; re-consent &rarr; verify snapshot &rarr; monitor for re-created credentials. Do not treat restoration as closure; no ConnectWise &ldquo;all clear&rdquo; or final victim notification was found to 5 November.</li>
 </ul>
 
 </section>
@@ -671,7 +673,7 @@ AADServicePrincipalSignInLogs
     
 <li><span class="who">Google Threat Intelligence Group / Mandiant</span> — <a href="https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks" target="_blank" rel="noopener noreferrer">ARTEX and Friends: Enter Agentic Offensive Frameworks</a>, 30 Oct 2026.</li>
 <li><span class="who">Microsoft</span> — <a href="https://www.microsoft.com/en-us/security/blog/2026/10/29/tracking-ai-adoption-in-north-korean-threat-actor-tradecraft/" target="_blank" rel="noopener noreferrer">Tracking AI adoption in North Korean threat actor tradecraft</a>, 29 Oct 2026.</li>
-<li><span class="who">ConnectWise</span> — <a href="https://www.connectwise.com/company/trust/advisories" target="_blank" rel="noopener noreferrer">Trust Center advisories</a>, updated 30 Oct 2026 21:00 UTC (Phases 1–2 complete, Phase 3 in progress).</li>
+<li><span class="who">ConnectWise</span> — <a href="https://www.connectwise.com/company/trust/advisories" target="_blank" rel="noopener noreferrer">Trust Center advisories</a>, updated 4 Nov 2026 18:55 UTC (Phase 3 partially complete, Phase 4 partially available; billing still in progress).</li>
 </ul>
   </section>
 
