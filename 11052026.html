@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Thursday BFSI Cyber Threat Intelligence Briefing — 5 November 2026</title>
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#fffdf8; --surface2:#eceadf; --ink:#1c1e22; --muted:#5c6068;
+  --line:#d8d3c4; --accent:#8a3324; --accent2:#1f4e5f; --warn:#9a6a12; --ok:#2e6b4f;
+  --chip:#efe9db; --crit:#8a3324; --high:#b35c1e; --med:#9a6a12;
+  --shadow:0 1px 3px rgba(28,30,34,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14161a; --surface:#1d2025; --surface2:#262a31; --ink:#ece9e2; --muted:#a7abb3;
+    --line:#3a3e46; --accent:#e08a76; --accent2:#7fb8c9; --warn:#d9b45c; --ok:#7fc79e;
+    --chip:#2b2f36; --crit:#f0927f; --high:#eda26a; --med:#d9b45c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
+h2{font-size:1.55rem;margin:0 0 6px}
+h3{font-size:1.12rem}
+a{color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+section{margin-top:44px}
+.sec-head{border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* Masthead */
+.mast{padding:34px 0 8px}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.mast h1{font-size:2.35rem;margin:10px 0 8px;max-width:20ch}
+.mast .sub{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:.83rem;box-shadow:var(--shadow)}
+.meta b{font-weight:700}
+
+/* Follow-up tracker */
+.tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.track{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.track .t-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.track .t-status{font-family:Georgia,serif;font-size:1.15rem;margin:5px 0 4px}
+.track p{margin:0;font-size:.86rem;color:var(--muted)}
+.st-passed{color:var(--crit)} .st-due{color:var(--high)} .st-pending{color:var(--warn)} .st-done{color:var(--ok)}
+
+/* Executive summary */
+.exec{display:grid;gap:12px}
+.exec-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.exec-num{font-family:Georgia,serif;font-size:2rem;line-height:1;color:var(--accent);flex:0 0 auto}
+.exec-card p{margin:0}
+.exec-card b{font-weight:700}
+
+/* Badges */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:3px 9px;background:var(--chip);color:var(--ink);vertical-align:middle}
+.badge.red{background:var(--crit);color:#fff}
+.badge.amber{background:var(--warn);color:#fff}
+.badge.teal{background:var(--accent2);color:#fff}
+.badge.grey{background:var(--chip);color:var(--muted)}
+@media (prefers-color-scheme: dark){.badge.red,.badge.amber,.badge.teal{color:#14161a}}
+
+/* Actor cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actor{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.actor .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.actor h3{margin-bottom:4px}
+.actor .target{color:var(--accent2);font-weight:600;font-size:.92rem;margin:0 0 10px}
+.actor dl{margin:0;display:grid;gap:8px}
+.actor dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.actor dd{margin:2px 0 0;font-size:.93rem}
+.actor .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+.none-card{border:1px dashed var(--line);border-radius:8px;padding:16px 18px;color:var(--muted);background:transparent;margin-top:14px}
+.none-card b{color:var(--ink)}
+
+/* Vuln table */
+.vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
+.vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line)}
+th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+tbody tr:last-child td{border-bottom:none}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:nowrap}
+.score{font-weight:700}
+.score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
+.status{font-size:.78rem;font-weight:700}
+.status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
+.count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+/* Two-col panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:8px}
+.panel p,.panel li{font-size:.94rem}
+.panel ul{margin:6px 0 0;padding-left:20px}
+.panel li{margin-bottom:7px}
+
+/* IOC + actions */
+.ioc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.ioc h3{margin-bottom:8px}
+.ioc ul{margin:6px 0 0;padding-left:20px}
+.ioc li{margin-bottom:8px;font-size:.94rem}
+.ioc .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+ol.actions{counter-reset:step;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.actions li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px 14px 52px;position:relative;box-shadow:var(--shadow);font-size:.95rem}
+ol.actions li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+@media (prefers-color-scheme: dark){ol.actions li::before{color:#14161a}}
+
+/* Unverified */
+.unverified{border:1px solid var(--warn);border-radius:8px;padding:18px;background:var(--surface)}
+.unverified ul{margin:8px 0 0;padding-left:20px}
+.unverified li{margin-bottom:8px;font-size:.94rem}
+
+/* Sources */
+.sources{font-size:.88rem}
+.sources li{margin-bottom:6px;overflow-wrap:anywhere}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  .tracker{grid-template-columns:1fr 1fr}
+  .actor-grid,.panels{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tbody tr{border-bottom:2px solid var(--line);padding:8px 0}
+  td{border-bottom:none;padding:5px 12px}
+  td.cve{white-space:normal;font-size:.95rem}
+  td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+}
+@media (max-width:460px){.tracker{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+<style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#1c1e22;color:#fff !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style></head>
+<body>
+<div class="wrap">
+<header class="mast">
+<div class="kicker">BFSI Cyber Threat Intelligence Briefing</div>
+<h1>Thursday 5 November 2026</h1>
+<p class="sub">Window: approximately 4 November 09:00 SGT to 5 November 09:00 SGT. New and overnight developments, deduplicated against the 4 November edition, with gaps stated plainly.</p>
+<div class="meta-row"><span class="meta"><b>Window</b> 24 hours to ~09:00 SGT</span><span class="meta"><b>KEV total</b> 1,768 entries</span><span class="meta"><b>Due this week</b> WSO2 5 Nov (today) · WordPress 6 Nov · Brotli 10 Nov · VMware 11 Nov · Ivanti 13 Nov · Apple 18 Nov</span></div>
+<div class="tracker">
+<div class="track"><div class="t-label">Due today 5 Nov</div><div class="t-status st-due">WSO2 Open Banking</div><p>CVE-2025-11969 — internet-facing instances were due under the vendor's 3-day window; confirm closure today.</p></div>
+<div class="track"><div class="t-label">Due tomorrow 6 Nov</div><div class="t-status st-due">WordPress KEV</div><p>CVE-2026-119977 — patch to 7.1.4 and review upgrade-window logs.</p></div>
+<div class="track"><div class="t-label">Named bank cases</div><div class="t-status st-passed">SinoPac &amp; Arkéa</div><p>Supplier / provider-platform routes, not customer-credential theft alone. Mechanisms still undisclosed.</p></div>
+<div class="track"><div class="t-label">New KEV entry</div><div class="t-status st-pending">Apple WebKit</div><p>CVE-2024-27834, due 18 Nov — one link in APT29's Poisoned Source mobile chains.</p></div>
+</div>
+</header>
+
+<section aria-labelledby="exec-h"><div class="sec-head"><h2 id="exec-h">Executive summary</h2></div>
+<div class="exec">
+<div class="exec-card"><span class="exec-num">1</span><p><strong>Two named banks, one lesson: the route in was a supplier or provider system, not a customer's password alone.</strong> Bank SinoPac confirmed on 4 November that external hackers exploited security settings at the foreign supplier of its new online banking transaction system, making 427 unauthorised transfers totalling about NT$41.76 million (about US$1.27 million) on 3 November; customers were reimbursed on 3 November and the receiving account at Taipei Fubon Bank was frozen. Crédit Mutuel Arkéa, in its evening statement on 4 November, gave a provisional estimate of about €100 million, said attackers reached the bank directly through the platform of one of its service providers — not through client accounts and, in its Q&amp;A, not through Fortuneo — used the bank's own account to transfer funds to other banks, and converted funds into cryptocurrency. In both cases the exact flaw, the provider's name (Arkéa) or supplier's name (SinoPac), and the attackers' identity are undisclosed, so do not fill those gaps from press speculation.</p></div>
+<div class="exec-card"><span class="exec-num">2</span><p><strong>The deadline cluster is now today and tomorrow, and the new KEV entry is an old Apple flaw with a live campaign behind it.</strong> CISA added CVE-2024-27834 (Apple WebKit pointer-authentication bypass, NVD 5.5) on 4 November, taking the catalogue to 1,768 entries, due 18 November. The timing matches Sekoia's Poisoned Source report the same day: APT29 (moderate-to-high confidence) used n-day chains — no zero-days — against phones that had missed updates, stealing cookies and, in the deepest chain, messages, credentials, location and photos. WSO2 CVE-2025-11969 falls due today, 5 November; WordPress CVE-2026-119977 falls due tomorrow, 6 November.</p></div>
+<div class="exec-card"><span class="exec-num">3</span><p><strong>An edge zero-day has been reclassified, which changes who should still patch.</strong> Zyxel's GS1900 flaw CVE-2026-107441 — not the June flaw CVE-2026-7273 it was first blamed on — was the vulnerability actually exploited to compromise 996 switches in 48 countries from mid-August, stealing configurations and hashed root passwords. Firmware patched for the June flaw was still vulnerable, so a June patch is not evidence of safety; the October 22 firmware is the fix. Separately, SonicWall warned on 4 November that two flaws in end-of-life Global Management System software will not be patched at all — the only fix is migration to Network Security Manager.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="actors-h"><div class="sec-head"><h2 id="actors-h">Threat actor activity</h2><p>Group Name | Target Sub-sector / Geography | TTPs (MITRE ATT&amp;CK where available) | Impact</p></div>
+<table><thead><tr><th>Group</th><th>Target</th><th>TTPs</th><th>Impact</th></tr></thead><tbody>
+<tr><td><strong>Unknown actor — Bank SinoPac — NEW in this daily edition</strong></td><td>Retail bank, Taiwan</td><td>No MITRE mapping published. As described by the bank on 4 Nov: hackers exploited security settings at the supplier of its new online banking transaction system and used trial-and-error to obtain valid accounts sharing an ID-number prefix (P, per Chinese-language reporting, translated from Chinese — the English CNA report says accounts sharing an ID-number prefix). Transfers were non-designated transfers of about NT$100,000 each, mostly, to a single Taipei Fubon Bank account, without customers logging in. The bank says the receiving account holder is an ordinary customer, not a mule account, and that there is no evidence of personal-data leakage so far.</td><td>427 transfers, about NT$41.76 million, from 418 customers in the bank's 4 Nov count (419 in the regulator's 3 Nov count — a one-customer discrepancy, flagged, not resolved). Customers were reimbursed, including fees, on 3 Nov. The new system has been suspended; the regulator requires a detailed major-incident report by 12 Nov and Taipei prosecutors are investigating. The supplier is unnamed and foreign, per the bank; it says no other bank in Taiwan uses this system.</td></tr>
+<tr><td><strong>Unknown actor — Crédit Mutuel Arkéa — NEW in this daily edition (wire breaking item, updated)</strong></td><td>Cooperative banking group, France (incl. online bank Fortuneo and Keytrade Bank in Belgium as subsidiaries)</td><td>No MITRE mapping published. Bank's evening statement 4 Nov: attackers reached Arkéa directly through a service provider's platform, used the bank's own account for transfers to other banks, then converted funds into cryptocurrency via specialist platforms. The bank says it excluded human error at Arkéa and that no entry was made through Fortuneo. That conflicts with some French press reporting that described Fortuneo as pirated or as the source of funds — the bank's own Q&amp;A is the more authoritative account on route, and the conflict is flagged rather than resolved here. Le Figaro, not the bank, reports the provider itself was attacked in late October.</td><td>Provisional estimate about €100 million from the bank; it validated the order of magnitude of investigator ZachXBT's above-$133 million (about €118 million) estimate but did not confirm it, and the final figure is still being assessed. A portion of funds was blocked; recovery is under way. The Paris prosecutor opened an investigation into an attack on an automated data processing system by an organised group. The bank says clients face no financial consequences and the incident is under control, with some transactions temporarily suspended. Bitquery traced $108.8 million in USDC withdrawals from Kraken, Crypto.com and OKX accounts over 1–2 Nov, and $62.98 million converted to 27,553 ETH in about four hours via UniswapX — investigator analytics, not bank-confirmed loss.</td></tr>
+<tr><td><strong>APT29 (Midnight Blizzard) — Poisoned Source — NEW</strong></td><td>Mobile users via compromised / cloned websites in the US, Ukraine, Czech Republic and Bulgaria; Ukrainian analytics service Plerdy</td><td>No MITRE ID published in sources read. Three n-day chains, no click needed: (A) iOS 16.7 — CVE-2025-43529 + CVE-2024-27834, Safari cookie theft; (B) iOS 18.5 — DarkSword chain (CVE-2025-43529, CVE-2026-20700, CVE-2025-14174, CVE-2025-43510, CVE-2025-43520), full device data including WhatsApp/Telegram databases, Keychain, location and photos; (C) Android Chrome 139–145 except 143 — CVE-2026-3910 + CVE-2025-27038, AndroSnitch harvesting Chrome cookies, logins, history and Wi-Fi credentials. Routes: injected scripts on legitimate sites, lookalike domains, and tampering with Plerdy's tracker (27 Aug–3 Sep). Payloads do not persist across reboot.</td><td>Attribution is moderate-to-high confidence (Sekoia), not certainty. No bank victim is named. BFSI relevance is through session hijacking: stolen browser cookies can reuse logged-in sessions, including webmail and browser-based banking, and Wi-Fi credentials widen access. Fully updated devices are outside these chains — every flaw used was already patched — so the control is patching, especially older iPhones that cannot take the newest iOS but did receive 16.7.8 / 17.5 fixes.</td></tr>
+<tr><td><strong>Kapibala (suspected Chinese-speaking actor) — Zyxel switches — NEW as clarified 4 Nov</strong></td><td>Network edge, global (48 countries; most victims Italy, US, Taiwan per secondary reporting)</td><td>No MITRE mapping published. Unauthenticated remote command execution via the GS1900 web management interface (CVE-2026-107441), then a collector script exfiltrating configuration, network details and hashed root passwords. GreyNoise observed activity from about 17 Aug; Binarly found the exploit still worked on all ten June-patched firmware releases.</td><td>996 switches compromised. 564 were still on factory default credentials, per GreyNoise — a reminder that the exploit and weak credential hygiene compounded each other. No bank victim is named, but a switch that leaks its configuration and root hash is a foothold into the network behind it.</td></tr>
+<tr><td><strong>TraderTraitor — Binance — Update, previously covered</strong></td><td>Crypto exchange, global</td><td>No new MITRE list in-window. Binance Recovery Update #7, 4 Nov: about 98% of affected assets replenished from its own resources (up from 95% on 2 Nov), with more than 100% of the funds needed set aside; the remaining 2% is less liquid tokens, bought via market and OTC channels, with no completion date. New proof-of-reserves snapshot taken 00:00 UTC 4 Nov covering 44 tokens, up from 10 on 31 Oct; the full zero-knowledge proof is expected to take 50–60 hours to generate, so verification is pending, not complete.</td><td>A 44-token snapshot is wider evidence about balances at a cut-off, not an audit and not a post-mortem. Do not treat the pending ZK proof as already verified. Restoration phishing remains the live follow-on risk.</td></tr>
+<tr><td><strong>Unknown actor — Mercado Bitcoin / BitMart — Update, previously covered</strong></td><td>Crypto exchanges, Brazil / global</td><td>No MITRE mapping. Mercado Bitcoin plans a phased reopening from Monday 9 Nov: view-only access first (balances, statements, holdings), with transfers, withdrawals and trading only in later phases subject to independent security testing. It now says more than $15 million has been frozen with industry help, up from $12.9 million blocked in its 3 Nov statement — the two figures may reflect further freezing rather than a restatement, and the exchange has not reconciled them in sources read. It pledges to cover losses from company funds. BitMart's founder said on 3 Nov that BitMart was also hacked on 2 Nov for a small amount and that its preliminary investigation suggests the same group may be behind both — an unconfirmed link, not an attribution.</td><td>Deposits, withdrawals and trading remain suspended at the 4 Nov cut-off. Viewing a balance is not restoration of withdrawals. The $46 million-plus analyst estimate still exceeds the exchange's $36.3 million affected figure; do not quote either as a settled loss.</td></tr>
+<tr><td><strong>Braincipher / Akira / PLAY — UNVERIFIED leak-site listings, 4 Nov</strong></td><td>Megastar Financial (US, financial services, Braincipher); Krishnan Group (India, finance/accounting, Akira — 27 GB claimed, incl. passports, licences, SSNs and medical records per secondary reporting); StrucSure Home Warranty (US, classified financial services, PLAY — no details in the listing report)</td><td>No MITRE lists in the listing reports. Post dates are not compromise dates; no encryption, exfiltration volume or ransom demand is independently confirmed for any of them.</td><td><strong>Unconfirmed.</strong> Krishnan is finance-adjacent (accounting firm holding client PII) if verified; the other two are sector-labelled listings only. Do not treat any as a confirmed bank breach.</td></tr>
+</tbody></table>
+<p class="small muted">No new in-window item was found for FIN7 / Carbanak, Scattered Spider, RansomHub, Cl0p, or a FI-specific Initial Access Broker. Absence of reporting is not evidence of absence of activity.</p>
+</section>
+
+<section aria-labelledby="vuln-h"><div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>CVE ID | CVSS Score | Affected Product | Exploitation Status | Relevance to Finance</p></div>
+<table><thead><tr><th>CVE</th><th>CVSS</th><th>Product</th><th>Status</th><th>Finance relevance</th></tr></thead><tbody>
+<tr><td class="cve">CVE-2024-27834 <span class="badge red">NEW · KEV</span></td><td>5.5</td><td>Apple iOS, iPadOS, macOS, Safari, tvOS, watchOS</td><td><span class="status wild">In the Wild</span></td><td>KEV added 4 Nov, due 18 Nov, catalogue now 1,768. WebKit pointer-authentication bypass — alone it does not break in; as one link in APT29's Poisoned Source chains it helps finish an exploit on unpatched phones. Fixed May 2024 (Safari 17.5, iOS 16.7.8 and others). The low score understates its chain value; the KEV deadline is the operative fact.</td></tr>
+<tr><td class="cve">CVE-2026-107441 <span class="badge red">NEW · clarified</span></td><td>8.8 (Zyxel) / 9.8*</td><td>Zyxel GS1900 series switches, ten models, web management interface</td><td><span class="status wild">In the Wild (zero-day)</span></td><td>Advisory published 3 Nov, widely reported 4 Nov. Out-of-bounds write allowing unauthenticated remote command execution. *A secondary analysis rates it 9.8 and disputes Zyxel's memory-location description — the score discrepancy is flagged, not resolved. Fix: 22 Oct firmware; June firmware for CVE-2026-7273 is not sufficient. Change default credentials.</td></tr>
+<tr><td class="cve">CVE-2026-109593 / 109594 <span class="badge red">NEW · EOL</span></td><td>Not stated in sources read</td><td>SonicWall Global Management System 9.5.2 and earlier (end-of-life)</td><td><span class="status none">Not reported exploited in-window</span></td><td>109593: unauthenticated information disclosure via internal file reads. 109594: high-privilege SQL injection to access/modify database information. SonicWall will not patch — migrate to Network Security Manager. CISA has added 19 SonicWall flaws to KEV over four years, 13 abused by ransomware gangs, per BleepingComputer — context for why an unpatched management plane should not stay internet-reachable.</td></tr>
+<tr><td class="cve">CVE-2026-72898 <span class="badge amber">CSA 4 Nov · older KEV</span></td><td>10.0</td><td>Metabase 58+ (free and paid editions)</td><td><span class="status wild">In the Wild</span></td><td>CSA Singapore warned 4 Nov that this SQL-injection flaw, fixed 6 Aug and on KEV since 11 Aug, is actively exploited and a PoC is public. It can give an unauthenticated attacker admin access and database credentials. Safe releases: 58.24, 59.21, 60.17, 61.11, 62.9, 63.5+. BFSI relevance: self-hosted analytics dashboards that hold database credentials are a credential-theft target, not just a reporting tool.</td></tr>
+<tr><td class="cve">CVE-2025-11969 <span class="badge red">DUE TODAY</span></td><td>9.4</td><td>WSO2 Open Banking AM / IAM and API Manager</td><td><span class="status none">Not known exploited</span></td><td><strong>Due 5 November</strong> under the vendor's 3-day window for internet-facing instances (see 3–4 Nov briefings for fixed builds). Confirm closure today; an unpatched internet-facing instance is now overdue, not upcoming.</td></tr>
+<tr><td class="cve">CVE-2026-119977 <span class="badge red">DUE TOMORROW</span></td><td>8.1 / Low*</td><td>WordPress core 4.7.0–7.1.3</td><td><span class="status wild">In the Wild (attempts)</span></td><td><strong>Due 6 Nov</strong>, forensic triage requested. Wordfence reported 13,095 blocked attacks in 24 hours over the weekend, and earlier counts of 18,500+ requests / 62,969 blocked attempts in different windows — blocked attempts are not compromises, and the counts differ by window and reporter. *Wordfence 8.1 vs WordPress Low. Fix 7.1.4 / backport; block wp-content/upgrade/.</td></tr>
+<tr><td class="cve">CVE-2026-109618 / 109619 (PHP2Shell)</td><td>9.2</td><td>PHP; PAN-OS and other network/security products</td><td><span class="status wild">In the Wild</span></td><td>No change in-window. CSA 3 Nov: PAN-OS management interfaces exploited, chained with CVE-2026-46300 to root. Keep management interfaces off the internet.</td></tr>
+<tr><td class="cve">CVE-2026-40217</td><td>8.8</td><td>LiteLLM proxy</td><td><span class="status wild">In the Wild (LLMjacking)</span></td><td>No change in-window. User-ID rebind to PROXY_ADMIN. Update LiteLLM, lock endpoints off the internet, rotate keys.</td></tr>
+<tr><td class="cve">CVE-2026-116606 / 111560</td><td>9.3 / 8.6</td><td>Barracuda Email Security Gateway and related products</td><td><span class="status none">Not known exploited</span></td><td>No change in-window. Chain gives unauthenticated remote root on ESG. Patch and remove admin interfaces from internet reach.</td></tr>
+<tr><td class="cve">CVE-2026-98432</td><td>9.8</td><td>Linux kernel IPv4 TCP, 4.4+</td><td><span class="status none">Research exploit only</span></td><td>No change in-window. Demonstrated exploit needs MPTCP; RHEL fixed kernels require reboot, Ubuntu was still in -proposed on 3 Nov.</td></tr>
+<tr><td class="cve">CVE-2026-58115</td><td>10.0</td><td>Node-RED / Siemens IoT2050</td><td><span class="status wild">In the Wild</span></td><td>No change in-window. Port 1880 without adminAuth remains an active target.</td></tr>
+<tr><td class="cve">CVE-2026-111497 / 41709 / 118527</td><td>9.2 / 8.8* / 4.3</td><td>Google Brotli; VMware ESX/ESXi; Ivanti Connect Secure</td><td><span class="status wild">In the Wild (KEV)</span></td><td>Due 10 Nov, 11 Nov and 13 Nov respectively. *VMware score per secondary reporting. Ivanti chain: CVE-2026-111357 was due 2 Nov — rebuild suspect appliances.</td></tr>
+</tbody></table>
+<p class="small muted">No new core-banking, SWIFT/payment-gateway or enterprise file-transfer CVE was reported in this window in sources searched. KEV now stands at 1,768 entries (version 2026.11.04).</p>
+</section>
+
+<section aria-labelledby="supply-h"><div class="sec-head"><h2 id="supply-h">Supply chain &amp; third-party risk</h2></div>
+<div class="panels">
+<div class="panel"><h3>SinoPac supplier &amp; Arkéa provider — NEW</h3><p>Both named-bank cases turn on a third party's system: SinoPac's new online banking transaction system from a foreign supplier, and a service provider's platform that reached Arkéa directly. Neither bank has named the third party or disclosed the flaw. The control lesson is the same in both: inventory which supplier or provider platforms can initiate or authorise transfers on the bank's own account or a customer's account, and test their verification and account-enumeration controls — not just the bank's customer-facing login.</p></div>
+<div class="panel"><h3>Amadeus / Singapore Airlines — NEW, 4 Nov</h3><p>Singapore Airlines said about 46,000 booking records may have been affected through Amadeus' travel booking display environment: names, booking references, itineraries and booking classes, plus email, phone, travel-document and KrisFlyer details for about 620 records. SIA says its own systems were not breached, no bookings were changed, and Amadeus confirmed no bank account or credit-card information was exposed. Other carriers (Cathay Pacific about 53,000 bookings, Japan Airlines about 92,000 customers in secondary reporting) have reported the same provider incident. Do not add carrier figures together — they count different record types. BFSI relevance is indirect: a provider display flaw that exposes identity details is phishing fuel, and the same pattern — a trusted vendor's system account or display environment — appears in the Cathay account of this incident.</p></div>
+<div class="panel"><h3>NIKKE launcher supply chain — NEW, 4 Nov</h3><p>Level Infinite confirmed that PC launcher script files for Goddess of Victory: NIKKE may have been tampered with by a third party; a client fix was issued 4 Nov at 02:30 UTC+9. Independent researcher analysis cited by BleepingComputer says four JavaScript files on the official CDN were modified on 27 Sep to load code from attacker domains, installing a remote-access agent and a DLL that can steal cryptocurrency wallet data from browser extensions (MetaMask, Phantom, Coinbase Wallet and others). Scope of impact is still under investigation by the publisher. No bank victim — relevance is wallet-credential theft via a trusted game launcher update channel.</p></div>
+<div class="panel"><h3>DreamHost &amp; mSecure — credential exposure, 4 Nov</h3><p>DreamHost confirmed a breach of its web File Manager from August to 23 Oct, exposing FTP/SFTP usernames and passwords of users who logged in during that period and possibly webmail session information for a limited number of users; account counts are unanswered. mSeven warned mSecure customers to change passwords, reset 2FA and remove passkeys after suspicious activity; customer-shared support replies cited by BleepingComputer say an encrypted customer database was stolen from mSecure Cloud, which mSeven has not confirmed in sources read. Neither names a BFSI victim; both are credential-reuse risks for staff and customers who reuse passwords.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="fraud-h"><div class="sec-head"><h2 id="fraud-h">Emerging fraud &amp; attack vectors</h2></div>
+<div class="panels">
+<div class="panel"><h3>SinoPac unauthorised transfers — the fraud pattern itself</h3><p>Transfers were made without customers logging in, in many cases for a fixed NT$100,000, to one destination account. Customers reported face-scan confirmations they did not make, per customer posts cited in Chinese-language reporting (translated from Chinese) — that detail is customer-reported, not bank-confirmed, and the bank's explanation is supplier security settings exploited by trial-and-error, not a customer device compromise. The distinction matters for customer advice: do not blame customers for clicking a link when the bank says the route was a supplier system.</p></div>
+<div class="panel"><h3>Festive-season fake offers targeting an unnamed Indian bank — reported, 4 Nov</h3><p>Brand-protection firm mFilterIt reported nearly 200,000 fake festive offers, cloned sites and phishing links across platforms, including nearly 240,000 fraudulent cases targeting a single leading Indian bank across 10 platforms (fake promotional sites, phishing pages, brand impersonation, coupon abuse). The bank is unnamed in sources read, so this is a vendor-reported, sector-relevant pattern, not a confirmed incident at a named bank. The firm says AI lowers the cost, skill and language barriers to producing fake creatives at scale — a vendor assessment, not a named AI campaign.</p></div>
+<div class="panel"><h3>Exchange restoration &amp; laundering phishing — ongoing</h3><p>Arkéa, Binance and Mercado Bitcoin stories are all live phishing and laundering bait: Arkéa funds were converted via specialist crypto platforms, with Kraken reportedly alerting after unusually large transfers; Binance and Mercado Bitcoin restoration messages are being mimicked. Verify via official status pages only, never via links in messages claiming to restore withdrawals or refunds.</p></div>
+<div class="panel"><h3>Abrigo / Sageworks — status unchanged</h3><p>No new Abrigo statement was found in-window. Borrower-facing Online Portal Now remained unavailable in 3 Nov reporting, and the breach-or-not attestation (scope, data types) is still outstanding. Carried as an open third-party item, not a new incident.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="ttp-h"><div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition. No mapping is invented where a source published none, and older research recirculated in-window is marked as context, not as a new sighting.</p></div>
+<table><thead><tr><th>MITRE technique</th><th>Behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection</th></tr></thead><tbody>
+<tr><td class="cve">No mapping published</td><td>Supplier security-setting exploitation + trial-and-error account enumeration, then non-designated transfers</td><td>Bank SinoPac — 427 transfers, 3 Nov, confirmed 4 Nov</td><td>Detect enumeration against non-designated transfer flows and transfers to a single new destination at scale, even without a login event. No MITRE ID was published for this behaviour in sources read.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Service-provider platform abuse, bank-own-account transfers, conversion to cryptocurrency</td><td>Crédit Mutuel Arkéa — provider-platform route, 4 Nov evening statement</td><td>Monitor provider-platform sessions that can reach the bank directly, and large bank-own-account transfers to exchange accounts. No MITRE ID was published for this behaviour in sources read.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Watering-hole delivery of n-day exploit chains; cookie and device-data theft; no persistence</td><td>APT29 Poisoned Source — Sekoia, 4 Nov</td><td>Session-hijacking risk for browser-based banking and webmail. Patch mobile OS and Chrome; a reboot stops the payload until the next compromised visit, but does not revoke stolen sessions — rotate sessions and credentials. No MITRE ID was published for these chains in sources read.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Unauthenticated remote command execution via web management interface; configuration and root-hash theft</td><td>Zyxel CVE-2026-107441 — Kapibala, clarified 4 Nov</td><td>Remove switch management interfaces from internet reach, change default credentials, and treat a compromised switch's configuration as leaked. No MITRE ID was published for this CVE in sources read.</td></tr>
+<tr><td class="cve">No mapping published</td><td>Unauthenticated SQL injection to admin access and database credentials</td><td>Metabase CVE-2026-72898 — CSA warning, 4 Nov</td><td>Self-hosted dashboards holding database credentials are credential targets. Patch to the safe releases and rotate database credentials if the instance was internet-reachable on an affected version.</td></tr>
+<tr><td class="cve">No mapping published</td><td>End-of-life management-plane flaws left unpatched</td><td>SonicWall GMS CVE-2026-109593 / 109594 — 4 Nov</td><td>Migration, not patching, is the fix. Inventory EOL management systems and remove them from internet reach while migrating.</td></tr>
+</tbody></table>
+<p class="small muted">No technique in this edition was published with a MITRE ID in sources read. Recurring watch (context only, not a new sighting): valid-account / cloud-account abuse (T1078.004) from the 4 November LLMjacking coverage remains the pattern to watch for stolen AI and cloud keys, but it is not counted as a new 5 November sighting.</p>
+</section>
+
+<section aria-labelledby="ai-h"><div class="sec-head"><h2 id="ai-h">AI in the current threat landscape</h2><p>AI as a target, AI as a weapon or accelerator, and AI as a risk and control problem for BFSI.</p></div>
+<div class="panels">
+<div class="panel"><h3>AI as a target — no new LLMjacking incident in this window</h3><p>No new LLMjacking or LLM-endpoint incident against a named victim was reported for 4–5 November in sources searched. The 4 November LLMjacking picture (stolen keys, exposed Ollama/LiteLLM endpoints, LiteLLM CVE-2026-40217) is carried as the standing risk, not as a new incident. Do not present the absence of a new report as evidence that key theft has stopped.</p></div>
+<div class="panel"><h3>AI as a weapon / accelerator — scale, not a named campaign</h3><p>No new named AI-scaled phishing, vishing or deepfake campaign against a BFSI victim was found in this window. The closest in-window item is mFilterIt's festive-season finding (see Fraud): AI is said to lower the cost, skill and language barriers to producing fake offers and cloned sites at scale, including cases targeting an unnamed Indian bank. That is a vendor assessment of scale, not evidence that a specific phishing wave was AI-generated, and the SinoPac and Arkéa cases are not re-labelled as AI campaigns — neither bank or investigator attributes them to AI tooling.</p></div>
+<div class="panel"><h3>AI as a risk and control problem for BFSI — agent detection announced</h3><p>CrowdStrike announced at Fal.Con Europe on 4 Nov that Agent Insider Threat Detection will be added to Falcon Next-Gen SIEM in Q4, learning normal behaviour for each AI agent and its owner and flagging deviations even without a policy violation, alongside generally available coordinated multi-agent investigations and the Falcon Guardian AI Kill Switch. Treat the roadmap honestly: the insider-threat detection is forthcoming, not generally available today, and a later Policy-Drift Agent Guardrail is scheduled for Q1 fiscal 2028. The standing controls still apply regardless of vendor: key inventory and rotation, endpoint exposure (no unauthenticated Ollama/LiteLLM on the internet), spend and invocation monitoring with revoke-and-rotate, and agent-tool detection (rapid, tool-driven sequences from a single session).</p></div>
+<div class="panel"><h3>No new AI-scaled phishing, vishing or deepfake item in this window</h3><p>No newly reported AI-generated phishing, vishing or deepfake campaign against a BFSI victim was found for 4–5 November. That is absence of reporting, not evidence it has stopped. The SinoPac, Arkéa and festive-fraud items in this edition are conventional or scale-based impersonation and are not re-labelled as AI campaigns without evidence.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="ioc-h"><div class="sec-head"><h2 id="ioc-h">Indicators &amp; defensive actions</h2></div>
+<h3>Notable IOCs / behavioural indicators</h3>
+<ul>
+<li><strong>SinoPac:</strong> non-designated transfers of about NT$100,000, mostly, to a single Taipei Fubon Bank account, without a customer login; accounts sharing an ID-number prefix; a sudden cluster of transfers to one new destination is the detection signal, not a single transfer.</li>
+<li><strong>Arkéa (investigator analytics, not bank-confirmed):</strong> USDC/USDT withdrawals from Kraken, Crypto.com and OKX accounts over 1–2 Nov (Bitquery: $108.8 million); conversion of $62.98 million in stablecoins to 27,553 ETH in about four hours via UniswapX (Bitquery).</li>
+<li><strong>APT29 Poisoned Source:</strong> iOS 16.7 and 18.5, Chrome 139–145 except 143; Plerdy tracker script tampered 27 Aug–3 Sep (<span class="mono">a.plerdy.com/public/js/click/main.js</span>); payloads stop on reboot but stolen cookies/sessions persist until revoked.</li>
+<li><strong>Zyxel:</strong> GS1900 switches on pre-22-Oct firmware (including June-patched builds); factory default credentials (564 of 996 compromised switches); configuration and hashed root password exfiltration.</li>
+<li><strong>Metabase:</strong> Metabase 58+ on versions below 58.24 / 59.21 / 60.17 / 61.11 / 62.9 / 63.5, especially internet-reachable; unauthenticated SQL injection to admin.</li>
+<li><strong>WordPress (carried):</strong> requests for staged installer paths under <span class="mono">wp-content/upgrade/</span> around a core upgrade window.</li>
+<li><strong>Binance / Mercado Bitcoin (carried):</strong> restoration and refund messages with links, WhatsApp or phone calls are phishing — verify via official status pages only.</li>
+</ul>
+<h3>Prioritised actions — SOC</h3>
+<ol>
+<li><strong>Today, in deadline order:</strong> confirm WSO2 CVE-2025-11969 closure for internet-facing instances (due today); WordPress CVE-2026-119977 by tomorrow 6 Nov (patch + upgrade-window log review).</li>
+<li><strong>Review supplier/provider transfer paths today:</strong> list supplier and provider platforms that can initiate transfers on the bank's own account or customer accounts (SinoPac and Arkéa pattern); test account-enumeration controls on non-designated transfer flows and alert on clusters to a single new destination.</li>
+<li><strong>Patch mobile and edge estates:</strong> iOS / Chrome updates for Poisoned Source chains (fully updated devices are outside them); Zyxel GS1900 to 22 Oct firmware and change default credentials; migrate SonicWall GMS to NSM and take EOL management planes off the internet.</li>
+<li><strong>Check self-hosted dashboards:</strong> Metabase on safe releases, and rotate database credentials if an affected instance was internet-reachable.</li>
+<li><strong>Brief crypto desks and customers:</strong> Arkéa's final figure is still being assessed and its recovery amount is undisclosed; Binance's 44-token snapshot proof is still being generated (50–60 hours); Mercado Bitcoin view-only reopening starts 9 Nov, not withdrawals. All three are phishing bait.</li>
+<li><strong>Check AI/cloud key exposure (standing):</strong> audit LiteLLM/Ollama endpoints, service-account keys and committed API keys; alert on spend spikes and new-principal invocations; revoke-and-rotate.</li>
+</ol>
+<h3>Prioritised actions — Vulnerability Management</h3>
+<ol>
+<li><strong>By 5 Nov (today):</strong> WSO2 CVE-2025-11969 closure for internet-facing instances.</li>
+<li><strong>By 6 Nov:</strong> WordPress CVE-2026-119977 to 7.1.4 or branch backport.</li>
+<li><strong>Immediately:</strong> Apple devices to fixed releases (16.7.8 / 17.5 / 18.7.3 / 26.2 as applicable, plus Chrome 146+ for Android); Zyxel GS1900 to 22 Oct firmware; Metabase to safe releases; SonicWall GMS migration plan.</li>
+<li><strong>This week:</strong> Brotli by 10 Nov; VMware by 11 Nov; Ivanti by 13 Nov; Apple CVE-2024-27834 by 18 Nov.</li>
+<li><strong>Third-party / fourth-party:</strong> ask every supplier or provider platform that can reach the bank directly to confirm its transfer-authorisation and verification controls, and whether it was affected by the SinoPac / Arkéa patterns; ask hosting providers about Zyxel GS1900 exposure and Metabase instances; demand Abrigo's breach-or-not attestation, still outstanding.</li>
+</ol>
+</section>
+
+<section aria-labelledby="unv-h"><div class="sec-head"><h2 id="unv-h">Could not verify</h2></div>
+<div class="panel unverified"><p>SinoPac: the supplier's name, the exact flaw in its security settings, the attackers' identity, and why the bank's count (418) differs by one from the regulator's (419) — all undisclosed or unresolved. Arkéa: final loss figure (bank provisional about €100 million vs investigator above $133 million / about €118 million), which provider's platform was used, whether that provider was itself breached (Le Figaro reporting, not bank-confirmed), how much has been recovered, and the Fortuneo route conflict (bank Q&amp;A says no entry via Fortuneo; some French press describes Fortuneo as pirated). APT29 attribution is moderate-to-high confidence, not certainty, and no victim count is given. Zyxel CVSS: 8.8 (Zyxel) vs 9.8 (secondary analysis). Mercado Bitcoin: whether the move from $12.9 million blocked to more than $15 million frozen is further freezing or a restatement, and whether the same group hit BitMart (founder's preliminary suggestion only). The three 4 Nov ransomware listings are leak-site claims only. Binance's 44-token proof is pending generation (50–60 hours), not verified. No in-window evidence was found for new FIN7/Scattered Spider/Carbanak/RansomHub/Cl0p BFSI attacks, FI-specific IAB sales, SWIFT/core-banking/file-transfer CVEs, a new mobile-banking trojan, or a new public FS-ISAC alert.</p></div>
+</section>
+
+<section aria-labelledby="src-h" id="sources"><div class="sec-head"><h2 id="src-h">Sources</h2></div>
+<ul class="sources">
+<li><a href="https://focustaiwan.tw/society/202611040022" target="_blank" rel="noopener noreferrer">Focus Taiwan (CNA) — Bank SinoPac: no evidence of customer data leak in unauthorised transactions, 4 Nov</a></li>
+<li><a href="https://news.tvbs.com.tw/money/4045902" target="_blank" rel="noopener noreferrer">TVBS — Bank SinoPac press conference, supplier settings and trial-and-error accounts, 4 Nov (translated from Chinese)</a></li>
+<li><a href="https://www.storm.mg/article/11178591" target="_blank" rel="noopener noreferrer">Storm Media — Bank SinoPac apology, foreign supplier, compensation claim, 4 Nov (translated from Chinese)</a></li>
+<li><a href="https://www.boursorama.com/actualite-economique/actualites-amp/credit-mutuel-arkea-victime-d-une-cyberattaque-qui-a-permis-des-operations-frauduleuses-7a25b65f08450c07e9ea616dca1bfc71" target="_blank" rel="noopener noreferrer">Boursorama / AFP — Crédit Mutuel Arkéa evening statement: provisional about €100 million, provider platform route, 4 Nov (translated from French)</a></li>
+<li><a href="https://www.lefigaro.fr/societes/l-information-a-commence-a-circuler-sur-x-a-partir-du-1er-novembre-les-coulisses-de-la-cyberattaque-contre-credit-mutuel-arkea-20261104" target="_blank" rel="noopener noreferrer">Le Figaro — Arkéa: provider attacked in late October, Paris prosecutor investigation, 4 Nov (translated from French)</a></li>
+<li><a href="https://www.lemonde.fr/economie/article/2026/11/04/avec-la-cyberattaque-au-credit-mutuel-arkea-les-banques-europeennes-prennent-conscience-de-l-ampleur-de-leur-vulnerabilite_6806367_3234.html" target="_blank" rel="noopener noreferrer">Le Monde — Arkéa and European bank vulnerability, Kraken alert, 4 Nov (translated from French)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/hackers-use-n-day-exploits-in-zero-click-attacks-on-ios-android-devices/" target="_blank" rel="noopener noreferrer">BleepingComputer — Sekoia Poisoned Source: APT29 n-day watering hole, 4 Nov</a></li>
+<li><a href="https://carthageelectronics.com/november-4-2026-cve-threat-brief/" target="_blank" rel="noopener noreferrer">Carthage Electronics — 4 Nov CVE brief: KEV 1,768, Apple CVE-2024-27834 due 18 Nov, Zyxel zero-day</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/zyxel-fixes-zero-day-exploited-to-hack-nearly-1-000-network-switches/" target="_blank" rel="noopener noreferrer">BleepingComputer — Zyxel CVE-2026-107441 zero-day, 996 switches, 4 Nov</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-unpatched-flaws-in-end-of-life-gms-software/" target="_blank" rel="noopener noreferrer">BleepingComputer — SonicWall EOL GMS flaws CVE-2026-109593 / 109594, 4 Nov</a></li>
+<li><a href="https://brotherlytechnology.com/resources/metabase-cve-2026-72898-exploited-self-hosted-dashboard-checklist/" target="_blank" rel="noopener noreferrer">CSA Singapore — Metabase CVE-2026-72898 active exploitation warning, 4 Nov (via secondary summary)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/cisa-flags-wordpress-rce-flaw-as-actively-exploited-in-attacks/" target="_blank" rel="noopener noreferrer">BleepingComputer — CISA flags WordPress CVE-2026-119977, due 6 Nov, 4 Nov</a></li>
+<li><a href="https://www.binance.com/en/square/post/11-04-2026-binance-news-update-binance-expands-proof-of-reserves-to-44-tokens-as-98-of-impacted-assets-are-replenished-384676334992694" target="_blank" rel="noopener noreferrer">Binance — Recovery Update #7: 98% replenished, PoR expanded to 44 tokens, 4 Nov</a></li>
+<li><a href="https://cointelegraph.com/news/mercado-bitcoin-phased-reopening-to-begin-monday-pledges-to-cover-losses" target="_blank" rel="noopener noreferrer">Cointelegraph — Mercado Bitcoin phased reopening from 9 Nov, more than $15 million frozen, 4 Nov</a></li>
+<li><a href="https://thecryptoguide.org/blog/mercado-bitcoin-security-incident-withdrawals-customer-assets/" target="_blank" rel="noopener noreferrer">The Crypto Guide — Mercado Bitcoin / BitMart update: same-group suggestion, 4 Nov</a></li>
+<li><a href="https://www.malaymail.com/amp/news/singapore/2026/11/04/singapore-airlines-booking-data-for-46000-records-compromised-in-amadeus-data-breach-620-had-additional-details-exposed/241931" target="_blank" rel="noopener noreferrer">Malay Mail / Reuters — Singapore Airlines: 46,000 booking records via Amadeus, 4 Nov</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/nikke-pc-game-launcher-hacked-to-spread-remote-access-data-stealing-malware/" target="_blank" rel="noopener noreferrer">BleepingComputer — NIKKE launcher supply-chain tampering and wallet theft, 4 Nov</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/dreamhost-confirms-data-breach-exposed-ftp-logins-and-webmail-sessions/" target="_blank" rel="noopener noreferrer">BleepingComputer — DreamHost breach, FTP/webmail exposure, 4 Nov</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/msecure-password-manager-hack-prompts-password-reset-warnings/" target="_blank" rel="noopener noreferrer">BleepingComputer — mSecure password manager warnings, 4 Nov</a></li>
+<li><a href="https://www.storyboard18.com/digital/festive-season-sees-surge-in-fake-offers-and-phishing-links-ws-l-114015.htm" target="_blank" rel="noopener noreferrer">Storyboard18 / mFilterIt — festive fake offers, unnamed Indian bank cases, 4 Nov</a></li>
+<li><a href="https://www.unite.ai/crowdstrike-targets-rogue-ai-agents-with-insider-threat-detection/" target="_blank" rel="noopener noreferrer">Unite.AI — CrowdStrike Agent Insider Threat Detection announcement, Fal.Con Europe, 4 Nov</a></li>
+<li><a href="https://cyberthreatintelligence.net/ransomware-victim/megastarfinancial-com-braincipher-2026" target="_blank" rel="noopener noreferrer">Ransomware listing — Megastar Financial / Braincipher, 4 Nov</a></li>
+<li><a href="https://undercodenews.com/akira-ransomware-claims-two-new-victims-in-india-and-manufacturing-sector-video/" target="_blank" rel="noopener noreferrer">Ransomware listing — Krishnan Group / Akira, 4 Nov</a></li>
+<li><a href="https://www.redpacketsecurity.com/play-ransomware-victim-strucsure-home-warranty/" target="_blank" rel="noopener noreferrer">Ransomware listing — StrucSure Home Warranty / PLAY, 4 Nov</a></li>
+</ul>
+<p class="small muted">Previous edition (deduplication baseline): 4 November 2026 briefing, in the goal workspace at briefs/2026-11-04-briefing.md. This page is the 5 November edition; previous days' pages are untouched.</p>
+</section>
+</div>
+
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a></body>
+</html>
