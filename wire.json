@@ -11,25 +11,39 @@
       "status": "confirmed",
       "summary": "Taiwan's Bank SinoPac said on 4 November 2026 that external hackers exploited security settings at the supplier of its new mobile banking system, causing 427 unauthorised transfers totalling about NT$41.76 million (about US$1.27 million) on 3 November. The bank has reimbursed affected customers, the single receiving account at another bank was frozen, and the new system has been suspended.",
       "timestamp_sgt": "2026-11-04T21:01:00+08:00",
-      "type": "Named BFSI victim \u2014 confirmed attack",
+      "type": "Named BFSI victim — confirmed attack",
       "unknown": "The supplier's name, the exact flaw in its security settings, and the attackers' identity are undisclosed, and the case is under criminal investigation. Local reports of the bank's press conference put the affected customer count at 418, against the Financial Supervisory Commission / Focus Taiwan figure of 419 accounts for the same 427 transfers; the wire uses the regulator's figure and flags the one-customer discrepancy."
     },
     {
       "bfsi_impact": "A named European bank victim with fraudulent transactions: peer banks should review controls on large and exchange-account withdrawals, verify transaction authorisation and suspension procedures, and watch for laundering of any linked funds through exchanges and instant-swap services. Under the EU Digital Operational Resilience Act, major ICT incidents carry a short initial reporting window, so EU-regulated peers should check their own incident-classification clocks. Third-party platform access is now a confirmed route in this case: review service-provider platforms that can reach the bank directly, not only customer-facing channels.",
-      "headline": "Cr\u00e9dit Mutuel Ark\u00e9a confirms cyberattack enabling fraudulent transactions",
+      "headline": "Crédit Mutuel Arkéa confirms cyberattack enabling fraudulent transactions",
       "id": "breaking-arkea-20261104",
-      "known": "The bank's own statement, reported by CoinDesk, Bloomberg and Ledger Insights on 4 November, confirms the attack and the fraudulent transactions. Blockchain investigator ZachXBT first flagged a suspected loss of more than $106 million at an unnamed EU entity on 2 November and named Ark\u00e9a on 3 November, putting the total above $133 million; Bitquery traced $108.8 million in USDC withdrawals from Kraken, Crypto.com and OKX accounts over 1\u20132 November, and Crypto.com said it blocked funds linked to the incident. In a further statement on the evening of 4 November, reported by AFP/Reuters and updated by CNA at 00:57 SGT on 5 November, the bank said attackers reached Ark\u00e9a directly through the platform of one of its service providers \u2014 not through Fortuneo, and not through client accounts \u2014 used the bank's own account to transfer funds to other banks, and then converted funds into cryptocurrency via specialist platforms; a portion of funds was blocked and recovery efforts are under way. The bank gave a provisional estimate of about \u20ac100 million, validated the order of magnitude of the reported $133 million (about \u20ac118 million) figure, but has not confirmed a final figure. The Paris public prosecutor's office has opened an investigation into an attack on an automated data processing system by an organised group. On 5 November the bank said nearly all operations had resumed after security checks and additional safeguards, customer funds were unaffected, and the losses were lower than the $133 million figure reported in the press and not of a nature to undermine the group's financial strength.",
+      "known": "The bank's own statement, reported by CoinDesk, Bloomberg and Ledger Insights on 4 November, confirms the attack and the fraudulent transactions. Blockchain investigator ZachXBT first flagged a suspected loss of more than $106 million at an unnamed EU entity on 2 November and named Arkéa on 3 November, putting the total above $133 million; Bitquery traced $108.8 million in USDC withdrawals from Kraken, Crypto.com and OKX accounts over 1–2 November, and Crypto.com said it blocked funds linked to the incident. In a further statement on the evening of 4 November, reported by AFP/Reuters and updated by CNA at 00:57 SGT on 5 November, the bank said attackers reached Arkéa directly through the platform of one of its service providers — not through Fortuneo, and not through client accounts — used the bank's own account to transfer funds to other banks, and then converted funds into cryptocurrency via specialist platforms; a portion of funds was blocked and recovery efforts are under way. The bank gave a provisional estimate of about €100 million, validated the order of magnitude of the reported $133 million (about €118 million) figure, but has not confirmed a final figure. The Paris public prosecutor's office has opened an investigation into an attack on an automated data processing system by an organised group. On 5 November the bank said nearly all operations had resumed after security checks and additional safeguards, customer funds were unaffected, and the losses were lower than the $133 million figure reported in the press and not of a nature to undermine the group's financial strength.",
       "severity": "high",
       "source_name": "Reuters / AFP via CNA, 4-5 November 2026; Cointelegraph, 5 November 2026",
       "source_url": "https://www.channelnewsasia.com/business/french-bank-credit-mutuel-arkea-counting-losses-cyberattack-6524451",
       "status": "confirmed",
-      "summary": "French banking group Cr\u00e9dit Mutuel Ark\u00e9a confirmed on 4 November 2026 that it was the target of a cyberattack that enabled fraudulent transactions. The bank says the incident is now under control, some transactions were temporarily suspended, regulators and supervisory authorities have been notified, and clients face no financial consequences. In its evening update the bank gave a provisional estimate of about \u20ac100 million, with the final figure still being assessed.",
+      "summary": "French banking group Crédit Mutuel Arkéa confirmed on 4 November 2026 that it was the target of a cyberattack that enabled fraudulent transactions. The bank says the incident is now under control, some transactions were temporarily suspended, regulators and supervisory authorities have been notified, and clients face no financial consequences. In its evening update the bank gave a provisional estimate of about €100 million, with the final figure still being assessed.",
       "timestamp_sgt": "2026-11-04T18:18:00+08:00",
-      "type": "Named BFSI victim \u2014 confirmed attack",
+      "type": "Named BFSI victim — confirmed attack",
       "unknown": "The bank has not confirmed a final amount, the attack method, which service provider's platform was used, whether the provider itself was breached (reported by Le Figaro, not confirmed by the bank), or how much, if anything, has been recovered. The $133 million figure is the investigator's estimate, repeated in the press, not a bank-confirmed loss; the bank has validated only its order of magnitude."
     }
   ],
   "entries": [
+    {
+      "id": "entry-certin-crafty-falcon-20261105",
+      "timestamp_sgt": "2026-11-05T14:54:00+08:00",
+      "severity": "watch",
+      "status": "confirmed",
+      "type": "Sector alert — national CERT",
+      "headline": "CERT-In warns India's BFSI sector of escalating AI-driven ‘Crafty Falcon’ payment-API attacks",
+      "summary": "India's CERT-In issued an advisory on 4 November 2026 naming the AI-assisted threat actor CRAFTY FALCON and warning that attacks abusing banks', NBFCs' and fintech firms' own payment and disbursement APIs for unauthorised fund transfers are active, ongoing and escalating.",
+      "known": "The advisory, issued 4 November and reported widely on 5 November, updates CERT-In's 9 October advisory on payment and disbursement API abuse. CERT-In's CSIRT-Fin says successful attacks continue to be reported, including by NBFCs and fintech firms that had already received earlier restricted advisories and taken remedial measures, and that remediated entities have been deliberately re-targeted after incomplete remediation. Attackers use publicly available AI-driven tools — ARTEX, PentAGI, Cairn and CyberStrikeAI — to survey targets, generate tailored attack scripts and execute full attack chains at machine speed, invoking victims' own payment and disbursement APIs to move funds to mule accounts, after testing routes with micro-value transactions as small as ₹1. Merchant settlement APIs were abused and cryptocurrency wallet keys stolen. Attacks were timed to coincide with weekends and public holidays. CERT-In advised 24x7 monitoring, API inventories with dormant interfaces shut down, beneficiary-name verification and cooling periods for new beneficiaries.",
+      "unknown": "No individual victim institution was named in the public reporting of the advisory, and no aggregate loss figure for the current escalation was published. Whether any affected entity is a bank with Singapore or APAC operations beyond India is not stated.",
+      "bfsi_impact": "Banks, payment aggregators and fintech partners with Indian operations or Indian payment-API exposure should check API inventories, shut down dormant or test interfaces, enforce beneficiary verification and cooling periods, and flag ₹1-scale test transfers to new beneficiaries followed by larger transfers. ARTEX is already tracked in the Storm-0940/ARTEX deep-research page.",
+      "source_name": "Indian Express, 5 November 2026; PTI via Rediff, 4 November 2026",
+      "source_url": "https://indianexpress.com/article/technology/tech-news-technology/cert-in-crafty-falcon-ai-driven-hacking-campaign-fintech-10951672/"
+    },
     {
       "bfsi_impact": "APAC banks and firms with Korean operations should watch the FSC inspection programme and the planned CEO-accountability measures; the wave shows small virtual-asset and electronic-payment firms are the weakest link, and leaked personal data may feed voice-phishing against bank customers.",
       "headline": "South Korea regulator discloses 40 breaches at 37 financial firms; sector-wide inspections ordered",
@@ -39,14 +53,14 @@
       "source_name": "Korea Herald, 5 November 2026",
       "source_url": "https://biz.heraldcorp.com/article/10926433",
       "status": "confirmed",
-      "summary": "South Korea's Financial Services Commission said 40 cybersecurity incidents were reported at 37 financial firms between 30 September and 5 November 2026, exposing about 473,000 records, with about \u20a91 billion (about US$746,000) stolen from company-managed funds at some electronic financial service providers, virtual asset businesses and P2P lenders.",
+      "summary": "South Korea's Financial Services Commission said 40 cybersecurity incidents were reported at 37 financial firms between 30 September and 5 November 2026, exposing about 473,000 records, with about ₩1 billion (about US$746,000) stolen from company-managed funds at some electronic financial service providers, virtual asset businesses and P2P lenders.",
       "timestamp_sgt": "2026-11-05T08:00:00+08:00",
-      "type": "Sector alert \u2014 regulator response",
+      "type": "Sector alert — regulator response",
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     },
     {
       "bfsi_impact": "Open banking / API deployments using affected WSO2 versions should confirm patching before the deadline.",
-      "headline": "WSO2 Open Banking CVE-2025-11969 \u2014 KEV deadline 5 November",
+      "headline": "WSO2 Open Banking CVE-2025-11969 — KEV deadline 5 November",
       "id": "watch-wso2-20261105",
       "known": "Listed in CISA Known Exploited Vulnerabilities with a 5 November remediation deadline, as reported in the 4 November brief.",
       "severity": "watch",
@@ -56,11 +70,11 @@
       "summary": "Deadline watch carried from the 4 November daily brief. Not a new breaking item on 4 November itself.",
       "timestamp_sgt": "2026-11-04T09:00:00+08:00",
       "type": "Vulnerability deadline",
-      "unknown": "Whether affected BFSI deployments have completed remediation by the deadline \u2014 no compliance outcome was published in the brief."
+      "unknown": "Whether affected BFSI deployments have completed remediation by the deadline — no compliance outcome was published in the brief."
     },
     {
       "bfsi_impact": "WordPress estates, including marketing and customer-facing sites run by financial firms, should patch before the deadline.",
-      "headline": "WordPress CVE-2026-119977 \u2014 KEV deadline 6 November",
+      "headline": "WordPress CVE-2026-119977 — KEV deadline 6 November",
       "id": "watch-wordpress-20261106",
       "known": "The only new KEV entry in the 4 November brief, with a Friday 6 November deadline; patch to 7.1.4, as reported in the brief.",
       "severity": "watch",
@@ -73,8 +87,8 @@
       "unknown": "No successful compromise via this race was publicly confirmed in the brief."
     }
   ],
-  "last_checked_sgt": "2026-11-05T15:59:25+08:00",
-  "next_check_sgt": "2026-11-05T20:00:00+08:00",
-  "updated_sgt": "2026-11-05T15:59:25+08:00",
+  "last_checked_sgt": "2026-11-05T20:01:00+08:00",
+  "next_check_sgt": "2026-11-06T00:00:00+08:00",
+  "updated_sgt": "2026-11-05T20:01:00+08:00",
   "version": 1
 }
