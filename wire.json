@@ -115,8 +115,8 @@
       "unknown": "No successful compromise via this race was publicly confirmed in the brief."
     }
   ],
-  "last_checked_sgt": "2026-11-06T08:00:00+08:00",
-  "next_check_sgt": "2026-11-06T12:00:00+08:00",
-  "updated_sgt": "2026-11-06T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-06T12:00:00+08:00",
+  "next_check_sgt": "2026-11-06T16:00:00+08:00",
+  "updated_sgt": "2026-11-06T12:00:00+08:00",
   "version": 1
 }
