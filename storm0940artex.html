@@ -396,16 +396,16 @@ footer {
   <div class="wrap">
     <div class="eyebrow">
       <span class="tlp">TLP:AMBER</span>
-      <span>Incident review · 22 Oct 2026 · updated 5 Nov 2026</span>
+      <span>Incident review · 22 Oct 2026 · updated 6 Nov 2026</span>
     </div>
     <h1>Storm-0940, ARTEX, and the ConnectWise supply-chain compromise</h1>
 
 
-    <p class="standfirst">A review of Microsoft's 21 October report, checked against other vendors and against our own telemetry, with checks re-run to 5 November. Two layers carry two different confidences.</p>
+    <p class="standfirst">A review of Microsoft's 21 October report, checked against other vendors and against our own telemetry, with checks re-run to 6 November. Two layers carry two different confidences.</p>
     <div class="meta">
-      <span>Sources: 13 listed</span>
-      <span>Indicators reviewed: 7 IPs, 8 app IDs (domains: see text)</span>
-      <span>Queries run: 22 Oct 2026; re-checked to 5 Nov</span>
+      <span>Sources: 18 listed</span>
+      <span>Indicators reviewed: 11 IPs, 8 app IDs (domains: see text)</span>
+      <span>Queries run: 22 Oct 2026; re-checked to 6 Nov</span>
     </div>
   </div>
 </header>
@@ -462,6 +462,10 @@ footer {
 <li><span class="t">2 Nov</span><span class="e">WorkOS discloses the access, described in its customer notice as ARTEX-likely and unattributed; production systems/application data not accessed, per the company.</span></li>
 <li><span class="t">3 Nov</span><span class="e">ConnectWise restores Backup Health reporting, Export jobs and Marketplace APIs; SaaS Security and Cloud Automation fully restored.</span></li>
 <li><span class="t">4 Nov 18:55</span><span class="e">ConnectWise Trust Center update: Phase 3 partially complete and Phase 4 partially available — core notifications live; billing still in progress and the platform backup dashboard not yet fully restored.</span></li>
+<li><span class="t">4 Nov</span><span class="e">CERT-In issues advisory CIAD-2026-0058 (reported 5 Nov) naming <b>Crafty Falcon</b>, an AI-assisted actor abusing banks&rsquo;, NBFCs&rsquo; and fintech firms&rsquo; payment and disbursement APIs in India; its tooling includes ARTEX alongside PentAGI, Cairn and CyberStrikeAI. Successful attacks continue, including deliberate re-targeting of entities that had already remediated.</span></li>
+<li><span class="t">5 Nov</span><span class="e">Microsoft publishes ARTEX secret-hunting research: agentic AI frameworks have searched public GitHub repositories for exposed secrets since August 2026; in one case an agent moved from a GitHub secret search to Azure Key Vault exfiltration in <b>five minutes</b>. New IOCs: <span class="mono">199.19.77.84</span>, <span class="mono">199.19.77.18</span> (Tor exit), <span class="mono">65.87.223.26</span>, <span class="mono">157.22.126.128</span>. Service-principal sign-ins observed from 28 October. <b>Unattributed</b> — Microsoft does not link this campaign to Storm-0940.</span></li>
+<li><span class="t">5 Nov</span><span class="e">Check Point publishes &ldquo;Inside ARTEX&rdquo;: 2,557 systems hosted ARTEX, <b>1,608 live and publicly accessible</b>; 10 misconfigured instances exposed full operator databases. One cryptocurrency campaign ran 292 objectives and 400,791 agent messages with no further operator prompting — and made <b>$0</b>. Agents stole 300+ Apple code-signing certificates (3 fully validated) and independently attempted a supply-chain compromise via an unauthenticated API exposing AWS S3 credentials.</span></li>
+<li><span class="t">5 Nov</span><span class="e">Docker removes the backdoored ARTEX images <span class="mono">tomicdd/artex</span> and <span class="mono">congdonglinux/artex</span> after Badbyte&rsquo;s disclosure: a hidden <span class="mono">verifyCaptcha</span> function runs arbitrary commands as root from the login form, before any password check. 7,946 pulls by 3 November; 62 consoles served the backdoored build between 2–4 November (46 still serving at 09:55 UTC 4 Nov); 637 GitHub repositories point their compose files at it. Copies already pulled remain backdoored.</span></li>
 </ul>
   </section>
 
@@ -556,8 +560,8 @@ footer {
   </section>
 
 <section>
-<h2>ARTEX, three actors &mdash; and two unattributed cases</h2>
-<p class="sub">Tool &ne; actor, now proven by three independent clusters. Any ARTEX detection must be followed by actor-separating evidence — infrastructure, targets, model, and post-exploitation tooling — not by the tool name alone.</p>
+<h2>ARTEX, four actors &mdash; and four unattributed cases</h2>
+<p class="sub">Tool &ne; actor, now proven by five independent clusters. Any ARTEX detection must be followed by actor-separating evidence — infrastructure, targets, model, and post-exploitation tooling — not by the tool name alone.</p>
 <div class="tbl-wrap">
 <table>
 <thead><tr><th>Actor / cluster</th><th>Model</th><th>Confirmed post-exploitation</th><th>Distinguisher</th></tr></thead>
@@ -568,11 +572,13 @@ footer {
 <tr><td>Financially-motivated ARTEX actors (GTIG)</td><td>Not stated per actor</td><td>Not published</td><td>Extortion motive, not state-actor tooling</td></tr>
 <tr><td>PentAGI operators (Asia / Aerospace, unattributed)</td><td>12+ LLM backends (PentAGI)</td><td>Some operations progressed to intrusion and persistence</td><td>Most observed activity stayed at WHOIS mapping / vulnerability scanning</td></tr>
 <tr><td>WorkOS (unattributed)</td><td>Not stated</td><td>Internal sales/marketing application, not production systems (company statement)</td><td>ARTEX link from the customer notice and CEO statements, not the public bulletin; do not attribute to any state actor</td></tr>
+<tr><td>Crafty Falcon (CERT-In, 4 Nov)</td><td>ARTEX, PentAGI, Cairn, CyberStrikeAI (per CERT-In)</td><td>Yes — unauthorised fund transfers via payment and disbursement APIs (CERT-In advisory CIAD-2026-0058)</td><td>Indian BFSI targets; &#8377;1 micro-tests; entities deliberately re-targeted after incomplete remediation</td></tr>
+<tr><td>Unattributed ARTEX secret-hunting campaign (Microsoft, 5 Nov)</td><td>Not stated</td><td>Yes — Key Vault and Storage exfiltration, SharePoint/OneDrive downloads</td><td>GitHub secret search to cloud compromise in five minutes; IOCs 199.19.77.84, 199.19.77.18 (Tor exit), 65.87.223.26, 157.22.126.128; not attributed to Storm-0940</td></tr>
 </tbody>
 </table>
 </div>
 <p><strong>GTIG stage model — forecast, not observation:</strong> current = Stage 5 (multiple lifecycle stages by LLM tooling in the wild, noisy but successful); Stage 6 (multi-agent, unsophisticated, little/no human interaction) in 1–3 months; Stage 7 (sophisticated, fully autonomous, stealthy) in 3–6 months. GTIG also assesses, with high confidence, that crime actors will keep adopting these tools because reach compensates for lower success rates.</p>
-<p><strong>&ldquo;Autonomous&rdquo; framing, precisely:</strong> execution is automated and bursty, with extended pauses between bursts; intent and objectives remain human-directed in the observed cases. Do not describe observed ARTEX intrusions as fully autonomous.</p>
+<p><strong>&ldquo;Autonomous&rdquo; framing, precisely:</strong> execution is automated and bursty, with extended pauses between bursts; intent and objectives remain human-directed in the observed cases. Do not describe observed ARTEX intrusions as fully autonomous. Check Point&rsquo;s 5 November operator-database analysis sharpens this: agents ran 292 objectives with no further prompting after the initial goal, yet the goal itself was human-set and the campaign made $0 — autonomy of execution, not of intent, and not of success.</p>
 <p><strong>Victim-count trap:</strong> 2,250+ (Storm-0940 tenant <em>attempts</em>), &gt;200 (VAPOR PANDA <em>targets</em>), 9 (VAPOR PANDA <em>confirmed post-exploitation</em>) and ~70% (second-hand: VAPOR PANDA targets confirmed <em>or</em> moderate-confidence intrusion) are four different denominators. Never add them, and never present 2,250 as &ldquo;2,250 breached tenants&rdquo; — Microsoft itself notes presence of an affected app or even successful authentication does not automatically mean data access or exfiltration.</p>
 <p>Sources: <a href="https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks" target="_blank" rel="noopener noreferrer">GTIG, ARTEX and Friends</a> · <a href="https://www.microsoft.com/en-us/security/blog/2026/10/29/tracking-ai-adoption-in-north-korean-threat-actor-tradecraft/" target="_blank" rel="noopener noreferrer">Microsoft, AI adoption in North Korean tradecraft</a> · <a href="https://www.cybersecuritydive.com/news/agentic-pen-testing-tool-espionage-campaigns/873427/" target="_blank" rel="noopener noreferrer">Cybersecurity Dive, VAPOR PANDA</a></p>
 </section>
@@ -620,6 +626,20 @@ AADServicePrincipalSignInLogs
 <li>Kerberoasting &rarr; SQL credential dump &rarr; offline cracking &rarr; DCSync; accounts created with <code>is_admin=true</code>; persistence via new SSH keys, Elastic IP, <code>t3.micro</code> jump hosts, password resets and new admin accounts.</li>
 <li>Enumeration of 110,000+ AD objects; 100 GB volume creation / root-disk expansion to 60 GB as exfiltration preparation.</li>
 </ul>
+
+<h3>Microsoft ARTEX secret-hunting IOCs, 5 November</h3>
+<ul>
+<li>Service-principal sign-ins from <span class="mono">199.19.77.84</span> and <span class="mono">199.19.77.18</span> (the latter a Tor exit node, which Microsoft notes may also carry unrelated activity), observed from 28 October, across dozens of applications in multiple tenants. Also <span class="mono">65.87.223.26</span> (App Service token attempts) and <span class="mono">157.22.126.128</span> (reconnaissance against Azure AI workloads).</li>
+<li>Behaviour, not just addresses: failed cloud API calls followed within seconds by corrected retries (Key Vault enumeration returned HTTP 400 on a data-plane API version, then HTTP 200 on ARM API version 2023-07-01 about 28 seconds later); one address authenticating as three or more service principals with mixed success; sign-in errors AADSTS7000215 (invalid secret) or AADSTS7000222 (expired secret) mean someone holds a credential for your app — a failure followed by a success is urgent.</li>
+<li>Microsoft&rsquo;s containment: block <span class="mono">199.19.77.84</span> as the exact IP, not the ASN; rotate everything stored in any Key Vault the affected application could read. A publicly exposed secret stays usable until revoked or rotated — deleting the commit does not remediate it.</li>
+</ul>
+
+<h3>Backdoored ARTEX image — hunt it, do not just block the IPs</h3>
+<ul>
+<li>Copycat repositories (<span class="mono">trhhubsd/ARTEX</span>, <span class="mono">mhtsec/ARTEX</span>) ship a compose file pointing at the trojanised Docker image <span class="mono">tomicdd/artex</span> (identical copy: <span class="mono">congdonglinux/artex</span>). A hidden <span class="mono">verifyCaptcha</span> function runs whatever arrives in the login form&rsquo;s CAPTCHA field through <span class="mono">sh -c</span> as root, before any password check.</li>
+<li>7,946 pulls by 3 November; 62 consoles served the backdoored build between 2–4 November (26 in the US, 17 in Hong Kong, 7 in China); 637 GitHub repositories still point their compose files at it. Docker removed both images on 5 November, but copies already pulled — or cached on third-party mirrors — remain backdoored.</li>
+<li>An ARTEX console built from these images is itself the compromise: whoever holds the backdoor can also quietly change what the agents do on the next run. Verify the image before deploying any ARTEX console, and treat a console running this build as hostile, not as a tool to reclaim.</li>
+</ul>
 <div class="callout"><strong>Static IOCs will not cover much of this activity</strong> — GTIG: much of it uses valid identities and supported functionality. Hunt the markers above in Entra/Graph, AWS/Azure control-plane, AD, web and MySQL logs, not just the next IP.</div>
 
 </section>
@@ -641,7 +661,8 @@ AADServicePrincipalSignInLogs
 <ul>
 <li>Trust Center advisory (orig. 16 Oct, updated 4 Nov 18:55 UTC): <strong>Phases 1–2 complete, Phase 3 partially complete, Phase 4 partially available.</strong> Phase 1 = backups/restores for re-authorised M365 tenants; Phase 2 = End-Customer Self-Service Portal + Backup Monitoring dashboards; Phase 3 = Backup Health reporting and Export jobs available since 3 Nov, billing (including Billing API and Management portal billing reports) still in progress; Phase 4 = core notifications live, additional notifications being enabled gradually. Marketplace APIs restored 3 Nov; SaaS Security and Cloud Automation fully restored; platform backup dashboard not yet fully restored.</li>
 <li>Restoration via the new security-hardened app &ldquo;ConnectWise Cloud Backup for M365&rdquo; (phased restoration began 28 Oct). Partners must reset the Cloud Services portal password, set up MFA if absent, re-authorise <em>each</em> tenant, and <strong>verify new snapshots complete</strong> — &ldquo;re-authorization alone does not confirm that backups have resumed&rdquo;. Old disabled apps must stay disabled unless ConnectWise instructs otherwise. Archives remain encrypted/isolated with no indication of compromise (vendor statement).</li>
-<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 5 November. The ConnectWise &ldquo;indicator that fails its own dates&rdquo; gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
+<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 6 November. The ConnectWise &ldquo;indicator that fails its own dates&rdquo; gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
+<li><strong>6 November check:</strong> the ConnectWise Trust Center advisory is unchanged since 4 Nov 18:55 UTC — Phase 3 still partially complete, billing still in progress, platform backup dashboard still not fully restored.</li>
 <li><strong>Re-consent risk, labelled as analyst inference, not vendor fact:</strong> restoration creates a re-entry point wherever partners re-consent in tenants not yet cleaned of persistence planted during the intrusion. Gated order: clean tenant &rarr; re-consent &rarr; verify snapshot &rarr; monitor for re-created credentials. Do not treat restoration as closure; no ConnectWise &ldquo;all clear&rdquo; or final victim notification was found to 5 November.</li>
 </ul>
 
@@ -652,6 +673,7 @@ AADServicePrincipalSignInLogs
     <p class="sub">ARTEX is public, widely forked, and its console is not a campaign selector.</p>
     <p>ARTEX is an AGPL-licensed multi-agent framework: Go backend, Next.js frontend, PostgreSQL, default port 8787, driven by any model through an <span class="mono">ANTHROPIC_API_KEY</span> or <span class="mono">OPENAI_API_KEY</span>. Its upstream repository now returns <strong>404</strong> after the developer made it closed source, but redistribution continues in at least five forks, including a Korean edition with 1,928 stars.</p>
     <p>Our control-tested Shodan count finds <strong>839 hosts</strong> exposing the console title worldwide, up from 70 measured on 6 October. A nonsense-string control returned 0, so the filter works. The title selects installations, including every legitimate pentest lab, and the actor exposed no console on its own infrastructure.</p>
+    <p>The tool itself was also poisoned. Copycat repositories (<span class="mono">trhhubsd/ARTEX</span>, <span class="mono">mhtsec/ARTEX</span>) ship a compose file pointing at the trojanised Docker image <span class="mono">tomicdd/artex</span>, which runs commands from the login form as root before authentication; Docker removed it and the identical <span class="mono">congdonglinux/artex</span> image on 5 November, after 7,946 pulls. An ARTEX console you deploy can itself be the compromise — verify the image before you run it, and treat any console built from these images as hostile.</p>
     <div class="callout">
       For a financial-sector team the sharpest line in the ARTEX reporting is this: the tool shipped a default blocklist for government and education targets that <strong>did not extend to financial institutions</strong>.
     </div>
@@ -674,6 +696,11 @@ AADServicePrincipalSignInLogs
 <li><span class="who">Google Threat Intelligence Group / Mandiant</span> — <a href="https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks" target="_blank" rel="noopener noreferrer">ARTEX and Friends: Enter Agentic Offensive Frameworks</a>, 30 Oct 2026.</li>
 <li><span class="who">Microsoft</span> — <a href="https://www.microsoft.com/en-us/security/blog/2026/10/29/tracking-ai-adoption-in-north-korean-threat-actor-tradecraft/" target="_blank" rel="noopener noreferrer">Tracking AI adoption in North Korean threat actor tradecraft</a>, 29 Oct 2026.</li>
 <li><span class="who">ConnectWise</span> — <a href="https://www.connectwise.com/company/trust/advisories" target="_blank" rel="noopener noreferrer">Trust Center advisories</a>, updated 4 Nov 2026 18:55 UTC (Phase 3 partially complete, Phase 4 partially available; billing still in progress).</li>
+<li><span class="who">Microsoft Threat Intelligence</span> — <a href="https://www.microsoft.com/en-us/security/blog/2026/11/05/threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/" target="_blank" rel="noopener noreferrer">Threat actors use agentic AI tooling to find and abuse exposed secrets</a>, 5 Nov 2026. ARTEX secret-hunting since August 2026; GitHub search to Key Vault exfiltration in five minutes; IOCs 199.19.77.84, 199.19.77.18, 65.87.223.26, 157.22.126.128. Unattributed — not linked to Storm-0940.</li>
+<li><span class="who">Check Point Research</span> — <a href="https://blog.checkpoint.com/research/inside-artex-how-autonomous-ai-agents-are-being-used-in-real-world-cyberattacks/" target="_blank" rel="noopener noreferrer">Inside ARTEX: How Autonomous AI Agents Are Being Used in Real-World Cyberattacks</a>, 5 Nov 2026. 2,557 systems hosted ARTEX, 1,608 live; 10 exposed operator databases; 292 objectives, 400,791 agent messages, $0 made.</li>
+<li><span class="who">Badbyte</span> — <a href="https://badbyte.io/artex-backdoor-docker-image/" target="_blank" rel="noopener noreferrer">ARTEX Backdoor: 7,946 Pulls of a Trojanized Docker Image Handing Out Root Shells</a>, updated 5 Nov 2026. Hidden verifyCaptcha root shell in tomicdd/artex and congdonglinux/artex; 62 consoles served the backdoored build 2–4 Nov; Docker removed both images 5 Nov.</li>
+<li><span class="who">The Hacker News</span> — <a href="https://thehackernews.com/2026/11/backdoored-docker-image-for-artex-ai.html" target="_blank" rel="noopener noreferrer">CERT-In Flags AI-Driven Attacks as Backdoored ARTEX Exposes 62 Consoles to Root Access</a>, 5 Nov 2026. Corroborates the backdoor counts and console geography.</li>
+<li><span class="who">Indian Express</span> — <a href="https://indianexpress.com/article/technology/tech-news-technology/cert-in-crafty-falcon-ai-driven-hacking-campaign-fintech-10951672/" target="_blank" rel="noopener noreferrer">CERT-In warns of AI-assisted &lsquo;Crafty Falcon&rsquo; payment-API attacks on Indian BFSI</a>, 5 Nov 2026 (advisory CIAD-2026-0058, 4 Nov). ARTEX named among the actor&rsquo;s tools.</li>
 </ul>
   </section>
 
