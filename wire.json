@@ -85,38 +85,10 @@
       "timestamp_sgt": "2026-11-05T08:00:00+08:00",
       "type": "Sector alert — regulator response",
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
-    },
-    {
-      "bfsi_impact": "Open banking / API deployments using affected WSO2 versions should confirm patching before the deadline.",
-      "headline": "WSO2 Open Banking CVE-2025-11969 — KEV deadline 5 November",
-      "id": "watch-wso2-20261105",
-      "known": "Listed in CISA Known Exploited Vulnerabilities with a 5 November remediation deadline, as reported in the 4 November brief.",
-      "severity": "watch",
-      "source_name": "Daily brief, 4 November 2026",
-      "source_url": "11042026.html",
-      "status": "confirmed",
-      "summary": "Deadline watch carried from the 4 November daily brief. Not a new breaking item on 4 November itself.",
-      "timestamp_sgt": "2026-11-04T09:00:00+08:00",
-      "type": "Vulnerability deadline",
-      "unknown": "Whether affected BFSI deployments have completed remediation by the deadline — no compliance outcome was published in the brief."
-    },
-    {
-      "bfsi_impact": "WordPress estates, including marketing and customer-facing sites run by financial firms, should patch before the deadline.",
-      "headline": "WordPress CVE-2026-119977 — KEV deadline 6 November",
-      "id": "watch-wordpress-20261106",
-      "known": "The only new KEV entry in the 4 November brief, with a Friday 6 November deadline; patch to 7.1.4, as reported in the brief.",
-      "severity": "watch",
-      "source_name": "Daily brief, 4 November 2026",
-      "source_url": "11042026.html",
-      "status": "confirmed",
-      "summary": "Deadline watch carried from the 4 November daily brief. Not a new breaking item on 4 November itself.",
-      "timestamp_sgt": "2026-11-04T09:00:00+08:00",
-      "type": "Vulnerability deadline",
-      "unknown": "No successful compromise via this race was publicly confirmed in the brief."
     }
   ],
-  "last_checked_sgt": "2026-11-06T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-06T13:38:33+08:00",
   "next_check_sgt": "2026-11-06T16:00:00+08:00",
-  "updated_sgt": "2026-11-06T12:00:00+08:00",
+  "updated_sgt": "2026-11-06T13:38:33+08:00",
   "version": 1
 }
