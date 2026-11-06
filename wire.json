@@ -59,6 +59,34 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "Regulator outreach signals official concern that crypto-market incidents can ripple into traditional finance. Banks should expect follow-up questions on crypto-adjacent exposures and be ready to evidence their own checks after the Binance hack.",
+      "headline": "US regulators contact banks to check systems after $6.34bn Binance hack",
+      "id": "entry-us-regulators-binance-20261106",
+      "known": "Reuters reported that supervisors from the US Federal Reserve and the Office of the Comptroller of the Currency began contacting banks on Monday morning to ask whether they had detected unusual activity or service disruptions after the $6.34 billion Binance hack of 29 October. A US bank official who received the inquiry said the institution had experienced no significant service disruptions. US banks are conducting their own system reviews, and one of the largest US banks contacted Binance's security personnel directly within hours of the hack. South Korea's Financial Services Commission held an emergency meeting on Monday with the Financial Supervisory Service, the Korea Financial Security Institute, the Digital Asset eXchange Alliance and major virtual-asset service providers to review access controls, wallet withdrawal approval and signing procedures, and administrator privilege management.",
+      "severity": "watch",
+      "source_name": "Korea Herald Business, 6 November 2026, citing Reuters",
+      "source_url": "https://biz.heraldcorp.com/article/10928774",
+      "status": "confirmed",
+      "summary": "US financial regulators have begun contacting banks to check for unusual activity or service disruptions after the $6.34 billion Binance hack of 29 October; no bank has reported a disruption. South Korea's Financial Services Commission held an emergency meeting with crypto exchanges on Monday to review security controls.",
+      "timestamp_sgt": "2026-11-06T15:30:00+08:00",
+      "type": "Sector alert — regulator response",
+      "unknown": "Which banks were contacted and what, if anything, was found have not been reported. No bank has reported a disruption linked to the Binance hack."
+    },
+    {
+      "bfsi_impact": "If genuine, a US private bank's customer and signer records held by its analytics vendor are exposed. Peer banks should check what client data sits with analytics and AI vendors, review vendor access and exfiltration controls, and watch for phishing or impersonation using signer and account details. Until verified, treat this as an unconfirmed claim, not a confirmed breach.",
+      "headline": "N0n ransomware group claims Scry Analytics leak exposed US private-banking client records",
+      "id": "entry-scry-analytics-20261106",
+      "known": "The N0n extortion group listed Scry Analytics, a US data-analytics and AI services firm, on its leak site; the listing was discovered on 6 November at 01:22 UTC (09:22 SGT). The post claims the exposed material includes core banking customer and signer records of a US private banking client — names, account records, signer roles, addresses and contact details — plus a global insurance group's party master of 7,904 legal-entity records with relationship structures, and production support-call transcripts and recordings containing consumer names and mobile numbers. The post says the data was held under contract and marks it 'not paid — exposed'. No ransom amount is stated and no encryption is claimed.",
+      "severity": "watch",
+      "source_name": "ransomware.live / RedPacket Security, 6 November 2026 (leak-site listing, unconfirmed)",
+      "source_url": "https://www.ransomware.live/id/U2NyeSBBbmFseXRpY3NATjBu",
+      "status": "reported / unconfirmed",
+      "summary": "The N0n extortion group claims a leak from US analytics firm Scry Analytics exposed core customer and signer records of a US private banking client, plus an insurance group's party master of 7,904 records and support-call recordings. The claim rests on the group's own leak-site post only — neither Scry Analytics nor the bank has confirmed it — so it is carried here as reported / unconfirmed.",
+      "timestamp_sgt": "2026-11-06T09:22:00+08:00",
+      "type": "Unverified leak-site claim — third-party data exposure",
+      "unknown": "The private banking client is not named. There is no confirmation from Scry Analytics or the bank, and no independent verification that the data was exfiltrated or is genuine. The compromise date and method are not stated — the post date is not the compromise date."
+    },
+    {
       "bfsi_impact": "Banks, payment aggregators and fintech partners with Indian operations or Indian payment-API exposure should check API inventories, shut down dormant or test interfaces, enforce beneficiary verification and cooling periods, and flag ₹1-scale test transfers to new beneficiaries followed by larger transfers. ARTEX is already tracked in the Storm-0940/ARTEX deep-research page.",
       "headline": "CERT-In warns India's BFSI sector of escalating AI-driven ‘Crafty Falcon’ payment-API attacks",
       "id": "entry-certin-crafty-falcon-20261105",
@@ -87,8 +115,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-06T13:38:33+08:00",
-  "next_check_sgt": "2026-11-06T16:00:00+08:00",
-  "updated_sgt": "2026-11-06T13:38:33+08:00",
+  "last_checked_sgt": "2026-11-06T16:01:14+08:00",
+  "next_check_sgt": "2026-11-06T20:00:00+08:00",
+  "updated_sgt": "2026-11-06T16:01:14+08:00",
   "version": 1
 }
