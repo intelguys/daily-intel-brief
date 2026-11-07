@@ -101,6 +101,34 @@
       "unknown": "The claim has not been independently verified, no data sample has been publicly authenticated, and the bank has not responded to the new claim. Whether the data offered for sale is genuine, how it was obtained, and how many customers are actually affected are all unconfirmed."
     },
     {
+      "bfsi_impact": "A ransomware listing against a US insurer is a watch item for the sector even while unverified: peer insurers should check for any exposure to the same group and watch for confirmation or a data publication. Until verified, treat this as an unconfirmed claim, not a confirmed breach.",
+      "headline": "Metaencryptor ransomware group claims Pekin Insurance as victim; claim unverified",
+      "id": "entry-pekin-insurance-20261107",
+      "known": "Ransomware.live recorded the listing on 7 November 2026 at 11:39 UTC. The listing was flagged by the ThreatMon threat-intelligence team the same day. Pekin Insurance is a group of combined entities including The Farmers Automobile Insurance Association, Pekin Insurance Company, Pekin Select Insurance Company and Pekin Life Insurance Company. Hudson Rock infostealer data linked to the organisation shows 849 exposed passwords, 39 of them critical, and 10 cookies, though that exposure is not itself evidence of the ransomware claim.",
+      "severity": "watch",
+      "source_name": "Ransomware.live, 7 November 2026; QPulse, 7 November 2026",
+      "source_url": "https://qpulse.quasarcybertech.com/news/7980/metaencryptor-ransomware-group-claims-attack-on-pekin-insurance",
+      "status": "reported / unconfirmed",
+      "summary": "The Metaencryptor ransomware group listed US insurer Pekin Insurance as a victim on its leak site on 7 November 2026. No independently verified evidence of data theft, encryption or operational disruption has been provided, and Pekin Insurance has not publicly confirmed the claim.",
+      "timestamp_sgt": "2026-11-07T19:39:00+08:00",
+      "type": "Unverified ransomware claim — named BFSI victim",
+      "unknown": "No independently verified information has been provided about the alleged intrusion, the nature of any compromised data, or any impact on customers or operations. Pekin Insurance has not publicly confirmed the claim, and no ransom demand or data sample has been publicly reported."
+    },
+    {
+      "bfsi_impact": "If genuine, the publication of more than 217,000 client policy and underwriting documents exposes brokerage clients to identity theft and targeted phishing using real policy numbers and producer data. Insurers and brokerages should treat the N0n leak as a prompt to audit access controls on document stores and CRM systems, and to watch for phishing using the exposed client and producer details. Until verified, treat this as an unconfirmed claim, not a confirmed breach.",
+      "headline": "N0n ransomware group publishes 217,000+ documents from insurance brokerage Higginbotham; firm has not confirmed breach",
+      "id": "entry-higginbotham-20261107",
+      "known": "Ransomware.live recorded the leak-site listing on 7 November 2026 at 10:53 UTC. The posting describes the complete correspondence attachment store of the brokerage: over 217,000 client policy and working documents from 2013 through 2026, including workers compensation and property policies of named clients, carrier underwriting questionnaires, producer reports with client codes, names and policy numbers, producer emails with commission, prospect and benefits data, client reference rosters, producer books of business with policy numbers and premiums, and the full customer relationship databases. The listing is marked 'NOT PAID — EXPOSED', indicating the data was published after no ransom was paid.",
+      "severity": "watch",
+      "source_name": "Ransomware.live, 7 November 2026; QPulse, 7 November 2026",
+      "source_url": "https://qpulse.quasarcybertech.com/news/7984/n0n-ransomware-group-leaks-over-217-000-documents-from-insurance-brokerage-higginbotham",
+      "status": "reported / unconfirmed",
+      "summary": "The N0n ransomware group published data it claims was stolen from Higginbotham, a large independent US insurance brokerage, listing the material as 'NOT PAID — EXPOSED'. The posting describes over 217,000 client policy and working documents from 2013–2026, including workers' compensation and property policies, underwriting questionnaires, producer reports with client codes, names and policy numbers, and full customer-relationship databases. Higginbotham has not publicly confirmed the breach.",
+      "timestamp_sgt": "2026-11-07T18:53:00+08:00",
+      "type": "Unverified leak publication — named BFSI victim",
+      "unknown": "Higginbotham has not publicly confirmed the incident, and the stolen data has not been independently verified. It is not publicly known when the unauthorised access occurred or how the attackers entered the brokerage's systems."
+    },
+    {
       "bfsi_impact": "A second-day trading and withdrawal freeze at a Binance-backed exchange, in the middle of South Korea's financial-sector breach wave, is a confidence signal for the sector even without a confirmed intrusion. Banks and payment firms with crypto-adjacent exposure should watch for a resumption date and for any confirmation of the threat, and treat the unverified claim as a prompt to check their own incident-response readiness rather than as a confirmed breach.",
       "headline": "Gopax freezes trading and withdrawals after hacking-threat email; threat unverified",
       "id": "entry-gopax-20261107",
@@ -199,8 +227,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-07T20:02:00+08:00",
-  "next_check_sgt": "2026-11-08T00:00:00+08:00",
-  "updated_sgt": "2026-11-07T20:02:00+08:00",
+  "last_checked_sgt": "2026-11-08T00:00:00+08:00",
+  "next_check_sgt": "2026-11-08T04:00:00+08:00",
+  "updated_sgt": "2026-11-08T00:00:00+08:00",
   "version": 1
 }
