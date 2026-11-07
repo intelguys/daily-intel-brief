@@ -18,15 +18,15 @@
       "bfsi_impact": "Malaysian banks and APAC peers should watch for a formal statement from Bank Rakyat and for any leaked data sample, and warn customers against phishing that cites the incident. The claim of internal access, if true, would make this a breach rather than a defacement; until the bank confirms or denies it, treat the internal-access claim as unconfirmed and the website defacement and outage as confirmed.",
       "headline": "Bank Rakyat website defaced by actor claiming internal access; bank confirms outage",
       "id": "breaking-bank-rakyat-20261106",
-      "known": "Pages on the bank's official web portal, including informational pages on personal financing, were briefly defaced on the evening of 6 November; the defacement was first reported on social media and the pages were restored within about an hour. The defacement notice read: “Marlanwg is here. We have successfully accessed the internal infrastructure and retrieved a sample of your data to verify the extent of the breach”, and directed bank officials to the encrypted messaging app Session to negotiate data deletion and remediation terms. At 23:45 on 6 November the bank said its corporate website was unavailable and told customers to use its iRakyat, BRICK, QR2E and i-bizRAKYAT apps and platforms. Bank Negara Malaysia previously fined Bank Rakyat RM1 million under its Risk Management in Technology framework after a separate cybersecurity breach.",
+      "known": "Pages on the bank's official web portal, including informational pages on personal financing, were briefly defaced on the evening of 6 November; the defacement was first reported on social media and the pages were restored within about an hour. The defacement notice read: “Marlanwg is here. We have successfully accessed the internal infrastructure and retrieved a sample of your data to verify the extent of the breach”, and directed bank officials to the encrypted messaging app Session to negotiate data deletion and remediation terms. At 23:45 on 6 November the bank said its corporate website was unavailable and told customers to use its iRakyat, BRICK, QR2E and i-bizRAKYAT apps and platforms. Bank Negara Malaysia previously fined Bank Rakyat RM1 million under its Risk Management in Technology framework after a separate cybersecurity breach. On 7 November the bank said in a Facebook statement, reported by Malay Mail, that the disruption was caused by a technical problem involving a third-party service provider, that only its corporate website was affected, and that deposits, personal information and banking services were unaffected, with restoration work under way. Communications Minister Fahmi Fadzil said the same day that the incident was confined to changes to the website's appearance on a third-party-managed site, that the bank had reported the site had been hacked but the incident was limited to web defacement and takeover, and that no data theft had been detected so far; the affected server was blocked and users redirected to the i-Rakyat website, which the bank fully owns.",
       "severity": "high",
-      "source_name": "Pokde.Net, 6 November 2026; Siakap Keli, 6 November 2026 (translated from Malay)",
+      "source_name": "Pokde.Net, 6 November 2026; Siakap Keli, 6 November 2026 (translated from Malay); Malay Mail, 7 November 2026",
       "source_url": "https://pokde.net/system/security/bank-rakyat-cyberattack-marlanwg",
       "status": "reported / unconfirmed",
-      "summary": "Malaysian cooperative bank Bank Rakyat's corporate website was briefly defaced on the evening of 6 November 2026 by an actor using the handle “Marlanwg”, who claimed to have accessed the bank's internal infrastructure and taken a sample of its data. The bank confirmed at 23:45 that its corporate website was unavailable and directed customers to its mobile apps and digital platforms. The defaced pages were restored within about an hour, but the bank has not confirmed or denied the actor's claim of internal access.",
+      "summary": "Malaysian cooperative bank Bank Rakyat's corporate website was briefly defaced on the evening of 6 November 2026 by an actor using the handle “Marlanwg”, who claimed to have accessed the bank's internal infrastructure and taken a sample of its data. The bank confirmed at 23:45 that its corporate website was unavailable and directed customers to its mobile apps and digital platforms. On 7 November the bank attributed the disruption to a technical problem involving a third-party service provider and said deposits, personal information and banking services were unaffected; the Communications Minister said the incident was limited to web defacement of a third-party-managed site with no data theft detected. The actor's claim of internal access and data theft remains unconfirmed and is now disputed by the bank.",
       "timestamp_sgt": "2026-11-06T23:20:00+08:00",
       "type": "Named BFSI victim — suspected attack",
-      "unknown": "The bank has not issued a formal statement confirming or denying the claim of internal network access or data theft, and no data sample has been independently verified. Whether customer data or funds are affected, and whether the bank's wider digital services are fully restored, is unconfirmed."
+      "unknown": "The bank has not issued a formal statement specifically addressing the actor's claim of internal network access or data theft; it attributes the outage to a third-party technical fault and says no data was stolen. A local threat-intelligence account claims to have verified samples shared by the actor and says the data appears authentic, but this has not been independently confirmed and conflicts with the bank's and the minister's statements. Whether customer data or funds are affected, and whether the bank's wider digital services are fully restored, is unconfirmed."
     },
     {
       "bfsi_impact": "Peer banks and consumer-finance firms that outsource loan guarantees should check whether their customers' data passed through the affected system, prepare for phishing and identity-fraud attempts using the leaked licence numbers and income data, and warn affected customers not to trust calls, emails or messages that cite their loan details. The leak of driver's licence numbers together with income and guarantee amounts is directly usable for impersonation and social engineering against bank customers.",
@@ -86,6 +86,34 @@
     }
   ],
   "entries": [
+    {
+      "bfsi_impact": "If genuine, the exposure of PAN, Aadhaar and account numbers for millions of customers would be directly usable for identity fraud and impersonation against the bank's customers. Peer banks using third-party SaaS platforms for customer onboarding should check what data sits with vendors and how it is accessed. Until verified, treat this as an unconfirmed claim, not a confirmed breach — the bank's position remains that only a limited third-party platform leak occurred.",
+      "headline": "Threat actor claims 1.2 TB AU Small Finance Bank database for sale; bank has not responded to new claim",
+      "id": "entry-au-small-finance-bank-20261107",
+      "known": "The actor's forum post, as reported by Digit.in, claims the stolen data includes PAN and Aadhaar numbers, dates of birth, mobile numbers, email addresses and residential addresses, plus nearly 3.9 million KYC identity records and over 2.2 million active customer account records, and alleges the bank's own core systems were breached. The claim directly contradicts the bank's late-October statement, which attributed the incident to a limited leak from a third-party Salesforce-hosted SaaS platform holding vehicle-loan customer data and said its own systems were unaffected. The bank said on 30 October it was investigating, had informed the Reserve Bank of India and CERT-In, and that a forensic investigation was under way. Salesforce said on 31 October it had found no platform vulnerability linked to the claims.",
+      "severity": "watch",
+      "source_name": "Digit.in, 7 November 2026; ThreatMon on X, 6 November 2026",
+      "source_url": "https://www.digit.in/news/general/au-small-finance-bank-data-breach-row-deepens-over-22-lakh-customer-accounts-allegedly-put-up-for-sale.html",
+      "status": "reported / unconfirmed",
+      "summary": "A threat actor claims to have stolen 1.2 TB of data from India's AU Small Finance Bank — over 1 billion records, including more than 2.2 million live customer accounts and over 1.9 million bank account numbers — and is offering it for sale for US$8,500. The claim, flagged by threat-intelligence account ThreatMon on X on 6 November and reported by Digit.in on 7 November, has not been independently verified, and the bank has not yet commented on it.",
+      "timestamp_sgt": "2026-11-07T19:54:00+08:00",
+      "type": "Unverified leak claim — named BFSI victim",
+      "unknown": "The claim has not been independently verified, no data sample has been publicly authenticated, and the bank has not responded to the new claim. Whether the data offered for sale is genuine, how it was obtained, and how many customers are actually affected are all unconfirmed."
+    },
+    {
+      "bfsi_impact": "A second-day trading and withdrawal freeze at a Binance-backed exchange, in the middle of South Korea's financial-sector breach wave, is a confidence signal for the sector even without a confirmed intrusion. Banks and payment firms with crypto-adjacent exposure should watch for a resumption date and for any confirmation of the threat, and treat the unverified claim as a prompt to check their own incident-response readiness rather than as a confirmed breach.",
+      "headline": "Gopax freezes trading and withdrawals after hacking-threat email; threat unverified",
+      "id": "entry-gopax-20261107",
+      "known": "Gopax halted withdrawals at 14:55 on 6 November and trading at 15:53, cancelling all unfilled orders, and also suspended virtual-asset deposits. Standard withdrawals through the website and app are disabled; customers can request withdrawals through customer support, processed manually after internal review. The exchange said it acted on the advice of financial regulators amid the wave of breaches across the sector, and that no customer assets have been lost so far. Gopax is majority-owned by Binance, and its operator Streami was among the 16 firms in the Financial Services Commission's 14 October disclosure of breaches, having reported exposure of seven customers and two current or former employees.",
+      "severity": "watch",
+      "source_name": "Aju Press, 7 November 2026; Korea JoongAng Daily, 7 November 2026",
+      "source_url": "https://www.ajupress.com//view/20261107092000779",
+      "status": "reported / unconfirmed",
+      "summary": "South Korean cryptocurrency exchange Gopax suspended deposits, withdrawals and trading on 6 November 2026 after receiving a threatening email from a party claiming to have hacked the platform, and the freeze was still in place on the morning of 7 November with no date set for resuming services. The exchange says it has not verified the threat and has detected no hacking attempt or asset loss; it is moving customer assets to offline cold wallets as a precaution.",
+      "timestamp_sgt": "2026-11-07T08:22:00+08:00",
+      "type": "Service suspension — crypto exchange, unverified threat",
+      "unknown": "Whether the hacking threat is genuine has not been confirmed, and no intrusion or theft has been detected. When normal trading, deposits and withdrawals will resume has not been announced."
+    },
     {
       "bfsi_impact": "Moldovan banks face a wave of impersonation fraud: real names, family data, IBANs and bank account numbers let scammers pose convincingly as bank or government staff. Banks elsewhere should treat this as a reminder that a government-register breach is a fraud enabler even without direct account compromise — warn customers never to share passwords or authentication codes by phone or message, and watch for phishing that cites genuine personal details. The National Bank of Moldova says banking systems were not compromised.",
       "headline": "Moldova government breach exposes data of 450,000 citizens, including IBANs and bank account numbers",
@@ -171,8 +199,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-07T16:04:26+08:00",
-  "next_check_sgt": "2026-11-07T20:00:00+08:00",
-  "updated_sgt": "2026-11-07T16:04:26+08:00",
+  "last_checked_sgt": "2026-11-07T20:02:00+08:00",
+  "next_check_sgt": "2026-11-08T00:00:00+08:00",
+  "updated_sgt": "2026-11-07T20:02:00+08:00",
   "version": 1
 }
