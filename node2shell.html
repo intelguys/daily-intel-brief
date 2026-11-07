@@ -137,18 +137,18 @@ footer p { font-size:13px; color:var(--muted); }
 <header class="masthead">
   <div class="eyebrow">
     <span class="tlp">TLP:CLEAR</span>
-    <span>Deep research · 26 Oct 2026 · updated 6 Nov 2026</span>
+    <span>Deep research · 26 Oct 2026 · updated 7 Nov 2026</span>
     <span>Node2Shell / HTTP2Shell / Broccoli2Shell</span>
   </div>
   <h1>Node2Shell &mdash; CVE-2026-111497</h1>
 
 
-  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation is now confirmed as attempts (Zscaler 402 decoy events; Datadog confirmation), with no successful production RCE and no victim named to 6 November. Three claims, three different confidences &mdash; the 28 October update moves one of them.</p>
+  <p class="standfirst">A Brotli decoder out-of-bounds write that reaches far past Node.js. The vulnerability is real and patched; the RCE claim is contested and reproduced twice; in-the-wild exploitation is now confirmed as attempts (Zscaler 402 decoy events; Datadog confirmation), with no successful production RCE and no victim named to 7 November. Three claims, three different confidences &mdash; the 28 October update moves one of them.</p>
   <div class="meta">
     <span>Sources: 11 primary + 9 in update</span>
     <span>PoC repos: 39 (name) / 69 (CVE) — masthead counts undated; body gives 30 / 52 on 26 Oct</span>
     <span>Network IOCs: 1 IP, 1 hash (26 Oct); plus 5 Zscaler exploitation addresses (28 Oct)</span>
-    <span>Queries: 26 + 28 Oct 2026; re-checked to 6 Nov</span>
+    <span>Queries: 26 + 28 Oct 2026; re-checked to 7 Nov</span>
   </div>
 </header>
 
@@ -187,6 +187,41 @@ footer p { font-size:13px; color:var(--muted); }
   <div class="fig"><span class="n">1+1</span><span class="d">IP and hash published (26 Oct)</span></div>
 </div>
 
+
+<section>
+<h2>Update &mdash; 7 November: the vendor tail narrows &mdash; Cisco clears its flagships, Splunk remedies Galileo</h2>
+<p class="sub">Cisco updated its Node.js advisory to v1.8 on Friday 6 November: 25 products now carry named fixed releases (was 19), and six priority products &mdash; Catalyst SD-WAN, IOS XE, IOS XR, Secure Firewall ASA, FMC and FTD &mdash; are confirmed not impacted, with ISE still under investigation. Splunk&rsquo;s advisory SVD-2026-1015, also updated 6 November, lists 13 products with affected packages (was 11); Galileo is now remedied and Splunk Synthetic Runner has a fix (upgrade to 1.71.0 or higher). No confirmed production compromise, victim or new IOC set was found to 7 November, and the 11 November pre-alert is unchanged.</p>
+<div class="callout warn">
+<span class="k">Read the lists as advisory scope, not as a Brotli count</span>
+<p>Both advisories cover the four October Node.js CVEs as a group &mdash; Brotli CVE-2026-111497 plus the DNS and TLS flaws CVE-2026-105482, CVE-2026-105483 and CVE-2026-106069 &mdash; so a product on either list is not necessarily Brotli-affected. Check the per-product detail before treating a listing as a Brotli exposure. The Cisco count is now from Cisco&rsquo;s own advisory (v1.8, 6 Nov); the Splunk list is from Splunk&rsquo;s own advisory, linked below.</p>
+<p class="cite">Sources: <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Cisco, Vulnerabilities in Node.js and Brotli Affecting Cisco Products, v1.8, 6 Nov 2026</a> · <a href="https://advisory.splunk.com/advisories/SVD-2026-1015" target="_blank" rel="noopener noreferrer">Splunk, SVD-2026-1015, updated 6 Nov 2026</a></p>
+</div>
+<h3>Evidence ladder</h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Evidence</th><th>Status to 7 Nov</th></tr></thead>
+<tbody>
+<tr><td>Cisco advisory v1.8 (6 Nov)</td><td>25 products with named fixed releases (was 19). Catalyst SD-WAN, IOS XE, IOS XR, Secure Firewall ASA, FMC and FTD confirmed not impacted; ISE still under investigation. Some fixes are months out — Catalyst Center 3.4.1 in July 2027, Smart PHY in March 2027.</td></tr>
+<tr><td>Splunk advisory SVD-2026-1015 (updated 6 Nov)</td><td>13 products with affected packages (was 11). Galileo now remedied; Splunk Synthetic Runner has a fix — upgrade to 1.71.0 or higher. Splunk Enterprise 10.0 guidance unchanged (upgrade to 10.2 or higher); Visual Exporter still disable or remove in all Enterprise versions.</td></tr>
+<tr><td>November security release pre-alert</td><td>Unchanged to 7 Nov — still no CVE IDs, components or fixed versions published for the 11 November release.</td></tr>
+<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 7 November.</strong> This row is empty on purpose — do not add attempts + KEV into a victim count.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What is known, and what is not</h3>
+<div class="figures">
+<div class="fig"><span class="n">25</span><span class="d">Cisco products with named fixed releases</span></div>
+<div class="fig"><span class="n">13</span><span class="d">Splunk products with affected packages</span></div>
+<div class="fig"><span class="n">6</span><span class="d">Cisco priority products now not impacted</span></div>
+<div class="fig"><span class="n">6 Nov</span><span class="d">Both advisories updated</span></div>
+</div>
+<ul>
+<li><strong>The tail is narrowing at the flagship level.</strong> Cisco&rsquo;s priority products are mostly cleared, and the remaining exposure is now named product by product with dated fixes — but some of those dates are months out, so the tail is long as well as narrower.</li>
+<li><strong>Do not read the Splunk list as thirteen Brotli exposures.</strong> SVD-2026-1015 groups the four October Node.js CVEs; the advisory says the products &ldquo;include packages affected by the vulnerabilities&rdquo; without attributing each product to a single CVE. Galileo moving to remedied and Synthetic Runner gaining a fix are the two concrete changes.</li>
+<li><strong>No new exploitation evidence in the window.</strong> No new attempt, victim or IOC set was published to 7 November; the single observed attempt (26 October) remains the only one. Cisco PSIRT reports no malicious use of these vulnerabilities against any Cisco product, and the KEV remediation date (10 November) is approaching without a new development attached to it.</li>
+</ul>
+<p class="cite">Sources: <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Cisco, Vulnerabilities in Node.js and Brotli Affecting Cisco Products, v1.8, 6 Nov 2026</a> · <a href="https://advisory.splunk.com/advisories/SVD-2026-1015" target="_blank" rel="noopener noreferrer">Splunk, SVD-2026-1015, updated 6 Nov 2026</a></p>
+</section>
 
 <section>
 <h2>Update &mdash; 6 November: the Brotli tail widens &mdash; 19 Cisco products, 11 Splunk products</h2>
@@ -791,6 +826,11 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
   <ul class="src">
     <li><strong>SecurityWeek</strong> &mdash; <a href="https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/" target="_blank" rel="noopener noreferrer">Cisco, WatchGuard Release Patches; SonicWall Won&rsquo;t Fix GMS Flaws</a>, 5 Nov 2026: Cisco updated its Node.js advisory on 4 Nov — 19 Cisco products affected by Node2Shell, dozens more under investigation; nearly a dozen Splunk products also affected.</li>
     <li><strong>Splunk</strong> &mdash; <a href="https://advisory.splunk.com/advisories/SVD-2026-1015" target="_blank" rel="noopener noreferrer">SVD-2026-1015</a>, published 28 Oct, updated 5 Nov 2026: 11 products with affected packages across the four October Node.js CVEs (CVE-2026-111497, CVE-2026-105482, CVE-2026-105483, CVE-2026-106069); Splunk Enterprise 10.0 vulnerable, 9.4 and 10.2+ not affected; Galileo under investigation. Primary.</li>
+  </ul>
+  <h3 style="margin-top:26px;">Added in the 7 November update</h3>
+  <ul class="src">
+    <li><strong>Cisco</strong> &mdash; <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Vulnerabilities in Node.js and Brotli Affecting Cisco Products</a>, v1.8, 6 Nov 2026: 25 products with named fixed releases (was 19); Catalyst SD-WAN, IOS XE, IOS XR, Secure Firewall ASA, FMC and FTD confirmed not impacted; ISE still under investigation; PSIRT aware of no malicious use of these vulnerabilities against any Cisco product. Primary.</li>
+    <li><strong>Splunk</strong> &mdash; <a href="https://advisory.splunk.com/advisories/SVD-2026-1015" target="_blank" rel="noopener noreferrer">SVD-2026-1015</a>, updated 6 Nov 2026: 13 products with affected packages (was 11); Galileo remedied; Splunk Synthetic Runner fix — upgrade to 1.71.0 or higher; Splunk Enterprise 10.0 guidance unchanged (upgrade to 10.2 or higher). Primary.</li>
   </ul>
 </section>
 
