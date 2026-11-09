@@ -87,6 +87,20 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "Small credit unions are a soft target for ransomware groups: the exposed Social Security numbers, government IDs and account and card numbers are directly usable for identity theft and account fraud. Peer credit unions should check their own exposure to the Storm group's claimed access pattern and warn affected members to watch for identity fraud. The 656 figure covers Texas residents only; the total affected population has not been stated.",
+      "headline": "Insight Credit Union discloses breach affecting 656 Texans after Storm ransomware group claimed attack",
+      "id": "entry-insight-credit-union-20261109",
+      "known": "Insight Credit Union, a state-chartered credit union headquartered in Winter Springs, Florida, disclosed a data breach exposing names, Social Security numbers, driver's licence numbers, other government-issued ID numbers such as passport or state ID numbers, and financial information including account numbers and credit or debit card numbers. The credit union reported the breach to the Texas attorney general on 6 November 2026, identifying 656 affected Texas residents. On 15 September 2026 the ransomware group Storm posted a claim on the dark web saying it had breached the credit union, had obtained 209 gigabytes of data and intended to publish it within 17 days.",
+      "severity": "watch",
+      "source_name": "teiss, 9 November 2026",
+      "source_url": "https://www.teiss.co.uk/news/insight-credit-union-discloses-breach-affecting-656-texans-after-storm-ransomware-group-claimed-attack-18434",
+      "status": "confirmed",
+      "summary": "Insight Credit Union, a state-chartered credit union in Winter Springs, Florida, disclosed a data breach exposing names, Social Security numbers, driver's licence numbers, other government IDs and financial account and card numbers. It reported the breach to the Texas attorney general on 6 November 2026, identifying 656 affected Texas residents. The ransomware group Storm claimed on 15 September 2026 to have breached the credit union and taken 209 GB of data.",
+      "timestamp_sgt": "2026-11-09T19:45:00+08:00",
+      "type": "Confirmed disclosure — ransomware claim",
+      "unknown": "Whether Storm was responsible for the breach has not been independently confirmed — the link rests on the group's dark-web claim. The credit union has not said when the intrusion occurred, how the attackers got in, or whether the 209 GB claimed by Storm matches what was taken. The total number of affected members beyond Texas has not been stated."
+    },
+    {
       "bfsi_impact": "Financial firms in Southeast Asia should hunt for the eight published IP indicators and for the behavioural pattern Microsoft describes — bursts of varied requests against internet-facing systems, SSRF and anonymous file-upload exploitation, and curl/netcat downloads of RATs — and check cloud-identity and Entra ID sign-in activity. The campaign shows AI-agent tooling moving from state-aligned actors to financially motivated crime against banks, so controls that assume a human-speed attacker, including fingerprint-based blocking alone, are not enough.",
       "headline": "Microsoft: financially motivated Storm-3358 using ARTEX AI framework against financial firms in Southeast Asia",
       "id": "entry-microsoft-storm3358-artex-20261106",
@@ -269,8 +283,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-09T20:00:00+08:00",
-  "next_check_sgt": "2026-11-10T00:00:00+08:00",
-  "updated_sgt": "2026-11-09T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-10T00:00:00+08:00",
+  "next_check_sgt": "2026-11-10T04:00:00+08:00",
+  "updated_sgt": "2026-11-10T00:00:00+08:00",
   "version": 1
 }
