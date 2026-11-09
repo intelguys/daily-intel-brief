@@ -504,7 +504,7 @@ section > p { margin-bottom: 14px; }
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
+      <a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
       <a href="#situation">Confirmed &mdash; and withdrawn</a>
       <a href="#attribution">Attribution</a>
       <a href="#exploitation-status">Exploitation status</a>
@@ -603,6 +603,44 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-09-nov-pm">
+<p class="eyebrow">Update &middot; 9 November (afternoon)</p>
+<h2>The trackers move at last: NCSC-NL adds 20 fixed products, GreyNoise counts 38 more successful exploitations</h2>
+<p class="lede">Both trackers the morning section recorded as unchanged moved within hours of the morning check. NCSC-NL updated its product list at 09:49 CET on 9 November: 968 products tracked (was 948), 205 fixed (was 185), 215 vulnerable unchanged. ThreatDefence updated the same day: GreyNoise now counts 1,215 successful exploitations from 5 attacker IPs (was 1,177), out of 255,240 sessions from 682 attacker IPs. The morning section&rsquo;s &ldquo;no change to the NCSC-NL inventory&rdquo; and &ldquo;ThreatDefence still Updated November 5&rdquo; lines are superseded; the morning section is left as written.</p>
+<div class="callout">
+<span class="label">NCSC-NL inventory &mdash; 9 November 09:49 CET</span>
+<p>The Dutch CERT&rsquo;s php2shell list now tracks <strong>968 products: 205 fixed, 215 vulnerable, 93 under investigation, 240 runtime-dependent, 214 not affected and 1 unassessed</strong>. The five latest status-change rows shown are all AlmaLinux fixes: AlmaLinux 10 PHP 8.3 and 8.4 packages (ALSA-2026:87070, 87071) and AlmaLinux 8 php:7.2, 7.3 and 7.4 modules (ALSA-2026:A011, A012, 87080). The list shows only the five latest rows, so the +20 fixed is the summary count, not the five rows alone &mdash; do not read the five rows as the whole change.</p>
+</div>
+<h3>Tracker figures, before and after</h3>
+<div class="board">
+<div class="tile"><div class="k">Products tracked</div><div class="v">968</div><div class="n">NCSC-NL, 9 Nov 09:49 CET; was 948 (4 Nov)</div></div>
+<div class="tile"><div class="k">Fixed</div><div class="v">205</div><div class="n">NCSC-NL, 9 Nov 09:49 CET; was 185 (4 Nov)</div></div>
+<div class="tile"><div class="k">Vulnerable</div><div class="v">215</div><div class="n">NCSC-NL; unchanged since 4 Nov</div></div>
+<div class="tile"><div class="k">GreyNoise successes</div><div class="v">1,215</div><div class="n">Successful exploitations from 5 attacker IPs, as of 9 Nov; was 1,177 (4 Nov)</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Tracker</th><th>Before</th><th>Now</th></tr></thead>
+<tbody>
+<tr><td>NCSC-NL products tracked</td><td>948 (4 Nov)</td><td><strong>968</strong> (9 Nov 09:49 CET)</td></tr>
+<tr><td>NCSC-NL fixed</td><td>185</td><td><strong>205</strong></td></tr>
+<tr><td>NCSC-NL vulnerable</td><td>215</td><td>215 &mdash; unchanged</td></tr>
+<tr><td>GreyNoise successful exploitations</td><td>1,177 from 5 IPs (4 Nov)</td><td><strong>1,215 from 5 IPs</strong> (9 Nov)</td></tr>
+<tr><td>GreyNoise sessions / attacker IPs</td><td>249,075 / 608</td><td><strong>255,240 / 682</strong></td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>It supersedes the morning section&rsquo;s two &ldquo;unchanged&rdquo; lines.</strong> Both trackers moved on the same day they were recorded as static &mdash; the 9 November morning section is now the stale record, not the current one.</li>
+<li><strong>New operator indicators.</strong> The operator behind <code>206.245.153.56</code> downloaded <code>cleanup.sh</code> from its server on port 8088 on 4 November at 21:27 UTC (GreyNoise, via ThreatDefence). The script deletes <code>zz-persist.config.php</code>, <code>.zz.php</code>, <code>.zz.sh</code> and <code>/var/tmp/.p</code> under the web root, removes run-once markers in <code>/tmp</code>, and checks <code>.htaccess</code> files for an <code>AddHandler</code> line that makes <code>.css</code> files run as PHP. It also looks for the markers <code>j332pre</code> and <code>j375boot</code> in <code>.htaccess</code> and <code>j336beacon</code> in <code>index.php</code>. A server where these were removed may still carry the <code>.htaccess</code> change or an SSH key &mdash; hunt those, not just the deleted files.</li>
+<li><strong>Siemens SSA-166980 (revised 5 Nov)</strong> covers energy products that bundle PHP: fixes for Energy Engage V3.1SP1, Spectrum Power TG and Local Monitoring bt-monitoring-vm; no fix yet for AMIS TS, blueplanet 360 NX3 and several Spectrum Power 4 setups; Energy Engage V2.0SP9 will not get one.</li>
+<li><strong>Fiery is still only a target date.</strong> Fiery FS800&ndash;FS500 patches are targeted &ldquo;by November 9, 2026&rdquo; &mdash; no release was confirmed in sources read to 9 November 09:00 UTC. Do not record them as shipped. ThreatDefence carries &ldquo;Fiery DFE patches from November 9&rdquo; in its vendor table, without a release confirmation.</li>
+<li><code>CVE-2026-115560</code> remains unpatched at the 9 November afternoon check; PHP has not released 8.5.13 or 8.4.28; mitigation remains <code>session.upload_progress.enabled=0</code>. It is not in CISA KEV.</li>
+</ul>
+<p>Sources: <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 9 Nov 09:49 CET</a> &middot; <a href="https://threatdefence.com/article/php2shell-php-remote-code-execution-advisory" target="_blank" rel="noopener noreferrer">ThreatDefence &mdash; PHP2Shell CVE-2026-109618: Detection, Hunting and Patching, updated 9 Nov 2026 (GreyNoise 9 Nov figures; 206.245.153.56 cleanup script and persistence indicators; Siemens SSA-166980)</a></p>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
 <section id="update-09-nov">
 <p class="eyebrow">Update &middot; 9 November</p>
@@ -2387,13 +2425,15 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
       <li><span class="src-title"><a href="https://www.configlane.io/en/blog/php2shell-cisco-sicherheitsluecken" target="_blank" rel="noopener noreferrer">ConfigLane &mdash; PHP2Shell and Cisco: security status, 7 Nov</a></span><span class="src-meta">Vendor-status tracker &middot; fix <strong>26.2.1.9 available</strong> for URWB and Unified Industrial Wireless Software (bug CSCwx37073); ISE Portal Builder fix deployed, no customer action required</span></li>
       <li><span class="src-title"><a href="https://pwn.watch/i/php2shell-cve-2026-109618-109619" target="_blank" rel="noopener noreferrer">pwn.watch &mdash; PHP2Shell timeline</a></span><span class="src-meta">Tracker &middot; Cisco v1.11 (6 Nov, Final): URWB and Unified Industrial Wireless Software fix <strong>now available in 26.2.1.9</strong>, well ahead of the earlier 27.1.1 estimate; ISE Portal Builder fixed with no customer action required</span></li>
       <li><span class="src-title"><a href="https://www.tetoran.com/php2shell-affected-products/" target="_blank" rel="noopener noreferrer">Tetoran &mdash; PHP2Shell affected products, 4 Nov (in Japanese)</a></span><span class="src-meta">Translated from Japanese &middot; corroborates <strong>26.2.1.9</strong> for URWB and Unified Industrial Wireless Software and ISE Portal Builder fixed by Cisco with no user action required</span></li>
+      <li><span class="src-title"><a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 9 Nov 09:49 CET</a></span><span class="src-meta">Government CERT &middot; <strong>968 products tracked (was 948), 205 fixed (was 185), 215 vulnerable unchanged</strong>; latest rows AlmaLinux 10 PHP 8.3/8.4 packages and AlmaLinux 8 php:7.2/7.3/7.4 modules</span></li>
+      <li><span class="src-title"><a href="https://threatdefence.com/article/php2shell-php-remote-code-execution-advisory" target="_blank" rel="noopener noreferrer">ThreatDefence &mdash; PHP2Shell CVE-2026-109618: Detection, Hunting and Patching, updated 9 Nov 2026</a></span><span class="src-meta">GreyNoise as of 9 Nov: <strong>1,215 successful exploitations from 5 IPs (was 1,177), 255,240 sessions from 682 IPs</strong>; 206.245.153.56 cleanup script and new persistence indicators; Siemens SSA-166980</span></li>
     </ul>
   
 </details>
 <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
   <footer>
-    <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October; updated 26 October (confirmed exploitation, retractions, CVE-2026-115560, PAN-OS) and 28 October (KEV listing, Wiz indicator set, export regeneration 81&rarr;93, vendor matrix), 29 October (KEV Fragnesia chain, GreyNoise successes, Dream victim-side report) and 4 November (PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched), and 5 November (Censys patch uptake, 29m of 46m scannable servers still flawed; no mass-breach wave reported), and 9 November (Cisco v1.11: URWB and Unified Industrial Wireless fixes available in 26.2.1.9, months ahead of the Feb&ndash;Mar 2027 estimates; ISE Portal Builder fixed; no new exploitation signal). Sources are public reporting and direct measurement. TLP:CLEAR — the underlying reporting is public, and every measurement this brief adds is reproducible from public sources, with the endpoints and parameters recorded under <code>raw/</code>. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
+    <p>Compiled 2026-10-21 03:55 UTC; revised 04:55, 06:55, 07:15, 09:10, 13:35, 14:05 and 15:25 UTC on 21 October; revised and restructured at 02:00 UTC on 22 October; updated 26 October (confirmed exploitation, retractions, CVE-2026-115560, PAN-OS) and 28 October (KEV listing, Wiz indicator set, export regeneration 81&rarr;93, vendor matrix), 29 October (KEV Fragnesia chain, GreyNoise successes, Dream victim-side report) and 4 November (PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched), and 5 November (Censys patch uptake, 29m of 46m scannable servers still flawed; no mass-breach wave reported), and 9 November (Cisco v1.11: URWB and Unified Industrial Wireless fixes available in 26.2.1.9, months ahead of the Feb&ndash;Mar 2027 estimates; ISE Portal Builder fixed; no new exploitation signal; afternoon: NCSC-NL inventory updated to 968 products with 205 fixed, GreyNoise 1,215 successful exploitations, new 206.245.153.56 persistence indicators and Siemens SSA-166980). Sources are public reporting and direct measurement. TLP:CLEAR — the underlying reporting is public, and every measurement this brief adds is reproducible from public sources, with the endpoints and parameters recorded under <code>raw/</code>. Every negative result and failed check in this document is deliberate: an unexecuted query is recorded as unknown, not as clean.</p>
     <p>Re-validated against the official advisory at 14:05 UTC on 21 October, 02:00 UTC on 22 October, and again on 26 October against the KEV catalog, the NVD API, the PHP release API and the Palo Alto advisory. The retired models and the revision log are preserved unedited in Appendices A and B — where either disagrees with the main section, the main section is correct. Four corrections in this document are to its own earlier readings rather than to the sources: the discovery credit, the claim that the leaked bundle was aimed at the wrong subsystem throughout, the “no IOCs” position, and the PAN-OS item it recorded as unverified on 23 October and which is now confirmed by the vendor.</p>
     <p><strong>What has not changed across five days of revision:</strong> patch to 8.5.12 / 8.4.27 / 8.3.36 / 8.2.35, restart every worker, keep <code>session.upload_progress.enabled=0</code> in place after patching, and hunt process parentage rather than request signatures. Everything that moved — the root-cause dispute, the retractions, the new CVE, the appliance exposure, the indicator set — moved around that core.</p>
   </footer>
