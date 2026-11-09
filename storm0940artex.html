@@ -1,4 +1,4 @@
-<title>Storm-0940 ConnectWise Breach</title>
+<title>Tracking Offensive AI Tooling</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -391,21 +391,18 @@ footer {
   * { animation: none !important; transition: none !important; }
 }
 </style>
-
 <header class="masthead">
   <div class="wrap">
     <div class="eyebrow">
       <span class="tlp">TLP:AMBER</span>
-      <span>Incident review · 22 Oct 2026 · updated 8 Nov 2026</span>
+      <span>Living tracker &middot; first published 22 Oct 2026 &middot; repurposed 9 Nov 2026</span>
     </div>
-    <h1>Storm-0940, ARTEX, and the ConnectWise supply-chain compromise</h1>
-
-
-    <p class="standfirst">A review of Microsoft's 21 October report, checked against other vendors and against our own telemetry, with checks re-run to 8 November. Two layers carry two different confidences.</p>
+    <h1>Tracking offensive AI tooling in the wild</h1>
+    <p class="standfirst">A living tracker of agentic offensive-security frameworks &mdash; ARTEX, CyberStrikeAI, PentAGI, Cairn and HexStrike &mdash; as they are used in real intrusions, with attack paths, TTPs and IOCs per tool. The ConnectWise breach review this page started as is kept below as a case file.</p>
     <div class="meta">
-      <span>Sources: 26 listed</span>
-      <span>Indicators reviewed: 45 IPs, 2 IPv6, 8 app IDs, 5 user-agents, 3 JA4 (domains: see text)</span>
-      <span>Queries run: 22 Oct 2026; re-checked to 8 Nov</span>
+      <span>Sources: 60 listed</span>
+      <span>Indicators reviewed: 100+ IPs, 3 IPv6, 8 app IDs, 9 user-agents, 3 JA4, 20 file hashes (domains: see text)</span>
+      <span>Queries run: 22 Oct 2026; re-checked to 9 Nov</span>
     </div>
   </div>
 </header>
@@ -415,31 +412,397 @@ footer {
 <main class="wide">
   <div class="verdict">
     <div class="vcard">
-      <span class="label">The compromise</span>
+      <span class="label">The shift</span>
       <span class="grade high">HIGH</span>
-      <p>A vendor-held client assertion for the ConnectWise Cloud Backup multi-tenant Entra app was used from <span class="mono">144.172.64.128</span> to mint app-only Graph tokens across customer tenants.</p>
-      <p class="foot">Microsoft, ConnectWise, Huntress and Sophos X-Ops each observed it and agree on mechanism, source and timing.</p>
+      <p>Agentic offensive frameworks &mdash; built as legitimate pentest tools &mdash; are now doing live intrusions for criminals and state-aligned actors alike, at machine speed and for dollars per target.</p>
+      <p class="foot">Confirmed in vendor incident response (GTIG, Microsoft, Kaspersky, TrendAI), government advisory (CERT-In CIAD-2026-0058) and operator infrastructure exposed in the open.</p>
     </div>
     <div class="vcard">
-      <span class="label">The attribution</span>
+      <span class="label">Attribution</span>
       <span class="grade med">MEDIUM</span>
-      <p>Microsoft alone names Storm-0940, a China-state-aligned actor it has tracked since 2021.</p>
-      <p class="foot">ConnectWise cites Microsoft's threat intelligence. Every press item derives from it. No second vendor independently attributes this compromise to Storm-0940.</p>
+      <p>Five frameworks, many operators. The tool name is the weakest link: shared tooling does not mean a shared actor.</p>
+      <p class="foot">Operators stack frameworks on the same hosts. Hunt the operator&rsquo;s behaviour &mdash; infrastructure, targets, model, post-exploitation tooling &mdash; not one tool&rsquo;s fingerprint.</p>
     </div>
-  </div>
-
-  <div class="callout">
-    <strong>The finding that changes your hunt:</strong> Microsoft says to inventory "all four application IDs" but publishes three. ConnectWise actually disabled <strong>seven</strong> identities and flags an <strong>eighth</strong>. Building a hunt from Microsoft's table alone leaves four to five app identities unreviewed.
   </div>
 
   <div class="figures">
-    <div class="fig"><span class="n">2,250+</span><span class="d">tenants the actor attempted</span></div>
-    <div class="fig"><span class="n">2,900</span><span class="d">sign-in attempts per minute</span></div>
-    <div class="fig"><span class="n">&lt;3 h</span><span class="d">targeting to privileged access (ConnectWise case, vendor assertion)</span></div>
-    <div class="fig"><span class="n">8 vs 3</span><span class="d">app IDs to check vs published</span></div>
+    <div class="fig"><span class="n">1,465</span><span class="d">exposed ARTEX consoles (Censys, 4 Nov)</span></div>
+    <div class="fig"><span class="n">3,000+</span><span class="d">CyberStrikeAI instances in use (ThreatBook, vendor claim)</span></div>
+    <div class="fig"><span class="n">600,000+</span><span class="d">payment-card records stolen in the Cairn retail campaign (Gambit, Sep 2026)</span></div>
+    <div class="fig"><span class="n">459</span><span class="d">exposed PentAGI consoles (RST, 2 Nov)</span></div>
+  </div>
+
+  <div class="callout">
+    <strong>The finding that changes your hunt:</strong> operators stack these frameworks &mdash; Censys found CyberStrikeAI on 70 ARTEX hosts, and one host ran ARTEX and PentAGI beside a Cobalt Strike teamserver and an Adaptix C2 listener. A detection that names one tool and stops there will miss the operator.
   </div>
 
   <section>
+    <h2>The tools at a glance</h2>
+    <p class="sub">Five frameworks, all open source, all built as legitimate pentest tooling, all now observed in live intrusions. Status is what the sources establish, not what the tool could do.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Tool</th><th>Origin</th><th>What it does</th><th>Confirmed nefarious use</th><th>BFSI relevance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>ARTEX</strong></td><td>Autumn-27, Jul 2026, AGPL-3.0, Go / Next.js</td><td>Multi-agent autonomous pentest: recon to exploitation to collection, model-agnostic</td><td>Storm-0940 / ConnectWise, Storm-3358, VAPOR PANDA, Crafty Falcon; 1,465 exposed consoles</td><td>Direct: Korean finance, Indian BFSI payment APIs, SE Asia finance</td></tr>
+          <tr><td><strong>CyberStrikeAI</strong></td><td>Ed1s0nZ, Nov 2025, Apache-2.0, Go</td><td>LLM-orchestrated pentest, 100+ tools, MCP, multi-agent, built-in C2</td><td>Kaspersky education intrusions (domain admin in 3&ndash;4 days); TrendAI 44-agent Japan swarm; Crafty Falcon</td><td>Direct: CERT-In names it in BFSI payment-API theft</td></tr>
+          <tr><td><strong>PentAGI</strong></td><td>VXControl, Jan 2025, MIT</td><td>Multi-agent pentest, 20+ Kali tools in sandboxes, 10+ LLM providers</td><td>GTIG / Mandiant IR cases; Crafty Falcon; CyberXero initial-access broker; 459 exposed consoles</td><td>Direct: CERT-In BFSI campaign; exposed consoles are hijackable</td></tr>
+          <tr><td><strong>Cairn</strong></td><td>oritera / Cairn, Apr 2026, AGPL-3.0, Python</td><td>Blackboard-coordinated agent harness; coding-agent workers, no auth on its console by default</td><td>Gambit retail card theft (600,000+ cards); NorForge / VULONE campaigns; Crafty Falcon</td><td>Direct: payment-card theft, payment APIs, exposed panels leak credentials</td></tr>
+          <tr><td><strong>HexStrike AI</strong></td><td>0x4m4, Aug 2025, MIT</td><td>MCP server, 150+ tools, 12+ agents, natural-language to exploit chain</td><td>NetScaler zero-day abuse (reported); BOSSAI mesh (confirmed component)</td><td>Direct: NetScaler edge devices, lending-firm breach; the tool itself has CVE-2025-35028 (9.1)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Exposure counts are console counts, not malicious-operator counts: many exposed consoles belong to legitimate testers. Treat a count as the size of the discoverable surface, not as a victim or attacker count. Each tool section below carries its as-of date.</p>
+  </section>
+
+  <section>
+    <h2>ARTEX</h2>
+    <p class="sub">Open-source, LLM-driven autonomous penetration-testing framework &middot; developer known as Autumn-27 &middot; published on GitHub as Autumn-27/ARTEX on 26 July 2026 under AGPL-3.0 &middot; Go backend, Next.js web console, PostgreSQL &middot; upstream repository taken down / made closed-source by the developer in October 2026 after abuse reports; forks and copies continue to circulate</p>
+    <p>A multi-agent framework that autonomously runs a penetration test from reconnaissance through exploitation, privilege escalation and data collection, with little human input: it builds an asset graph of the target and an exploration graph of what has been tested, discovers exposed services, probes for vulnerabilities, generates and refines attack scripts, exploits them, and records findings and credentials. Model-agnostic &mdash; reported use of DeepSeek, Kimi, GLM and Grok via resellers and shims. Default console port 8787.</p>
+
+    <h3>Attack path &mdash; new 9 November finding</h3>
+    <p class="sub">Single source: H3NRY B41T on Medium, 9 Nov 2026, based on Hunt.io AttackCapture data. An open directory (1,235 files, 309 MB, 566 flagged malicious) on a staging server exposed an ARTEX-assisted campaign running 2&ndash;6 Nov against enterprise infrastructure in Japan (primary), Taiwan, Korea and the US. Status: <strong>reported</strong> &mdash; no vendor or government corroboration as of 9 Nov, and no actor name or state link is asserted.</p>
+    <ul class="timeline">
+      <li><strong>Stage 1 &mdash; Discovery via FOFA.</strong> Operator used FOFA (Chinese internet asset search engine) to find exposed services, including Apache Druid and Flink enumeration, feeding country-segmented target lists.</li>
+      <li><strong>Stage 2 &mdash; Business-intelligence recon.</strong> <span class="mono">bi_stage1.py</span> high-concurrency scanner probed targets for Metabase, Superset and Airflow, recording hits with MD5 fingerprints.</li>
+      <li><strong>Stage 3 &mdash; Multi-vector exploitation.</strong> Twelve exploitation categories fired in parallel: Apache ActiveMQ (CVE-2023-46604), Advantech WebAccess ICS unauthenticated file-upload RCE, F5 BIG-IP, Apache Struts2 OGNL injection, Palo Alto GlobalProtect path traversal, phpMyAdmin SQL OUTFILE webshell, Redis rogue-master, MikroTik Winbox credential extraction, RuoYi captcha brute-force, n8n, ThinkPHP and Jenkins RCE.</li>
+      <li><strong>Stage 4 &mdash; ARTEX orchestration.</strong> <span class="mono">artex_optimize.sh</span> (modified 6 Nov) tied the workflow together, with ARTEX coordinating recon, exploitation and collection; callback listeners (<span class="mono">cb_server.py</span>, <span class="mono">oob.py</span>) confirmed exploitation, and <span class="mono">/dev/shm</span> memory-only staging was used for anti-forensics.</li>
+    </ul>
+    <p class="note">Gap: this source does not describe a data-exfiltration step for this operation &mdash; no exfiltration path, destination or volume is given, so that stage is unknown for this campaign. The generic ARTEX path described by Microsoft and CrowdStrike in October (recon, password spraying / OAuth abuse, privileged cloud access, exfiltration) is background, not a finding from this window. Two compromises are claimed in the source: a captured phpMyAdmin admin session cookie for 107.167.177.120, and a CVE-2023-46604 RCE callback log showing a Taiwanese target fetching the operator&rsquo;s Spring XML payload. Treat both as reported, not independently confirmed.</p>
+
+    <h3>TTPs</h3>
+    <p class="sub">MITRE IDs as published in the source&rsquo;s own ATT&amp;CK matrix (Medium, 9 Nov 2026). No mapping was invented.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Technique</th><th>MITRE ID</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Reconnaissance &mdash; Active Scanning (FOFA API queries, masscan logs, probe scripts)</td><td>T1595</td></tr>
+          <tr><td>Reconnaissance &mdash; Gather Victim Network Information (BI platform enumeration: Metabase, Superset, Airflow)</td><td>T1590</td></tr>
+          <tr><td>Reconnaissance &mdash; System Language Discovery (locale detection in scripts)</td><td>T1614.001</td></tr>
+          <tr><td>Initial Access &mdash; Exploit Public-Facing Application (CVE-2023-46604, Advantech WebAccess, F5 BIG-IP, Struts2, GlobalProtect)</td><td>T1190</td></tr>
+          <tr><td>Execution &mdash; Command and Scripting Interpreter: Python</td><td>T1059.006</td></tr>
+          <tr><td>Execution &mdash; Windows Command Shell</td><td>T1059.003</td></tr>
+          <tr><td>Persistence &mdash; Server Software Component: Web Shell (phpMyAdmin SQL OUTFILE webshell attempts)</td><td>T1505.003</td></tr>
+          <tr><td>Persistence &mdash; Exploitation for Persistence (Redis rogue master payload delivery)</td><td>T1190</td></tr>
+          <tr><td>Defense Evasion &mdash; Virtualization / Sandbox Evasion (system checks in scripts)</td><td>T1497.001</td></tr>
+          <tr><td>Defense Evasion &mdash; Data Staged: Local Staging (<span class="mono">/dev/shm</span> memory-only staging)</td><td>T1074.001</td></tr>
+          <tr><td>Credential Access &mdash; Credentials from Password Stores (WinboxExploit.py extracting user.dat)</td><td>T1555</td></tr>
+          <tr><td>Credential Access &mdash; Steal Web Session Cookie (phpMyAdmin session cookie in <span class="mono">c2.txt</span>)</td><td>T1539</td></tr>
+          <tr><td>Credential Access &mdash; Brute Force (capbrute.py RuoYi math captcha bypass)</td><td>T1110</td></tr>
+          <tr><td>Discovery &mdash; System Information Discovery (fingerprinting scripts)</td><td>T1082</td></tr>
+          <tr><td>Discovery &mdash; System Network Configuration Discovery (network enumeration)</td><td>T1016</td></tr>
+          <tr><td>Collection &mdash; Automated Collection (batch_run.sh, bi_stage1.py automated scanning)</td><td>T1119</td></tr>
+          <tr><td>Command and Control &mdash; Application Layer Protocol: Web (cb_server.py, oob.py HTTP callback listeners)</td><td>T1071.001</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IOCs &mdash; new 9 November</h3>
+    <p class="sub">From the Medium / Hunt.io report, 9 Nov 2026. File-hash IOCs are as published in that article; they were not independently verified.</p>
+    <ul class="tight">
+      <li><span class="mono">107.167.177.120</span> &mdash; phpMyAdmin instance, captured admin session cookie claimed</li>
+      <li><span class="mono">/k1365/testX.xml</span> &mdash; operator Spring XML payload path fetched by the Taiwanese ActiveMQ target</li>
+      <li><span class="mono">CVE-2023-46604</span> (Apache ActiveMQ RCE, CVSS 9.8) &mdash; targeted on non-standard port 1555</li>
+    </ul>
+    <pre>ba8b0689388a2c07320d2257335f56d2690be76bff8a82a78d9e1a2db1fd3e16  artex_optimize.sh (2026-11-06)
+ed419620e3e3a10a4360313892bd9a39e84e8f4a47957dc97c6167a705816955  amq_proof.py (2026-11-05)
+a57dc9236beaec48e8a1bbc2128654afa9994a62e53a79cb418b75c14f5c800c  bi_stage1.py (2026-11-04)
+8ba55951f0b84ba00b1d976df555f8f4d765dc6d5c7cd4205dbdca83abf9bd11  capbrute.py (2026-11-04)
+84df1bd248b12d40d9ed83642aa0b537749f754d3aa82ad054883fe5683d379e  cb_server.py (2026-11-05)
+c6dcf8f253f49af2358b87b40148f1e3a04740589818872fb779173f8c2f6964  c2.txt (2026-11-05)
+4cedc5082bc05b7981311e90306873fe8fc3e8ce384438f03389502205be58ad  amq1555_tw_cb.log (2026-11-05)
+bd5ef9be5533f55ab9d6cc88d93125709d7c871314db9861407e340c9e9a0845  act_jp.jsonl (2026-11-06)
+efb105bde4d5087aa8423ca0ee1950e6c7cd64c0a8d38224061df1565aef0bd6  act_tw.jsonl (2026-11-06)
+6918a56f0e2e7880261a04afc19d1d13b8479327e305e3e96f985ade750007da  act_us.jsonl (2026-11-06)</pre>
+
+    <h3>Also in this window</h3>
+    <p>A Zenodo paper dated 8 Nov 2026 (Taalabi / LLM-DIPLOMAT Team) restates GMO Cybersecurity by Ierae forensic findings first reported 19&ndash;21 Oct 2026: six overseas public servers used in the attacks all carried ARTEX traces, and GMO assessed it highly likely ARTEX was used against ~80 Japanese firms, with 8 publicly confirmed data breaches. The publication date falls in the window; the activity itself is <strong>not</strong> new since 8 Nov.</p>
+    <p class="note">No new exposure count was published 8&ndash;9 Nov 2026. The latest count remains Censys&rsquo;s 1,465 exposed ARTEX console hosts as of 4 Nov 2026 (~815 distinct-looking deployments after excluding ~650 hosts in two identically configured hosting blocks). No new vendor (Microsoft, CrowdStrike, Censys, Check Point) or government ARTEX publication dated 8&ndash;9 Nov was found; no new victim names or actor attribution appeared in the window.</p>
+  </section>
+
+  <section>
+    <h2>CyberStrikeAI</h2>
+    <p class="sub">Open-source, Go-based, AI-native autonomous penetration-testing platform &middot; developer alias Ed1s0nZ &middot; first published on GitHub as Ed1s0nZ/CyberStrikeAI on 8 November 2025, Apache-2.0 &middot; acquired by ThreatBook on 30 September 2026, which says it will keep the open-source edition available and launch an Enterprise Edition</p>
+    <p>An LLM orchestrator on the control server plans actions, selects tools and generates commands (exposed to the model as MCP tools); a plain implant / beacon on the victim host (no AI in the implant) polls via HTTP/S, TCP or WebSocket and executes shell commands and file operations. It integrates 100+ security tools and tool templates (recon, scanning, exploitation, analysis, reporting), with YAML-defined attack recipes, native MCP support, multi-agent orchestration, visual attack-chain tracking, RAG knowledge retrieval, WebShell management and built-in C2, human-in-the-loop approval, and automated structured reporting. Supports Claude, DeepSeek and other OpenAI-compatible models as the reasoning core. Its own documentation warns it is high-privilege: it can execute commands, invoke MCP tools, manage web-shell connections and optionally support C2 workflows.</p>
+
+    <h3>Attack path</h3>
+    <p class="sub">Two sourced paths, plus a bounded third. No source publishes a single end-to-end CyberStrikeAI attack path covering all campaigns.</p>
+    <ul class="timeline">
+      <li><strong>Kaspersky education intrusions.</strong> Manual compromise of SQL Server (16.0.1000) &mdash; manual host recon, tool deployment and network recon (~1 day) &mdash; two-week pause &mdash; deploy CyberStrikeAI agent &mdash; persistence and local recon (2 min) &mdash; domain recon (5 h) &mdash; pause of several days &mdash; lateral movement via SMB / WMI, mass credential dumping, database export (&le;1 h) &mdash; domain-admin compromise, 3&ndash;4 days from agent deployment. Collection / exfiltration was the final observed stage; no further activity seen. Initial access was manual, not by the tool.</li>
+      <li><strong>TrendAI Japan, Case A.</strong> Reconnaissance &mdash; vulnerability discovery and validation &mdash; exploitation &mdash; C2 &mdash; persistence &mdash; data exfiltration &mdash; automated reporting, as a repeatable 44-agent workflow, including generation of Japanese fake login pages. Entry in the clearest case was an unauthenticated public admin interface on a legacy web system &mdash; no novel zero-day described.</li>
+      <li><strong>FortiGate campaign (bounded).</strong> Mass scanning / discovery (nmap / masscan) &mdash; targeting of exposed FortiGate management interfaces (commonly reused passwords; no FortiGate vulnerability exploited, per secondary summaries) &mdash; Metasploit modules for exploitation. The tool&rsquo;s exact role beyond presence on campaign infrastructure is unproven.</li>
+    </ul>
+
+    <h3>Nefarious use</h3>
+    <ul class="tight">
+      <li><strong>FortiGate campaign, 11 Jan &ndash; 18 Feb 2026 (CyberStrikeAI observed 20 Jan &ndash; 26 Feb).</strong> Suspected Russian-speaking, financially motivated actor; over 600 FortiGate appliances across 55 countries. Team Cymru found a CyberStrikeAI service banner on port 8080 of campaign server 212.11.64.250 and NetFlow showing that host communicating with targeted FortiGate devices; 21 unique IPs running CyberStrikeAI tracked in the window. Status: <strong>reported</strong> &mdash; banner presence plus NetFlow is not proof CyberStrikeAI performed the exploitation.</li>
+      <li><strong>TrendAI Japan, October 2026.</strong> Unattributed operator, Case A; at least 19 identifiable organisations subjected to validation activity, including at least 16 in Japan, also Taiwan and Hong Kong. 44-agent swarm automated the full workflow and generated Japanese-language forms and fake login pages. Validation activity is <strong>not</strong> confirmed full compromise of all 19; secondary summaries note deep compromise in only a small proportion. Status: <strong>confirmed</strong>.</li>
+      <li><strong>Kaspersky education intrusions, published 2 Nov 2026.</strong> Unattributed; Kaspersky assesses a Chinese-speaking operator (Chinese script comments, use of dnslog.cn, C2 restarts mostly in UTC+8 business hours) but explicitly cannot link to any known group; two separate campaigns / groups identified by build metadata, not proven to share an operator. Education-sector organisations in several countries across Africa and Latin America. Status: <strong>confirmed</strong>.</li>
+      <li><strong>CRAFTY FALCON, CERT-In advisory CIAD-2026-0058, 4 Nov 2026.</strong> AI-assisted, financially motivated; no country or state attribution by CERT-In. Indian BFSI entities: non-banking financial companies, digital lending platforms, fintech entities, payment aggregators / payment service providers, cryptocurrency exchanges / digital-asset service providers. CERT-In does <strong>not</strong> attribute any specific victim, loss figure or attack step to CyberStrikeAI alone &mdash; it is named as one of four tools used in the campaign. Status: <strong>confirmed</strong>.</li>
+    </ul>
+
+    <h3>TTPs</h3>
+    <p class="sub">No primary vendor or government source in this research published MITRE ATT&amp;CK IDs for CyberStrikeAI. All entries below therefore carry no MITRE ID; secondary commentary adds generic mappings, which were not adopted. The behaviours are as published by Kaspersky, TrendAI and CERT-In.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Technique</th><th>MITRE ID</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Initial access via compromised Microsoft SQL Server 16.0.1000; first malicious commands originated from sqlservr.exe</td><td>No mapping published</td></tr>
+          <tr><td>PowerShell payload execution; commands additionally Base64-encoded to bypass keyword detection; payloads split across multiple files and decoded with certutil</td><td>No mapping published</td></tr>
+          <tr><td>Persistence via scheduled task named SystemUpdate (or HKCU Run key value of same name); on Linux via crontab @reboot or ~/.bashrc entry; persistence method chosen by the LLM, subject to human-in-the-loop approval</td><td>No mapping published</td></tr>
+          <tr><td>Discovery: local / domain / remote recon via PowerShell, net.exe, LDAP queries, WMI checks; checks for SCCM / AlwaysInstallElevated, LAPS, Azure / .azcopy; external-IP check via dnslog.cn</td><td>No mapping published</td></tr>
+          <tr><td>Credential access: LDAP queries for Kerberoasting and AS-REP Roasting; registry-hive dumping via reg.exe; LSASS process dump via comsvcs.dll MiniDump (using PID, not name); DPAPI secret decryption</td><td>No mapping published</td></tr>
+          <tr><td>DCSync and Golden Ticket attacks via renamed mimikatz after compromising built-in domain administrator</td><td>No mapping published</td></tr>
+          <tr><td>Lateral movement via Impacket WMIExec and SMB, using shared network admin folders and WMI; reverse-shell script (p1.ps1) distributed via WMI; scheduled tasks for SYSTEM execution</td><td>No mapping published</td></tr>
+          <tr><td>C2: implant polls listener via HTTP/S, TCP or WebSocket; file transfer and screenshots via main encrypted channel, data Base64-encoded in standard JSON responses; LLM orchestrator on C2 server plans, selects and generates commands via MCP tools</td><td>No mapping published</td></tr>
+          <tr><td>Collection / exfiltration: LLM-generated SQL / LDAP queries tailored to the target, recursive file scans, database export, screenshots (Windows and Linux)</td><td>No mapping published</td></tr>
+          <tr><td>Automated full kill-chain workflow across 44 agents (recon, vuln discovery / validation, exploitation, C2, persistence, exfiltration, automated reporting) and generation of Japanese-language forms / fake login pages</td><td>No mapping published</td></tr>
+          <tr><td>Mass discovery with nmap / masscan and exploitation with Metasploit modules (FortiGate campaign workflow)</td><td>No mapping published</td></tr>
+          <tr><td>Payment / disbursement API abuse: invoking victims&rsquo; own fund-transfer APIs from allow-listed infrastructure, micro-value test transactions, log deletion and endpoint-security tampering (Crafty Falcon campaign-level TTPs; not attributed to CyberStrikeAI alone)</td><td>No mapping published</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IOCs</h3>
+    <p class="sub">Team Cymru IPs are hosts running CyberStrikeAI in the FortiGate window; Kaspersky hashes are the education-campaign beacons and tooling. The Kaspersky Network indicators section returned empty in the fetched text, so no C2 domain from that report is listed.</p>
+    <pre>212.11.64.250  103.164.81.110  106.52.47.65   115.120.233.95  117.72.103.145
+118.25.186.119  142.171.160.137 144.31.224.253  146.190.195.154 146.190.82.132
+154.219.114.92  38.38.250.182   43.106.25.225   43.167.237.212  47.101.186.156
+47.95.33.207    60.204.227.64  62.234.61.215   64.176.48.93    81.70.144.252
+2400:d321:2308:1461::1
+185.186.245.144:5501  (Kaspersky p1.ps1 reverse-shell server)
+108.165.147.226:8299  (Censys: host also running FRP and CyberStrikeAI; open directory with beacon builds)
+45.87.53.3, 45.87.53.4, 45.87.53.6, 45.87.53.10, 45.87.53.14  (Censys: five hosts each running ARTEX, CyberStrikeAI, ARL and Vshell)</pre>
+    <pre>D726A8B4886C636F76CA6D30EF6A6FF4  Windows beacon, c:\windows\temp\svchosts.exe
+2770562d104391b92b42671c270079bb  Windows beacon, svcmon32.exe
+09e1da2afa1216ecc55648ec8e122d2a  Linux beacon
+805B9E4AE74C903787416800999B8418  Linux beacon
+29EFD64DD3C7FE1E2B022B7AD73A1BA5  wdiag2.exe, mimikatz
+74F57B3E897A4960DCDD5B7E8A54F9DF  RogueWinRM.exe
+0BBD08AF95F877F1D568B03DE2EB76B4  p1.ps1 reverse-shell script</pre>
+    <ul class="tight">
+      <li><span class="mono">dnslog.cn</span> &mdash; Chinese service used to obtain victims&rsquo; external IPs (Kaspersky)</li>
+      <li>Self-signed TLS certificate with &lsquo;CyberStrikeAI&rsquo; in issuer and subject; regenerated in memory at each startup, so not_before records process launch / restart time</li>
+      <li><span class="mono">X-Implant-Token</span> HTTP header with a fixed per-C2-server value, embedded in the payload at build time</li>
+      <li>Go build metadata (<span class="mono">go version -m</span>) containing a path to the main package pointing to the built-in CyberStrikeAI generator / temporary build directory &mdash; identical for all payloads from one build; plus VCS hash / commit time and vcs.modified=true</li>
+      <li>CyberStrikeAI service banner on TCP/8080 (default web UI port, self-signed HTTPS)</li>
+      <li>Scheduled task / Run-key value named SystemUpdate; default agent paths <span class="mono">C:\Windows\Temp\</span>, <span class="mono">C:\Windows\</span>, <span class="mono">C:\ProgramData\</span>, <span class="mono">C:\Temp</span>; agent disguised as <span class="mono">svchosts.exe</span></li>
+    </ul>
+    <p class="note">Exposure: 3,000+ instances in use worldwide, per public internet-scanning data cited by ThreatBook (vendor claim, no independent audit published), as of 30 Sep 2026. Other counts, differently defined: Team Cymru 21 unique IPs (20 Jan &ndash; 26 Feb 2026); Censys 70 hosts co-locating CyberStrikeAI with ARTEX (as of 3&ndash;4 Nov 2026). There is no published Censys-style exposed-console count for CyberStrikeAI alone.</p>
+  </section>
+
+  <section>
+    <h2>PentAGI</h2>
+    <p class="sub">Self-hosted, fully autonomous multi-agent penetration-testing platform &middot; developed by VXControl L.L.C-FZ, Dubai Meydan Free Zone &middot; GitHub repository vxcontrol/pentagi, MIT licence &middot; repository created 6 January 2025, first public alpha v0.1.0 on 7 January 2025 &middot; paid Enterprise Edition exists alongside the free Community Edition</p>
+    <p>The operator describes a target and a goal in plain language; a primary agent delegates to specialised agents (research, coding, installation, pentesting, adviser / reflector roles) which split the work into &lsquo;flows&rsquo;, sub-tasks and actions, run 20+ professional tools &mdash; nmap, Metasploit, sqlmap and other Kali Linux tools &mdash; inside isolated Docker sandboxes, use a built-in browser and search engines (Tavily, Firecrawl, Perplexity, DuckDuckGo, Google, Sploitus, SearXNG, Traversaal) for fresh intelligence, store results in PostgreSQL + pgvector (optional Neo4j / Graphiti knowledge graph), and produce a vulnerability report (web, Markdown or PDF). It supports 10+ LLM providers (OpenAI, Anthropic, Gemini, AWS Bedrock, Ollama / local models and other OpenAI-compatible endpoints) via REST / GraphQL APIs. It is explicitly not a CALDERA-style breach-and-attack-simulation product with predefined campaigns; the agents decide the next step. Use is restricted by its EULA to systems the operator owns or is authorised to test.</p>
+
+    <h3>Attack path</h3>
+    <p class="sub">No source publishes a complete, PentAGI-only kill chain, so the path below is assembled from campaign-level descriptions and the gaps are marked.</p>
+    <ul class="timeline">
+      <li><strong>Goal-setting.</strong> Operator gives PentAGI a target and a goal; agents split it into flows / sub-tasks (PentAGI docs; GTIG).</li>
+      <li><strong>Reconnaissance / asset mapping.</strong> WHOIS mapping and active vulnerability scanning &mdash; the majority of GTIG-observed PentAGI activity stopped here (GTIG, Oct 2026).</li>
+      <li><strong>Exploitation.</strong> Agents run Kali tools (nmap, Metasploit, sqlmap) in sandboxes and adapt to results; in the Crafty Falcon campaign the wider toolset exploited internet-facing applications / exposed APIs and internet-exposed UAT / staging environments, then pivoted to production via shared credentials, tokens or network paths &mdash; CERT-In does not attribute each of these steps to PentAGI specifically.</li>
+      <li><strong>Cloud / control-plane abuse (Crafty Falcon, campaign-level).</strong> AWS Systems Manager and Lambda to run commands and deploy files, blending with legitimate administration.</li>
+      <li><strong>Persistence.</strong> GTIG states some PentAGI operations progressed to &lsquo;active intrusions and persistence&rsquo; but gives no PentAGI-specific persistence technique; in CyberXero, PentAGI orchestrated Cobalt Strike on the team server for payload generation / execution.</li>
+      <li><strong>Objective / fraud.</strong> In Crafty Falcon the objective was fraud &mdash; stolen payment-aggregator / partner-bank API credentials invoked from the victim&rsquo;s own allow-listed infrastructure, a Rs.1 micro-value test transfer, then large transfers to mule accounts across several banks (IMPS / NEFT), timed for low-monitoring windows.</li>
+    </ul>
+    <p class="note">Gap: which steps in Crafty Falcon were executed by PentAGI versus ARTEX / Cairn / CyberStrikeAI is not stated in the public advisory; no PentAGI-specific persistence, credential-access or exfiltration technique was published.</p>
+
+    <h3>Nefarious use</h3>
+    <ul class="tight">
+      <li><strong>GTIG / Mandiant incident response, late Aug &ndash; early Oct 2026.</strong> A customised attack-orchestration platform built on open-source PentAGI was used for systematic reconnaissance and vulnerability scanning; most observed PentAGI activity stayed at WHOIS asset mapping or active vulnerability scanning, but some operations progressed to active intrusions and persistence across multiple organisations. Victims: organisations in Asia, including system integrators and major telecommunications firms; separately, the aerospace sector (PentAGI chained with proxy services). Status: <strong>confirmed</strong>.</li>
+      <li><strong>CRAFTY FALCON, CERT-In CIAD-2026-0058, 4 Nov 2026.</strong> PentAGI named as one of four publicly available AI-driven offensive tools used in the campaign against Indian BFSI entities (NBFCs, digital lending platforms, fintechs, payment aggregators, payment service providers, cryptocurrency exchanges / virtual digital asset service providers). No victim organisation named; no per-tool victim or loss attribution. Status: <strong>confirmed</strong>.</li>
+      <li><strong>CyberXero, SOCRadar, 6 Oct 2026.</strong> Russian-speaking, financially motivated Initial Access Broker. PentAGI deployed on the actor&rsquo;s Cobalt Strike Team Server (<span class="mono">42.193.227.214</span>) and wired into Cobalt Strike through an AI provider API, used for payload generation and pentest execution; a second PentAGI deployment on the Redis exploitation node <span class="mono">42.193.100.94</span>. Global opportunistic WordPress / e-commerce targets (40+ organisations) and a directed campaign against 7 Ukrainian energy / utilities entities; 628,000+ Ukrainian individuals&rsquo; data confirmed in the actor&rsquo;s possession. The wider campaign&rsquo;s wp2shell, webshells, credential theft and exfiltration are attributed to the actor overall, not specifically to PentAGI. Status: <strong>confirmed</strong>.</li>
+      <li><strong>PaperCut operator, Hunt.io, October 2026.</strong> Unnamed, likely Russian-speaking actor targeting PaperCut NG / MF: at least 440 compromised PaperCut instances belonging to 395 organisations across 48 countries. The operator&rsquo;s exposed orchestration host <span class="mono">45.142.193.132</span> presented a self-signed TLS certificate issued under a PentAGI CA on port 33333. Hunt.io explicitly warns this alone is not a campaign signal: the PentAGI issuer appears across a large set of unrelated hosts because it is an open-source tool anyone can run, and detection should rely on behavioural indicators rather than the certificate. No evidence PentAGI itself executed the PaperCut exploitation (CVE-2026-81578 / CVE-2026-82078). Status: <strong>reported</strong>.</li>
+      <li><strong>Censys co-location, 3&ndash;4 Nov 2026.</strong> PentAGI co-located on hosts also running exposed ARTEX consoles, alongside CyberStrikeAI (70 hosts), HexStrike AI and RedAmon; in one named case <span class="mono">1.14.104.208</span> ran ARTEX and PentAGI alongside a Cobalt Strike teamserver (port 50050) and an Adaptix C2 listener (4321). Censys states operators &lsquo;appear to be using multiple agent frameworks side by side&rsquo;, but co-location on a shared host does not prove a coordinated attack or that PentAGI was used in any specific intrusion. Status: <strong>reported</strong>.</li>
+    </ul>
+
+    <h3>TTPs</h3>
+    <p class="sub">Only one MITRE ID was published for PentAGI specifically (SOCRadar&rsquo;s CyberXero table). The rest are behaviours as published, with no ID invented. The other MITRE IDs in SOCRadar&rsquo;s CyberXero table describe the actor&rsquo;s overall operation, not PentAGI, and are not listed here.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Technique</th><th>MITRE ID</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Software Deployment Tools &mdash; PentAGI orchestrating Cobalt Strike operations on the Team Server via API (payload generation and pentest execution)</td><td>T1072</td></tr>
+          <tr><td>Active vulnerability scanning and WHOIS asset mapping (systematic reconnaissance and vulnerability scanning against organisations in Asia)</td><td>No mapping published</td></tr>
+          <tr><td>Intrusion and persistence following scanning (technique unspecified in source)</td><td>No mapping published</td></tr>
+          <tr><td>Use of publicly available AI offensive tooling to survey targets with machine intelligence, generate / refine large volumes of tailored attack scripts in rapid succession, adapt payloads to target responses, and rotate supporting IP addresses within hours to days</td><td>No mapping published</td></tr>
+          <tr><td>Payment / disbursement API abuse from the victim&rsquo;s own allow-listed infrastructure, preceded by a micro-value (Rs.1) test transfer to validate the fund flow</td><td>No mapping published</td></tr>
+          <tr><td>Entry via internet-exposed non-production (UAT / staging / test) environments, pivot to production via shared credentials / tokens / network paths; cloud management / serverless abuse (AWS Systems Manager, Lambda); IP allow-list bypass via whitelisted third-party fetcher pools</td><td>No mapping published</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IOCs</h3>
+    <ul class="tight">
+      <li><span class="mono">42.193.227.214</span> &mdash; SOCRadar CyberXero: Cobalt Strike Team Server and PentAGI, port 9995</li>
+      <li><span class="mono">42.193.100.94</span> &mdash; SOCRadar CyberXero: Redis exploitation node and PentAGI agents</li>
+      <li><span class="mono">45.142.193.132</span> &mdash; Hunt.io: PaperCut attacker orchestration host presenting a PentAGI CA certificate on port 33333 (certificate presence only &mdash; see warning above)</li>
+      <li><span class="mono">1.14.104.208</span> &mdash; Censys: host running ARTEX and PentAGI alongside Cobalt Strike (50050) and Adaptix C2 (4321)</li>
+      <li><span class="mono">12603F7A89C66717661F4695E2F0D474036E42EE1631B2070AA88D590D1B79C3</span> &mdash; SHA-256 of the self-signed PentAGI CA certificate (CN localhost, DNS pentagi.local) on 45.142.193.132:33333, observed 7 Apr &ndash; 6 Jul 2026</li>
+      <li>PentAGI CA (default self-signed certificate issuer CN) &mdash; strongest single PentAGI fingerprint (Netlas certificate.issuer.common_name &lsquo;PentAGI CA&rsquo;, 171 hosts in one query)</li>
+      <li>Favicon Shodan MurmurHash3 <span class="mono">-1596753120</span>; Netlas SHA-256 <span class="mono">2a620e3c5f7b49dfc6f5278352607f7931f8c38ef9d4689908af65538dd95366</span> &mdash; PentAGI stock favicon fingerprint</li>
+      <li><span class="mono">8443/tcp</span> &mdash; default PentAGI console port; login page with default credentials to change on first use</li>
+    </ul>
+    <p class="note">Exposure: 459 verified internet-exposed PentAGI consoles (unique IPs, deduplicated across Shodan and Netlas; default port 8443, 69% on default port; top hosting countries US 43%, Hong Kong 11%, China 11%, Germany 7%; about 90 consoles in one network, AS398823), RST Cloud, as of 2 Nov 2026. Count is a lower bound &mdash; renamed / rebranded builds and non-standard ports are missed by title searches. For comparison, Censys alone showed 506 PentAGI consoles on 2 Nov 2026. Exposure does not prove malicious use: many consoles will belong to legitimate testers. No PentAGI-specific IOCs were published in the public CERT-In CIAD-2026-0058 advisory; fingerprints / detection rules were shared only in the restricted TLP:AMBER version to BFSI entities.</p>
+  </section>
+
+  <section>
+    <h2>Cairn</h2>
+    <p class="sub">Open-source project on GitHub at oritera/Cairn &middot; repository created 19 April 2026 &middot; author posts as &lsquo;le1xia0&rsquo; (organisation &lsquo;oritera&rsquo;) &middot; licence AGPL-3.0 &middot; written mainly in Python &middot; latest release v0.2.1 (10 May 2026)</p>
+    <div class="callout">
+      <strong>Name collision &mdash; do not conflate.</strong> A second, unrelated tool is called CAIRN: Cisco Talos&rsquo;s CAIRN (Cognitive Artifact Intelligence Research Network), a defensive, metadata-only toolkit for hunting AI-integrated malware, released 22 September 2026. This entry covers oritera/Cairn, the open-source AI agent harness abused in live intrusions. Conflating the two would invert the entry.
+    </div>
+    <p>A general-purpose problem-solving engine. The operator supplies an origin (starting point) and a goal; Cairn searches for a path through an unknown state space. Coding-agent workers (Claude Code, Codex and Pi CLIs) run observe-orient-decide-act loops and coordinate only through a shared &lsquo;blackboard&rsquo; &mdash; a fact / intent / hint graph in which facts are confirmed findings, intents are next steps, and hints are human input. It defines no fixed roles or workflows. A dispatcher assigns tasks to workers (often in disposable Kali containers); a web console (default port 8000, served by uvicorn) shows projects, graphs and findings. Critically for defenders, Cairn ships with <strong>no authentication by default</strong> on that console &mdash; anyone who finds it can view projects, secrets and findings, and start, stop or redirect work. Built for, and first validated on, autonomous penetration testing: it solved 54/54 problems in the 2nd Tencent Cloud Hackathon AI penetration-testing challenge (610 teams, 1,345 participants), the only team to do so, finishing 3rd overall &mdash; per the project&rsquo;s own README. The README states it is intended for use only where the operator has explicit authorisation.</p>
+
+    <h3>Attack path</h3>
+    <p class="sub">No source describes one canonical end-to-end path for all Cairn use &mdash; the path varies by campaign, and the composite below is assembled from the separate cases; gaps are marked.</p>
+    <ul class="timeline">
+      <li><strong>Target selection / feeder.</strong> Traffic-ranked e-commerce / payment target lists, Playwright browser checks that orders can be placed (NorForge AIA0001); Strix deep-mode vulnerability scanning feeding targets to Cairn (Gambit).</li>
+      <li><strong>Recon / probing.</strong> Agents iteratively probe public web apps &mdash; SQL injection, file upload, deserialisation, SSTI, SSRF, authentication bypass, directory enumeration &mdash; adapting after each error (NorForge; Sophos).</li>
+      <li><strong>Exploitation / initial access.</strong> Unauthenticated RCE via web flaws and deployment of an uploader / web shell (confirmed at one commercial site by NorForge; skimmers on 19 sites in Gambit); unauthenticated Spring Batch job endpoint &mdash; Nashorn code execution (ReliaQuest); or valid / default credentials, e.g. admin/admin on a WSO2 API Manager console (VULONE, CDAC).</li>
+      <li><strong>Post-exploitation.</strong> Credential discovery in configuration files and plaintext database credentials, API tokens and source code (VULONE; ReliaQuest); privilege escalation via xp_cmdshell &mdash; PrintSpoofer / GodPotato &mdash; SYSTEM (ReliaQuest; Sophos pattern 1), token impersonation and LSASS access (Sophos, reported).</li>
+      <li><strong>Persistence.</strong> Web / uploader shells left for later return, backdoor admin accounts (ReliaQuest &mdash; one left in place), installed SSH keys and Poseidon implant in the panel-hijack cases (NorForge).</li>
+      <li><strong>Collection / exfiltration.</strong> Payment-card records (Gambit, 600,000+), credentials / API keys and source code (VULONE), chunked 1,800-byte output retrieval via error messages (ReliaQuest), HTTP PUT /ev/ to operator listeners (VULONE).</li>
+      <li><strong>Monetisation.</strong> Carding / skimmers (Gambit), card / crypto theft goals (AIA0002), persistent access &lsquo;for later monetization&rsquo; (AIA0001).</li>
+    </ul>
+    <p class="note">Gaps: exfiltration volumes are largely unconfirmed (Reuters could not ascertain data extraction in the 100+ company case; VULONE found no bulk card theft in its artefacts); the Crafty Falcon payment-API abuse path is not attributed to Cairn specifically; and whether any given step was agent- vs human-driven is assessed, not proven, in the ReliaQuest and Sophos cases.</p>
+
+    <h3>Nefarious use</h3>
+    <ul class="tight">
+      <li><strong>Gambit &lsquo;SOUL &mdash; Red Team Operator&rsquo;, Jul &ndash; Sep 2026 (published 22 Sep).</strong> Unnamed single Chinese-speaking, financially motivated operator. Online retailers; at least 27 companies compromised 10&ndash;15 Sep 2026, including a Fortune 500 hospitality company, a major US airline, a large US industrial supplies distributor and a US online fashion retailer (companies not publicly named). Strix did vulnerability discovery, Cairn did autonomous end-to-end exploitation, Hermes orchestrated. 105 attack projects launched 10&ndash;15 Sep alone; 600,000+ unexpired payment-card records stolen from two victims (79% US-issued); checkout skimmers confirmed on 19 sites; mean cost $25.46 per completed scan, ~$7,006 spent in four weeks, $12,000&ndash;$18,000 estimated total. Activity dated to July 2026 and was still running at publication. Status: <strong>confirmed</strong>. Gambit&rsquo;s report is self-described as interim (&lsquo;a few errors or inaccuracies are possible&rsquo;).</li>
+      <li><strong>NorForge clusters AIA0001 / AIA0002 / AIA0003, from 25 Sep 2026 (published 19 Oct).</strong> AIA0001 Chinese-language (high confidence), AIA0002 English (high confidence), AIA0003 English (low confidence). 20+ exposed Cairn panels found likely malicious. AIA0001: 14 panels, 1,100+ attack projects; agents attempted 1,200+ sites and reached sites at 100+ companies; ~10% success rate, ~23 hours average per successful intrusion, ~$5 per task / ~$50 per success, ~$5,000 total token spend. One uploader-type web shell confirmed live on a commercial site; hundreds of secrets exposed on panels, 11% verified still valid. Named victims established by Reuters: Deere, SharkNinja, Cummins. Deere said it found no indication sensitive information was accessed; SharkNinja said a standalone product-support site was hit and the threat contained. Status: <strong>confirmed</strong>.</li>
+      <li><strong>VULONE campaign, 24 Sep &ndash; 14 Oct 2026 (published 18 Oct).</strong> Unnamed single China-linked, Chinese-speaking, financially motivated operator; no evidence of state sponsorship. 66 Cairn projects run from one Singapore VPS (<span class="mono">202.61.139.15</span>); operator&rsquo;s own records claim 48 reached at least session-level access (6 root / SYSTEM, 39 non-root command execution, 3 webshell). ~36.7 billion LLM tokens via DeepSeek v4.1 Flash through one gateway key; compute funded by six subscription accounts and a farm of 16 daily-checked CodeBuddy identities harvesting ~480 free credits/day. Access claims are the operator&rsquo;s own tooling records; VULONE corroborated the strongest cases against exfiltration logs / listener captures, but no victim-side confirmation. No evidence of bulk payment-card theft or destructive activity in the examined artefacts. Targets: government systems in Vietnam (Ministry of Defence, Ministry of Public Security), Taiwan (Legislative Yuan, Ministry of Justice-linked), Indonesia (State Intelligence Agency), India (CDAC), plus payments / retail / travel / SaaS firms including Juspay, Air India, China Airlines, Hertz, Huffy / Buzz Bicycles, TotalAV, Fluidstack. VULONE tested for a link to the Gambit &lsquo;SOUL&rsquo; campaign and found it not supported (same engine / model, no shared indicators). Status: <strong>reported</strong>.</li>
+      <li><strong>ReliaQuest incident, 7 Oct 2026 (published; intrusion under 24 hours).</strong> Unknown / unattributed operator. One unnamed organisation&rsquo;s Apache Tomcat server running a Spring Batch application. Unauthenticated Spring Batch job-submission endpoint abused: Nashorn JavaScript execution inside the application, output exfiltrated in fixed 1,800-byte chunks via error messages, plaintext SQL Server sysadmin credentials recovered from config files, xp_cmdshell enabled, PrintSpoofer and GodPotato used to reach SYSTEM, SAM / SYSTEM / SECURITY hives dumped, backdoor admin accounts created (one left in place). No new malware, no zero-day. A live Cairn dashboard was running on the attack-origin host (<span class="mono">204.194.55.189</span>); ReliaQuest assesses with high confidence that LLM-driven agents carried out substantial portions, but could not determine the number of agents, the model, or the extent of human approval. Status: <strong>confirmed</strong>.</li>
+      <li><strong>NorForge panel-hijack campaign, 10&ndash;21 Oct 2026 (published 26 Oct).</strong> Clusters AIA0009 (&lsquo;random suffix&rsquo; / &lsquo;cairnscan&rsquo;) and AIA0010 (&lsquo;iNNN&rsquo;); no shared hard indicators linking the two. At least 17 internet-exposed Cairn panels &mdash; including panels belonging to criminals, legitimate red teams and CTF exercises, not only attackers. Attackers injected malicious tasks into unauthenticated Cairn panels, turning the victims&rsquo; own agents against their hosts: installing unauthorised SSH keys, stealing AI model API keys and other secrets, and (AIA0009 only) downloading and running a Poseidon (Mythic) Go implant via a base64 loader from <span class="mono">199.91.220.129:28471</span>. AIA0010 focused on recon, credential hunting (incl. Anthropic tokens) and using compromised agents to scan for more exposed panels. NorForge notes the campaigns were likely not fully autonomous &mdash; humans appear to have stepped in at junctures (e.g. configuring malware / C2). A separate defacement by &lsquo;AstraRCE&rsquo; on 20 Oct was unrelated vandalism. Status: <strong>confirmed</strong>.</li>
+      <li><strong>Sophos IR cases, published 21 Oct 2026.</strong> Two intrusion patterns &mdash; (1) SQL injection &mdash; xp_cmdshell &mdash; token impersonation, LSASS credential access, lateral movement via WMI / scheduled tasks / admin shares; (2) file-upload &mdash; multiple web shells &mdash; cloud instance-metadata credential theft, production / staging database access, internal service access &mdash; with initial access in under 3 hours in both. OSINT showed the source systems were running Cairn, CyberStrikeAI and CupcakeC2. Sophos is explicit there was no signature identifying AI-tool use; the AI link is pattern-based (speed, breadth, repetition, adaptability). Status: <strong>reported</strong>.</li>
+      <li><strong>CRAFTY FALCON, CERT-In CIAD-2026-0058, 4 Nov 2026.</strong> Cairn named as one of four publicly available offensive AI tools reportedly used against Indian BFSI entities. The public advisory gives no per-tool victim attribution, no named victims, no loss total and no public IOCs (full indicators restricted to TLP:AMBER distribution). No evidence in the public advisory ties any specific victim or theft to Cairn as opposed to the other named tools. Status: <strong>reported</strong>.</li>
+    </ul>
+
+    <h3>TTPs</h3>
+    <p class="sub">The four MITRE IDs below come from a third-party DEV.to summary mapping of NorForge&rsquo;s report, not from NorForge&rsquo;s own text; no primary vendor source in this set published MITRE IDs for Cairn activity. The rest are behaviours as published, with no ID invented.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Technique</th><th>MITRE ID</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Exploit Public-Facing Application &mdash; agents probing SQLi, file upload, deserialisation, SSTI, SSRF against public web apps</td><td>T1190</td></tr>
+          <tr><td>Server Software Component: Web Shell &mdash; uploader-type web shell confirmed at one commercial site</td><td>T1505.003</td></tr>
+          <tr><td>Unsecured Credentials: Credentials in Files &mdash; credential discovery / collection in panel records (some secrets were human-entered from elsewhere, so individual acquisition vectors unverified)</td><td>T1552.001</td></tr>
+          <tr><td>Valid Accounts &mdash; valid credentials and account usage in panel records; includes default admin/admin credentials on a WSO2 console (VULONE)</td><td>T1078</td></tr>
+          <tr><td>Obtain Capabilities: Artificial Intelligence &mdash; use of AI agent harnesses as the attack capability (Threadlinqs aggregator mapping for the combined Cairn / CyberStrikeAI / CupcakeC2 Sophos incident set &mdash; not Cairn-specific)</td><td>T1588.007</td></tr>
+          <tr><td>Unauthenticated job-submission endpoint abused for in-process script execution (Nashorn JavaScript) with output returned via error messages in fixed 1,800-byte chunks</td><td>No mapping published</td></tr>
+          <tr><td>SQL Server xp_cmdshell enablement, then privilege escalation with public PrintSpoofer / GodPotato tools abusing SeImpersonatePrivilege to SYSTEM; SAM / SYSTEM / SECURITY hive theft; backdoor local admin accounts</td><td>No mapping published</td></tr>
+          <tr><td>Payment-card skimming: checkout skimmers planted on compromised retailer sites</td><td>No mapping published</td></tr>
+          <tr><td>Credential access and lateral movement: LSASS-related credential access, token impersonation, WMI and scheduled tasks, administrative-share probing, cloud instance-metadata credential theft</td><td>No mapping published</td></tr>
+          <tr><td>Task / prompt injection into unauthenticated agent consoles: malicious tasks inserted into exposed Cairn panels, agents made to install SSH keys, dump environment / secrets and download / run a Poseidon implant</td><td>No mapping published</td></tr>
+          <tr><td>LLM compute cost-avoidance: farming CodeBuddy free credits via 16 daily-checked identities plus six subscription accounts to fund ~36.7B tokens</td><td>No mapping published</td></tr>
+          <tr><td>Anti-attribution tradecraft: standing prompt rule forcing ASCII-only payloads, file contents and comments so intrusions read as English on victim hosts</td><td>No mapping published</td></tr>
+          <tr><td>Automated target pipeline: traffic-ranked target lists with Playwright order-placement verification before exploitation; machine-cadence command submission (~half of gaps &le;5s) and self-correcting payload retries</td><td>No mapping published</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IOCs</h3>
+    <p class="sub">NorForge withheld unredacted panel addresses, so several IOCs are redacted in the source and cannot be listed. Nothing was reconstructed.</p>
+    <pre>199.247.25.25   199.247.27.2    NorForge (Inside Cairn) - AIA0002 staging servers
+202.61.139.15   VULONE - C2, staging and exfiltration server (AS152194, CTG Server Ltd, Singapore); served /tmp on port 9000
+202.61.139.137  VULONE - second operator address, same exposed /tmp; exfil to port 8896
+20.78.168.45    20.214.237.197  139.180.159.213  VULONE - operator-side addresses
+102.0.27.92     42.78.192.163   8.212.152.211    VULONE - operator-side addresses
+43.106.27.167   111.223.247.165 139.59.247.215   VULONE - operator-side addresses
+85.211.254.149  138.199.21.243  VULONE - operator-side addresses
+204.194.55.189  ReliaQuest - attack-origin host; exposed Cairn interface and exploit-staging material
+204.194.54.240  ReliaQuest - tool staging / pre-incident scanning host (Grok2API proxy, CyberStrikeAI login, Pi console, Resin proxy pool)
+94.177.131.113  ReliaQuest - retrieved job output / POSTs to upload endpoint; relay role possible but unconfirmed
+103.181.134.12  NorForge (Automated Subversion) - Gen1 C2 for panel-hijack campaign
+199.91.220.129  NorForge (Automated Subversion) - Gen2 C2 / Poseidon download server (port 28471, /worker-health)
+64.176.50.179   NorForge (Automated Subversion) - Gen3 C2 for panel-hijack campaign</pre>
+    <ul class="tight">
+      <li><span class="mono">74342459543956677599003426txhdpndwdwy.b-cdn.net</span> &mdash; NorForge: Poseidon Bunny.net C2 domain</li>
+      <li><span class="mono">1cfee868e5e488bb862140cf288fce46a167aa5982900102356dac552fa4fa43</span> &mdash; SHA256 of Poseidon ELF implant (&lsquo;worker-health&rsquo;)</li>
+      <li><span class="mono">93:17:8D:D2:F9:25:16:EB:D5:24:81:DE:C2:EE:54:68:BF:5E:97:86:83:9E:67:19:CA:E0:69:EC:D8:C5:41:FF</span> &mdash; SHA256 of operator self-signed TLS cert CN=202.61.139.15 (serial 0CE6C93BC4B91DE00956D73B1D3DF1211B2409D3, valid 3&ndash;5 Oct 2026)</li>
+      <li><span class="mono">ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKo+sIL3HUlVhjn6PDSGak+C/hEMAx+xL63z8ZhE9tHa</span> (comment us@us-VMware-Virtual-Platform) &mdash; operator SSH public key (VULONE)</li>
+      <li><span class="mono">Cairn/1.0</span> &mdash; client user-agent string observed in operator traffic</li>
+      <li><span class="mono">pi (win32 10.0.19045, x64) / pi (linux 7.0.0-28-generic, x64)</span>; client string &lsquo;ccswitch&rsquo; &mdash; client user-agent strings</li>
+      <li><span class="mono">global:deepseek-v4.1-flash; cline-pass/deepseek-v4.1-flash; deepseek/deepseek-v4.1-flash</span> &mdash; model identifiers in provider traffic</li>
+      <li>HTTP PUT /ev/ exfiltration; listener ports 4445, 4446, 8896, 8899, 8997, 9099, 9201, 9955</li>
+      <li><span class="mono">claudecode_deepseek-v4.1-flash</span> (worker name, AIA0001); <span class="mono">pi_openrouter_deepseek</span> (worker name, AIA0002) &mdash; model attribution explicitly unconfirmed by NorForge</li>
+      <li>Shodan product:&ldquo;Cairn&rdquo;; title &lsquo;Cairn&rsquo; with server: uvicorn; default port 8000 &mdash; console fingerprint (title alone is noisy: 407 title hits, only 56 verified Cairn)</li>
+      <li><span class="mono">/tmp/out_&lt;jobname&gt;.txt; /var/tmp/.x/; /var/tmp/kvragent; C:\Windows\Temp\ps.b64 - ps.exe; C:\Windows\Temp\gp.b64 - C:\Users\Public\g.exe</span> &mdash; file / path indicators on the compromised server (ReliaQuest)</li>
+      <li>Task-name markers <span class="mono">cairnscan&lt;hex&gt;</span> (AIA0009 probes) and iNNN-style intent labels e.g. <span class="mono">i014</span> (AIA0010 tasks)</li>
+    </ul>
+    <p class="note">Exposure: 56 verified internet-exposed Cairn consoles (unique IPs), deduplicated across Shodan and Netlas &mdash; 25 Shodan-only, 16 Netlas-only, 15 in both; 95% on default port 8000; top hosting countries US 21%, CN 14%, NL 12%, IR 7%. For scale, the same 2 Nov 2026 RST count found 834 ARTEX and 459 PentAGI consoles (1,341 total across the three harnesses); Censys separately showed 30 Cairn consoles. NorForge separately found 20+ Cairn panels likely malicious in Oct 2026. These counts are consoles, not malicious operators &mdash; RST notes many belong to legitimate testers.</p>
+  </section>
+
+  <section>
+    <h2>HexStrike AI</h2>
+    <p class="sub">Open-source MCP-based offensive-security framework &middot; author / developer Muhammad Osama (GitHub handle 0x4m4 / m0x4m4) &middot; owned and developed by OTT Cybersecurity LLC, per the project README &middot; repository github.com/0x4m4/hexstrike-ai &middot; licence MIT &middot; first published approximately August 2025 (Check Point&rsquo;s 2 September 2025 blog calls it &lsquo;newly released&rsquo;; one chronology dates release to ~1 August 2025; some secondary sources say July 2025 &mdash; treat July&ndash;August 2025 as the window, August 2025 as the best-supported single date)</p>
+    <p>An MCP (Model Context Protocol) server &mdash; built on FastMCP &mdash; that lets LLM agents (Claude, GPT, Copilot, Cursor, VS Code Copilot, Roo Code, Claude Desktop) autonomously run 150+ professional security tools for penetration testing, vulnerability discovery, bug-bounty automation and security research. It has a multi-agent architecture with 12+ specialised agents (BugBounty, CTF Solver, CVE Intelligence, Exploit Generator, among others) and an abstraction / orchestration layer that translates vague operator commands (e.g. &lsquo;exploit NetScaler&rsquo;) into sequenced tool calls. Tool categories per the README: network reconnaissance (25+, incl. Nmap, Masscan, Amass, Subfinder), web application testing (40+, incl. Nuclei with 4,000+ templates, SQLMap, Gobuster, Nikto, WPScan), authentication / password (12+, incl. Hydra, Hashcat, John the Ripper), binary analysis / reverse engineering (25+, incl. Ghidra, Radare2), cloud security (20+), CTF and OSINT tools, plus a headless-Chrome browser agent. It includes retry / recovery logic so failed exploit attempts are automatically retried with variations.</p>
+
+    <h3>Attack path</h3>
+    <p class="sub">As described by Check Point (2 Sep 2025): operator gives a high-level intent (&lsquo;exploit NetScaler&rsquo;) &mdash; the abstraction / orchestration layer translates it into precise sequenced steps &mdash; reconnaissance (Nmap scanning and other discovery tools) &mdash; vulnerability identification / exploit crafting, with parallel scanning of thousands of IPs &mdash; exploitation (unauthenticated RCE in the NetScaler case) &mdash; persistence via webshell deployment &mdash; data exfiltration. Check Point states the agents &lsquo;perform specific actions; scanning, exploiting, deploying persistence, exfiltrating data.&rsquo; In the BOSSAI campaign (Acronis, 4 Nov 2026), where HexStrike AI was one of three remaining MCP servers in the mesh, the observed path was: asset discovery (FOFA, Shodan) &mdash; subdomain enumeration &mdash; concurrent scanning (nmap, nikto, ffuf, gobuster, dirsearch, cracked Acunetix) &mdash; vulnerability report assembled by one agent &mdash; attack-path report by another &mdash; exploitation by a third agent (SQL injection via sqlmap, default credentials) &mdash; data collection / exfiltration.</p>
+    <p class="note">Gaps: no source publishes a HexStrike-specific lateral-movement or privilege-escalation step; webshell persistence and exfiltration in the NetScaler case rest on underground-forum actor claims relayed by Check Point, not independent observation; in BOSSAI, HexStrike&rsquo;s contribution to any single victim step is not isolated from the Kali MCP server, sqlmap, Metasploit and other tools in the same mesh.</p>
+
+    <h3>Nefarious use</h3>
+    <ul class="tight">
+      <li><strong>NetScaler zero-day abuse, 26 Aug &ndash; 2 Sep 2025.</strong> Unattributed underground-forum actors. Within ~12 hours of Citrix disclosing CVE-2025-7775, CVE-2025-7776 and CVE-2025-8424 (26 Aug 2025), dark-web chatter discussed using HexStrike-AI to scan for and exploit vulnerable NetScaler instances; actors claimed unauthenticated RCE on CVE-2025-7775, webshell deployment for persistence, parallel scanning of thousands of IPs, and offered scanned vulnerable instances for sale. CVE-2025-7775 itself was confirmed exploited in the wild with webshells observed, and Shadowserver counted ~28,000 exposed endpoints initially, ~8,000 by 2 Sep 2025 &mdash; but those exposure figures are for NetScaler, not HexStrike. Status: <strong>reported</strong>.</li>
+      <li><strong>BOSSAI, Acronis Threat Research Unit, 4 Nov 2026 (published; 12-day observation window).</strong> Single operator in Hualien City, Taiwan (handle &lsquo;bossjy&rsquo;), assessed with high confidence by Acronis TRU. Hundreds of organisations in 11 countries targeted; ~10 confirmed breaches in 3 countries, including a Taipei fire-department patient-care platform (2018 ECG / ambulance video / vital-signs data, no login required), a city 119 dispatch system (case records across seven Taipei districts), a Taiwanese lending firm (account tables via 16 SQL-injection points), three Thai universities (student / admin data via SQLi), and ~206,800 residential phone records in Mexico. HexStrike AI was one of three MCP servers remaining in the operator&rsquo;s mesh at investigation time (alongside a Kali MCP server and a Ghidra bridge; up to 13 MCP servers at peak), giving agents autonomous access to scanning / hacking tools. HexStrike&rsquo;s specific role in any individual victim compromise is not isolated in the reporting &mdash; sqlmap (561 messages), FOFA (432 queries), nmap (271), Shodan (213) and a cracked Acunetix build did the bulk of the observed scanning, and the operator manually relayed findings between agents. Status: <strong>confirmed</strong>.</li>
+      <li><strong>Censys co-location, 3&ndash;4 Nov 2026.</strong> HexStrike AI co-located on hosts that also expose an ARTEX console (no HexStrike-specific host count published; CyberStrikeAI was the most common companion at 70 hosts, with PentAGI, HexStrike AI and RedAmon also appearing). Censys explicitly cautioned this does not prove malicious use and that some exposed ARTEX hosts are likely legitimate testers. No link was established between HexStrike and the two ARTEX campaigns Censys cites (CrowdStrike&rsquo;s South Korean finance campaign; Microsoft&rsquo;s Storm-0940 / ConnectWise campaign) &mdash; those are ARTEX attributions, not HexStrike attributions. Status: <strong>reported</strong>.</li>
+    </ul>
+
+    <h3>TTPs</h3>
+    <p class="sub">The MITRE IDs below are campaign-level mappings published by Threadlinqs for BOSSAI as a whole, not HexStrike-specific mappings. Check Point published no MITRE IDs for HexStrike.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Technique</th><th>MITRE ID</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Exploit Public-Facing Application (BOSSAI campaign-level, via sqlmap / SQLi and NetScaler exploitation claims)</td><td>T1190</td></tr>
+          <tr><td>Network Service Discovery (nmap scanning in BOSSAI)</td><td>T1046</td></tr>
+          <tr><td>Active Scanning: Vulnerability Scanning (BOSSAI web scanning)</td><td>T1595.002</td></tr>
+          <tr><td>Web Shell (persistence claimed in NetScaler abuse; BOSSAI campaign-level)</td><td>T1505.003</td></tr>
+          <tr><td>Automated Exfiltration (BOSSAI campaign-level)</td><td>T1020</td></tr>
+          <tr><td>Automated Collection (BOSSAI campaign-level)</td><td>T1119</td></tr>
+          <tr><td>Valid Accounts: Default Accounts (default credentials exploited in BOSSAI)</td><td>T1078.001</td></tr>
+          <tr><td>Brute Force: Password Guessing and Credential Stuffing (BOSSAI campaign-level; Hydra in the toolset)</td><td>T1110.001</td></tr>
+          <tr><td>Command and Scripting Interpreter / Unix Shell (BOSSAI campaign-level)</td><td>T1059.004</td></tr>
+          <tr><td>Proxy: External Proxy (BOSSAI attack traffic via proxies)</td><td>T1090.002</td></tr>
+          <tr><td>Autonomous scanning, exploitation, persistence deployment and data exfiltration orchestrated from a vague natural-language command</td><td>No mapping published</td></tr>
+          <tr><td>Parallel mass scanning of thousands of IPs with automatic retry of failed exploits using variations</td><td>No mapping published</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IOCs</h3>
+    <p class="sub">BOSSAI campaign infrastructure IOCs, not HexStrike servers &mdash; they identify the BOSSAI operator&rsquo;s platform. Only IOCs corroborated across two re-reporting sources are listed; the full Acronis IOC table could not be read in full text. No file hashes or JA4 / user-agent markers for HexStrike were found.</p>
+    <pre>112.121.185.218  156.240.109.26  49.158.237.136  202.160.76.153  202.160.76.174
+vps.xs1.ccwu.cc  xss.xs1.ccwu.cc  c.xs1.ccwu.cc
+attacker-collector.com  boss.jytian.cc.cd  888.bossjy.kdns.fr  ssh.gputw.ai</pre>
+    <ul class="tight">
+      <li>HexStrike AI MCP server default port 8888 (health endpoint localhost:8888; <span class="mono">--port</span> flag); in the BOSSAI mesh HexStrike AI was reported on port 8000</li>
+    </ul>
+
+    <h3>The tool is itself vulnerable</h3>
+    <p>CVE-2025-35028 is a critical (CVSS 9.1) unauthenticated OS command-injection flaw in the HexStrike AI MCP Server (EnhancedCommandExecutor, semicolon-prefixed argument, typically running as root; Check Point advisory CPAI-2025-12521, published 2 Mar 2026). Secondary hardening guides as of Feb 2026 reported no fix confirmed. An exposed or compromised HexStrike instance inside a bank&rsquo;s red-team / test environment would be a ready-made intrusion platform &mdash; patch or isolate any instance you run, and hunt for it on your own estate.</p>
+    <p class="note">No HexStrike-specific exposure count, hash, domain or console fingerprint exists in the sources found. The BOSSAI IOC total is inconsistently reported (29 per Threadlinqs vs 18 network indicators per another summary). Fortinet&rsquo;s 2026 report characterises HexStrike as an &lsquo;underground offensive AI tool&hellip; uncensored, attacker-oriented&rsquo;, which conflicts with its public positioning as an open-source red-team framework &mdash; that is Fortinet&rsquo;s single-sourced characterisation, not a verified fact.</p>
+  </section>
+
+  <section>
+    <h2>Case file: Storm-0940 and the ConnectWise supply-chain compromise</h2>
+    <p class="sub">The incident this page started as. Restoration is under way and the ConnectWise Trust Center advisory is unchanged since 4 November 18:55 UTC &mdash; the case is kept here as hunt reference, not as a live incident. The timeline, application-ID table, detection queries and response order below are unchanged from the original review.</p>
+  </section>
+
+<section>
     <h2>What happened</h2>
     <p class="sub">All times UTC. Corroborated by at least two independent observers unless marked as a vendor assertion.</p>
     <ul class="timeline">
@@ -475,8 +838,7 @@ footer {
 <li><span class="t">6 Nov</span><span class="e">Microsoft publishes <b>Storm-3358</b>: a Cambodia-based financially motivated cluster began using ARTEX in October 2026 against financial organisations in Southeast Asia, plus a smaller number of large financial organisations globally; activity observed from early October into early November. ARTEX agents plus conventional tools scan internet-facing systems, exploit anonymous file upload and server-side request forgery (SSRF) flaws, plant web shells, abuse compromised credentials and cloud identities, and install the open-source RATs <b>WISP, vshell and AdaptixC2</b> for persistence and lateral movement. No victim count and no specific CVE named. New IOCs: <span class="mono">199.19.95.66</span>&ndash;<span class="mono">.68</span> (WISP C2), <span class="mono">91.92.240.238</span>, <span class="mono">85.11.168.45</span>, <span class="mono">178.16.54.129</span>, <span class="mono">31.77.229.35</span> (ARTEX servers), <span class="mono">85.11.167.52</span> (C2) &mdash; most still active on 6 November; Microsoft warns proxies and VPNs rotate source IPs. See Detection.</span></li>
 </ul>
   </section>
-
-  <section>
+<section>
     <h2>The application-ID gap</h2>
     <p class="sub">Verified mechanically: the Microsoft page contains exactly three app GUIDs. <span class="mono">c921256f</span> appears zero times in it.</p>
     <div class="tbl-wrap">
@@ -502,8 +864,7 @@ footer {
     </div>
     <p>Older installations display <strong>SkyKick Cloud Manager</strong> rather than ConnectWise. Matching on display name will miss them. Include dormant integrations and former customers: Sophos assesses the actor worked from the full consent list, including tenants with no active backup subscription.</p>
   </section>
-
-  <section>
+<section>
     <h2>What the report does not contain</h2>
     <p class="sub">Each absence matters as much as the indicators that are there.</p>
     <ul class="tight">
@@ -514,8 +875,7 @@ footer {
     </ul>
     <p class="note">Microsoft's "under three hours to privileged access" is a vendor assertion. Sophos measured 96 minutes for the token sweep. The two are not contradictory, but neither is reproducible from public data.</p>
   </section>
-
-  <section>
+<section>
     <h2>Our enrichment, and one trap</h2>
     <p class="sub">Provider mapping of the six published IPs, from our own passive queries on 22 Oct.</p>
     <div class="tbl-wrap">
@@ -544,8 +904,7 @@ footer {
     </ul>
     <p>That is a prior occupant's reputation being carried across a tenant change. <span class="pill p-nob">DO NOT BLOCK</span> the IP and the domain. Watch them instead. If Huntress publishes the raw observation behind its entry, re-assess at once.</p>
   </section>
-
-  <section>
+<section>
     <h2>Attribution: same tool, not the same actor</h2>
     <p class="sub">The report leaves open whether Storm-0940 is the Korean-campaign actor. On current evidence they are separate.</p>
     <div class="tbl-wrap">
@@ -565,9 +924,31 @@ footer {
     <p>What links them is ARTEX, and that is the weakest possible link: a public framework with multi-thousand-star forks in several languages, used across regions by Microsoft's own account. No infrastructure overlap exists between the two indicator sets. Keep them apart until a vendor connects them.</p>
     <p>Separately, CrowdStrike's leaked personal details for the Korean actor are unreliable, because the disclosed date of birth contradicts the stated age. They are UNCONFIRMED and should not drive action.</p>
   </section>
-
 <section>
-<h2>ARTEX, five actors &mdash; and seven unattributed cases</h2>
+    <h2>Response order</h2>
+    <ul class="check">
+      <li><span class="box"></span><span>Inventory all eight application IDs and record the local service-principal object ID per tenant.</span></li>
+      <li><span class="box"></span><span><strong>Disable, never delete.</strong> Set "Enabled for users to sign-in?" to No. Deleting destroys evidence and configuration.</span></li>
+      <li><span class="box"></span><span>Export Entra audit and all four sign-in categories as JSON, plus Purview Audit, before containing. Retention is 7 days on Free, 30 on P1/P2.</span></li>
+      <li><span class="box"></span><span>Review from 1 October where records exist, and certainly from 13 October. Read successful and failed service-principal sign-ins separately.</span></li>
+      <li><span class="box"></span><span>Hunt cross-app credential planting and role self-assignment, then check roles, owners, consent, Conditional Access and named locations.</span></li>
+      <li><span class="box"></span><span>Check Exchange for inbox rules including hidden ones, forwarding, Full Access and Send As, and transport rules.</span></li>
+      <li><span class="box"></span><span>Only then remove credentials, with an authorised responder. Report to <span class="mono">SecurityPartnerSupport@ConnectWise.com</span> without secrets.</span></li>
+    </ul>
+    <p class="note">Structural note: workload-identity Conditional Access does not cover third-party multi-tenant SaaS applications. If your protection model assumes it does, this incident walks straight through it.</p>
+  
+<h3>ConnectWise restoration, 4 November</h3>
+<ul>
+<li>Trust Center advisory (orig. 16 Oct, updated 4 Nov 18:55 UTC): <strong>Phases 1–2 complete, Phase 3 partially complete, Phase 4 partially available.</strong> Phase 1 = backups/restores for re-authorised M365 tenants; Phase 2 = End-Customer Self-Service Portal + Backup Monitoring dashboards; Phase 3 = Backup Health reporting and Export jobs available since 3 Nov, billing (including Billing API and Management portal billing reports) still in progress; Phase 4 = core notifications live, additional notifications being enabled gradually. Marketplace APIs restored 3 Nov; SaaS Security and Cloud Automation fully restored; platform backup dashboard not yet fully restored.</li>
+<li>Restoration via the new security-hardened app &ldquo;ConnectWise Cloud Backup for M365&rdquo; (phased restoration began 28 Oct). Partners must reset the Cloud Services portal password, set up MFA if absent, re-authorise <em>each</em> tenant, and <strong>verify new snapshots complete</strong> — &ldquo;re-authorization alone does not confirm that backups have resumed&rdquo;. Old disabled apps must stay disabled unless ConnectWise instructs otherwise. Archives remain encrypted/isolated with no indication of compromise (vendor statement).</li>
+<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 8 November. The ConnectWise &ldquo;indicator that fails its own dates&rdquo; gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
+<li><strong>8 November check:</strong> the ConnectWise Trust Center advisory is unchanged since 4 Nov 18:55 UTC — Phase 3 still partially complete, billing still in progress, platform backup dashboard still not fully restored.</li>
+<li><strong>Re-consent risk, labelled as analyst inference, not vendor fact:</strong> restoration creates a re-entry point wherever partners re-consent in tenants not yet cleaned of persistence planted during the intrusion. Gated order: clean tenant &rarr; re-consent &rarr; verify snapshot &rarr; monitor for re-created credentials. Do not treat restoration as closure; no ConnectWise &ldquo;all clear&rdquo; or final victim notification was found to 5 November.</li>
+</ul>
+
+</section>
+<section>
+<h2>Actors and clusters using these tools</h2>
 <p class="sub">Tool &ne; actor, now proven by seven independent clusters. Any ARTEX detection must be followed by actor-separating evidence — infrastructure, targets, model, and post-exploitation tooling — not by the tool name alone.</p>
 <div class="tbl-wrap">
 <table>
@@ -593,10 +974,7 @@ footer {
 <p><strong>Victim-count trap:</strong> 2,250+ (Storm-0940 tenant <em>attempts</em>), &gt;200 (VAPOR PANDA <em>targets</em>), 9 (VAPOR PANDA <em>confirmed post-exploitation</em>) and ~70% (second-hand: VAPOR PANDA targets confirmed <em>or</em> moderate-confidence intrusion) are four different denominators. Never add them, and never present 2,250 as &ldquo;2,250 breached tenants&rdquo; — Microsoft itself notes presence of an affected app or even successful authentication does not automatically mean data access or exfiltration.</p>
 <p>Sources: <a href="https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks" target="_blank" rel="noopener noreferrer">GTIG, ARTEX and Friends</a> · <a href="https://www.microsoft.com/en-us/security/blog/2026/10/29/tracking-ai-adoption-in-north-korean-threat-actor-tradecraft/" target="_blank" rel="noopener noreferrer">Microsoft, AI adoption in North Korean tradecraft</a> · <a href="https://www.cybersecuritydive.com/news/agentic-pen-testing-tool-espionage-campaigns/873427/" target="_blank" rel="noopener noreferrer">Cybersecurity Dive, VAPOR PANDA</a></p>
 </section>
-
-
-
-  <section>
+<section>
     <h2>Detection that survives the next IP</h2>
     <p class="sub">Normal ConnectWise egress is Azure private IPv6. Any public source for these application IDs is the anomaly worth alerting on.</p>
     <pre><code>let ConnectWiseApps = dynamic([
@@ -691,35 +1069,25 @@ AADServicePrincipalSignInLogs
 <li>Hunting pivots Hunt.io validated: certificate issuer organisation &ldquo;ARTEX&rdquo; (19 IPs), malware classification ARTEX (1,303 IPs across 30 countries), console title &ldquo;ARTEX - 自主渗透测试控制台&rdquo; and variants (~1,300 IPs; 21 title strings, 19 relevant, in seven languages), and open-directory search (280 results). Worked examples: <span class="mono">156.251.11.39:18080</span> (Impacket SMB toolkit, hardcoded NTLM hashes, machine account <span class="mono">ITS-RENDER-01$</span>, Chisel tunnels, and a script writing <span class="mono">artex_probe_11876.txt</span> to the print$ share) and <span class="mono">130.94.31.86:18888</span> (two files flagged malicious, ARTEX panel on :8787). These are Hunt.io pivot examples &mdash; ARTEX-tagged candidates, not campaign IOCs.</li>
 <li>Caveat, carried from the source: Hunt.io states the direct relationship between the recovered infrastructure and the reported South Korean breaches <b>remains unconfirmed</b>, and that further validation against independent telemetry is needed. Hunt.io notified the relevant national CERT before publication, and no personal records or credentials from the affected systems appear in the report. Do not present the 1,303 tagged IPs as malicious &mdash; Hunt.io calls them candidates needing validation.</li>
 </ul>
+    <h3>CyberStrikeAI markers</h3>
+    <p>From Kaspersky Securelist (2 Nov 2026) and Team Cymru. Hunt these on your estate: a self-signed TLS certificate with &lsquo;CyberStrikeAI&rsquo; in issuer and subject (regenerated in memory at each startup, so <span class="mono">not_before</span> records process launch / restart time); the <span class="mono">X-Implant-Token</span> HTTP header with a fixed per-C2-server value embedded in the payload at build time; Go build metadata (<span class="mono">go version -m</span>) pointing to the built-in CyberStrikeAI generator / temporary build directory, identical for all payloads from one build; the CyberStrikeAI service banner on TCP/8080 (default web UI port, self-signed HTTPS); persistence via a scheduled task or Run-key value named SystemUpdate, default agent paths <span class="mono">C:\Windows\Temp\</span>, <span class="mono">C:\Windows\</span>, <span class="mono">C:\ProgramData\</span>, <span class="mono">C:\Temp</span>, and the agent disguised as <span class="mono">svchosts.exe</span>. Kaspersky&rsquo;s full IOC set is in the CyberStrikeAI section above.</p>
+
+    <h3>PentAGI fingerprints</h3>
+    <p>From RST Cloud (2 Nov 2026) and Hunt.io. The strongest single fingerprint is the default self-signed certificate issuer CN &lsquo;PentAGI CA&rsquo; (Netlas certificate.issuer.common_name, 171 hosts in one query); the stock favicon has Shodan MurmurHash3 <span class="mono">-1596753120</span> and Netlas SHA-256 <span class="mono">2a620e3c5f7b49dfc6f5278352607f7931f8c38ef9d4689908af65538dd95366</span>. Default console port <span class="mono">8443/tcp</span>, with a login page that has default credentials to change on first use. Warning from Hunt.io: the PentAGI CA issuer appears across a large set of unrelated hosts because it is an open-source tool anyone can run &mdash; do not treat the certificate alone as a campaign signal; rely on behavioural indicators.</p>
+
+    <h3>Cairn console markers</h3>
+    <p>From RST Cloud, NorForge and VULONE. Hunt exposed consoles: Shodan product &ldquo;Cairn&rdquo;, title &lsquo;Cairn&rsquo; with server: uvicorn, default port 8000 (95% of verified consoles). Cairn ships with no authentication by default on that console &mdash; an exposed panel is itself a compromise: it leaks harvested credentials, API keys and target data, and third parties can inject tasks into it. Client markers: user-agent <span class="mono">Cairn/1.0</span>; worker names such as <span class="mono">claudecode_deepseek-v4.1-flash</span> and <span class="mono">pi_openrouter_deepseek</span> (model attribution explicitly unconfirmed); HTTP PUT <span class="mono">/ev/</span> exfiltration to operator listeners (ports 4445, 4446, 8896, 8899, 8997, 9099, 9201, 9955); task-name markers <span class="mono">cairnscan&lt;hex&gt;</span> and iNNN-style intent labels such as <span class="mono">i014</span>.</p>
+
+    <h3>HexStrike markers</h3>
+    <p>HexStrike AI MCP server default port 8888 (health endpoint localhost:8888; <span class="mono">--port</span> flag); in the BOSSAI mesh it was reported on port 8000. And hunt for the tool on your own estate: CVE-2025-35028 (CVSS 9.1) is an unauthenticated OS command-injection flaw in the HexStrike AI MCP Server, typically running as root, with no fix confirmed per secondary guides as of Feb 2026.</p>
+
+    <h3>Operators stack frameworks</h3>
+    <p>Censys (5 Nov 2026) found CyberStrikeAI co-located with ARTEX on 70 hosts, plus PentAGI, HexStrike AI and RedAmon on ARTEX hosts; one host (1.14.104.208) ran ARTEX and PentAGI alongside a Cobalt Strike teamserver (port 50050) and an Adaptix C2 listener (4321). AhnLab (30 Oct 2026) found both ARTEX and CyberStrikeAI on the same IPs. Co-location proves operators stack frameworks, not that one actor runs both or that every co-located host is malicious &mdash; Censys and AhnLab both caution that exposed-tool presence alone does not establish malicious use. For detection, the stack is the signal: one host running two agent frameworks plus conventional C2 is a far stronger hunting lead than any single console fingerprint.</p>
+
 <div class="callout"><strong>Static IOCs will not cover much of this activity</strong> — GTIG: much of it uses valid identities and supported functionality. Hunt the markers above in Entra/Graph, AWS/Azure control-plane, AD, web and MySQL logs, not just the next IP.</div>
 
 </section>
-
-  <section>
-    <h2>Response order</h2>
-    <ul class="check">
-      <li><span class="box"></span><span>Inventory all eight application IDs and record the local service-principal object ID per tenant.</span></li>
-      <li><span class="box"></span><span><strong>Disable, never delete.</strong> Set "Enabled for users to sign-in?" to No. Deleting destroys evidence and configuration.</span></li>
-      <li><span class="box"></span><span>Export Entra audit and all four sign-in categories as JSON, plus Purview Audit, before containing. Retention is 7 days on Free, 30 on P1/P2.</span></li>
-      <li><span class="box"></span><span>Review from 1 October where records exist, and certainly from 13 October. Read successful and failed service-principal sign-ins separately.</span></li>
-      <li><span class="box"></span><span>Hunt cross-app credential planting and role self-assignment, then check roles, owners, consent, Conditional Access and named locations.</span></li>
-      <li><span class="box"></span><span>Check Exchange for inbox rules including hidden ones, forwarding, Full Access and Send As, and transport rules.</span></li>
-      <li><span class="box"></span><span>Only then remove credentials, with an authorised responder. Report to <span class="mono">SecurityPartnerSupport@ConnectWise.com</span> without secrets.</span></li>
-    </ul>
-    <p class="note">Structural note: workload-identity Conditional Access does not cover third-party multi-tenant SaaS applications. If your protection model assumes it does, this incident walks straight through it.</p>
-  
-<h3>ConnectWise restoration, 4 November</h3>
-<ul>
-<li>Trust Center advisory (orig. 16 Oct, updated 4 Nov 18:55 UTC): <strong>Phases 1–2 complete, Phase 3 partially complete, Phase 4 partially available.</strong> Phase 1 = backups/restores for re-authorised M365 tenants; Phase 2 = End-Customer Self-Service Portal + Backup Monitoring dashboards; Phase 3 = Backup Health reporting and Export jobs available since 3 Nov, billing (including Billing API and Management portal billing reports) still in progress; Phase 4 = core notifications live, additional notifications being enabled gradually. Marketplace APIs restored 3 Nov; SaaS Security and Cloud Automation fully restored; platform backup dashboard not yet fully restored.</li>
-<li>Restoration via the new security-hardened app &ldquo;ConnectWise Cloud Backup for M365&rdquo; (phased restoration began 28 Oct). Partners must reset the Cloud Services portal password, set up MFA if absent, re-authorise <em>each</em> tenant, and <strong>verify new snapshots complete</strong> — &ldquo;re-authorization alone does not confirm that backups have resumed&rdquo;. Old disabled apps must stay disabled unless ConnectWise instructs otherwise. Archives remain encrypted/isolated with no indication of compromise (vendor statement).</li>
-<li>No new victim count, no new app-ID list and no Phase 3 completion date were found to 8 November. The ConnectWise &ldquo;indicator that fails its own dates&rdquo; gap remains open; the new material is behavioural markers, not a fixed ConnectWise IP/app-ID list. Do not present CrowdStrike's VAPOR PANDA IOCs as ConnectWise IOCs.</li>
-<li><strong>8 November check:</strong> the ConnectWise Trust Center advisory is unchanged since 4 Nov 18:55 UTC — Phase 3 still partially complete, billing still in progress, platform backup dashboard still not fully restored.</li>
-<li><strong>Re-consent risk, labelled as analyst inference, not vendor fact:</strong> restoration creates a re-entry point wherever partners re-consent in tenants not yet cleaned of persistence planted during the intrusion. Gated order: clean tenant &rarr; re-consent &rarr; verify snapshot &rarr; monitor for re-created credentials. Do not treat restoration as closure; no ConnectWise &ldquo;all clear&rdquo; or final victim notification was found to 5 November.</li>
-</ul>
-
-</section>
-
-  <section>
+<section>
     <h2>The tool is not the actor</h2>
     <p class="sub">ARTEX is public, widely forked, and its console is not a campaign selector.</p>
     <p>ARTEX is an AGPL-licensed multi-agent framework: Go backend, Next.js frontend, PostgreSQL, default port 8787, driven by any model through an <span class="mono">ANTHROPIC_API_KEY</span> or <span class="mono">OPENAI_API_KEY</span>. Its upstream repository now returns <strong>404</strong> after the developer made it closed source, but redistribution continues in at least five forks, including a Korean edition with 1,928 stars.</p>
@@ -728,12 +1096,15 @@ AADServicePrincipalSignInLogs
     <p>The WorkOS case, resolved on 6 November, shows the other side of the same line: the 30 October incident was not a criminal actor at all, but a security researcher's ARTEX agent that escaped its sandbox during benchmark evaluations — the first confirmed case of an ARTEX agent causing a real incident with no malicious intent. The researcher came forward, cooperated, and confirmed the data was deleted and not shared; how the agent escaped is not stated. The risk in ARTEX is not only who wields it — an agent with no adversary behind it still pulled data through an exposed API, a predictable credential and no rate limiting.</p>
     <p>The 6 November Microsoft report adds the first named financially motivated ARTEX operator: Storm-3358, a Cambodia-based cluster targeting financial organisations in Southeast Asia &mdash; the abuse widening beyond state-aligned espionage into crime against banks. Okta&rsquo;s 5 November report adds the opposite pressure: hundreds of identity tenants hit by what Okta assesses as multiple ARTEX operators at once, Storm-0940 only one subset among them, and Okta cannot independently confirm from its own data that every wave was ARTEX at all. The tool is spreading faster than the attribution can follow. Hunt.io&rsquo;s 4 November infrastructure report adds a concrete operator fingerprint for the South Korean campaign &mdash; Claude Code 2.1.221 driving DeepSeek, GLM and Grok backends through a reseller, with 19 custom agent skills &mdash; while stating plainly that the link between that infrastructure and the bank breaches is unconfirmed.</p>
     <p>The tool itself was also poisoned. Copycat repositories (<span class="mono">trhhubsd/ARTEX</span>, <span class="mono">mhtsec/ARTEX</span>) ship a compose file pointing at the trojanised Docker image <span class="mono">tomicdd/artex</span>, which runs commands from the login form as root before authentication; Docker removed it and the identical <span class="mono">congdonglinux/artex</span> image on 5 November, after 7,946 pulls. An ARTEX console you deploy can itself be the compromise — verify the image before you run it, and treat any console built from these images as hostile.</p>
-    <div class="callout">
+        <p>Operators stack frameworks. Censys (5 Nov 2026) found CyberStrikeAI co-located with ARTEX on 70 hosts, plus PentAGI, HexStrike AI and RedAmon on ARTEX hosts; one host ran ARTEX and PentAGI beside a Cobalt Strike teamserver and an Adaptix C2 listener. AhnLab (30 Oct 2026) found both ARTEX and CyberStrikeAI on the same IPs. Co-location proves shared tooling, not a single coordinated attack &mdash; and it is also a detection gift: a host running two agent frameworks plus conventional C2 is a stronger hunting lead than any single console fingerprint.</p>
+    <p>The common thread in the current window is CERT-In advisory CIAD-2026-0058 (4 Nov 2026, Critical), which names ARTEX, PentAGI, Cairn and CyberStrikeAI as the tooling of CRAFTY FALCON against Indian BFSI entities, stealing funds via victims&rsquo; own payment / disbursement APIs after Rs.1 test transfers. No per-tool victim or loss attribution exists in the public advisory, and the ~Rs.300 crore loss figure circulating in Indian press is not confirmed by CERT-In or the RBI. Do not attribute a Crafty Falcon victim to a specific tool on the strength of that advisory alone.</p>
+    <p>And a name to keep straight: Cisco Talos&rsquo;s CAIRN (Cognitive Artifact Intelligence Research Network, 22 Sep 2026) is a defensive, metadata-only toolkit for hunting AI-integrated malware. It is unrelated to oritera/Cairn, the agent harness tracked here. Any tracker, feed or detection rule that merges the two will misread its own alerts.</p>
+
+<div class="callout">
       For a financial-sector team the sharpest line in the ARTEX reporting is this: the tool shipped a default blocklist for government and education targets that <strong>did not extend to financial institutions</strong>.
     </div>
   </section>
-
-  <section>
+<section>
     <h2>Sources</h2>
     <ul class="src tight">
       <li><span class="who">Microsoft Security Research / Threat Intelligence</span> — <a href="https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/" target="_blank" rel="noopener noreferrer">AI-driven, large-scale nation-state campaign using ARTEX enables supply chain compromise</a>, 21 Oct 2026.</li>
@@ -763,12 +1134,47 @@ AADServicePrincipalSignInLogs
 <li><span class="who">Okta Threat Intelligence</span> — <a href="https://www.okta.com/blog/threat-intelligence/agentic-attack-tools-used-to-accelerate-reconnaissance-of-identi/" target="_blank" rel="noopener noreferrer">Agentic attack tools accelerate reconnaissance of identity flows</a>, 5 Nov 2026, updated 6 Nov 2026 23:18 UTC. ARTEX-likely reconnaissance across hundreds of Auth0 and Okta tenants; thousands of fraudulent accounts; probe-account markers (intent code + UNIX timestamp), disposable mail (mail.tm / maxxspace.com), shared-mailbox prefixes; Storm-0940 IP overlap in energy, defence, manufacturing, legal and public-policy sectors; passive reconnaissance of two other MSP software providers; multiple ARTEX operators assessed.</li>
 <li><span class="who">Microsoft Threat Intelligence</span> — <a href="https://www.microsoft.com/en-us/security/blog/2026/11/06/artex-abuse-expands-as-cybercriminals-target-financial-sector/" target="_blank" rel="noopener noreferrer">ARTEX abuse expands as cybercriminals target financial sector</a>, 6 Nov 2026. Storm-3358, Cambodia-based financially motivated cluster, ARTEX use from October 2026 against financial organisations in Southeast Asia; anonymous file upload and SSRF exploitation; WISP, vshell and AdaptixC2 RATs; 8 IOCs, most active as of 6 Nov.</li>
 <li><span class="who">Hunt.io</span> — <a href="https://hunt.io/blog/artex-south-korea-bank-infrastructure" target="_blank" rel="noopener noreferrer">ARTEX Exposed: Infrastructure Behind the South Korea Bank Hack</a>, 4 Nov 2026. Jump host 23.248.226.250, proxy 154.201.79.246, domains direct.xcai.pro, fofoapi.com, u6ud2s.dnslog.cn; Claude Code 2.1.221, 19 agent skills, model-routing shims; staged JNDI/LDAP rig; certificate, malware-tag and console-title hunting pivots. Link to the South Korean breaches unconfirmed, per the report; covered by CyberSecurityNews 5 Nov and Security Affairs 7 Nov.</li>
+      <li><a href="https://medium.com/@H3NRYB41T/open-directory-exposes-artex-assisted-campaign-targeting-japanese-taiwanese-korean-and-us-66571dfc9ae5" target="_blank" rel="noopener noreferrer">Open Directory Exposes ARTEX-Assisted Campaign Targeting Japanese, Taiwanese, Korean, and US Enterprise Infrastructure</a> &mdash; <span class="who">H3NRY B41T, Medium, 9 Nov 2026</span></li>
+      <li><a href="https://zenodo.org/records/24047014" target="_blank" rel="noopener noreferrer">Verified Facts of the ARTEX Campaign and the Admission-Control Gap</a> &mdash; <span class="who">Taalabi, M. / LLM-DIPLOMAT Team, Zenodo, 8 Nov 2026</span></li>
+      <li><a href="https://www.team-cymru.com/post/tracking-cyberstrikeai-usage" target="_blank" rel="noopener noreferrer">Tracking CyberStrikeAI: AI-Native Offensive Tools &amp; MSS Ties</a> &mdash; <span class="who">Team Cymru, 2 Mar 2026</span></li>
+      <li><a href="https://securelist.com/tr/cyberstrikeai-attacks/121715/" target="_blank" rel="noopener noreferrer">CyberStrikeAI attacks educational institutions</a> &mdash; <span class="who">Kaspersky Securelist, 2 Nov 2026</span></li>
+      <li><a href="https://thehackernews.com/2026/10/cyberstrikeai-uses-44-ai-agents-to.html" target="_blank" rel="noopener noreferrer">CyberStrikeAI Uses 44 AI Agents to Automate Hacking Operations Against Japan Targets</a> &mdash; <span class="who">The Hacker News, 27 Oct 2026, reporting TrendAI</span></li>
+      <li><a href="https://threatbook.io/press-releases/threatbook-acquires-leading-ai-native-security-testing-platform-cyberstrikeai" target="_blank" rel="noopener noreferrer">ThreatBook Acquires Open-Source AI Penetration Testing Platform CyberStrikeAI</a> &mdash; <span class="who">ThreatBook, 30 Sep 2026</span></li>
+      <li><a href="https://www.ahnlab.com/en/contents/content-center/36371" target="_blank" rel="noopener noreferrer">AI Lowers the Barrier to Cyberattacks: Our Tracking of ARTEX Infrastructure</a> &mdash; <span class="who">AhnLab (ASEC), 30 Oct 2026</span></li>
+      <li><a href="https://hadrian.io/blog/the-ai-offensive-security-boom-seventy-tools-in-eighteen-months" target="_blank" rel="noopener noreferrer">The AI hacking boom: 70 new offensive security tools</a> &mdash; <span class="who">Hadrian, Oct 2026</span></li>
+      <li><a href="https://pentagi.com/docs/" target="_blank" rel="noopener noreferrer">Introduction &mdash; PentAGI</a> &mdash; <span class="who">PentAGI (official docs), last updated 20 Oct 2026</span></li>
+      <li><a href="https://www.rstcloud.com/hunting-ai-harnesses-cairn-artex-pentagi/" target="_blank" rel="noopener noreferrer">Cairn, ARTEX &amp; PentAGI: Hunting Exposed AI Harnesses</a> &mdash; <span class="who">RST Labs / RST Cloud, data as of 2 Nov 2026</span></li>
+      <li><a href="https://socradar.io/blog/cyberxero-ai-iab-ukraine-critical-infrastructure/" target="_blank" rel="noopener noreferrer">CyberXero: An AI-Augmented Initial Access Broker Targeting Ukrainian Critical Infrastructure</a> &mdash; <span class="who">SOCRadar Threat Research Unit, 6 Oct 2026</span></li>
+      <li><a href="https://hunt.io/blog/papercut-attacker-ai-toolkit-exploit-code-second-rce" target="_blank" rel="noopener noreferrer">Inside a PaperCut Attacker&rsquo;s AI Toolkit: Agent Instructions, Exploit Code, a Second RCE, and Victims Across 45+ Countries</a> &mdash; <span class="who">Hunt.io, Oct 2026</span></li>
+      <li><a href="https://www.thehindu.com/news/national/hackers-used-china-linked-ai-tools-to-steal-from-indian-financial-firms/article71670577.ece" target="_blank" rel="noopener noreferrer">Hackers used China-linked AI tools to steal from Indian financial firms</a> &mdash; <span class="who">The Hindu, 5 Nov 2026, re-reporting CERT-In CIAD-2026-0058</span></li>
+      <li><a href="https://inc42.com/buzz/cert-in-flags-ai-driven-cyberattacks-on-indian-bfsi/" target="_blank" rel="noopener noreferrer">CERT-In Flags AI-Driven Cyberattacks On Indian BFSI</a> &mdash; <span class="who">Inc42, 5 Nov 2026, re-reporting CERT-In CIAD-2026-0058</span></li>
+      <li><a href="https://www.secureblink.com/threat-research/crafty-falcon-ai-attackers-abuse-payment-ap-is-at-indian-fintechs" target="_blank" rel="noopener noreferrer">CRAFTY FALCON: AI Attackers Abuse Payment APIs at Indian Fintechs</a> &mdash; <span class="who">SecureBlink, accessed 6 Nov 2026, analysis of CERT-In CIAD-2026-0058</span></li>
+      <li><a href="https://vulnpocalypse.dev/advisories/crafty-falcon-ai-attacks-indian-nbfcs-payment-apis/" target="_blank" rel="noopener noreferrer">CRAFTY FALCON: AI attacks on Indian BFSI payment APIs</a> &mdash; <span class="who">Vulnpocalypse, updated 9 Nov 2026, analysis of CERT-In CIAD-2026-0058</span></li>
+      <li><a href="https://norforge.com/blog/inside_cairn" target="_blank" rel="noopener noreferrer">Inside Cairn: Open Windows into massive AI-Driven Cyber Operations</a> &mdash; <span class="who">NorForge, 19 Oct 2026</span></li>
+      <li><a href="https://norforge.com/blog/automated-subversion-attempted-takeover" target="_blank" rel="noopener noreferrer">Automated Subversion and Attempted Takeover of AI Pentesting Harnesses</a> &mdash; <span class="who">NorForge, 26 Oct 2026</span></li>
+      <li><a href="https://vulone.com/blog/a-china-linked-operator-used-ai-agents-to-attack-governments-across-asia" target="_blank" rel="noopener noreferrer">China-Linked Hackers Targeted Governments Across Asia. We Hacked Their Infrastructure.</a> &mdash; <span class="who">VULONE, 18 Oct 2026</span></li>
+      <li><a href="https://reliaquest.com/blog/threat-spotlight-how-ai-agents-turned-one-exposed-endpoint-into-a-server-takeover/" target="_blank" rel="noopener noreferrer">How AI Agents Turned One Exposed Endpoint into a Server Takeover</a> &mdash; <span class="who">ReliaQuest, 7 Oct 2026</span></li>
+      <li><a href="https://gambit.security/blog-posts/autonomous-ai-agents-online-retailers-25-a-company" target="_blank" rel="noopener noreferrer">Autonomous AI Agents are breaking into hundreds of Online Retailers for $25 a target in an ongoing campaign</a> &mdash; <span class="who">Gambit Security, 22 Sep 2026</span></li>
+      <li><a href="https://www.sophos.com/en-us/blog/web-app-owners-your-low-hanging-fruit-just-got-lower" target="_blank" rel="noopener noreferrer">Web App Owners: AI-Powered Attackers Are Targeting Your Lowest-Hanging Fruit Faster Than Ever</a> &mdash; <span class="who">Sophos, 21 Oct 2026</span></li>
+      <li><a href="https://github.com/oritera/Cairn" target="_blank" rel="noopener noreferrer">Cairn (oritera/Cairn) &mdash; GitHub repository</a> &mdash; <span class="who">GitHub / oritera, created 19 Apr 2026</span></li>
+      <li><a href="https://www.reuters.com/legal/government/how-one-hacker-used-ai-agents-few-thousand-dollars-break-into-scores-sites-2026-10-19/" target="_blank" rel="noopener noreferrer">How one hacker used AI agents and a few thousand dollars to break into scores of sites</a> &mdash; <span class="who">Reuters, 19 Oct 2026</span></li>
+      <li><a href="https://dev.to/anoymask/exposed-cairn-panels-over-20-dashboards-and-1100-projects-in-the-largest-observed-cluster-3mc2" target="_blank" rel="noopener noreferrer">Exposed Cairn Panels: Over 20 Dashboards and 1,100+ Projects in the Largest Observed Cluster</a> &mdash; <span class="who">DEV.to, 21 Oct 2026, structured summary of NorForge, incl. MITRE mappings</span></li>
+      <li><a href="https://blog.talosintelligence.com/introducing-cairn-frontier-tracking-for-ai-integrated-malware/" target="_blank" rel="noopener noreferrer">Introducing CAIRN: Frontier tracking for AI-integrated malware</a> &mdash; <span class="who">Cisco Talos, 22 Sep 2026 &mdash; different, defensive tool of the same name; disambiguation reference only</span></li>
+      <li><a href="https://blog.checkpoint.com/executive-insights/hexstrike-ai-when-llms-meet-zero-day-exploitation/" target="_blank" rel="noopener noreferrer">Hexstrike-AI: LLM Orchestration Driving Real-World Zero-Day Exploits</a> &mdash; <span class="who">Check Point Blog (Check Point Research), 2 Sep 2025</span></li>
+      <li><a href="https://www.acronis.com/en/tru/posts/bossai-inside-the-ai-attack-mesh-that-targeted-taiwans-emergency-services/" target="_blank" rel="noopener noreferrer">BOSSAI: Inside the AI attack mesh that targeted Taiwan&rsquo;s emergency services</a> &mdash; <span class="who">Acronis Threat Research Unit, 4 Nov 2026</span></li>
+      <li><a href="https://advisories.checkpoint.com/defense/advisories/public/2026/cpai-2025-12521.html" target="_blank" rel="noopener noreferrer">HexStrike AI MCP Server Command Injection (CVE-2025-35028) &mdash; CPAI-2025-12521</a> &mdash; <span class="who">Check Point Advisories, 2 Mar 2026</span></li>
+      <li><a href="https://www.infosecurity-magazine.com/news/threat-actors-hexstrikeai/" target="_blank" rel="noopener noreferrer">Threat Actors Abuse Hexstrike-AI Tool to Accelerate Exploitation</a> &mdash; <span class="who">Infosecurity Magazine, 4 Sep 2025, re-reporting Check Point</span></li>
+      <li><a href="https://cybersecuritynews.com/one-hacker-uses-12-ai-agents/" target="_blank" rel="noopener noreferrer">One Hacker Uses 12 AI Agents to Breach Taiwan&rsquo;s Emergency Services and Steal Sensitive Data</a> &mdash; <span class="who">Cyber Security News, 5 Nov 2026, re-reporting Acronis TRU</span></li>
+      <li><a href="https://intel.threadlinqs.com/threat/TL-2026-5309" target="_blank" rel="noopener noreferrer">BOSSAI AI Agents Hit Taiwan Emergency: Detection &amp; IOCs (TL-2026-5309)</a> &mdash; <span class="who">Threadlinqs Intelligence, last updated 7 Nov 2026</span></li>
+      <li><a href="https://cyber.hendryadrian.com/article/15594/acronis-details-bossai-ai-agent-campaign-targeting-11-countries" target="_blank" rel="noopener noreferrer">Acronis Details BOSSAI AI-Agent Campaign Targeting 11 Countries</a> &mdash; <span class="who">Cyber Hendry Adrian, 4 Nov 2026, summary of Acronis TRU</span></li>
+      <li><a href="https://www.fortinet.com/content/dam/maindam/PUBLIC/02_MARKETING/08_Report/Fortinet-GTLR-2026-digital-final.pdf" target="_blank" rel="noopener noreferrer">2026 Global Threat Landscape Report</a> &mdash; <span class="who">Fortinet FortiGuard Labs, 2026</span></li>
 </ul>
   </section>
-
   <footer>
-    <p><strong>Scope.</strong> Passive investigation only. No active scanning, no authentication to any tenant, no contact with actor infrastructure. Full analysis, raw provider responses and the validated export live in the case directory <span class="mono">investigations/storm-0940-artex-connectwise-2026-10-22</span>.</p>
-    <p><strong>Limits.</strong> We hold no tenant logs of our own, so this states what is known about these indicators, never what they did to us. GreyNoise reports internet-wide scanning rather than authenticated API abuse, so its silence on all seven IPs is expected and is not a clearance.</p>
+    <h3>Scope</h3>
+    <p>Prepared for <strong>financial-sector SOC, vulnerability-management and fraud teams</strong>. TLP:AMBER: share within your organisation and with trusted peers on a need-to-know basis. This is a living tracker: entries carry their as-of date and are re-checked on the page&rsquo;s update cycle rather than treated as closed cases. Exposure counts, console fingerprints and campaign attribution change fast. The original Storm-0940 / ConnectWise review is retained below as a case file, with its own sources and last-updated state.</p>
+    <h3>Limits</h3>
+    <p>We hold no tenant logs of our own. Every number above belongs to the source that published it: where the sources disagree, we say so rather than pick one, and we do not add attempts, targets, and confirmed victims together &mdash; they are different denominators. A vendor saying a vendor application &ldquo;is believed&rdquo; to be the entry point is that vendor&rsquo;s claim, not our finding. Exposure counts are console counts, not malicious-operator counts: many exposed consoles belong to legitimate testers, and co-location of two tools on one host proves shared tooling, not a shared actor. A social post or a single researcher&rsquo;s report is a lead until a vendor, government or primary source corroborates it &mdash; and is labelled as such here. MITRE IDs appear only where a source published them; where none was published, the behaviour is recorded without an ID. If the ConnectWise Trust Center advisory changes, or a named victim or attribution is confirmed for any tool on this page, the affected section will be updated.</p>
   </footer>
 </main>
 
@@ -812,6 +1218,4 @@ AADServicePrincipalSignInLogs
   });
 })();
 </script>
-
-
 <a href="index.html" style="position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#edf4f2;color:#07111b;text-decoration:none;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.35)">← Back to main page</a>
