@@ -87,6 +87,20 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "A financial regulator confirming exposure of platform users' tax IDs and contact details is a direct identity-fraud enabler: names, mobile numbers, birth dates, addresses and TINs can be used for impersonation and phishing against investors and corporate filers. Peer regulators and firms running investor or filing portals should warn users to change reused passwords, enable multi-factor authentication and treat any message citing their SEC account details as suspect, and should check whether their own user data sits in similarly exposed portal datasets.",
+      "headline": "Philippine SEC confirms breach of platform users; names, contact details and tax IDs exposed",
+      "id": "entry-sec-philippines-20261109",
+      "known": "The Philippine Securities and Exchange Commission confirmed on 9 November 2026 that personal information belonging to users of its online platforms was exposed, and sent direct notifications to affected account holders the same day. The exposed data is limited to full names, usernames, email addresses, mobile numbers, dates of birth, genders, physical addresses and Tax Identification Numbers (TINs). The SEC said the leak may have originated from malware infections or unauthorised third-party access targeting the devices users used to log into its portals, and said passwords stored in its databases were not leaked, corporate filings were unaffected and no system data was altered or destroyed. The SEC reported the incident to the National Privacy Commission and advised users to change passwords reused elsewhere, enable multi-factor authentication and scan their devices. The confirmation followed a preliminary advisory on 7 November, after the SEC became aware on 6 November of online reports alleging a database linked to the agency had leaked; cybersecurity advocacy group Deep Web Konek had flagged a possible breach of SEC-related accounts days before the 9 November advisory.",
+      "severity": "watch",
+      "source_name": "BitPinas, 9 November 2026; SEC Philippines advisory on X, 9 November 2026",
+      "source_url": "https://bitpinas.com/business/sec-confirms-data-breach/",
+      "status": "confirmed",
+      "summary": "The Philippine Securities and Exchange Commission confirmed on 9 November 2026 that personal information of users of its online platforms - names, usernames, email addresses, mobile numbers, dates of birth, genders, addresses and Tax Identification Numbers - was exposed, and notified affected account holders directly. The SEC said the leak may have come from malware or third-party access on users' own devices, that no passwords in its databases leaked, and that corporate filings were unaffected. The number of affected users has not been disclosed.",
+      "timestamp_sgt": "2026-11-09T11:46:00+08:00",
+      "type": "Confirmed breach - financial regulator / platform users",
+      "unknown": "How many users are affected has not been disclosed. The SEC has not said how it determined the likely origin was users' devices, and the investigation is still verifying the origin, scope and validity of the dataset. Whether any exposed data has been misused has not been reported."
+    },
+    {
       "bfsi_impact": "Small credit unions are a soft target for ransomware groups: the exposed Social Security numbers, government IDs and account and card numbers are directly usable for identity theft and account fraud. Peer credit unions should check their own exposure to the Storm group's claimed access pattern and warn affected members to watch for identity fraud. The 656 figure covers Texas residents only; the total affected population has not been stated.",
       "headline": "Insight Credit Union discloses breach affecting 656 Texans after Storm ransomware group claimed attack",
       "id": "entry-insight-credit-union-20261109",
@@ -283,8 +297,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-10T00:00:00+08:00",
-  "next_check_sgt": "2026-11-10T04:00:00+08:00",
-  "updated_sgt": "2026-11-10T00:00:00+08:00",
+  "last_checked_sgt": "2026-11-10T04:00:00+08:00",
+  "next_check_sgt": "2026-11-10T08:00:00+08:00",
+  "updated_sgt": "2026-11-10T04:00:00+08:00",
   "version": 1
 }
