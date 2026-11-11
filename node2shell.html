@@ -189,6 +189,43 @@ footer p { font-size:13px; color:var(--muted); }
 
 
 <section>
+<h2>Update &mdash; 11 November: Apple patches CVE-2026-111497 &mdash; iOS, iPadOS and macOS</h2>
+<p class="sub">Apple released iOS 27.2.1 and iPadOS 27.2.1 and macOS Golden Gate 27.2.1 on Monday 9 November, and each advisory lists CVE-2026-111497 &mdash; &ldquo;Processing maliciously crafted input may lead to memory corruption&rdquo;, fixed with improved input validation. The iOS release covers iPhone 11 and later and the listed iPad models. Apple does not flag the CVE &mdash; or any of the nine entries in the iOS release &mdash; as exploited. This is a new fixed product family for the same CVE: the page&rsquo;s vendor-remediation record (Node.js, .NET, Python, Bun, PHP for Windows, Cisco, Splunk) now extends to Apple devices. The releases are dated 9 November and were missed by the 10 and 11 November morning checks; they are recorded here with their true date. The 11 November Node.js security releases still have not landed &mdash; the pre-alert is unchanged, with no CVE IDs, components or fixed versions published.</p>
+<div class="callout warn">
+<span class="k">One CVE among nine &mdash; and no exploitation flag</span>
+<p>Apple&rsquo;s iOS 27.2.1 advisory lists CVE-2026-111497 alongside eight other fixes; none of the nine is flagged as exploited. Do not read the patch as evidence of in-the-wild exploitation on Apple devices. Apple&rsquo;s advisory names the CVE and the impact; it does not say which component carries the decoder or how it is reached on the device &mdash; treat the listing as a patch confirmation, not an exposure assessment.</p>
+<p class="cite">Sources: <a href="https://support.apple.com/en-us/149715" target="_blank" rel="noopener noreferrer">Apple, About the security content of iOS 27.2.1 and iPadOS 27.2.1, 9 Nov 2026</a> &middot; <a href="https://support.apple.com/en-us/149718" target="_blank" rel="noopener noreferrer">Apple, About the security content of macOS Golden Gate 27.2.1, 9 Nov 2026</a> &middot; <a href="https://nodejs.org/en/blog/vulnerability/november-2026-security-releases" target="_blank" rel="noopener noreferrer">Node.js, November 2026 security releases pre-alert, unchanged to 11 Nov</a></p>
+</div>
+<h3>Evidence ladder</h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Evidence</th><th>Status to 11 Nov</th></tr></thead>
+<tbody>
+<tr><td>Apple iOS / iPadOS 27.2.1 (9 Nov)</td><td>CVE-2026-111497 listed: out-of-bounds write, fixed with improved input validation. iPhone 11 and later, listed iPad models. Not flagged as exploited.</td></tr>
+<tr><td>Apple macOS Golden Gate 27.2.1 (9 Nov)</td><td>Same CVE-2026-111497 listing, same impact and fix wording. Not flagged as exploited.</td></tr>
+<tr><td>November security release pre-alert</td><td>Unchanged to 11 Nov &mdash; releases for 26.x, 24.x and 22.x due &ldquo;on or shortly after&rdquo; Wednesday 11 November; still no CVE IDs, components or fixed versions published.</td></tr>
+<tr><td>Cisco advisory v1.11 (10 Nov)</td><td>No newer version in the window &mdash; 32 products with named fixed releases, unchanged.</td></tr>
+<tr><td>Splunk advisory SVD-2026-1015</td><td>No new revision in the window &mdash; last update 9 Nov, documentation-only.</td></tr>
+<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 11 November.</strong> This row is empty on purpose &mdash; do not add attempts + KEV into a victim count.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What is known, and what is not</h3>
+<div class="figures">
+<div class="fig"><span class="n">2</span><span class="d">Apple advisories verified (iOS/iPadOS, macOS)</span></div>
+<div class="fig"><span class="n">9 Nov</span><span class="d">Apple release date</span></div>
+<div class="fig"><span class="n">0</span><span class="d">CVEs in the iOS release flagged exploited</span></div>
+<div class="fig"><span class="n">11 Nov</span><span class="d">Node.js security releases due; not yet published</span></div>
+</div>
+<ul>
+<li><strong>The fix reaches consumer devices, not just servers.</strong> Brotli now has a named patch on Apple&rsquo;s current iOS, iPadOS and macOS lines &mdash; the first consumer-OS family in this page&rsquo;s vendor-remediation record. BFSI mobile fleets on iPhone, iPad and Mac are covered by the 9 November releases; update rather than assess.</li>
+<li><strong>Gap: Apple&rsquo;s older-branch releases are unverified for this CVE.</strong> Apple shipped same-day releases for its older branches &mdash; iOS/iPadOS 26.7.3 and 18.7.12, macOS Tahoe 26.7.3 and Sequoia 15.8.3, watchOS 27.2.1 and 26.6.1, visionOS 27.2.1 (Apple&rsquo;s security-releases list, 9 Nov) &mdash; but whether each advisory lists CVE-2026-111497 was not verified in this check. Do not cite the older-branch releases as patched for this CVE until their advisories are read.</li>
+<li><strong>No new exploitation evidence in the window.</strong> No new attempt, victim or IOC set was published to 11 November; the single observed attempt (26 October) remains the only one. Apple flags no CVE in the 9 November releases as exploited, and the KEV remediation date for CVE-2026-111497 passed on 10 November with no new development attached to it.</li>
+</ul>
+<p class="cite">Sources: <a href="https://support.apple.com/en-us/149715" target="_blank" rel="noopener noreferrer">Apple, About the security content of iOS 27.2.1 and iPadOS 27.2.1, 9 Nov 2026</a> &middot; <a href="https://support.apple.com/en-us/149718" target="_blank" rel="noopener noreferrer">Apple, About the security content of macOS Golden Gate 27.2.1, 9 Nov 2026</a> &middot; <a href="https://support.apple.com/en-us/100100" target="_blank" rel="noopener noreferrer">Apple, Apple security releases (9 Nov 2026 releases)</a></p>
+</section>
+
+<section>
 <h2>Update &mdash; 11 November: Cisco moves to v1.11 &mdash; 32 products with named fixes</h2>
 <p class="sub">Cisco updated its Node.js advisory to v1.11 on Tuesday 10 November (21:02 UTC): 32 products now carry named fixed releases (was 28 at v1.9 on 9 November), and the six priority products &mdash; Catalyst SD-WAN, IOS XE, IOS XR, Secure Firewall ASA, FMC and FTD &mdash; remain confirmed not impacted, with ISE still under investigation. Splunk&rsquo;s advisory SVD-2026-1015 has no new revision in the window. The 11 November Node.js security releases have not landed yet &mdash; the pre-alert is unchanged, with no CVE IDs, components or fixed versions published &mdash; and the KEV remediation date for CVE-2026-111497 passed on 10 November with no new development attached to it.</p>
 <div class="callout warn">
@@ -911,6 +948,9 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
   <ul class="src">
     <li><strong>Cisco</strong> &mdash; <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Vulnerabilities in Node.js and Brotli Affecting Cisco Products</a>, v1.11, 10 Nov 2026: 32 products with named fixed releases (was 28); six priority products confirmed not impacted; ISE still under investigation; PSIRT aware of no malicious use of these vulnerabilities against any Cisco product. Which four products v1.11 added could not be pinned down from available snapshots. Primary.</li>
     <li><strong>Node.js</strong> &mdash; <a href="https://nodejs.org/en/blog/vulnerability/november-2026-security-releases" target="_blank" rel="noopener noreferrer">November 2026 security releases</a>, pre-alert unchanged to 11 Nov 2026: releases for 26.x, 24.x and 22.x due &ldquo;on or shortly after&rdquo; 11 November; no CVE IDs, components or fixed versions published yet. Primary.</li>
+    <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149715" target="_blank" rel="noopener noreferrer">About the security content of iOS 27.2.1 and iPadOS 27.2.1</a>, released 9 Nov 2026: CVE-2026-111497 listed &mdash; out-of-bounds write, &ldquo;Processing maliciously crafted input may lead to memory corruption&rdquo;, fixed with improved input validation; iPhone 11 and later, listed iPad models; not flagged as exploited. Primary.</li>
+    <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149718" target="_blank" rel="noopener noreferrer">About the security content of macOS Golden Gate 27.2.1</a>, released 9 Nov 2026: same CVE-2026-111497 listing; not flagged as exploited. Primary.</li>
+    <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/100100" target="_blank" rel="noopener noreferrer">Apple security releases</a>: same-day 9 Nov 2026 releases for older branches (iOS/iPadOS 26.7.3 and 18.7.12, macOS Tahoe 26.7.3 and Sequoia 15.8.3, watchOS 27.2.1 and 26.6.1, visionOS 27.2.1); per-release CVE listings not individually verified. Primary for release existence and dates.</li>
   </ul>
 </section>
 
