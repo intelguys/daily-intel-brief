@@ -353,8 +353,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-11T20:00:00+08:00",
-  "next_check_sgt": "2026-11-12T00:00:00+08:00",
-  "updated_sgt": "2026-11-11T20:00:00+08:00",
+  "last_checked_sgt": "2026-11-12T00:00:00+08:00",
+  "next_check_sgt": "2026-11-12T04:00:00+08:00",
+  "updated_sgt": "2026-11-12T00:00:00+08:00",
   "version": 1
 }
