@@ -189,6 +189,44 @@ footer p { font-size:13px; color:var(--muted); }
 
 
 <section>
+<h2>Update &mdash; 12 November (evening): CVSS scores publish for all seven Highs &mdash; 8.2 at the top</h2>
+<p class="sub">The CVE records for the 11 November batch now carry CNA scores: all seven High CVEs have CVSS 3.0 base scores from the OpenJS Foundation CNA, published to NVD on 11 November. The highest is CVE-2026-123863 at 8.2; CVE-2026-123864 and CVE-2026-123872 score 8.1; CVE-2026-123865, CVE-2026-123866, CVE-2026-123874 and CVE-2026-126051 score 7.5. Node.js itself still publishes no scores &mdash; the advisory carries severity words only &mdash; and NVD has not yet provided its own assessments. The six Medium and three Low CVEs have no score verified in this check. This supersedes the 12 November section&rsquo;s &ldquo;no CVSS scores published yet&rdquo;; the patching advice is unchanged, and the advisory still carries no exploitation statement, with no PoC or KEV listing found for the batch in this check.</p>
+<div class="callout warn">
+<span class="k">Scores, not a re-rating</span>
+<p>These are the CNA&rsquo;s CVSS 3.0 scores, not NVD&rsquo;s: NVD lists its own assessment as not yet provided on each record. All seven stay High, matching Node.js&rsquo;s severity words, so the scores sharpen prioritisation inside the batch rather than changing it &mdash; the TLS private-key disclosure (CVE-2026-123864, 8.1) and the client-certificate bypass (CVE-2026-123872, 8.1) still matter most for mTLS deployments, and the 8.2 is a remotely triggerable HTTP/2 abort. Do not read a 7.5 as low priority: six of the seven Highs need no authentication at all, and the seventh (CVE-2026-123872) needs only a client certificate for a permitted host.</p>
+<p class="cite">Sources: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123863" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123863 (8.2)</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123864" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123864 (8.1)</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123872" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123872 (8.1)</a></p>
+</div>
+<h3>Evidence ladder</h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Evidence</th><th>Status to 12 Nov (evening)</th></tr></thead>
+<tbody>
+<tr><td>CVE-2026-123863 (HTTP/2 session-teardown abort)</td><td><strong>8.2</strong> (CVSS 3.0, CNA openjs; AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H). Highest in the batch.</td></tr>
+<tr><td>CVE-2026-123864 (HTTPS heap-memory disclosure, incl. TLS private keys)</td><td><strong>8.1</strong> (CVSS 3.0, CNA openjs; AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:H).</td></tr>
+<tr><td>CVE-2026-123872 (TLS 1.2 renegotiation / resumption SNI change, mTLS bypass)</td><td><strong>8.1</strong> (CVSS 3.0, CNA openjs; AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N).</td></tr>
+<tr><td>CVE-2026-123865, CVE-2026-123866, CVE-2026-123874, CVE-2026-126051</td><td><strong>7.5 each</strong> (CVSS 3.0, CNA openjs): 123865 HTTP/2 session and file-descriptor leak; 123866 HTTP/2 freed response memory; 123874 respondWithFile use-after-free; 126051 TLS deferred-callback crash.</td></tr>
+<tr><td>The six Medium and three Low</td><td><strong>No score verified in this check.</strong> Node.js severity words (Medium / Low) stand; NVD assessment not yet provided on the records read.</td></tr>
+<tr><td>Cisco advisory v1.11 / Splunk SVD-2026-1015</td><td>No newer version in the window &mdash; unchanged.</td></tr>
+<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 12 November.</strong> This row is empty on purpose &mdash; do not add attempts + KEV into a victim count.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What is known, and what is not</h3>
+<div class="figures">
+<div class="fig"><span class="n">7 / 7</span><span class="d">High CVEs now carry CNA CVSS 3.0 scores</span></div>
+<div class="fig"><span class="n">8.2</span><span class="d">highest score (CVE-2026-123863)</span></div>
+<div class="fig"><span class="n">0</span><span class="d">NVD assessments provided yet</span></div>
+<div class="fig"><span class="n">0</span><span class="d">exploitation reports for the batch</span></div>
+</div>
+<ul>
+<li><strong>The scores confirm the batch&rsquo;s shape; they do not reorder it.</strong> All seven Highs stay High, and the ranking inside the batch follows the mechanism, not the decimal: the two 8.1s are the confidentiality and authentication failures (TLS private-key disclosure, mTLS bypass), while the 8.2 is availability (HTTP/2 session-teardown abort). Patch on the release as a whole, not on the highest number.</li>
+<li><strong>Gap: the Medium and Low scores are still unpublished.</strong> Six Medium and three Low CVEs have no score verified in this check, and NVD has not yet provided its own assessment for any of the sixteen. The 12 November section&rsquo;s &ldquo;no CVSS scores published yet&rdquo; is now wrong for the Highs only &mdash; do not cite it as the current state for the batch.</li>
+<li><strong>No new exploitation evidence in the window.</strong> The advisory carries no exploitation statement, and no PoC or KEV listing was found for the batch in this check; the single observed attempt (26 October) remains the only one for CVE-2026-111497.</li>
+</ul>
+<p class="cite">Sources: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123863" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123863</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123864" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123864</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123872" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123872</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123865" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123865</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123866" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123866</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123874" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123874</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126051" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-126051</a></p>
+</section>
+
+<section>
 <h2>Update &mdash; 12 November: the November security releases land &mdash; 16 CVEs, seven High</h2>
 <p class="sub">Node.js shipped the security releases pre-alerted for 11 November: v26.13.1 (Lithium LTS), v24.22.3 (Krypton LTS) and v22.23.5 (Jod LTS), all dated 11 November &mdash; the releases the 5 November section announced and the 11 November sections were still waiting on. Sixteen CVEs: seven High, six Medium, three Low; highest severity High on all three lines; no CVSS scores published yet. The batch is a separate, later set of flaws &mdash; HTTP/2 and TLS, plus proxy-credential, Permission Model and zlib issues &mdash; and does not touch CVE-2026-111497, fixed on 21 October. Dependency updates: llhttp 9.4.4 (all lines), undici 8.12.4 (26.x) / 7.30.2 (24.x), sqlite 3.54.1 (22.x/24.x) and brotli 1.2.1 (24.x/26.x). Apple also closed the older-branch gap left open in the 11 November section: five of the seven same-day 9 November releases list CVE-2026-111497; iOS/iPadOS 18.7.12 and watchOS 26.6.1 do not. Cisco v1.11 and Splunk SVD-2026-1015 are unchanged in the window.</p>
 <div class="callout warn">
@@ -999,6 +1037,10 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
     <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149716" target="_blank" rel="noopener noreferrer">About the security content of iOS 26.7.3 and iPadOS 26.7.3</a>, released 9 Nov 2026: CVE-2026-111497 listed &mdash; out-of-bounds write, &ldquo;Processing maliciously crafted input may lead to memory corruption&rdquo;; iPhone 11 and later, listed iPad models. Primary.</li>
     <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149719" target="_blank" rel="noopener noreferrer">About the security content of macOS Tahoe 26.7.3</a>, <a href="https://support.apple.com/en-us/149720" target="_blank" rel="noopener noreferrer">macOS Sequoia 15.8.3</a>, <a href="https://support.apple.com/en-us/149722" target="_blank" rel="noopener noreferrer">watchOS 27.2.1</a> and <a href="https://support.apple.com/en-us/149724" target="_blank" rel="noopener noreferrer">visionOS 27.2.1</a>, all released 9 Nov 2026: each lists CVE-2026-111497. Primary.</li>
     <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149717" target="_blank" rel="noopener noreferrer">About the security content of iOS 18.7.12 and iPadOS 18.7.12</a>, released 9 Nov 2026: lists only Bluetooth and AirPlay CVEs &mdash; CVE-2026-111497 is <strong>not</strong> listed; iPhone XS, XS Max, XR and iPad 7th generation. <a href="https://support.apple.com/en-us/149723" target="_blank" rel="noopener noreferrer">watchOS 26.6.1</a>, published 10 Nov 2026, likewise does not list it. Primary.</li>
+  </ul>
+  <h3 style="margin-top:26px;">Added in the 12 November evening update</h3>
+  <ul class="src">
+    <li><strong>NVD</strong> &mdash; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123863" target="_blank" rel="noopener noreferrer">CVE-2026-123863</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123864" target="_blank" rel="noopener noreferrer">CVE-2026-123864</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123872" target="_blank" rel="noopener noreferrer">CVE-2026-123872</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123865" target="_blank" rel="noopener noreferrer">CVE-2026-123865</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123866" target="_blank" rel="noopener noreferrer">CVE-2026-123866</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123874" target="_blank" rel="noopener noreferrer">CVE-2026-123874</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-126051" target="_blank" rel="noopener noreferrer">CVE-2026-126051</a>, all published 11 Nov 2026, CNA openjs: CVSS 3.0 scores <strong>8.2, 8.1, 8.1, 7.5, 7.5, 7.5, 7.5</strong> respectively; NVD assessment not yet provided. The six Medium and three Low CVEs have no score verified in this check. Primary.</li>
   </ul>
 </section>
 
