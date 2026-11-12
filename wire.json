@@ -115,6 +115,76 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "If genuine, client wealth-management and account data at a US financial services firm would be at risk; firms with exposure should watch for a company statement and for any published data, and treat the claim as unverified until then.",
+      "headline": "INC Ransom claims Game Changer Wealth Management as ransomware victim; claim unverified",
+      "id": "entry-game-changer-wealth-20261112",
+      "known": "The INC Ransom (Incransom) ransomware group has listed Game Changer Wealth Management (gamechangerwm.com) on its leak site; ransomware.live discovered the listing on 12 November 2026 at 10:05 UTC (18:05 SGT) and gives an estimated attack date of 10 November. Game Changer Wealth is a full-service financial services firm with offices in Baton Rouge, Lafayette and Metairie, Louisiana. No data has been published and no company statement has been found.",
+      "severity": "watch",
+      "source_name": "ransomware.live, 12 November 2026",
+      "source_url": "https://www.ransomware.live/id/Z2FtZWNoYW5nZXJ3bS5jb21AaW5jcmFuc29t",
+      "status": "reported / unconfirmed",
+      "summary": "INC Ransom has listed Louisiana wealth manager Game Changer Wealth on its leak site. No data has been published and the claim is unverified.",
+      "timestamp_sgt": "2026-11-12T18:05:00+08:00",
+      "type": "Unverified ransomware claim — named BFSI victim",
+      "unknown": "Whether the firm was actually breached, what data if any was taken, and whether the group will publish anything. No company statement has been found."
+    },
+    {
+      "bfsi_impact": "A third Japanese bank has now confirmed a shareholder email leak through the same Arara mail-delivery system, suggesting a shared supplier incident rather than isolated cases: banks using Arara or similar outsourced mailing services should check whether their shareholder or customer mailings were exposed, and warn recipients about impersonation mail. The leaked data is limited to email addresses, so the direct harm is phishing risk rather than account takeover.",
+      "headline": "Hyakujushi Bank says 1,500 shareholder email addresses leaked via contractor's mail system",
+      "id": "entry-hyakujushi-bank-20261112",
+      "known": "Hyakujushi Bank (Takamatsu) said on 12 November 2026 that unauthorised access to a mail-delivery service used by a company it had commissioned leaked the email addresses of 1,500 shareholders. The commissioned company used the Arara mail-delivery system to send electronic-gift winning notices in July 2026, and the 1,500 addresses in that mailing leaked. Shareholder numbers and other attributes and the mail text were not included, the bank said. No misuse of the leaked addresses had been confirmed, and the bank warned shareholders to beware of suspicious mail purporting to come from the bank or related parties. This is the same Arara system involved in the MUFG and Nomura Holdings shareholder email leaks reported on 11 November.",
+      "severity": "watch",
+      "source_name": "KSB Setouchi Broadcasting via Yahoo News Japan, 12 November 2026 (translated from Japanese)",
+      "source_url": "https://news.yahoo.co.jp/articles/d935fa8859548b3c76009a326ec45760a64ea451",
+      "status": "confirmed",
+      "summary": "Hyakujushi Bank said on 12 November that 1,500 shareholder email addresses leaked after unauthorised access to a mail-delivery service used by a contractor — the same Arara system behind the MUFG and Nomura leaks. No misuse has been confirmed.",
+      "timestamp_sgt": "2026-11-12T16:27:00+08:00",
+      "type": "Named BFSI victim — confirmed data leak",
+      "unknown": "How the Arara system was accessed, and whether other Arara customers beyond MUFG, Nomura and Hyakujushi are affected."
+    },
+    {
+      "bfsi_impact": "If genuine, a breach at a Hong Kong-listed securities firm holding SFC licences across dealing, advising and asset management would put client, trading and counterparty data at risk, including ISDA documentation with 20 global banks; firms with Shenwan Hongyuan exposure should watch for a company statement and for any published data, and treat the claim as unverified until then.",
+      "headline": "INC Ransom lists Hong Kong brokerage Shenwan Hongyuan on leak site; claim unverified",
+      "id": "entry-shenwan-hongyuan-20261112",
+      "known": "The INC Ransom (Incransom) ransomware group has listed Shenwan Hongyuan (H.K.) Limited on its dark-web leak site, according to Dark Web Intelligence, reported on 12 November 2026; no precise listing time was published, so the wire uses a midday timestamp. Shenwan Hongyuan (H.K.) is the Hong Kong-listed brokerage subsidiary of China's Shenwan Hongyuan Group (stock code 0218), regulated by Hong Kong's Securities and Futures Commission. The company disclosed on 23 October 2026 that it had received a suspected extortion message claiming information had been obtained, reported the matter to the Hong Kong Police, and said trading, settlement and core systems were operating normally with no loss of customer assets or funds. The leak-site post, as summarised by ransomware.live, claims about 21 million files totalling 9.97 TB were exfiltrated, including trading positions, derivative portfolios, ISDA agreements with 20 global banks and employee records — but no sample, ransom deadline or technical evidence has been published, and none of the claimed figures has been independently verified.",
+      "severity": "watch",
+      "source_name": "Undercode News (citing Dark Web Intelligence), 12 November 2026; ransomware.live, 12 November 2026",
+      "source_url": "https://undercodenews.com/inc-ransom-targets-shenwan-hongyuan-hk-raising-questions-over-a-potential-financial-data-breach-video/",
+      "status": "reported / unconfirmed",
+      "summary": "INC Ransom has listed Hong Kong-listed brokerage Shenwan Hongyuan (H.K.) on its leak site, following the firm's 23 October disclosure of a suspected extortion attempt. The group's claimed haul of about 21 million files is unverified: no sample or evidence has been published, and the firm has said trading and customer assets are unaffected.",
+      "timestamp_sgt": "2026-11-12T12:00:00+08:00",
+      "type": "Unverified ransomware claim — named BFSI victim",
+      "unknown": "Whether INC Ransom actually breached the firm's systems, what data if any was taken, whether the group behind the October extortion message is INC Ransom, and whether the firm will issue a further disclosure."
+    },
+    {
+      "bfsi_impact": "If genuine, customer and policyholder data at a US financial-services firm would be at risk; counterparties should watch for a company statement and for any published data, and treat the claim as unverified until then.",
+      "headline": "INC Ransom lists US home warranty firm StrucSure on leak site; claim unverified",
+      "id": "entry-strucsure-home-warranty-20261112",
+      "known": "The INC Ransom (Incransom) ransomware group has listed StrucSure Home Warranty, a US provider of new-home warranties and risk-management services, on its leak site; the listing appeared on 12 November 2026, according to ransomware.live. No precise listing time was published, so the wire uses a midday timestamp. No data has been published, and the specific data allegedly stolen has not been independently verified.",
+      "severity": "watch",
+      "source_name": "CyberThreatIntelligence (citing ransomware.live), 12 November 2026",
+      "source_url": "https://cyberthreatintelligence.net/ransomware-victim/strucsure-home-warranty-incransom-2026",
+      "status": "reported / unconfirmed",
+      "summary": "INC Ransom has listed US home warranty provider StrucSure Home Warranty on its leak site. No data has been published and the claim is unverified.",
+      "timestamp_sgt": "2026-11-12T12:00:00+08:00",
+      "type": "Unverified ransomware claim — named financial-services victim",
+      "unknown": "Whether the firm was actually breached, what data if any was taken, and whether the group will publish anything. No company statement has been found."
+    },
+    {
+      "bfsi_impact": "A small but confirmed leak of identity documents at a Japanese bank: the exposed residence-card images could support identity fraud or account-opening scams, so affected holders should be warned, and banks should note that peripheral customer-service sites — not core banking — were the entry point. No financial fraud has been confirmed.",
+      "headline": "Seven Bank discloses unauthorised access; up to 150 residence-card records may have leaked",
+      "id": "entry-seven-bank-20261111",
+      "known": "Seven Bank (TSE Prime 8410) said on 11 November 2026 that its residence-card submission site for foreign-resident account holders and its account-cancellation site had suffered unauthorised access by a third party. The bank found traces of the access on 9 November, immediately stopped both systems and blocked access from the attacker. Up to about 150 residence-card face-image records held on the submission site may have leaked; the cards show the holder's name, date of birth, nationality or region, address and residence status. The affected people are those who received a notice of incomplete documents through the site, or who used it between 16 October and 9 November. No fraudulent transfers, unauthorised account cancellations, data tampering or misuse of the information had been confirmed, and ATM transactions, internet banking and debit services are unaffected. The cause and full scope are still under investigation, and the two sites remain suspended.",
+      "severity": "watch",
+      "source_name": "Seven Bank notice, 11 November 2026 (translated from Japanese), reported by Act, 12 November 2026",
+      "source_url": "https://act1.co.jp/2026-11-12-01/",
+      "status": "confirmed",
+      "summary": "Seven Bank said on 11 November that unauthorised access to its residence-card submission and account-cancellation sites may have leaked up to about 150 residence-card records. The bank found the access on 9 November and suspended both sites; no fraudulent transactions have been confirmed and core banking services are unaffected.",
+      "timestamp_sgt": "2026-11-11T12:00:00+08:00",
+      "type": "Named BFSI victim — confirmed unauthorised access",
+      "unknown": "The entry route and whether any of the up-to-150 records were actually taken; the investigation is ongoing."
+    },
+    {
       "bfsi_impact": "Banks and financial firms that rely on MSPs for IT support should ask their providers whether they use ScreenConnect, check Run Command history for rogue client deployments, and treat any MSP session as untrusted until the provider confirms its environment is clean: the campaign shows an MSP compromise can reach straight into customer networks, and the possible reverse-pivot means a single infected customer device could expose the MSP's whole client base. Firms running ScreenConnect themselves should review account activity, revoke active sessions, reset credentials from a trusted device, verify multi-factor authentication, and hunt for the published indicators.",
       "headline": "Active ScreenConnect campaign compromises MSPs and plants rogue remote access on customer devices",
       "id": "entry-screenconnect-msp-20261111",
@@ -437,8 +507,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-12T16:00:00+08:00",
-  "next_check_sgt": "2026-11-12T20:00:00+08:00",
-  "updated_sgt": "2026-11-12T16:00:00+08:00",
+  "last_checked_sgt": "2026-11-12T20:00:00+08:00",
+  "next_check_sgt": "2026-11-13T00:00:00+08:00",
+  "updated_sgt": "2026-11-12T20:00:00+08:00",
   "version": 1
 }
