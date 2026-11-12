@@ -137,7 +137,7 @@ footer p { font-size:13px; color:var(--muted); }
 <header class="masthead">
   <div class="eyebrow">
     <span class="tlp">TLP:CLEAR</span>
-    <span>Deep research · 26 Oct 2026 · updated 11 Nov 2026</span>
+    <span>Deep research · 26 Oct 2026 · updated 12 Nov 2026</span>
     <span>Node2Shell / HTTP2Shell / Broccoli2Shell</span>
   </div>
   <h1>Node2Shell &mdash; CVE-2026-111497</h1>
@@ -148,7 +148,7 @@ footer p { font-size:13px; color:var(--muted); }
     <span>Sources: 11 primary + 9 in update</span>
     <span>PoC repos: 39 (name) / 69 (CVE) — masthead counts undated; body gives 30 / 52 on 26 Oct</span>
     <span>Network IOCs: 1 IP, 1 hash (26 Oct); plus 5 Zscaler exploitation addresses (28 Oct)</span>
-    <span>Queries: 26 + 28 Oct 2026; re-checked to 11 Nov</span>
+    <span>Queries: 26 + 28 Oct 2026; re-checked to 12 Nov</span>
   </div>
 </header>
 
@@ -187,6 +187,46 @@ footer p { font-size:13px; color:var(--muted); }
   <div class="fig"><span class="n">1+1</span><span class="d">IP and hash published (26 Oct)</span></div>
 </div>
 
+
+<section>
+<h2>Update &mdash; 12 November: the November security releases land &mdash; 16 CVEs, seven High</h2>
+<p class="sub">Node.js shipped the security releases pre-alerted for 11 November: v26.13.1 (Lithium LTS), v24.22.3 (Krypton LTS) and v22.23.5 (Jod LTS), all dated 11 November &mdash; the releases the 5 November section announced and the 11 November sections were still waiting on. Sixteen CVEs: seven High, six Medium, three Low; highest severity High on all three lines; no CVSS scores published yet. The batch is a separate, later set of flaws &mdash; HTTP/2 and TLS, plus proxy-credential, Permission Model and zlib issues &mdash; and does not touch CVE-2026-111497, fixed on 21 October. Dependency updates: llhttp 9.4.4 (all lines), undici 8.12.4 (26.x) / 7.30.2 (24.x), sqlite 3.54.1 (22.x/24.x) and brotli 1.2.1 (24.x/26.x). Apple also closed the older-branch gap left open in the 11 November section: five of the seven same-day 9 November releases list CVE-2026-111497; iOS/iPadOS 18.7.12 and watchOS 26.6.1 do not. Cisco v1.11 and Splunk SVD-2026-1015 are unchanged in the window.</p>
+<div class="callout warn">
+<span class="k">A new batch, not a Brotli sequel</span>
+<p>The 11 November releases fix sixteen different flaws; CVE-2026-111497 is not among them. Do not read this release as a Brotli re-fix, or as evidence the October Brotli fix failed: the Brotli update in this batch (1.2.1) is the same version that already carried the October fix. All seven High flaws are HTTP/2 or TLS, and two are client-certificate authentication bypasses &mdash; patch on the release as a whole, not on CVE-2026-111497. No CVSS scores are published with the release yet, and the advisory carries no exploitation statement; severity is Node.js&rsquo;s own High / Medium / Low until scores publish.</p>
+<p class="cite">Sources: <a href="https://nodejs.org/en/blog/vulnerability/november-2026-security-releases" target="_blank" rel="noopener noreferrer">Node.js, Wednesday, November 11, 2026 Security Releases</a> &middot; <a href="https://github.com/nodejs/node/releases/tag/v26.13.1" target="_blank" rel="noopener noreferrer">Node.js v26.13.1 release notes, 11 Nov 2026</a> &middot; <a href="https://github.com/nodejs/node/releases/tag/v24.22.3" target="_blank" rel="noopener noreferrer">Node.js v24.22.3 release notes, 11 Nov 2026</a></p>
+</div>
+<h3>Evidence ladder</h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Evidence</th><th>Status to 12 Nov</th></tr></thead>
+<tbody>
+<tr><td>November security releases (11 Nov)</td><td>Shipped: v26.13.1, v24.22.3, v22.23.5. Sixteen CVEs &mdash; 7 High, 6 Medium, 3 Low; highest severity High on all three lines; no CVSS scores published yet; no exploitation statement in the advisory.</td></tr>
+<tr><td>The seven High</td><td>CVE-2026-123863 (HTTP/2 session-teardown abort, 24.x/26.x), CVE-2026-123864 (HTTPS heap-memory disclosure including TLS private keys, all lines), CVE-2026-123865 (HTTP/2 session and file-descriptor leak, all lines), CVE-2026-123866 (HTTP/2 freed response memory leaked to a peer, all lines), CVE-2026-126051 (TLS deferred-callback crash, 24.x/26.x), CVE-2026-123872 (TLS 1.2 renegotiation and resumption changing SNI, client-certificate auth bypass, all lines), CVE-2026-123874 (HTTP/2 respondWithFile use-after-free, 24.x/26.x).</td></tr>
+<tr><td>The six Medium and three Low</td><td>Medium: CVE-2026-123828 (HTTP/2 Alt-Svc overflow), CVE-2026-123867 (per-host mTLS CA bypass), CVE-2026-123868 (HTTP/2 memory exhaustion), CVE-2026-123871 (proxy credentials in error messages), CVE-2026-123875 (HTTP/2 NULL dereference on cancelled file download), CVE-2026-123877 (https.Agent TLS policy session-cache bypass). Low: CVE-2026-123829 (Permission Model recursive-watch name leak), CVE-2026-123862 (zlib params callback after destroy), CVE-2026-123873 (Permission Model heap-snapshot destination check).</td></tr>
+<tr><td>CVE-2026-111497 in this batch</td><td>Untouched &mdash; fixed 21 Oct in 22.23.4 / 24.22.1 / 26.12.1. Brotli updated to 1.2.1 again; no new Brotli version ships in this batch.</td></tr>
+<tr><td>Apple older-branch verification (9 Nov releases, verified 12 Nov)</td><td>Lists CVE-2026-111497: iOS/iPadOS 26.7.3, macOS Tahoe 26.7.3, macOS Sequoia 15.8.3, watchOS 27.2.1, visionOS 27.2.1. Does not list it: iOS/iPadOS 18.7.12, watchOS 26.6.1. The gap from the 11 November section is closed.</td></tr>
+<tr><td>Cisco advisory v1.11 (10 Nov)</td><td>No newer version in the window &mdash; 32 products with named fixed releases, unchanged.</td></tr>
+<tr><td>Splunk advisory SVD-2026-1015</td><td>No new revision in the window &mdash; last update 9 Nov, documentation-only.</td></tr>
+<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 12 November.</strong> This row is empty on purpose &mdash; do not add attempts + KEV into a victim count.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What is known, and what is not</h3>
+<div class="figures">
+<div class="fig"><span class="n">16</span><span class="d">CVEs in the 11 Nov batch</span></div>
+<div class="fig"><span class="n">7</span><span class="d">High severity, highest on all lines</span></div>
+<div class="fig"><span class="n">5</span><span class="d">older-branch Apple releases listing CVE-2026-111497</span></div>
+<div class="fig"><span class="n">2</span><span class="d">older-branch releases that do not (18.7.12, watchOS 26.6.1)</span></div>
+</div>
+<ul>
+<li><strong>The November batch is a different flaw set.</strong> All seven High flaws are HTTP/2 or TLS, and two of the seven are client-certificate authentication bypasses (CVE-2026-123872 High, CVE-2026-123867 Medium) &mdash; the exposure that matters most is mTLS deployments and HTTP/2-facing servers, not Brotli consumers. Node.js 20 and 25 are end-of-life and get no fix.</li>
+<li><strong>Apple gap closed, with two exceptions.</strong> Five older-branch releases list CVE-2026-111497 with the same out-of-bounds-write wording as the 27.2.1 lines, so the Brotli fix now reaches the older iOS, macOS, watchOS and visionOS branches &mdash; but iPhone XS/XR (iOS/iPadOS 18.7.12) and older Watches (watchOS 26.6.1) did not get it in this round. Do not cite 18.7.12 or watchOS 26.6.1 as patched for this CVE.</li>
+<li><strong>Flagged, not resolved: the advisory and the release notes differ by one Permission Model item.</strong> The advisory describes a wildcard <code>--allow-fs-read</code> over-grant (fixed in the release, per the commit &ldquo;fix the fs permission tree node on wildcard nodes&rdquo;) with no CVE attached, while the release notes list CVE-2026-123873 (Low, Permission Model heap-snapshot destination check) with no matching advisory description. Both are Low; neither changes the patching advice.</li>
+<li><strong>No new exploitation evidence in the window.</strong> No new attempt, victim or IOC set was published to 12 November; the single observed attempt (26 October) remains the only one for CVE-2026-111497, and the new batch&rsquo;s advisory carries no exploitation statement and no CVSS scores yet.</li>
+</ul>
+<p class="cite">Sources: <a href="https://nodejs.org/en/blog/vulnerability/november-2026-security-releases" target="_blank" rel="noopener noreferrer">Node.js, Wednesday, November 11, 2026 Security Releases</a> &middot; <a href="https://github.com/nodejs/node/releases/tag/v26.13.1" target="_blank" rel="noopener noreferrer">Node.js v26.13.1 release notes, 11 Nov 2026</a> &middot; <a href="https://support.apple.com/en-us/149716" target="_blank" rel="noopener noreferrer">Apple, About the security content of iOS 26.7.3 and iPadOS 26.7.3, 9 Nov 2026</a> &middot; <a href="https://support.apple.com/en-us/149717" target="_blank" rel="noopener noreferrer">Apple, About the security content of iOS 18.7.12 and iPadOS 18.7.12, 9 Nov 2026</a> &middot; <a href="https://support.apple.com/en-us/100100" target="_blank" rel="noopener noreferrer">Apple, Apple security releases (9 Nov 2026 releases)</a></p>
+</section>
 
 <section>
 <h2>Update &mdash; 11 November: Apple patches CVE-2026-111497 &mdash; iOS, iPadOS and macOS</h2>
@@ -951,6 +991,14 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
     <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149715" target="_blank" rel="noopener noreferrer">About the security content of iOS 27.2.1 and iPadOS 27.2.1</a>, released 9 Nov 2026: CVE-2026-111497 listed &mdash; out-of-bounds write, &ldquo;Processing maliciously crafted input may lead to memory corruption&rdquo;, fixed with improved input validation; iPhone 11 and later, listed iPad models; not flagged as exploited. Primary.</li>
     <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149718" target="_blank" rel="noopener noreferrer">About the security content of macOS Golden Gate 27.2.1</a>, released 9 Nov 2026: same CVE-2026-111497 listing; not flagged as exploited. Primary.</li>
     <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/100100" target="_blank" rel="noopener noreferrer">Apple security releases</a>: same-day 9 Nov 2026 releases for older branches (iOS/iPadOS 26.7.3 and 18.7.12, macOS Tahoe 26.7.3 and Sequoia 15.8.3, watchOS 27.2.1 and 26.6.1, visionOS 27.2.1); per-release CVE listings not individually verified. Primary for release existence and dates.</li>
+  </ul>
+  <h3 style="margin-top:26px;">Added in the 12 November update</h3>
+  <ul class="src">
+    <li><strong>Node.js</strong> &mdash; <a href="https://nodejs.org/en/blog/vulnerability/november-2026-security-releases" target="_blank" rel="noopener noreferrer">Wednesday, November 11, 2026 Security Releases</a>, 11 Nov 2026: fixed versions 26.13.1, 24.22.3 and 22.23.5; sixteen CVEs, 7 High / 6 Medium / 3 Low, highest severity High on all three lines; no CVSS scores published; dependency updates llhttp 9.4.4, undici 8.12.4 (26.x) / 7.30.2 (24.x), sqlite 3.54.1, brotli 1.2.1 (24.x/26.x). Primary.</li>
+    <li><strong>Node.js</strong> &mdash; <a href="https://github.com/nodejs/node/releases/tag/v26.13.1" target="_blank" rel="noopener noreferrer">Release 2026-11-11, Version 26.13.1 &lsquo;Lithium&rsquo; (LTS)</a> and <a href="https://github.com/nodejs/node/releases/tag/v24.22.3" target="_blank" rel="noopener noreferrer">Release 2026-11-11, Version 24.22.3 &lsquo;Krypton&rsquo; (LTS)</a>: CVE-to-description mapping for all sixteen CVEs; CVE-2026-123873 (Low, Permission Model heap-snapshot destination check) listed with no matching advisory description, while the advisory&rsquo;s wildcard <code>--allow-fs-read</code> over-grant fix carries no CVE in the release notes. Primary.</li>
+    <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149716" target="_blank" rel="noopener noreferrer">About the security content of iOS 26.7.3 and iPadOS 26.7.3</a>, released 9 Nov 2026: CVE-2026-111497 listed &mdash; out-of-bounds write, &ldquo;Processing maliciously crafted input may lead to memory corruption&rdquo;; iPhone 11 and later, listed iPad models. Primary.</li>
+    <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149719" target="_blank" rel="noopener noreferrer">About the security content of macOS Tahoe 26.7.3</a>, <a href="https://support.apple.com/en-us/149720" target="_blank" rel="noopener noreferrer">macOS Sequoia 15.8.3</a>, <a href="https://support.apple.com/en-us/149722" target="_blank" rel="noopener noreferrer">watchOS 27.2.1</a> and <a href="https://support.apple.com/en-us/149724" target="_blank" rel="noopener noreferrer">visionOS 27.2.1</a>, all released 9 Nov 2026: each lists CVE-2026-111497. Primary.</li>
+    <li><strong>Apple</strong> &mdash; <a href="https://support.apple.com/en-us/149717" target="_blank" rel="noopener noreferrer">About the security content of iOS 18.7.12 and iPadOS 18.7.12</a>, released 9 Nov 2026: lists only Bluetooth and AirPlay CVEs &mdash; CVE-2026-111497 is <strong>not</strong> listed; iPhone XS, XS Max, XR and iPad 7th generation. <a href="https://support.apple.com/en-us/149723" target="_blank" rel="noopener noreferrer">watchOS 26.6.1</a>, published 10 Nov 2026, likewise does not list it. Primary.</li>
   </ul>
 </section>
 
