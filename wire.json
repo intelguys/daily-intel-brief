@@ -115,6 +115,62 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "Accounting and advisory firms hold client tax, payroll and financial records including Social Security numbers, so a breach at a third-party platform they use is directly usable for identity theft and tax fraud against their clients. Peer firms should check whether they use the same unnamed provider, warn affected clients to watch for identity fraud and tax-refund scams, and review third-party platform access controls.",
+      "headline": "Baker Tilly notifies clients of data breach at third-party provider; Social Security numbers exposed",
+      "id": "entry-baker-tilly-20261111",
+      "known": "Baker Tilly Advisory Group, a major US accounting, tax and advisory firm, is notifying clients and their dependents that a data breach compromised personal information held on a platform operated by a third-party service provider it uses to serve clients. The firm became aware of the incident on 6 September 2026 and completed its review of the affected data on 28 October, when it identified whose information was involved; notification letters are dated 9 November. The breach notice does not give a total count of affected clients, does not name the provider and leaves the specific data types as a placeholder, but the Texas Attorney General's breach portal lists 10,456 affected Texas residents with Social Security numbers, full names, addresses and other information exposed; law-firm trackers also cite 2,689 affected in Massachusetts and over 500 in California. Baker Tilly says it contained the incident, engaged external experts, notified law enforcement and found no evidence of unauthorised activity on its own network. No ransomware group has claimed the attack.",
+      "severity": "watch",
+      "source_name": "BleepingComputer, 11 November 2026; Texas Attorney General data security breach portal",
+      "source_url": "https://www.bleepingcomputer.com/news/security/baker-tilly-notifies-clients-of-data-breach-at-third-party-provider/",
+      "status": "confirmed",
+      "summary": "Baker Tilly Advisory Group, a major US accounting, tax and advisory firm, is notifying clients that a data breach at a third-party service provider exposed client personal information including Social Security numbers. The firm learned of the incident on 6 September and finished its review on 28 October; at least 10,456 Texas residents are affected, with further victims in Massachusetts and California. The provider has not been named and no threat actor has claimed the attack.",
+      "timestamp_sgt": "2026-11-12T07:01:00+08:00",
+      "type": "Confirmed breach — third-party provider / accounting firm",
+      "unknown": "The total number of affected clients has not been disclosed — only state-level figures (10,456 in Texas, 2,689 in Massachusetts, over 500 in California) are public. The third-party provider has not been named, the attack method and the attacker's identity are undisclosed, and it is not known when the intrusion began."
+    },
+    {
+      "bfsi_impact": "If genuine, client investment portfolios, account records and corporate data at a publicly listed Kuwaiti investment firm managing about $4.3 billion would be at risk; firms with NIC exposure or Kuwaiti market counterparties should watch for a company statement and for any published data, and treat the claim as unverified until then. As a listed company on Boursa Kuwait, a confirmed incident could also raise disclosure questions.",
+      "headline": "The Gentlemen ransomware group claims Kuwait's National Investments Company as victim; claim unverified",
+      "id": "entry-nic-kuwait-20261111",
+      "known": "The Gentlemen ransomware group has listed Kuwait's National Investments Company (NIC, ninv.com) on its leak site, according to Dark Web Intelligence (DDW), reported on 11 November 2026; no precise listing time was published, so the wire uses a midday timestamp. NIC is a publicly listed Kuwaiti investment firm reportedly managing about $4.3 billion across investment, treasury, real estate and asset management. The listing gives no file count, data volume, downloadable samples or technical evidence, and NIC has not publicly confirmed any incident.",
+      "severity": "watch",
+      "source_name": "Undercode News (citing Dark Web Intelligence), 11 November 2026",
+      "source_url": "https://undercodenews.com/the-gentlemen-ransomware-group-claims-kuwaits-national-investments-company-in-unverified-attack-video/",
+      "status": "reported / unconfirmed",
+      "summary": "The Gentlemen ransomware group has listed Kuwait's National Investments Company, a publicly listed investment firm managing about $4.3 billion, on its leak site. No evidence, samples or company confirmation have been provided, so the claim remains unverified.",
+      "timestamp_sgt": "2026-11-11T12:00:00+08:00",
+      "type": "Unverified ransomware claim — named BFSI victim",
+      "unknown": "Whether NIC was actually breached, what data if any was taken, and whether the group will publish anything. No company statement has been found, and the claim remains unverified."
+    },
+    {
+      "bfsi_impact": "Banks and insurers running XCP-ng with an internet-exposed Xen Orchestra should patch immediately and hunt for the published indicators: the flaw gives unauthenticated admin access and full host takeover, and exploitation is already under way.",
+      "headline": "Critical Xen Orchestra authentication bypass actively exploited to hijack VM servers",
+      "id": "entry-xen-orchestra-20261111",
+      "known": "Vates disclosed and patched a critical authentication bypass (VSA-2026-062) in Xen Orchestra that is already being exploited: sending an empty-object authenticationToken cookie returns a valid admin token, giving full XCP-ng host takeover as root. No CVE has been assigned yet. The flaw is fixed in Xen Orchestra 6.9.2 (stable) / 6.10.1 (latest); early coverage cited 6.9.1/6.10.0 before the advisory was updated. Published indicators include 91.211.251.112:8001 (flagged as RedLine Stealer infrastructure), a Tor onion address and a VM named pivot2.",
+      "severity": "watch",
+      "source_name": "Vates security advisory VSA-2026-062; BleepingComputer, 10 November 2026",
+      "source_url": "https://docs.vates.tech/security-advisories/advisories/2026/vates-sa-2026-062",
+      "status": "confirmed",
+      "summary": "Vates has disclosed a critical authentication bypass in Xen Orchestra (VSA-2026-062) that is already being exploited: an empty-object authentication cookie returns a valid admin token, allowing full XCP-ng host takeover as root. A fix is available in Xen Orchestra 6.9.1/6.10.0, and indicators of compromise have been published.",
+      "timestamp_sgt": "2026-11-11T00:17:00+08:00",
+      "type": "Actively exploited vulnerability — virtualisation",
+      "unknown": "How many organisations have been compromised, and whether any financial-sector hosts are among them."
+    },
+    {
+      "bfsi_impact": "The case shows government bank accounts being drained through a compromised transaction portal rather than phishing: banks and public bodies using the same online financial transaction portal should check access controls and transaction logs for unauthorised sessions.",
+      "headline": "Over Rs 22 crore siphoned from Tamil Nadu panchayat bank accounts in suspected cyber-fraud syndicate attack",
+      "id": "entry-tamil-nadu-panchayat-20261110",
+      "known": "More than Rs 22 crore (about US$2.5 million) was siphoned from Tamil Nadu panchayat bank accounts after unauthorised access to the online financial transaction portal: Rs 14 crore from Mandapam, Rs 3.1 crore from Nagapattinam and Rs 5 crore from Dharapuram. Chennai Central Crime Branch has registered a case and police suspect an international cyber-fraud syndicate.",
+      "severity": "watch",
+      "source_name": "ThePrint (PTI), 10 November 2026",
+      "source_url": "https://theprint.in/india/over-rs-22-cr-siphoned-from-tn-panchayat-bank-accounts-cyber-fraud-syndicate-suspected/3095447/",
+      "status": "confirmed",
+      "summary": "More than Rs 22 crore (about US$2.5 million) was siphoned from Tamil Nadu panchayat bank accounts — Rs 14 crore from Mandapam, Rs 3.1 crore from Nagapattinam and Rs 5 crore from Dharapuram — after unauthorised access to the online financial transaction portal. Chennai police suspect an international cyber-fraud syndicate.",
+      "timestamp_sgt": "2026-11-10T23:17:00+08:00",
+      "type": "Payment fraud — unauthorised transfers",
+      "unknown": "How the attackers accessed the transaction portal, whether any funds have been recovered, and whether the suspected syndicate is confirmed."
+    },
+    {
       "bfsi_impact": "If genuine, client and account data at a major US wealth manager would be at risk; firms with Raymond James exposure should watch for a company statement and for any published data, and treat the claim as unverified until then.",
       "headline": "INC Ransom claims Raymond James Financial as ransomware victim; claim unverified",
       "id": "entry-raymond-james-20261111",
@@ -353,8 +409,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-12T00:00:00+08:00",
-  "next_check_sgt": "2026-11-12T04:00:00+08:00",
-  "updated_sgt": "2026-11-12T00:00:00+08:00",
+  "last_checked_sgt": "2026-11-12T08:00:00+08:00",
+  "next_check_sgt": "2026-11-12T12:00:00+08:00",
+  "updated_sgt": "2026-11-12T08:00:00+08:00",
   "version": 1
 }
