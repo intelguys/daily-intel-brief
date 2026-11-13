@@ -129,6 +129,62 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "A small but confirmed leak at a Korean virtual-asset exchange, in the same week as the wider Korean financial-sector incident wave: 40 customers is a limited exposure, but affected customers should be warned about phishing using their exchange-account details.",
+      "headline": "Flybit crypto exchange confirms personal data of 40 customers leaked",
+      "id": "entry-flybit-20261113",
+      "known": "Korea Digital Exchange, operator of the Flybit virtual-asset exchange, suffered a leak of personal data of 40 customers through unauthorised external access on 1 November 2026. The disclosure was reported on 13 November 2026 alongside the KB Capital breach.",
+      "severity": "watch",
+      "source_name": "NoCut News, 13 November 2026 (translated from Korean)",
+      "source_url": "https://en.nocutnews.co.kr/news/6606419",
+      "status": "confirmed",
+      "summary": "Korea Digital Exchange, operator of the Flybit virtual-asset exchange, suffered a leak of personal data of 40 customers through unauthorised external access on 1 November 2026, disclosed on 13 November.",
+      "timestamp_sgt": "2026-11-13T09:35:00+08:00",
+      "type": "Named BFSI victim — data breach",
+      "unknown": "The entry route, the exact data items exposed and whether any customer funds were affected have not been disclosed."
+    },
+    {
+      "bfsi_impact": "A third confirmed breach in South Korea's capital-finance sector in two months, extending the financial-sector incident wave already tracked in the FSI breaking item: firms with Korean exposure should treat the leaked names, phone numbers and vehicle details as phishing and voice-phishing material, and watch for the expected Financial Supervisory Service on-site inspection. Direct account-takeover risk is limited — the breached system handles vehicle leases, not financial transactions, and only 20 customers were affected — but staff and partner account details could support impersonation and business-email compromise.",
+      "headline": "KB Capital confirms breach; personal data of 1,811 people leaked",
+      "id": "entry-kb-capital-20261113",
+      "known": "KB Capital, the capital-finance arm of South Korea's KB Financial Group, said on 13 November 2026 that a malicious attack detected on 10 November exposed personal data of 1,811 people — 20 customers and about 1,791 partner-company employees and staff — from its vehicle lease asset management system. The company detected the breach after repeated abnormal information lookups from a domestic IP address, halted the affected systems and servers, blocked the external access route and reported the incident to the Financial Supervisory Service the same day. It posted a notice on its website with a self-check service for affected individuals and promised full compensation for any loss. Exposed customer data: names, dates of birth, mobile phone numbers, addresses and vehicle registration numbers. Exposed staff and partner data: user accounts, names, mobile and landline numbers, department names, company names and job titles. This is the third confirmed breach in Korea's capital-finance sector after Hyundai Capital (146 mortgage loan agents, September) and KDB Capital (848 customers, October). The FSS is expected to carry out an on-site inspection.",
+      "severity": "watch",
+      "source_name": "Seoul Economic Daily, 13 November 2026; NoCut News, 13 November 2026 (translated from Korean)",
+      "source_url": "https://en.sedaily.com/finance/2026/11/13/kb-capital-hacked-leaking-data-of-1800-staff-and-clients",
+      "status": "confirmed",
+      "summary": "KB Capital, the capital-finance arm of South Korea's KB Financial Group, said on 13 November 2026 that a malicious attack detected on 10 November exposed personal data of 1,811 people — 20 customers and about 1,791 partner-company employees and staff — from its vehicle lease asset management system. Names, birth dates, mobile numbers, addresses and vehicle registration numbers were exposed for customers; user accounts, names, phone numbers, departments, company names and job titles for staff and partners. The system is unrelated to financial transactions.",
+      "timestamp_sgt": "2026-11-13T08:37:00+08:00",
+      "type": "Named BFSI victim — data breach",
+      "unknown": "The attacker and the entry route have not been disclosed. Whether this incident is linked to the 9 November Financial Security Institute breach is unconfirmed — both involved domestic IP addresses and the FSI breach was detected a day earlier, but no link has been established. The company notes the 1,811 figure may include duplicates and could change as the investigation continues."
+    },
+    {
+      "bfsi_impact": "MSPs are the route into small banks' and financial firms' endpoints, so firms should ask their providers whether they run ScreenConnect with the RMM+ extension, hunt for RelayTrap, the TrapWatch task and the rogue client IDs, and check RMM+ versions 1.0.31/1.0.32. The correction matters: the technician-trap spread is designed behaviour, not observed — the immediate risk is the rogue clients already deployed, not a self-propagating worm.",
+      "headline": "SCKit worm toolkit named in ScreenConnect MSP attacks; RMM+ blank-key flaw is the entry route",
+      "id": "entry-sckit-screenconnect-20261113",
+      "known": "Huntress and Blackpoint Cyber have named the toolkit behind this week's ScreenConnect MSP attacks SCKit: 16 scripts and components that install a rogue ScreenConnect client plus a RelayTrap component designed to steal a technician's session cookie when the technician connects to an infected device. RelayTrap reads the technician's .aspxauth session cookie from browser cookie databases with a SQLite tool and tries to replay it against the panel, then uploads a payload to the panel's Shared Toolbox to reach every session the technician can access; it installs a scheduled task named TrapWatch running as SYSTEM. The entry route is the third-party RMM+ extension versions 1.0.31/1.0.32, which accepted a blank access key when none was configured, bypassing ScreenConnect accounts, roles and multi-factor authentication; RMM+ commands appeared in logs with no corresponding logins. A new CVE, CVE-2026-127063 (9.3), covers the RMM+ extension's static API secret — its wording differs from Huntress's blank-key account, so treat it as the same weakness pending vendor confirmation. Huntress is explicit that the technician-trap spread has not been observed to succeed: the console-takeover attempt failed in every recovered host log checked. Blackpoint links the RelayTrap behaviour to CVE-2026-84869 as a claim only, and reproduced the toolkit's attempted exploit against a current ScreenConnect client and found the existing patch prevented execution. ConnectWise says it found no evidence of compromise of its infrastructure or a vulnerability in ScreenConnect itself. New indicator: cdn007-digitaldownloads.com. At least 288 endpoints across 48 organisations were hit within about 90 minutes.",
+      "severity": "watch",
+      "source_name": "Huntress, 12 November 2026; BleepingComputer, 12 November 2026; Blackpoint Cyber",
+      "source_url": "https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/",
+      "status": "confirmed",
+      "summary": "Huntress and Blackpoint Cyber have named the toolkit behind this week's ScreenConnect MSP attacks SCKit: a 16-component toolkit that installs a rogue ScreenConnect client and a RelayTrap component designed to steal a technician's session cookie when they connect to an infected device. The entry route is the third-party RMM+ extension, which accepted a blank access key in versions 1.0.31/1.0.32, bypassing ScreenConnect accounts, roles and multi-factor authentication (new CVE-2026-127063). Huntress is explicit that the technician-trap spread has not been observed to succeed, and Blackpoint found the existing patch blocks the toolkit's attempted CVE-2026-84869 exploit on current clients.",
+      "timestamp_sgt": "2026-11-13T06:53:00+08:00",
+      "type": "Active campaign — MSP remote-access abuse (update)",
+      "unknown": "Whether the technician-trap spread can succeed in practice; the full count of compromised MSPs; whether ransomware or other payloads will be deployed through the rogue clients already installed."
+    },
+    {
+      "bfsi_impact": "Financial firms running CI/CD on GitHub should audit GitHub Actions secrets, cloud credentials, SSH keys and AI service keys for wfx-loot exposure, hunt for wfx-docs pull requests and gaps in Actions run numbers, check pinned versions of the affected packages, and rotate anything that may have been exfiltrated: stolen cloud credentials can be turned into persistent access, and the payload reached public package registries.",
+      "headline": "wfx-loot campaign uses 4,837 hijacked GitHub accounts to steal CI and cloud credentials from 1,800+ repositories",
+      "id": "entry-wfx-loot-20261113",
+      "known": "From 10 November 12:45 UTC, an attacker used stolen GitHub credentials (personal access tokens, bot tokens, Fly.io GitHub App tokens) from 4,837 compromised accounts to open probe pull requests — branch wfx-docs, titled 'docs: dependency audit notes' — in 61,764 repositories, testing for write access. Where access allowed, the attacker injected a roughly 1,500-line payload that steals GitHub Actions secrets, cloud credentials (AWS, Azure and Google Cloud, including via instance metadata on self-hosted runners), SSH keys, shell history and AI service keys (OpenAI, Anthropic, Cursor, Copilot). At least 1,806-1,835 repositories ran the payload with credentials exfiltrated; SafeDep counts 8,093 commits pushed on public default branches. The attacker deletes workflow runs within a minute, so gaps in run numbers are the tell. The payload leaked into Packagist digitalelvis/neuronai-studio 3.14.3 and Go modules (github.com/onuragtas/docker-env v1.0.278/280, gocurl, redock), plus npm pdf-html5-page-flip 2.0.1/2.0.2 (removed 12 November; GHSA-j3hx-5mxx-43qh). Some compromised accounts belonged to Fortune 100 organisations, the US General Services Administration, the French government, Nextcloud and WebdriverIO; about 50 accounts have publishing rights on npm, PyPI, Go, crates and Packagist. The exfiltration IP 193.32.204.199 is the same as the October GhostAction wave, and wfx-loot was injected into GhostAction workflow files in over 100 repositories, but Aikido assesses the two waves are likely different actors. GitHub itself was not exploited; valid stolen tokens were used. The campaign was still active on 12 November, with 4,100+ new probes on 12 November alone. Confirmed by two independent analyses (Aikido and SafeDep).",
+      "severity": "watch",
+      "source_name": "Aikido Security, 12 November 2026; BleepingComputer, 12 November 2026",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/",
+      "status": "confirmed",
+      "summary": "From 10 November, an attacker used stolen GitHub credentials from 4,837 compromised accounts to open probe pull requests in 61,764 repositories and inject a CI secret stealer that harvests GitHub Actions secrets, cloud credentials, SSH keys and AI service keys. At least 1,806-1,835 repositories ran the payload with credentials exfiltrated. Some compromised accounts belonged to Fortune 100 organisations and government bodies; the payload leaked into Packagist, Go and npm packages. GitHub itself was not exploited — valid stolen tokens were used — and the campaign was still active on 12 November.",
+      "timestamp_sgt": "2026-11-13T06:25:00+08:00",
+      "type": "Active campaign — CI/CD credential theft",
+      "unknown": "The attacker's identity; the full set of affected repositories and whether any financial firm's CI was among them; whether stolen cloud credentials have been used beyond the campaign."
+    },
+    {
       "bfsi_impact": "Banks running Check Point gateways with exposed Mobile Access portals should apply the November Jumbo Hotfix immediately: the chain gives unauthenticated remote code execution followed by root, with persistence and lateral movement to virtualisation hosts. Unpatched gateways exposed to the internet should be treated as potentially compromised and hunted for the webshell and TSGA indicators.",
       "headline": "Check Point confirms PHP2Shell actively exploited on its gateways, chained with new privilege-escalation flaw",
       "id": "entry-checkpoint-php2shell-20261112",
@@ -591,8 +647,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-13T08:00:00+08:00",
-  "next_check_sgt": "2026-11-13T12:00:00+08:00",
-  "updated_sgt": "2026-11-13T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-13T16:00:00+08:00",
+  "next_check_sgt": "2026-11-13T20:00:00+08:00",
+  "updated_sgt": "2026-11-13T16:00:00+08:00",
   "version": 1
 }
