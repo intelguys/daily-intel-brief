@@ -114,6 +114,12 @@
 .wire-banner .wire-sev { font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
 .wire-banner a { color: var(--mint); text-decoration: underline; }
 #wire-ticker-link { color: var(--mint); white-space: nowrap; }
+.brief-toggle-wrap { margin-top: 18px; text-align: center; }
+.brief-toggle { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border-radius: 5px; font-size: 13px; font-weight: 650; background: transparent; border: 1px solid var(--line); color: #d3dddf; cursor: pointer; transition: border-color .2s, color .2s; }
+.brief-toggle:hover { border-color: rgba(168,237,196,.45); color: var(--mint); }
+.brief-toggle[aria-expanded="true"] { color: var(--mint); }
+.card-brief-hidden { display: none; }
+
 </style>
 </head>
 <body>
@@ -182,7 +188,7 @@
 					<div class="card-top"><span class="card-icon" aria-hidden="true">◷</span><span class="card-index">13 NOV / LATEST</span></div>
 					<h3>Financial threat brief</h3><p>BFSI cyber threat briefing — SCKit worm spreads via ScreenConnect, N-able Hotfix 2 bypassed, Caixa breach hits 7.6m, wfx-loot steals CI secrets, no new KEV.</p><span class="card-link">READ THE LATEST <span aria-hidden="true">↗</span></span>
 				</a>
-<a class="card" href="11132026.html">
+<a class="card" href="11122026.html">
 					<div class="card-top"><span class="card-icon" aria-hidden="true">◷</span><span class="card-index">12 NOV / DAILY</span></div>
 					<h3>Financial threat brief</h3><p>BFSI cyber threat briefing — ScreenConnect campaign hits MSPs, SMBC Nikko breach, Node.js releases ship, Apache critical RCE, no new KEV.</p><span class="card-link">READ THE LATEST <span aria-hidden="true">↗</span></span>
 				</a>
@@ -252,6 +258,7 @@
 				</a>
 			</div>
 		</section>
+			<div class="brief-toggle-wrap"><button type="button" class="brief-toggle" id="brief-toggle" aria-expanded="false" aria-controls="briefs">Show all earlier briefs</button></div>
 
 		<section class="shell section" id="research" aria-labelledby="research-title">
 			<div class="section-heading">
@@ -317,5 +324,29 @@
   setInterval(loadWire, 5 * 60 * 1000);
 })();
 </script>
+<script>
+(function () {
+  var VISIBLE = 3;
+  var grid = document.querySelector('#briefs .grid');
+  var btn = document.getElementById('brief-toggle');
+  if (!grid || !btn) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > a.card'));
+  if (cards.length <= VISIBLE) { btn.parentNode.style.display = 'none'; return; }
+  var expanded = false;
+  function render() {
+    cards.forEach(function (card, i) {
+      var hide = !expanded && i >= VISIBLE;
+      card.classList.toggle('card-brief-hidden', hide);
+      if (hide) card.setAttribute('aria-hidden', 'true');
+      else card.removeAttribute('aria-hidden');
+    });
+    btn.setAttribute('aria-expanded', String(expanded));
+    btn.textContent = expanded ? 'Show fewer briefs' : 'Show all earlier briefs';
+  }
+  btn.addEventListener('click', function () { expanded = !expanded; render(); });
+  render();
+})();
+</script>
+
 </body>
 </html>
