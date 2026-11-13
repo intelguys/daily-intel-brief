@@ -504,7 +504,7 @@ section > p { margin-bottom: 14px; }
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#update-13-nov">Update, 13&nbsp;Nov</a><a href="#update-12-nov-pm">Update, 12&nbsp;Nov (evening)</a><a href="#update-12-nov">Update, 12&nbsp;Nov</a><a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
+      <a href="#update-13-nov-pm">Update, 13&nbsp;Nov (afternoon)</a><a href="#update-13-nov">Update, 13&nbsp;Nov</a><a href="#update-12-nov-pm">Update, 12&nbsp;Nov (evening)</a><a href="#update-12-nov">Update, 12&nbsp;Nov</a><a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
       <a href="#situation">Confirmed &mdash; and withdrawn</a>
       <a href="#attribution">Attribution</a>
       <a href="#exploitation-status">Exploitation status</a>
@@ -603,6 +603,41 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-13-nov-pm">
+<p class="eyebrow">Update &middot; 13 November (afternoon)</p>
+<h2>GreyNoise count moves to 1,229; the mining cluster ran through 12 November afternoon</h2>
+<p class="lede">The GreyNoise PHP2Shell Activity dashboard loads again &mdash; the morning check&rsquo;s tag page returned &ldquo;Tag not found&rdquo; &mdash; and the count is now <strong>1,229 successful exploitations</strong> (was 1,226, last shell 12 Nov 05:55 UTC). The latest successful exploitation is <strong>12 Nov 15:12:48 UTC</strong>, so the fresh cluster that began on 10 November was still winning shells into the afternoon of 12 November. Three attacker IPs not named in the 12 November section appear in the cluster&rsquo;s rows &mdash; <code>45.89.209.106</code>, <code>216.173.102.156</code> and <code>45.115.193.109</code> &mdash; alongside <code>107.172.204.206</code>, <code>31.56.127.35</code>, <code>31.57.192.177</code> and <code>198.89.122.192</code> in the same afternoon rows. The post-exploit payload is unchanged in kind: XMRig Monero mining to <code>pool.supportxmr.com:3333</code> with the same wallet, including a Cloudflare-tunnel-hosted miner (<code>barnes-table-everybody-feels.trycloudflare.com/backup109.tgz</code>, <code>xmrigDaemon</code>) whose commands ran 12 Nov 05:54&ndash;15:12 UTC. This supersedes the 13 November section&rsquo;s GreyNoise row (&ldquo;no new public figure obtainable&rdquo;): the figure is now a fresh reading, not a carried one.</p>
+<div class="board">
+<div class="tile"><div class="k">GreyNoise successes</div><div class="v">1,229</div><div class="n">Successful exploitations, as of 12 Nov 15:12 UTC; was 1,226 (12 Nov 05:55 UTC)</div></div>
+<div class="tile"><div class="k">Last successful shell</div><div class="v">12 Nov 15:12 UTC</div><div class="n">15:12:48 UTC; cluster active 10&ndash;12 Nov</div></div>
+<div class="tile"><div class="k">New attacker IPs</div><div class="v">3</div><div class="n"><code>45.89.209.106</code>, <code>216.173.102.156</code>, <code>45.115.193.109</code> (US hosting)</div></div>
+<div class="tile"><div class="k">CVE-2026-123039 NVD</div><div class="v">Awaiting Analysis</div><div class="n">CNA CVSS 3.1 7.8 only; no NVD assessment; not in KEV</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Item</th><th>Before</th><th>Now</th></tr></thead>
+<tbody>
+<tr><td>GreyNoise successful exploitations</td><td>1,226 (12 Nov 05:55 UTC last shell)</td><td><strong>1,229</strong> (12 Nov 15:12:48 UTC last shell) &mdash; exploitation still succeeding on GreyNoise sensors; +3 since the morning reading</td></tr>
+<tr><td>New attacker IPs</td><td><code>154.3.235.207</code>, <code>45.115.192.75</code>, <code>31.57.193.98</code> (12 Nov section)</td><td><code>45.89.209.106</code>, <code>216.173.102.156</code> (both Web2Objects LLC, AS62874, US hosting), <code>45.115.193.109</code>; <code>107.172.204.206</code>, <code>31.56.127.35</code>, <code>31.57.192.177</code>, <code>198.89.122.192</code> in the same afternoon rows</td></tr>
+<tr><td>Post-exploitation payload</td><td>XMRig Monero mining (12 Nov section: 11 Nov 06:34&ndash;07:41 UTC and 12 Nov 05:54&ndash;05:55 UTC)</td><td>Same wallet and pool (<code>pool.supportxmr.com:3333</code>; wallet <code>49Gej6TbPqyRhZvJQKpthyaBhd6DsUPq4BmtBKMxXHfb8Xv57iVSPg3PJ6iaokogkzKKuFFryE9qgRTKwJv8addzEcyhP7b</code>); Cloudflare-tunnel miner (<code>barnes-table-everybody-feels.trycloudflare.com/backup109.tgz</code>, <code>xmrigDaemon</code>) ran 12 Nov 05:54&ndash;15:12 UTC &mdash; no new payload class, a longer run</td></tr>
+<tr><td>CVE-2026-123039 NVD record</td><td>Published 12 Nov 14:17 UTC, CNA 7.8 (13 Nov section)</td><td>Still <strong>&ldquo;Awaiting Analysis&rdquo;</strong> (last modified 12 Nov 20:04 UTC); no NVD assessment; affected ranges now listed &mdash; R82.10 Take &le;50, R82.20 Take &le;10, R82 Take &le;130, R81.20 Take &le;173 (Gateway and Management). <strong>Flag:</strong> NVD lists R82.10 Take &le;50 as affected while Check Point says the fix lands from Take 52 &mdash; Take 51 is unaccounted for in either source</td></tr>
+<tr><td>Trend Micro KA-0024802</td><td>&ldquo;As of Nov. 12&rdquo; (13 Nov section)</td><td><strong>Unchanged</strong> &mdash; still headed &ldquo;as of Nov. 12&rdquo;; DDAN ETA 18 Nov, TMMS ETA 17 Nov; neither shipped</td></tr>
+<tr><td>NCSC-NL inventory</td><td>972 tracked / 213 fixed / 212 vulnerable (12 Nov 08:56 CET)</td><td><strong>Unchanged</strong> &mdash; same figures; last list update 12 Nov 08:56 CET</td></tr>
+<tr><td>CISA KEV</td><td>Catalog v2026.11.10, 1,779 entries</td><td><strong>Unchanged</strong> (checked 13 Nov) &mdash; CVE-2026-123039 is not in KEV</td></tr>
+<tr><td>CVE-2026-115560</td><td>No NVD record (checked 13 Nov)</td><td><strong>Still no NVD record</strong>; no PHP fix; no full advisory</td></tr>
+<tr><td>Fortinet FG-IR-26-186 / Xerox</td><td>Timeline ends 5 Nov; Fiery FS800&ndash;FS500 shipment unconfirmed</td><td><strong>Unchanged</strong> &mdash; no new revision; FS800&ndash;FS500 shipment still unconfirmed, FS400&ndash;FS300 target 16 Nov</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>The GreyNoise gap from the morning section is closed.</strong> The figure is a fresh reading (1,229 at 12 Nov 15:12 UTC), not the carried 1,226. Exploitation was still succeeding on GreyNoise sensors into the afternoon of 12 November &mdash; three more successes, three new attacker IPs, the same mining payload running longer.</li>
+<li><strong>It does not change the exploitation picture in kind.</strong> The payload is the same XMRig / Monero mining recorded in the 12 November section, not a new capability, and the count moved by three. The wider counts are unchanged (NCSC-NL 972 / 213 / 212; KEV v2026.11.10; CVE-2026-115560 still without an NVD record).</li>
+<li><strong>CVE-2026-123039&rsquo;s NVD record now lists the affected Take ranges, with a Take 51 gap flagged.</strong> That is a bookkeeping flag, not a patching change: the November Jumbo Hotfix remains the fix, and the flaw is still not in KEV.</li>
+</ul>
+<p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 13 Nov 2026 08:59 UTC (1,229 successful exploitations; latest shell 12 Nov 15:12:48 UTC; new IPs 45.89.209.106, 216.173.102.156, 45.115.193.109; XMRig wallet and Cloudflare-tunnel miner)</a> &middot; <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-123039" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123039 record, published 12 Nov 14:17 UTC, last modified 20:04 UTC (Awaiting Analysis; CNA CVSS 3.1 7.8; affected Takes R82.10 &le;50, R82.20 &le;10, R82 &le;130, R81.20 &le;173)</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 12 Nov (unchanged; DDAN ETA 18 Nov; TMMS ETA 17 Nov)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 12 Nov 08:56 CET, unchanged (972 tracked, 213 fixed, 212 vulnerable)</a> &middot; <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog v2026.11.10, 1,779 entries (CVE-2026-123039 not listed; checked 13 Nov)</a></p>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
 <section id="update-13-nov">
 <p class="eyebrow">Update &middot; 13 November</p>
