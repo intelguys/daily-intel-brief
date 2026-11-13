@@ -467,7 +467,7 @@ section > p { margin-bottom: 14px; }
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 · revised 12 Nov &middot; PAN-OS hotfixes complete, CSA AL-2026-157, CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
+      <span>Compiled 21 Oct 03:55 · revised 13 Nov &middot; Check Point confirms gateway exploitation, chained CVE-2026-123039, CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -504,7 +504,7 @@ section > p { margin-bottom: 14px; }
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#update-12-nov-pm">Update, 12&nbsp;Nov (evening)</a><a href="#update-12-nov">Update, 12&nbsp;Nov</a><a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
+      <a href="#update-13-nov">Update, 13&nbsp;Nov</a><a href="#update-12-nov-pm">Update, 12&nbsp;Nov (evening)</a><a href="#update-12-nov">Update, 12&nbsp;Nov</a><a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
       <a href="#situation">Confirmed &mdash; and withdrawn</a>
       <a href="#attribution">Attribution</a>
       <a href="#exploitation-status">Exploitation status</a>
@@ -603,6 +603,45 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-13-nov">
+<p class="eyebrow">Update &middot; 13 November</p>
+<h2>Check Point confirms PHP2Shell exploitation on its own gateways &mdash; chained with a new privilege-escalation flaw, wiper in the first wave</h2>
+<p class="lede">Check Point Research confirmed on 12 November that an attacker exploited PHP2Shell against unpatched Check Point Security Gateways from 30 October, using the Mobile Access portal for initial access and then escalating to root through a new local privilege-escalation flaw, <strong>CVE-2026-123039</strong> (DynamicCLI IPC interface, CVSS 3.1 <strong>7.8</strong>). Activity ran <strong>30 October&ndash;4 November</strong>: a first wave on 30 October against Israeli organisations, destructive against some of them, and a broader second wave on 2 November across multiple countries and sectors, with no destructive activity. Only <strong>a couple of dozen unpatched systems, in a single region</strong>, were compromised; the PHP2Shell fix had been available since 23 October, and both fixes are in the November Jumbo Hotfix. This is the first vendor-confirmed compromise in this case: Check Point confirms its own gateways were compromised, though the affected organisations are unnamed. It supersedes the status board&rsquo;s &ldquo;still no confirmed named-victim compromise&rdquo;, the bottom line&rsquo;s &ldquo;no confirmed compromise of these CVEs exists&rdquo;, and the 12 November evening section&rsquo;s &ldquo;no new named PHP victim&rdquo;.</p>
+<div class="callout">
+<span class="label">Attribution is not settled &mdash; do not overstate it</span>
+<p>The backdoor and proxy (TSGA and TSProxy) are modified variants of PhiliKit, which ESET previously linked to the China-nexus group UNC5221; the infrastructure sat on LightNode VPS, and scanning ran 00:00&ndash;09:00 UTC (08:00&ndash;17:00 China). But Check Point states the evidence &ldquo;does not allow us to assess with high confidence the true nature of this operation&rdquo; &mdash; the identified actor may have run the whole campaign, acted only as an initial-access broker, or taken part in a false-flag operation, and the destructive activity may have been a smoke screen. The destructive activity, the Israel focus and the Hebrew wiper note do not align with known UNC5221 motives. The wiper note uses the Dream Security brand; Dream had recently published PHP2Shell research on China-nexus actors, but Check Point establishes no clear motive.</p>
+</div>
+<h3>What Check Point confirms</h3>
+<div class="board">
+<div class="tile"><div class="k">CVE-2026-123039</div><div class="v">7.8</div><div class="n">CVSS 3.1, Check Point CNA; Gaia R82.20, R82.10, R82, R81.20; in the wild, SK sk1000362</div></div>
+<div class="tile"><div class="k">Systems compromised</div><div class="v">A couple of dozen</div><div class="n">Unpatched gateways, in a single region; affected customers notified in real time</div></div>
+<div class="tile"><div class="k">Activity window</div><div class="v">30 Oct&ndash;4 Nov</div><div class="n">First wave 30 Oct (Israeli organisations, destructive in some); second wave 2 Nov (multiple countries and sectors, no destructive activity)</div></div>
+<div class="tile"><div class="k">Trend Micro KA-0024802</div><div class="v">As of Nov. 12</div><div class="n">Apex One CP B20113 and Apex Central CP B7351 shipped; DDAN ETA slipped to 18 Nov; TMMS ETA 17 Nov</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Item</th><th>Before</th><th>Now</th></tr></thead>
+<tbody>
+<tr><td>Confirmed victim compromise</td><td>None &mdash; two named claims withdrawn (Sophos 22 Oct, Unit&nbsp;42 25 Oct)</td><td><strong>Confirmed</strong> &mdash; Check Point: a couple of dozen unpatched Security Gateways compromised 30 Oct&ndash;4 Nov (vendor-confirmed; individual organisations unnamed)</td></tr>
+<tr><td>Chained privilege escalation</td><td>No chained CVE published</td><td><strong>CVE-2026-123039</strong> (DynamicCLI IPC LPE to root, CVSS 7.8); fix in the November Jumbo Hotfix, SK sk1000362; PHP2Shell fix SK sk1000302, available since 23 Oct</td></tr>
+<tr><td>Post-exploitation</td><td>Honeypot shells only</td><td>PHP webshells (<code>zz*.tpl</code>, key <code>zz2026</code>, uploads to <code>/tmp/.up.tpl</code>); persistent TSGA backdoor (<code>/tmp/CPconfigdaemon</code>, relocates as <code>slot_CPconfigdaemon</code>) with embedded TSProxy (<code>/lib/libcpfwcommon.so</code>, TCP <code>11072</code>, <code>/tmp/.p_sock</code>); <code>gogo</code> scanner; pivot to VMware ESXi over SSH via <code>vpxuser</code>; <code>destroy_v6</code> wiper and <code>DREAM_ANNEXATION.txt</code> notes</td></tr>
+<tr><td>Check Point IOCs</td><td>None published</td><td>Source IPs <code>130.94.19.204</code> and <code>130.94.19.168</code>; session marker <code>upload_progress_pwn</code>; 8 SHA-256 hashes (webshell, TSGA, TSProxy/libdssafe.so, gogo, destroy_v6, DREAM_ANNEXATION.txt, philistine); artifacts under <code>/opt/CPcvpn-R81.20/tmp/</code></td></tr>
+<tr><td>Trend Micro KA-0024802</td><td>&ldquo;Current Status as of Nov. 4&rdquo;; Apex One/Central ETA 11 Nov passed unmet; DDAN ETA 12 Nov</td><td><strong>&ldquo;As of Nov. 12&rdquo;</strong>; Apex One (on-premise) Critical Patch CP B20113 and Apex Central CP B7351 now listed as shipped; DDAN ETA slipped to <strong>18 Nov</strong>; TMMS ETA still 17 Nov; no successful exploitation of Trend Micro products reported</td></tr>
+<tr><td>NCSC-NL inventory</td><td>972 tracked / 213 fixed / 212 vulnerable (12 Nov 08:56 CET)</td><td><strong>Unchanged</strong> &mdash; same figures, last repo commit 12 Nov 11:39 UTC</td></tr>
+<tr><td>GreyNoise successful exploitations</td><td>1,226 (12 Nov 05:55 UTC last shell)</td><td><strong>No new public figure obtainable</strong> &mdash; the tag page returns &ldquo;Tag not found&rdquo; and no new count surfaced; 1,226 stands unverified, not updated</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>The exploitation picture changes: there is now a confirmed victim.</strong> Until this check, every PHP2Shell success was against honeypots and both named victim claims had been withdrawn. Check Point confirms a couple of dozen of its own unpatched gateways were compromised in the observed incidents, with post-exploitation, persistence and, in the first wave, destructive activity. The organisations are unnamed and the count is small, but the &ldquo;no confirmed victim&rdquo; line no longer holds.</li>
+<li><strong>A new chained CVE enters the picture.</strong> CVE-2026-123039 (CVSS 7.8) is a local privilege escalation in the Gaia DynamicCLI IPC interface; both it and the PHP2Shell fix ship in the November Jumbo Hotfix. Two adjacent flaws in the same hotfix &mdash; CVE-2026-107484 (7.3, Gaia Portal backend authenticated privilege escalation, all versions R80&ndash;R82.20) and CVE-2026-120490 (3.8, management-to-gateway NAT-rule privilege-boundary bypass, R81.20/R82) &mdash; are <strong>not</strong> reported exploited in the wild.</li>
+<li><strong>Trend Micro&rsquo;s global advisory finally moves.</strong> KA-0024802 is now headed &ldquo;Current Status as of Nov. 12&rdquo;: Apex One CP B20113 and Apex Central CP B7351 are listed as shipped Critical Patches &mdash; the same build numbers as the Japanese 2019 editions recorded in the 12 November evening section, now confirmed in the global table. Deep Discovery Analyzer&rsquo;s ETA slips from 12 to 18 November; TMMS stays at 17 November. Trend Micro still reports no successful exploitation of its own products.</li>
+<li><strong>It does not change the wider counts.</strong> NCSC-NL is unchanged (972 / 213 / 212); Censys has no new public figure; CVE-2026-115560 still has no NVD record (checked 13 Nov); php.net&rsquo;s latest item is still 5 November; Fortinet FG-IR-26-186 and Cisco&rsquo;s PHP advisory are unchanged; Xerox Fiery FS800&ndash;FS500 shipment is still unconfirmed, FS400&ndash;FS300 target 16 November. The GreyNoise 1,226 figure could not be re-verified in this window &mdash; it is carried as the last published figure, not a fresh reading.</li>
+</ul>
+<p>Sources: <a href="https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/" target="_blank" rel="noopener noreferrer">Check Point Research &mdash; PHP2Shell Exploitation on Check Point Gateway, published 12 Nov 2026 13:56 UTC (updated 14:02 UTC): exploitation from 30 Oct, CVE-2026-123039 LPE, TSGA/TSProxy, wiper, IOCs, attribution caveat</a> &middot; <a href="https://blog.checkpoint.com/security/security-advisory-active-exploitation-of-php2shell-and-local-privilege-escalation/" target="_blank" rel="noopener noreferrer">Check Point &mdash; Security Advisory: Active Exploitation of PHP2Shell and Local Privilege Escalation, published 12 Nov 2026 13:58 UTC (updated 16:24 UTC): couple of dozen systems, November Jumbo Hotfix, CVE-2026-123039 7.8 (SK sk1000362), CVE-2026-107484 7.3 and CVE-2026-120490 3.8 not exploited</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 12 Nov (Apex One CP B20113 and Apex Central CP B7351 shipped; DDAN ETA 18 Nov; TMMS ETA 17 Nov)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 12 Nov 08:56 CET, unchanged (972 tracked, 213 fixed, 212 vulnerable)</a> &middot; <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard (1,226 successful exploitations as last published; tag page returns &ldquo;Tag not found&rdquo; at this check, no new figure obtainable)</a></p>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
 <section id="update-12-nov-pm">
 <p class="eyebrow">Update &middot; 12 November (evening)</p>
