@@ -143,6 +143,20 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "Indian banks and their customers should treat the alleged $3.4 million loss as unconfirmed and denied: there is no verified incident to respond to, but an allegation involving government-linked accounts is the kind of claim that fuels phishing and impersonation attempts citing YES Bank. Firms should watch for any regulator statement or further reporting, and customers should verify any message citing the alleged incident through known channels. The episode also shows how quickly an unconfirmed fraud allegation against a bank can move through the press.",
+      "headline": "YES Bank denies report of $3.4 million cyber fraud loss involving government accounts",
+      "id": "entry-yes-bank-20261114",
+      "known": "The Banker, a Financial Times Group publication, reported (title: 'India on High Alert After Alleged $3.4 Million Cyber Loss at YES Bank') that a cybersecurity incident had occurred towards the end of October 2026 involving government accounts, with a loss of about $3.4 million (Rs 32 crore). YES Bank issued a clarification on Friday 13 November 2026 rejecting the claims as factually incorrect: it said its banking systems had not been compromised, no government accounts had been affected, and it had suffered no monetary loss linked to the reported incident. The bank said it had contacted the publication to highlight what it described as factual inaccuracies and requested a retraction, warning the report could damage its reputation and create unnecessary uncertainty among customers, investors and other stakeholders. The denial was reported by Indian press on 14 November, including IANS (09:50 IST) and the Free Press Journal (10:55 IST).",
+      "severity": "watch",
+      "source_name": "Free Press Journal, 14 November 2026; IANS via Lokmat Times / New Kerala, 14 November 2026",
+      "source_url": "https://www.freepressjournal.in/amp/business/yes-bank-denies-32-crore-cyber-fraud-allegations-says-no-govt-accounts-were-compromised",
+      "status": "reported / unconfirmed",
+      "summary": "YES Bank has denied a report by The Banker, a Financial Times Group publication, alleging the bank suffered a cyber fraud loss of about $3.4 million (Rs 32 crore) involving government-linked accounts in an incident towards the end of October 2026. In a clarification issued on Friday 13 November, the bank said its systems were not compromised, no government accounts were affected and it suffered no financial loss, and it has asked the publication for a retraction. The allegation is unconfirmed and denied.",
+      "timestamp_sgt": "2026-11-14T13:25:00+08:00",
+      "type": "Disputed cyber-fraud allegation - bank denies",
+      "unknown": "Whether any incident occurred at all: the allegation is unconfirmed and the bank denies it. The Banker's evidence for the alleged loss has not been published in the reporting seen, and no regulator or law-enforcement statement about the alleged incident has been reported. The Banker has not publicly responded to the retraction request in the reporting seen."
+    },
+    {
       "bfsi_impact": "South Korea's regulator now counts 16 financial firms breached in the AI-assisted hacking wave, with about 100,000 records leaked — five more firms than previously known, including a savings bank, a capital company and two virtual-asset firms. Firms with Korean exposure should treat the wave as still spreading and check the shared attacker indicators; the regulator says no account or card numbers usable for direct fraudulent payment have been confirmed leaked so far.",
       "headline": "South Korea regulator counts 16 financial firms breached in AI hacking wave; about 100,000 records leaked",
       "id": "entry-korea-fsc-16-firms-20261114",
@@ -773,8 +787,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-14T12:00:00+08:00",
-  "next_check_sgt": "2026-11-14T16:00:00+08:00",
-  "updated_sgt": "2026-11-14T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-14T16:00:00+08:00",
+  "next_check_sgt": "2026-11-14T20:00:00+08:00",
+  "updated_sgt": "2026-11-14T16:00:00+08:00",
   "version": 1
 }
