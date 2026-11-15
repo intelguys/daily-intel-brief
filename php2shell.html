@@ -467,7 +467,7 @@ section > p { margin-bottom: 14px; }
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 · revised 14 Nov &middot; CVE-2026-123039 added to CISA KEV (due 16 Nov); Check Point confirms gateway exploitation, chained CVE-2026-123039, CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
+      <span>Compiled 21 Oct 03:55 · revised 15 Nov &middot; CYFIRMA raises the Lazarus link to high confidence (v4, 29 Oct); 216-host target list: 30 in South Korea; CVE-2026-123039 in KEV (due 16 Nov); CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -603,6 +603,43 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-15-nov">
+<p class="eyebrow">Update &middot; 15 November</p>
+<h2>CYFIRMA raises the Lazarus link to high confidence &mdash; and Korean press publishes the target-list breakdown</h2>
+<p class="lede">CYFIRMA&rsquo;s updated report on PHP2Shell exploitation (blog published 4 November; advisory version 4, 29 October; reference CYF-FS-2026-1029-PHP2SHELL-DPRK) raises its assessment of the operators as DPRK state-nexus actors within the Lazarus Group ecosystem from <strong>moderate to high confidence</strong>. Korean press reported the findings on 15 November (Chosun Biz; SBS; Yonhap-originated), publishing the country breakdown of the captured 216-host target list: <strong>United States 49, Japan 47, India 31, South Korea 30</strong>, Thailand 16, United Arab Emirates 14, Indonesia 10, Australia 10, Saudi Arabia 5, Singapore 4 &mdash; 148 in Asia-Pacific (68.5%). The operators&rsquo; stated priority was government and banks first, then logistics and trading platforms, with a mandate CYFIRMA describes as financial gain with espionage against government hosts as a parallel objective. This supersedes the bottom line&rsquo;s &ldquo;MODERATE confidence in a Lazarus link&rdquo; and &ldquo;Grade the nexus Low&ndash;Medium&rdquo;, the status board&rsquo;s Attribution and DPRK-nexus tiles, the Attribution section&rsquo;s LOW&ndash;MEDIUM grading, and the source register&rsquo;s CYFIRMA entry &mdash; all of which record the version 1&ndash;3 position. Dark-web chats quoted in the report show the operators scouting targets in late October (27 October per Chosun Biz; 28 October per SBS &mdash; the two accounts differ by a day and are not reconciled here).</p>
+<div class="callout">
+<span class="label">What the raise does not settle &mdash; do not overstate it</span>
+<p>No malware-family or infrastructure overlap with a named Lazarus cluster has yet been confirmed &mdash; CYFIRMA&rsquo;s own words &mdash; and the assessment would be lowered if collection pointed to an unaffiliated Korean-speaking group or to deliberate false-flagging. The anonymous expert critique this brief already carries (chat Korean that reads as English put through a translator, real-name-style pseudonyms, and no published collection method for real-time acquisition of private I2P direct messages) is unresolved. The 581-host expansion and the compromise of any individual host remain operator claims, not independently verified; appearing on the 216-host list indicates targeting, not compromise; and no victim institution has been named and no damage confirmed.</p>
+</div>
+<div class="board">
+<div class="tile"><div class="k">Lazarus-ecosystem link</div><div class="v">High confidence</div><div class="n">CYFIRMA v4 (29 Oct) raises the assessment from moderate; preparation/staging was already high</div></div>
+<div class="tile"><div class="k">Target list</div><div class="v">216 hosts, 10 countries</div><div class="n">Captured, not a claim; US 49, Japan 47, India 31, South Korea 30; Asia-Pacific 148 (68.5%)</div></div>
+<div class="tile"><div class="k">Claimed scope</div><div class="v">581 hosts*</div><div class="n">Operator claim, unverified; roughly a third of the 216 already touched, per the operators</div></div>
+<div class="tile"><div class="k">Technical overlap</div><div class="v">None confirmed</div><div class="n">No malware-family or infrastructure overlap with a named Lazarus cluster yet (CYFIRMA)</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Item</th><th>Before</th><th>Now</th></tr></thead>
+<tbody>
+<tr><td>Lazarus-ecosystem link</td><td>MODERATE (advisory v1&ndash;v3); nexus graded Low&ndash;Medium (bottom line; board; Attribution section; source register)</td><td><strong>HIGH confidence (advisory v4, 29 Oct)</strong> &mdash; CYFIRMA raises the assessment; the evidence base is unchanged and the caveats in the callout above still apply</td></tr>
+<tr><td>216-host target list</td><td>Captured list across 10 countries; no country breakdown in this brief (4 Nov section)</td><td><strong>Country breakdown published:</strong> US 49, Japan 47, India 31, South Korea 30, Thailand 16, UAE 14, Indonesia 10, Australia 10, Saudi Arabia 5, Singapore 4</td></tr>
+<tr><td>Claimed exploitation</td><td>Operators report exploitation 25&ndash;29 Oct; 581-host expansion claimed (4 Nov section)</td><td><strong>Unchanged</strong> &mdash; still operator claims, not independently verified; no victim institution named; no damage confirmed (CYFIRMA via Chosun Biz, 15 Nov)</td></tr>
+<tr><td>GreyNoise successful exploitations</td><td>1,229 (last shell 12 Nov 15:12:48 UTC)</td><td><strong>Unchanged</strong> (checked 15 Nov 08:58 UTC) &mdash; no new shells in this check</td></tr>
+<tr><td>CVE-2026-123039 KEV / NVD</td><td>KEV catalog v2026.11.13, 1,781 entries; added 13 Nov, due 16 Nov; NVD &ldquo;Undergoing Enrichment&rdquo; (14 Nov section)</td><td><strong>Unchanged</strong> (checked 15 Nov 08:58 UTC) &mdash; KEV still v2026.11.13, 1,781 entries; NVD still &ldquo;Undergoing Enrichment&rdquo;, last modified 13 Nov</td></tr>
+<tr><td>Other trackers</td><td>Trend Micro KA-0024802 (DDAN ETA 18 Nov, TMMS ETA 17 Nov); NCSC-NL 972 / 213 / 212; Fortinet FG-IR-26-186; Xerox XRX26-016 v6; Fiery FS800&ndash;FS500 shipment unconfirmed</td><td><strong>Unchanged</strong> in this check &mdash; no new patch, hotfix or vendor status surfaced</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>The attribution grading this brief carries in four places is now superseded.</strong> The Lazarus-ecosystem link is a vendor-assessed high-confidence judgement, not the hedged single-vendor claim recorded on 26 October. The grade changes; the evidence does not &mdash; it still rests on CYFIRMA&rsquo;s closed-source collection, with no technical overlap and no published collection method.</li>
+<li><strong>It does not change the exploitation picture or the patch advice.</strong> The scans in your logs remain multi-actor commodity activity, and the Check Point / PhiliKit / UNC5221 link is a separate, unrelated attribution. Patch PHP to 8.5.12, 8.4.27, 8.3.36 or 8.2.35 (or a verified vendor backport), restart every PHP worker, and hunt logs back to 17 October.</li>
+<li><strong>The country breakdown gives defenders a concrete check.</strong> Organisations in the ten listed countries &mdash; government and banking first &mdash; should compare address ranges against CYFIRMA&rsquo;s masked /24 list in advisory version 4. A match is a confirmed target, not a confirmed compromise, and a patched host that banners a fixed version was dropped from the operators&rsquo; pool.</li>
+<li><strong>The news event is the press coverage, not new vendor facts.</strong> The advisory is version 4, dated 29 October; the 15 November reporting publicised it. Do not read the 15 November date as a new campaign, and do not treat the 30-South-Korea figure as a breach count &mdash; CYFIRMA has not confirmed any damage.</li>
+</ul>
+<p>Sources: <a href="https://www.cyfirma.com/blogs/php2shell-vulnerability-under-active-exploitation-are-you-affected-and-what-should-you-do-today/" target="_blank" rel="noopener noreferrer">CYFIRMA &mdash; PHP2Shell Vulnerability Explained: Active Exploitation, Security Risks &amp; Mitigation Steps (blog published 4 Nov 2026; advisory v4, 29 Oct; ref CYF-FS-2026-1029-PHP2SHELL-DPRK; TLP:CLEAR)</a> &middot; <a href="https://biz.chosun.com/en/en-it/2026/11/15/S7H4BV7HSRAW5ITC2NX5INJSVI/" target="_blank" rel="noopener noreferrer">Chosun Biz &mdash; Lazarus targets 30 South Korea servers in PHP flaw probe, report says, 15 Nov 2026 (AI-translated from Korean)</a> &middot; <a href="https://news.sbs.co.kr/english/article.do?news_id=N1008846395" target="_blank" rel="noopener noreferrer">SBS &mdash; &ldquo;South Korean IP Ranges Look Promising&rdquo;... North Korea&rsquo;s Lazarus Targeted 30 Domestic Servers, 15 Nov 2026 (AI-translated from Korean)</a> &middot; <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 15 Nov 08:58 UTC (1,229 successful exploitations, unchanged; last shell 12 Nov 15:12:48 UTC)</a> &middot; <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog (still v2026.11.13, 1,781 entries; checked 15 Nov 08:58 UTC)</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123039" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123039 record, read 15 Nov 08:58 UTC (still &ldquo;Undergoing Enrichment&rdquo;; last modified 13 Nov)</a></p>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
 
 <section id="update-14-nov">
 <p class="eyebrow">Update &middot; 14 November</p>
