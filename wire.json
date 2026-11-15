@@ -171,6 +171,34 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "If genuine, a Pixelleaks listing naming a US financial-services firm extends the group's November campaign — it has listed 23 victims, including AMD Capital and Four Points Financial — into another financial target; treat as unverified until the firm or a primary source confirms it, and watch for a published data sample or a company statement.",
+      "headline": "Pixelleaks ransomware group lists Koehler Financial Group as victim; claim unverified",
+      "id": "entry-koehler-financial-pixelleaks-20261115",
+      "known": "The Pixelleaks ransomware group listed Koehler Financial Group Inc., a US financial-services firm, on its dark-web leak site on 15 November 2026, per ThreatMon relayed by Undercode News. No data sample, ransom demand or victim statement has been reported, and the claim has not been independently verified. Pixelleaks typically follows a double-extortion model, exfiltrating data before encrypting systems.",
+      "severity": "watch",
+      "source_name": "Undercode News (via ThreatMon), 15 November 2026",
+      "source_url": "https://undercodenews.com/pixelleaks-claims-two-new-us-victims-including-koehler-financial-group-and-orion-communications-video/",
+      "status": "reported / unconfirmed",
+      "summary": "The Pixelleaks ransomware group listed US financial-services firm Koehler Financial Group on its leak site on 15 November 2026. The firm has not confirmed a breach and the claim is unverified.",
+      "timestamp_sgt": "2026-11-16T00:00:00+08:00",
+      "type": "Unverified ransomware claim — financial services firm",
+      "unknown": "Whether Pixelleaks actually breached Koehler Financial Group, what data if any it holds, and whether any ransom demand was made; no time of day was given for the listing."
+    },
+    {
+      "bfsi_impact": "La Poste group owns La Banque Postale, and Maileva handles financial documents — payslips, invoices, shareholder meeting notices — for more than 70,000 business clients, so the exposed names and postal addresses of 22 million recipients support phishing, social-engineering and identity-fraud targeting, including of bank customers; direct account-takeover risk is low because no bank details were compromised, but firms whose mail Maileva handles should expect customer queries and watch for phishing using the exposed details.",
+      "headline": "La Poste subsidiary Maileva confirms breach exposing names and addresses of 22 million people; no bank details affected",
+      "id": "entry-maileva-laposte-20261115",
+      "known": "A mid-September cyberattack on Maileva, a Docaposte business in the La Poste group that prints and posts documents such as payslips, registered letters, invoices and shareholder meeting notices for more than 70,000 business clients, stole the first names, surnames and postal addresses of 22 million recipients, La Poste confirmed to AFP on 14 November 2026. About 39 million mail references were in the compromised database, equal to 22 million distinct people after deduplication. Maileva suspended services on 23 September and resumed on 29 September. Maileva says bank details were not affected; it has notified France's CNIL, filed a criminal complaint, and a judicial investigation is under way. This item was confirmed before the 20:00 wire check on 15 November and missed by it.",
+      "severity": "watch",
+      "source_name": "Security Affairs, 15 November 2026; Le Temps / AFP, 14 November 2026",
+      "source_url": "https://securityaffairs.com/203126/data-breach/data-breach-at-la-poste-subsidiary-maileva-affects-22-million-people-in-france.html",
+      "status": "confirmed",
+      "summary": "La Poste confirmed to AFP on 14 November that a mid-September attack on its subsidiary Maileva stole the names and postal addresses of 22 million recipients of client companies' mail. Bank details were not affected; CNIL was notified and a criminal complaint filed.",
+      "timestamp_sgt": "2026-11-16T00:00:00+08:00",
+      "type": "Major breach — postal group with banking arm",
+      "unknown": "Which client companies' recipients are affected; whether any letter contents beyond names and postal addresses were taken; the intrusion vector and whether any actor has claimed responsibility — reporting does not establish attribution."
+    },
+    {
       "bfsi_impact": "If genuine, a Pixelleaks listing naming a financial-services firm extends the group's November campaign — it has listed 23 victims, including Four Points Financial — into another sector target; treat as unverified until the firm or a primary source confirms it, and watch for a published data sample or a company statement.",
       "headline": "Pixelleaks ransomware group lists AMD Capital as victim; claim unverified",
       "id": "entry-amd-capital-pixelleaks-20261115",
@@ -983,8 +1011,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-15T20:00:00+08:00",
-  "next_check_sgt": "2026-11-16T00:00:00+08:00",
-  "updated_sgt": "2026-11-15T20:00:00+08:00",
+  "last_checked_sgt": "2026-11-16T00:00:00+08:00",
+  "next_check_sgt": "2026-11-16T04:00:00+08:00",
+  "updated_sgt": "2026-11-16T00:00:00+08:00",
   "version": 1
 }
