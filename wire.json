@@ -171,6 +171,34 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "If genuine, a Pixelleaks listing naming a financial-services firm extends the group's November campaign — it has listed 23 victims, including Four Points Financial — into another sector target; treat as unverified until the firm or a primary source confirms it, and watch for a published data sample or a company statement.",
+      "headline": "Pixelleaks ransomware group lists AMD Capital as victim; claim unverified",
+      "id": "entry-amd-capital-pixelleaks-20261115",
+      "known": "The Pixelleaks ransomware group listed AMD Capital, a financial-services firm, on its dark-web leak site on 15 November 2026. No data sample, ransom demand or victim statement has been reported, and the claim has not been independently verified. Pixelleaks typically follows a double-extortion model, exfiltrating data before encrypting systems.",
+      "severity": "watch",
+      "source_name": "Cyber Threat Intelligence (ransomware-tracking record), 15 November 2026",
+      "source_url": "https://cyberthreatintelligence.net/ransomware-victim/amd-capital-pixelleaks-2026",
+      "status": "reported / unconfirmed",
+      "summary": "The Pixelleaks ransomware group listed financial-services firm AMD Capital on its leak site on 15 November 2026. The firm has not confirmed a breach and the claim is unverified.",
+      "timestamp_sgt": "2026-11-15T20:00:00+08:00",
+      "type": "Unverified ransomware claim — financial services firm",
+      "unknown": "Whether Pixelleaks actually breached AMD Capital, what data if any it holds, and whether any ransom demand was made; no time of day was given for the listing."
+    },
+    {
+      "bfsi_impact": "Banks and financial firms — especially in South Korea and the other countries on the list — should check PHP versions and patch PHP2Shell, and hunt for the scouting activity Cyfirma describes. The report links the actively exploited PHP2Shell flaw to a financially motivated North Korea-linked actor explicitly targeting banks, so PHP-based internet-facing servers are the exposure to close first.",
+      "headline": "Cyfirma: Lazarus probing PHP2Shell against Korean banks and financial institutions",
+      "id": "entry-cyfirma-lazarus-php2shell-20261115",
+      "known": "Threat-intelligence firm Cyfirma said in an updated report on PHP2Shell exploitation, published 15 November 2026, that Lazarus — a hacking group believed to be linked to North Korea's Reconnaissance General Bureau — scouted PHP-based web servers for attack. Dark-web chats in the report show the hackers scouting targets on 27 October, saying some IP ranges in Korea, Japan, the United States, Thailand, Indonesia and India \"look promising\". The target list Cyfirma obtained contained 216 servers across 10 countries: 30 in South Korea, the fourth most after the United States (49), Japan (47) and India (31). Cyfirma said the hackers prioritised PHP-based web servers in seven sectors — government agencies; banks and financial institutions; telecommunications; critical infrastructure; logistics and aviation; manufacturing; and online trading platforms — and discussed ways to penetrate them, acting with a clear goal of \"financial theft and espionage\". PHP2Shell lets an attacker take remote control of a server without a password; Cyfirma advised that because the flaw lies in PHP itself rather than in individual websites, updating a site's application alone will not block it.",
+      "severity": "watch",
+      "source_name": "Cyfirma report, via Chosun Biz, 15 November 2026 (translated from Korean; English version AI-translated)",
+      "source_url": "https://biz.chosun.com/en/en-it/2026/11/15/S7H4BV7HSRAW5ITC2NX5INJSVI/",
+      "status": "reported / unconfirmed",
+      "summary": "Cyfirma said in an updated report on PHP2Shell exploitation published 15 November 2026 that Lazarus scouted PHP-based web servers for attack, with a target list of 216 servers across 10 countries — 30 in South Korea, fourth most after the US, Japan and India. The hackers prioritised servers in seven sectors including banks and financial institutions, with a stated goal of financial theft and espionage. No breach has been confirmed.",
+      "timestamp_sgt": "2026-11-15T08:55:00+08:00",
+      "type": "Ongoing campaign — PHP2Shell targeting of financial sector",
+      "unknown": "Cyfirma cautioned that appearing on the target list does not mean those servers were actually breached, and said it has not yet confirmed any damage. No victim institution was named, and whether any Korean bank was actually compromised is unconfirmed."
+    },
+    {
       "bfsi_impact": "South Korea's regulator has found apparent legal violations in the Mirae hacking cases and is widening checks across the sector, so firms with Korean exposure should expect tougher scrutiny of external access points and internal controls; about 580 financial companies and virtual-asset businesses must file first self-check results by 30 November. The finding keeps the Korean AI-driven hacking wave live as a supervisory matter, not just an incident list.",
       "headline": "South Korea's FSS finds law violations in Mirae hack probe; orders about 580 financial firms to self-check by 30 November",
       "id": "entry-korea-fss-mirae-20261115",
@@ -337,20 +365,6 @@
       "timestamp_sgt": "2026-11-14T13:25:00+08:00",
       "type": "Disputed cyber-fraud allegation - bank denies",
       "unknown": "Whether any incident occurred at all: the allegation is unconfirmed and the bank denies it. The Banker's evidence for the alleged loss has not been published in the reporting seen, and no regulator or law-enforcement statement about the alleged incident has been reported. The Banker has not publicly responded to the retraction request in the reporting seen."
-    },
-    {
-      "bfsi_impact": "South Korea's regulator now counts 16 financial firms breached in the AI-assisted hacking wave, with about 100,000 records leaked — five more firms than previously known, including a savings bank, a capital company and two virtual-asset firms. Firms with Korean exposure should treat the wave as still spreading and check the shared attacker indicators; the regulator says no account or card numbers usable for direct fraudulent payment have been confirmed leaked so far.",
-      "headline": "South Korea regulator counts 16 financial firms breached in AI hacking wave; about 100,000 records leaked",
-      "id": "entry-korea-fsc-16-firms-20261114",
-      "known": "South Korea's Financial Services Commission and Financial Supervisory Service said at a second emergency response meeting on 14 November 2026 that 16 financial firms across all sectors have now been confirmed breached in the recent AI-assisted hacking wave, with about 100,000 leaked records (names, contact details, resident registration numbers and email addresses) confirmed so far. Five firms were newly reported beyond those previously known: DB Savings Bank (breach on 10 November, no customer data leaked, about 100 staff records exposed), KDB Capital (attacked 10 November, 848 customers' names, resident registration numbers and birth dates), BrightPix, and virtual-asset firms Streami (operator of Gopax) and PraBank. The previously known firms include Shinhan, KB Kookmin, Hana and BNK Busan banks, Yegaram, Welcome and OK savings banks, Hyundai Capital, the National Credit Union Federation, PFCT and Modu. The regulator said firms are still checking against shared attacker IP addresses, and that no account numbers or card numbers directly usable for fraudulent payment have been confirmed leaked.",
-      "severity": "watch",
-      "source_name": "Yonhap News Agency, 14 November 2026 (in Korean)",
-      "source_url": "https://stock.mk.co.kr/news/view/1174470",
-      "status": "confirmed",
-      "summary": "South Korea's financial regulator said on 14 November 2026 that 16 financial firms have now been confirmed breached in the AI-assisted hacking wave, with about 100,000 records leaked, naming five newly reported firms including DB Savings Bank, KDB Capital and the Gopax operator Streami. No account or card numbers usable for direct fraudulent payment have been confirmed leaked.",
-      "timestamp_sgt": "2026-11-14T12:00:00+08:00",
-      "type": "Sector regulator update — AI-driven hacking wave",
-      "unknown": "Whether further firms will be confirmed as checks against the shared attacker indicators continue, and the full breakdown of the roughly 100,000 leaked records by firm."
     },
     {
       "bfsi_impact": "If genuine, a ransomware listing naming a US auto lender and a major private-equity firm would extend the Payoutsking campaign into financial services; treat as unverified until either firm or a primary source confirms it, and watch for a published data sample or a company statement.",
@@ -969,8 +983,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-15T12:00:00+08:00",
-  "next_check_sgt": "2026-11-15T16:00:00+08:00",
-  "updated_sgt": "2026-11-15T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-15T20:00:00+08:00",
+  "next_check_sgt": "2026-11-16T00:00:00+08:00",
+  "updated_sgt": "2026-11-15T20:00:00+08:00",
   "version": 1
 }
