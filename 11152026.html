@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Sunday BFSI Cyber Threat Intelligence Briefing — 15 November 2026</title>
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#fffdf8; --surface2:#eceadf; --ink:#1c1e22; --muted:#5c6068;
+  --line:#d8d3c4; --accent:#8a3324; --accent2:#1f4e5f; --warn:#9a6a12; --ok:#2e6b4f;
+  --chip:#efe9db; --crit:#8a3324; --high:#b35c1e; --med:#9a6a12;
+  --shadow:0 1px 3px rgba(28,30,34,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14161a; --surface:#1d2025; --surface2:#262a31; --ink:#ece9e2; --muted:#a7abb3;
+    --line:#3a3e46; --accent:#e08a76; --accent2:#7fb8c9; --warn:#d9b45c; --ok:#7fc79e;
+    --chip:#2b2f36; --crit:#f0927f; --high:#eda26a; --med:#d9b45c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
+h2{font-size:1.55rem;margin:0 0 6px}
+h3{font-size:1.12rem}
+a{color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+section{margin-top:44px}
+.sec-head{border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* Masthead */
+.mast{padding:34px 0 8px}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.mast h1{font-size:2.35rem;margin:10px 0 8px;max-width:20ch}
+.mast .sub{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:.83rem;box-shadow:var(--shadow)}
+.meta b{font-weight:700}
+
+/* Follow-up tracker */
+.tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.track{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.track .t-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.track .t-status{font-family:Georgia,serif;font-size:1.15rem;margin:5px 0 4px}
+.track p{margin:0;font-size:.86rem;color:var(--muted)}
+.st-passed{color:var(--crit)} .st-due{color:var(--high)} .st-pending{color:var(--warn)} .st-done{color:var(--ok)}
+
+/* Executive summary */
+.exec{display:grid;gap:12px}
+.exec-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.exec-num{font-family:Georgia,serif;font-size:2rem;line-height:1;color:var(--accent);flex:0 0 auto}
+.exec-card p{margin:0}
+.exec-card b{font-weight:700}
+
+/* Badges */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:3px 9px;background:var(--chip);color:var(--ink);vertical-align:middle}
+.badge.red{background:var(--crit);color:#fff}
+.badge.amber{background:var(--warn);color:#fff}
+.badge.teal{background:var(--accent2);color:#fff}
+.badge.grey{background:var(--chip);color:var(--muted)}
+@media (prefers-color-scheme: dark){.badge.red,.badge.amber,.badge.teal{color:#14161a}}
+
+/* Actor cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actor{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.actor .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.actor h3{margin-bottom:4px}
+.actor .target{color:var(--accent2);font-weight:600;font-size:.92rem;margin:0 0 10px}
+.actor dl{margin:0;display:grid;gap:8px}
+.actor dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.actor dd{margin:2px 0 0;font-size:.93rem}
+.actor .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+.none-card{border:1px dashed var(--line);border-radius:8px;padding:16px 18px;color:var(--muted);background:transparent;margin-top:14px}
+.none-card b{color:var(--ink)}
+
+/* Vuln table */
+.vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
+.vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line)}
+th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+tbody tr:last-child td{border-bottom:none}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:nowrap}
+.score{font-weight:700}
+.score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
+.status{font-size:.78rem;font-weight:700}
+.status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
+.count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+/* Two-col panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:8px}
+.panel p,.panel li{font-size:.94rem}
+.panel ul{margin:6px 0 0;padding-left:20px}
+.panel li{margin-bottom:7px}
+
+/* IOC + actions */
+.ioc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.ioc h3{margin-bottom:8px}
+.ioc ul{margin:6px 0 0;padding-left:20px}
+.ioc li{margin-bottom:8px;font-size:.94rem}
+.ioc .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+ol.actions{counter-reset:step;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.actions li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px 14px 52px;position:relative;box-shadow:var(--shadow);font-size:.95rem}
+ol.actions li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+@media (prefers-color-scheme: dark){ol.actions li::before{color:#14161a}}
+
+/* Unverified */
+.unverified{border:1px solid var(--warn);border-radius:8px;padding:18px;background:var(--surface)}
+.unverified ul{margin:8px 0 0;padding-left:20px}
+.unverified li{margin-bottom:8px;font-size:.94rem}
+
+/* Sources */
+.sources{font-size:.88rem}
+.sources li{margin-bottom:6px;overflow-wrap:anywhere}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  .tracker{grid-template-columns:1fr 1fr}
+  .actor-grid,.panels{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tbody tr{border-bottom:2px solid var(--line);padding:8px 0}
+  td{border-bottom:none;padding:5px 12px}
+  td.cve{white-space:normal;font-size:.95rem}
+  td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+}
+@media (max-width:460px){.tracker{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast">
+<div class="kicker">BFSI Cyber Threat Intelligence Briefing</div>
+<h1>Sunday 15 November 2026</h1>
+<p class="sub">Window: approximately 14 November 09:00 SGT to 15 November 09:00 SGT. New and overnight developments, deduplicated against the 14 November edition, with gaps stated plainly.</p>
+<div class="meta-row"><span class="meta"><b>Window</b> 24 hours to ~09:00 SGT</span><span class="meta"><b>KEV</b> No new additions 14 Nov — total 1,781</span><span class="meta"><b>Japan</b> Two confirmed breaches missed yesterday</span><span class="meta"><b>Binance</b> ZK proof now live</span></div>
+<div class="tracker">
+<div class="track"><div class="t-label">Japan</div><div class="t-status st-passed">Two confirmed breaches</div><p>AXA Direct Japan says about 597,000 MyAXA accounts may have been affected; Monex Securities says up to 1.13 million email addresses and 1,592 identity-document images may have leaked. Both were disclosed on 13 Nov and missed by the 14 November edition.</p></div>
+<div class="track"><div class="t-label">Korea</div><div class="t-status st-due">Wave keeps spreading</div><p>KOMSCO&rsquo;s chak app leaked data of 3,083 users, including account numbers and encrypted card numbers; KBIZ&rsquo;s Yellow Umbrella site may have exposed member data, with the scale still unconfirmed. The FSI special audit starts Monday.</p></div>
+<div class="track"><div class="t-label">Binance</div><div class="t-status st-done">ZK proof live</div><p>The 198-token zero-knowledge proof is now published — Merkle root shown, BTC 100.05% — and withdrawals reopened on 87 networks, with full reopening aimed by about 22 November.</p></div>
+<div class="track"><div class="t-label">KEV</div><div class="t-status st-pending">No new additions</div><p>Catalogue still 1,781 entries (2026.11.13). A claim that two flaws were added on 14 Nov was refuted — both were added on 24 September. The 13 Nov pair are not carried forward: no new development.</p></div>
+</div>
+</header>
+
+<section aria-labelledby="exec-h">
+<div class="sec-head"><h2 id="exec-h">Executive summary</h2></div>
+<div class="exec">
+<div class="exec-card"><span class="exec-num">1</span><p><strong>Two confirmed Japanese financial breaches that the 14 November edition missed lead today.</strong> AXA Direct Japan says unauthorised access to its MyAXA customer portal may have affected about 597,000 accounts — names, addresses, dates of birth, emails and phone numbers — and its roadside-assistance provider was breached separately. Monex Securities says a third-party account-opening system may have exposed up to 1.13 million email addresses and 1,592 identity-verification document images, including driving licences, My Number card fronts and selfies. Both figures are &ldquo;may have leaked&rdquo; maxima, not confirmed theft counts — but both are prime phishing and identity-fraud material, and both companies say no account numbers, passwords or card data were in the affected systems.</p></div>
+<div class="exec-card"><span class="exec-num">2</span><p><strong>Korea&rsquo;s financial-sector incident wave keeps producing disclosures, and the counting is still contested.</strong> KOMSCO confirmed a breach of its chak local-currency app affecting 3,083 users, including account numbers and encrypted card numbers. KBIZ said its Yellow Umbrella mutual-aid site may have exposed member data, with the scale still unconfirmed — do not read the 1.92 million membership figure as a victim count. The FSI special audit starts Monday 16 November. A 14 November report of a &ldquo;second emergency meeting&rdquo; and a 16-firm count could not be reconciled with the regulator&rsquo;s 14 October press release carrying the same figures, so it is not treated as a new development.</p></div>
+<div class="exec-card"><span class="exec-num">3</span><p><strong>Binance&rsquo;s recovery moved forward, while the patching backlog did not.</strong> The 198-token zero-knowledge proof is now live — verified by a live read at 00:08 SGT, with the Merkle root published and BTC at 100.05% — and withdrawals reopened on 87 networks, with full reopening aimed by about 22 November. No new CISA KEV additions were made on 14 November; a claim that two were added was refuted, since both were added on 24 September. N-able&rsquo;s follow-up hotfix is still in validation with no fix as of 14 November, and a public proof of concept now exists for the Fortinet FortiManager 9.8 flaw, though exploitation is not confirmed.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="actors-h">
+<div class="sec-head"><h2 id="actors-h">Threat actor activity</h2><p>Confirmed, reported and unconfirmed items are labelled as such. No MITRE mapping is shown where the source published none.</p></div>
+<div class="filters"><button type="button" data-filter="all">All</button><button type="button" data-filter="confirmed">Confirmed</button><button type="button" data-filter="reported">Reported / unconfirmed</button></div>
+<div class="actor-grid">
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge red">New</span><span class="badge teal">Confirmed</span></div>
+<h3>Unknown actor — AXA Direct Japan</h3>
+<p class="target">Insurer; MyAXA customer portal and outsourced roadside-assistance provider, Japan</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. No intrusion detail published. Suspicious access to the MyAXA portal was detected at about 08:30 on 9 Nov and blocked at 10:53 the same day. The roadside-assistance provider Prestige Core Solution detected unauthorised access to its own systems on 29 Oct and told AXA on 2 Nov that some customer-related information had been taken outside its system.</dd>
+<dt>Impact</dt><dd>Confirmed (company notices, 12 and 13 Nov; reported 14 Nov — catch-up, missed by the 14 November edition). About 597,000 MyAXA accounts may have been affected; the information that may have leaked is names, addresses, dates of birth, email addresses and telephone numbers. Credit card information was not included. Part of the leak has been confirmed; the cause and full scope remain under investigation. No misuse or secondary damage had been confirmed as of the 13 Nov notice, and affected customers are to be contacted individually. MyAXA was suspended and resumed on 12 Nov after security checks. The provider-side scope is still being examined and cannot simply be added to 597,000. Prestige International separately disclosed up to about 5.5 million records (duplicates included) across its own systems on 6 Nov. <strong>Critique:</strong> 597,000 is the number of accounts that may have been affected, not a confirmed count of exposed individuals — but the data types are exactly what impersonation fraud needs, and the two-incident structure (portal plus provider) shows the same third-party exposure pattern as Monex.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge red">New</span><span class="badge teal">Confirmed</span></div>
+<h3>Unknown actor — Monex Securities</h3>
+<p class="target">Brokerage; third-party online account-opening system, Japan</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. Intrusion method and contractor&rsquo;s identity not disclosed. The contractor detected an attempted unauthorised connection on 18 Oct; Monex cut external access on 19 Oct.</dd>
+<dt>Impact</dt><dd>Confirmed (company announcement, 13 Nov 18:45 JST; follow-up reporting 14 Nov — catch-up, missed by the 14 November edition). An interim forensic report found that up to 1,130,000 email addresses registered from 16 Oct 2019 onward as the first step of an online account application — including duplicates, incomplete entries and people who never completed opening an account — and 1,592 identity-verification document images (My Number card fronts, driving licence fronts and backs, selfies) may have leaked. The My Number itself (on the card reverse) was not confirmed leaked, and account numbers and login/trading passwords were stored in a separate core system and were not exposed. No unauthorised trades, asset losses or misuse had been reported as of the announcement; parts of online account opening remain suspended. <strong>Critique:</strong> the 1.13 million figure is a maximum count of email addresses, not a confirmed count of exposed individuals — but a list of 1.13 million investor email addresses plus 1,592 ID images is a ready-made phishing and identity-fraud list, and the breach sat in a supplier&rsquo;s system for a month before it was disclosed.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge red">New</span><span class="badge teal">Confirmed</span></div>
+<h3>Unknown actor — KOMSCO &ldquo;chak&rdquo; local-currency app</h3>
+<p class="target">State-run mint and security printer; mobile local-currency payment platform, South Korea</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. Attacker and entry route not disclosed; investigation ongoing. Abnormal access was first detected at about 09:30 on 13 Nov.</dd>
+<dt>Impact</dt><dd>Confirmed (company statement, 14 Nov; Korean press — translated). Unauthorised access to the chak platform exposed personal data of 3,083 users (as of 06:00 on 14 Nov): names, dates of birth, mobile phone numbers, account numbers, linkage information (CI), email addresses and encrypted card numbers. For 3,072 of the 3,083 people, at most two data items were exposed; 11 people had three to four items exposed. KOMSCO blocked the suspected attack IP, restricted all overseas IP access, temporarily suspended the affected server&rsquo;s service and resumed normal operation after emergency security measures. It reported the incident to the Korea Internet &amp; Security Agency (KISA) and other authorities and is notifying affected customers. <strong>Critique:</strong> small scale and the card numbers were encrypted, but account numbers plus personal details are usable for targeted phishing and impersonation of the chak platform and its partner merchants — and KOMSCO&rsquo;s own wording is that data was viewed via unauthorised access, not confirmed copied out, so treat the leak as confirmed viewing rather than confirmed exfiltration.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge red">New</span><span class="badge teal">Confirmed</span></div>
+<h3>Unknown actor — KBIZ Yellow Umbrella mutual-aid scheme</h3>
+<p class="target">Small-business mutual-aid scheme (about 1.92 million members), South Korea</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. Attacker and entry route not disclosed. Abnormal external access to the Yellow Umbrella website was detected on 11 Nov.</dd>
+<dt>Impact</dt><dd>Confirmed as an incident by KBIZ (notice, 14 Nov; Korean press — translated); whether data was actually taken, and how many people are affected, are still under investigation. KBIZ said some customers&rsquo; personal data may have been viewed by a third party: name, first seven digits of the resident registration number, mobile number, home address, home phone, email and SMS/email consent status. The remaining resident-number digits are stored with non-reversible encryption and were not exposed. KBIZ blocked the attacking IP, tightened access controls on the query screen, reported to KISA, sent individual SMS warnings to suspected targets, warned of impersonation and loan fraud, and is running a temporary weekend call centre. <strong>Critique:</strong> do not present 1.92 million as a victim count — that is total membership. Until the investigation reports, this is a confirmed intrusion with an unconfirmed leak, and the partial resident registration numbers are the item that matters most for identity fraud.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge red">New</span><span class="badge teal">Confirmed</span></div>
+<h3>Unknown actor — Vietnam Credit Information Centre (CIC)</h3>
+<p class="target">Credit-information centre under the State Bank of Vietnam</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. No intrusion detail published; scale still under review.</dd>
+<dt>Impact</dt><dd>Confirmed (VNCERT, reported 12 Nov; State Bank of Vietnam statement, date could not be verified — likely 13–14 Nov). VNCERT confirmed cybercriminals attacked the CIC to steal personal data; the scale is still under review and no victim count has been published. The State Bank said the CIC does not collect deposit or payment-account details, balances, card numbers, security codes or transaction histories; it instructed the CIC to report and coordinate with the authorities, and said credit institutions&rsquo; IT systems operate independently and remain stable. VNCERT warned the public not to download or share the leaked data. <strong>Critique:</strong> the timing of the central-bank statement could not be established from the reporting seen, so this is included with that caveat — but the substance matters: a credit bureau breach is identity-fraud material even without payment-account data.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="reported">
+<div class="badges"><span class="badge red">New</span><span class="badge grey">Reported / unconfirmed</span></div>
+<h3>Lazarus — PHP2Shell targeting of Korean finance (reported)</h3>
+<p class="target">Government, banks and financial institutions, telecoms and other sectors; South Korea named among target countries</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. Cyperma&rsquo;s update to its PHP2Shell abuse report says Lazarus discussed target countries on a closed dark-web channel on 28 Oct, calling IP bands in Korea, Japan, the US, Thailand, Indonesia and India &ldquo;quite promising&rdquo;. Of 216 exposed servers in 10 countries analysed, 30 were in South Korea. The exploitation route is the PHP remote-code-execution flaws CVE-2026-109618 and CVE-2026-109619 on Windows.</dd>
+<dt>Impact</dt><dd>Reported (Yonhap, 15 Nov 00:43 UTC / 08:43 SGT, citing Cyperma). Cyperma disclosed the 30 Korean target IPs. The attribution to Lazarus is Cyperma&rsquo;s, via Yonhap — it has not been independently confirmed, and no victim, intrusion or data loss has been tied to the targeting discussion. <strong>Critique:</strong> a targeting discussion on a closed channel is not an intrusion, and the 30 Korean IPs are exposed servers, not confirmed victims — but the overlap with the PHP2Shell exploitation already confirmed on Check Point gateways makes the targeting claim worth hunting against, not dismissing.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge amber">Update — previously covered</span><span class="badge teal">Confirmed</span></div>
+<h3>Unknown actor — N-able 4EverAble2Shell / Agent2Shell</h3>
+<p class="target">RMM platform used by MSPs serving small banks and financial firms</p>
+<dl>
+<dt>TTPs</dt><dd>MITRE IDs from a secondary summary of the chains (SockAnalyst), not vendor-published: T1190, T1072, T1136, T1552, T1496, T1068. <strong>4EverAble2Shell:</strong> unauthenticated RCE as root on the N-central server, chaining Apache Axis CVE-2026-90436 (9.8) with a separate N-central privilege escalation (no CVE yet; abuses the privileged setLDFileOwner helper and a symlink to make a root-owned script writable, then invokes serverControl). Requires the Legacy API to be enabled (non-default). <strong>Agent2Shell:</strong> chains 10+ flaws to run commands as SYSTEM on managed Windows agents; also requires the Legacy API. PoCs published 12 Nov by Sean Bales (repo under the renamed account MSPNightmare/CVEs), tested against Hotfix 2 (2026.4.1.26).</dd>
+<dt>Impact</dt><dd><strong>Update — no fix as of 14 Nov.</strong> N-able&rsquo;s follow-up hotfix HF3 was still in validation on 14 Nov; N-able said it would not be available that day and promised an update on the morning of 15 Nov (US Eastern). The exploitation picture is unchanged: Huntback counted 21 production N-central servers mining XMRig, 19 of them on the Hotfix 2 build; N-able says it has seen no signs of compromise using the new flaws and has published IOCs but not confirmed the mining count. Hosted N-central is not affected and servers on HF2 with the Legacy API disabled are not exposed. <strong>Critique:</strong> the vendor&rsquo;s validation timetable is now the bottleneck — every day without HF3 is a day the only solid control is the Legacy API switch, which is not the default.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge amber">Update — previously covered</span><span class="badge teal">Confirmed</span></div>
+<h3>TraderTraitor — Binance</h3>
+<p class="target">Crypto exchange, global</p>
+<dl>
+<dt>TTPs</dt><dd>No new MITRE list in-window.</dd>
+<dt>Impact</dt><dd><strong>Update — the 198-token zero-knowledge proof is now live.</strong> A live-browser read of Binance&rsquo;s proof-of-reserves page at 00:08 SGT on 15 Nov shows the 12 Nov 00:00 UTC snapshot (BTC block height 975493) with a Merkle root hash (<span class="mono">05f2f72a91280ef26d3970d94b0c60d7f949aeae5a15bd5f4ddc279987e96cce</span>) and zk-SNARK verification across 198 tokens: BTC 100.05%, ETH 100.02%, BNB 100.39%, USDT 104.34%, USDC 100.07%, SOL 105.86%. No completion announcement has been published — the proof appeared on the page without one — and the completion time is not established. Binance&rsquo;s 14 Nov recovery update reopened withdrawals on 87 networks (including APT, HYPE, LTC, NEAR, PLASMA) and aims to reopen all remaining networks and assets by the end of next week (about 22 Nov) — an aim, not a guarantee, with no list of what remains. Binance has not published a final root-cause report or outside-review findings. The NEAR/PLASMA native-network conflict stands: Binance lists NEAR as reopened, but an independent same-morning read still showed NEAR native paused — treat native-network reopening as unconfirmed. <strong>Critique:</strong> the proof is a point-in-time attestation of customer-custody assets, not a third-party audit — no external accountant verifies it — and the snapshot covers the 12 Nov position, so it says nothing about the current state of the stolen funds; the Justice Department&rsquo;s figures ($2.7bn frozen, $1.2bn+ authorised for seizure or restraint) remain the only independent measure.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge amber">Update — previously covered</span><span class="badge teal">Confirmed</span></div>
+<h3>Unknown actor — Korean Financial Security Institute</h3>
+<p class="target">Financial-sector security assessment body, South Korea; assessment staff at banks, insurers, securities firms</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. New detail in-window (Nocut News, 14 Nov; Korean press — translated): the attacking IPs were all South Korean in nationality, but the FSI cautions this does not prove a domestic attack — the IPs may have been routed via South Korea from abroad. The attacker exploited an SMS-authentication bypass in the sign-up process of the continuous information-security assessment system, using a fake FSS account (no real FSS account was stolen).</dd>
+<dt>Impact</dt><dd>Confirmed. FSI blocked 246 attack IP addresses by 12 Nov (revised up from 236). About 130 files from 48 firms leaked; confirmed data: about 200 administrative forms, about 300 personal-data items (names, birth dates) and about 350 system-user data items (masked names, mobile numbers). No sensitive security-assessment data leaked, per the FSI. Seoul police cyber unit is tracing the IPs. The FSC special audit of the FSI starts Monday 16 November. The 850-versus-300 record counts remain unreconciled; do not pick one. <strong>Critique:</strong> the nationality detail is the least informative part of the update — IPs are routable, and the FSI says so itself. The material facts are the SMS-auth bypass route and the confirmation that no sensitive assessment data leaked, which bounds the damage. A 14 Nov report of a &ldquo;second emergency meeting&rdquo; and a 16-firm count could not be reconciled with the FSC&rsquo;s 14 October press release carrying the same figures — see Could not verify.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="reported">
+<div class="badges"><span class="badge red">New</span><span class="badge grey">Reported / unconfirmed</span></div>
+<h3>N0n — Steeden Financial and MM Insurance Agency</h3>
+<p class="target">Financial services and insurance firms, Canada</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. No intrusion detail published.</dd>
+<dt>Impact</dt><dd>Reported — leak-site listings only, both dated 14 Nov. N0n listed Steeden Financial and MM Insurance Agency as victims; no data volumes, contents or company confirmations appear in the listings. <strong>Critique:</strong> treat both as low-confidence claims. Bitdefender&rsquo;s November Threat Debrief found N0n inflated its victim count — its exposed file server suggested it actually targeted just over 20 victims, versus 100+ listed — and says it has high confidence N0n is not the top-tier operation its leak site suggests.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="reported">
+<div class="badges"><span class="badge red">New</span><span class="badge grey">Reported / unconfirmed</span></div>
+<h3>Endzone — Absolute Bail Bonds</h3>
+<p class="target">Surety bail-bond agency, Los Angeles, California</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. No intrusion detail published.</dd>
+<dt>Impact</dt><dd>Reported — leak-site claim only (discovered 14 Nov 12:24 UTC / 20:24 SGT). Endzone claims it exfiltrated 5 GB of database files and source code and encrypted 3.5 TB on the company&rsquo;s domain controller, including backups. No ransom demand, data sample or company confirmation has been reported. One analyst flags the claim as thin — a named business, a claimed intrusion and one unexplained hash, with no independent confirmation. <strong>Critique:</strong> a bail-bond agency is a financial-services firm, but the claim is single-sourced from the group&rsquo;s own leak site; watch for a published data sample or a company statement before treating it as a breach.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="reported">
+<div class="badges"><span class="badge red">New</span><span class="badge grey">Reported / unconfirmed</span></div>
+<h3>Payoutsking — iLending and J.C. Flowers &amp; Co.</h3>
+<p class="target">US auto lender and private-equity firm</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. No intrusion detail published.</dd>
+<dt>Impact</dt><dd>Reported — leak-site listings only (12 Nov; missed by the 14 November edition, no new development in-window). Payoutsking listed iLending and J.C. Flowers &amp; Co. as ransomware victims. No ransom demand, data sample or company confirmation has been reported, and the data said to have been stolen has not been independently verified. <strong>Critique:</strong> the two names may not be a single entity — treat them as two separate unverified claims, not one incident.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="reported">
+<div class="badges"><span class="badge red">New</span><span class="badge grey">Reported / unconfirmed</span></div>
+<h3>Unknown actor — TodoPago full-database leak claim</h3>
+<p class="target">Digital payments platform and payment gateway, Honduras</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. No intrusion detail published.</dd>
+<dt>Impact</dt><dd>Reported — dark-web forum claim only (14 Nov 05:13 UTC / 13:13 SGT). A forum user (&ldquo;hassen&rdquo;) posted a database claimed to belong to todopago.hn, offering it for free, with samples said to contain customer names, national identification numbers, email addresses, phone numbers and residential addresses; account numbers and transaction records; merchant records; and BIN information, digital wallet details and point-of-sale information. No verified record count, database size, extraction details or initial access method has been disclosed, and the samples have not been independently authenticated. TodoPago has not publicly confirmed a breach. <strong>Critique:</strong> the same actor also posted other unverified Honduran listings (COPECO, SEFIN) — a pattern of listings, not corroboration. If genuine, a free publication of a payments platform&rsquo;s full database would be large-scale identity-theft and payment-fraud exposure; until then it is an allegation.</dd>
+</dl>
+</div>
+
+</div>
+<div class="none-card"><b>No new development in-window:</b> ScreenConnect SCKit (no new wave in-window); Cr&eacute;dit Mutuel Ark&eacute;a; Storm-1175 — Insight Credit Union and Sawyer Savings Bank; Bank SinoPac (full report still unconfirmed as filed); Caixa Vida e Previd&ecirc;ncia; Tesouro Nacional; KB Capital; Flybit; SMBC Nikko Securities; Seven Bank; Mirae Asset Securities; Philippine SEC; Bank Rakyat; INC Ransom — Raymond James Financial, Game Changer Wealth, JETS Jamaica (claims still unverified); INC Ransom — Shenwan Hongyuan (H.K.) and StrucSure Home Warranty (claims still unverified); PixelLeaks — Four Points Financial Solutions (claim still unverified); Bank of Khartoum (Bankak allegations, still unconfirmed); FaceStealer (14 Nov write-ups add no new facts beyond the 12 Nov announcement, covered in the 13 November edition); ARTEX (no new reporting in-window); wfx-loot (no new development in-window); CSC Telecom (no new development in-window). Absence of reporting is not evidence of absence of activity.</div>
+</section>
+
+<section aria-labelledby="vuln-h">
+<div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>No new CISA KEV additions were made on 14 November. The catalogue stands at 1,781 entries (version 2026.11.13). A claim that CVE-2026-5430 (WSO2) and CVE-2026-71362 (Adobe) were added on 14 Nov is wrong — both were added on 24 September 2026. The two 13 November additions (CVE-2026-123039 and CVE-2026-114713) are not carried forward: no new attribution, IOCs or PoC appeared in-window, and a due date alone is not a new development under the standing rule — the Check Point November Jumbo Hotfix remains a live patching action (see Indicators &amp; defensive actions).</p></div>
+<div class="vuln-tools"><input type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
+<table>
+<thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
+<tbody>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-6460 — NEW, catch-up</td><td class="score high" data-l="CVSS score">8.8</td><td data-l="Affected product">PostgreSQL 14–18 (flaw dates to 2004)</td><td data-l="Exploitation status">Public partial PoC — in-the-wild exploitation not reported</td><td data-l="Relevance to finance">Catch-up — patch published 12 Nov, researcher write-up 13 Nov; missed by the 14 November edition. A type-confusion flaw in PostgreSQL core (composite types plus <span class="mono">ALTER TYPE</span> between PREPARE and EXECUTE) lets an authenticated database user with object-creation privileges execute arbitrary code as the OS user running the database server. CVSS 8.8. It was one of 52 flaws fixed in the 12 Nov release (32 scored 8.8); the researcher traces the primitive to May 2004 — effectively every PostgreSQL since then. Researcher Mehmet Ince published the crash PoC and address-leak steps on 13 Nov and deliberately withheld the final RCE step, so there is a public partial PoC, not a copy-paste weapon. Full protection also requires rebuilding C-language extensions. PostgreSQL 14 is now end-of-life (14.25 is its last release). Sibling flaw CVE-2026-116322 lets an unauthenticated client trigger a restart of PostgreSQL 18 servers (denial of service). Not in CISA KEV. PostgreSQL underpins many banking and fintech stacks; authenticated RCE as the database OS user is a high-priority patch.</td></tr>
+<tr><td class="cve" data-l="CVE ID">Citrix NetScaler November batch — STATUS, CVE records 13 Nov</td><td class="score crit" data-l="CVSS score">9.5 (highest)</td><td data-l="Affected product">NetScaler ADC, NetScaler Gateway, NetScaler Console, Secure Access Client (Windows/Linux)</td><td data-l="Exploitation status">Not known exploited — no PoC reported</td><td data-l="Relevance to finance">Status — the CVE records for the batch were published 13 Nov; no new development in this window. SecurityWeek counts <strong>28 fixes, nine critical</strong>; SecurityOnline said four bulletins fixing 31 CVEs; The Hacker News said 12 flaws. The count is still unresolved between sources — do not pick one. Headline flaws: CVE-2026-107412 (9.5, memory flaw); CVE-2026-120868 (9.3, memory overflow in packet processing, affects all ADC/Gateway deployments); CVE-2026-120869 (9.4, improper authentication in NetScaler Console, unauthenticated bypass of authentication to access restricted resources — adjacent-network, needs Console IP access); CVE-2026-118268 (8.5, Secure Access Client for Windows privilege escalation to SYSTEM) and CVE-2026-118269 (Linux equivalent). Fixes: ADC/Gateway 14.1-73.57 and 13.1-64.39; Console 14.1-74.34. Citrix says it is not aware of any exploits for the announced vulnerabilities. Separately, CitrixBleed 2 (CVE-2025-5777) is still actively exploited — OffSeq honeypots recorded 316,950 exploitation attempts from 19 source IPs in the last 30 days, last seen 13 Nov 21:41 UTC (14 Nov 05:41 SGT), with DragonForce ransomware as the severe outcome in past cases.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-119618 — STATUS, PoC verified as crash-only</td><td class="score crit" data-l="CVSS score">9.8 (Red Hat) / no CVSS yet (NVD)</td><td data-l="Affected product">Apache HTTP Server 2.4.55–2.4.70; standalone mod_h2 2.0.8–2.0.42</td><td data-l="Exploitation status">Public PoC — in-the-wild exploitation not confirmed</td><td data-l="Relevance to finance">No new development in-window. The third-party research PoC (GitHub googlesky/CVE-2026-119618, created 12 Nov) was verified directly on GitHub in the 14 November edition. It reproduces heap corruption and ASan crashes on 2.4.70 and clean behaviour on 2.4.71, with a containerised lab and ASan/TSan evidence — but it does <strong>not</strong> demonstrate code execution. <strong>Conflict — flag:</strong> Red Hat scores the CVE 9.8 and says public research demonstrates a reliable exploit against a default-configured server; Sysdig (13 Nov) and Abijita (12 Nov) both stress there is no public RCE PoC and no confirmed in-the-wild exploitation as of 12–13 Nov, and the CVE is not in CISA KEV. Treat exploitation status as &ldquo;public PoC now exists; it demonstrates heap corruption, not code execution; in-the-wild exploitation not confirmed&rdquo;. Nine GitHub repos now carry the CVE name, including two new labs on 13 Nov that were not verified — do not link them. Race condition in mod_http2 <span class="mono">assign_headers()</span>. Fixed in httpd 2.4.71; disabling HTTP/2 is a mitigation.</td></tr>
+<tr><td class="cve" data-l="CVE ID">4EverAble2Shell / Agent2Shell — CVE-2026-90436 + VULN-2026-0009 — STATUS, exploitation confirmed by researchers</td><td class="score crit" data-l="CVSS score">9.8 (CVE-2026-90436)</td><td data-l="Affected product">N-able N-central (on-premises servers with Legacy API enabled)</td><td data-l="Exploitation status">Exploitation claimed — contested (see actors)</td><td data-l="Relevance to finance">Status — no fix as of 14 Nov (SecurityWeek, 13 Nov; N-able update, 13 Nov; HF3 validation status, 14 Nov). 4EverAble2Shell chains Apache Axis CVE-2026-90436 (9.8) with a separate N-central privilege escalation (Previdian VULN-2026-0009, no CVE yet) to unauthenticated root on the server; it requires the Legacy API to be enabled (non-default). Agent2Shell chains 10+ flaws to SYSTEM on managed Windows agents. Huntback counted 21 production N-central servers mining XMRig, 19 of them on the Hotfix 2 build; N-able says it has seen no signs of compromise using the new flaws and has published IOCs but not confirmed the mining count. Follow-up hotfix HF3 was still in validation on 14 Nov; N-able said it would not be available that day and promised an update on the morning of 15 Nov (US Eastern). No fix as of 14 Nov. PoC repo: MSPNightmare/CVEs — N-Central N-Able (GitHub) — genuine researcher disclosure (Sean Bales), with Previdian&rsquo;s caveat that the public PoC is unverified and may contain malware. RMM used by MSPs serving small banks; a Hotfix-2 bypass with claimed live exploitation is a live patching and hunting priority. Disable the Legacy API; hunt the IOCs in Indicators.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-109618 / 109619 (PHP2Shell) — STATUS, Lazarus targeting reported</td><td class="score crit" data-l="CVSS score">9.2</td><td data-l="Affected product">PHP; PAN-OS and other network/security products; Check Point Security Gateways</td><td data-l="Exploitation status">In the Wild</td><td data-l="Relevance to finance">New in-window development: Cyperma&rsquo;s update to its PHP2Shell abuse report (reported via Yonhap, 15 Nov 08:43 SGT) says Lazarus discussed target countries on a closed dark-web channel on 28 Oct, calling IP bands in Korea, Japan, the US, Thailand, Indonesia and India &ldquo;quite promising&rdquo;; 30 of 216 exposed servers analysed were in South Korea. The attribution is Cyperma&rsquo;s — reported, not independently confirmed. Check Point&rsquo;s detail adds that the TSGA/TSProxy implants are linked to the PhiliKit toolset (which ESET ties to UNC5221), but Check Point says it &ldquo;cannot assess the operation with high confidence&rdquo;. GreyNoise telemetry reported in the 13 Nov afternoon deep-research check shows PHP2Shell exploitation continued through 12 Nov. The Check Point campaign detail is unchanged: attackers chained PHP2Shell in the Mobile Access Portal with CVE-2026-123039 to gain root on unpatched gateways, planted the TSGA backdoor, pivoted to a VMware ESXi host and ran a wiper — &ldquo;a couple of dozen&rdquo; systems in one region. Both fixes are in the November Jumbo Hotfix. The PHP2Shell fix had been available since 23 Oct — the one-week patch lag is the lesson. Keep management interfaces off the internet; apply the November Jumbo Hotfix. IOCs: <span class="mono">130.94.19[.]204</span>, <span class="mono">130.94.19[.]168</span>; <span class="mono">upload_progress_pwn</span> string in PHP session files; process masquerading as CPconfigdaemon; DREAM_ANNEXATION.txt notes.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-124194 — STATUS, Patch Tuesday follow-up</td><td class="score high" data-l="CVSS score">6.5</td><td data-l="Affected product">Microsoft Outlook (NTLMv2 hash disclosure)</td><td data-l="Exploitation status">In the Wild (KEV)</td><td data-l="Relevance to finance">No new development in-window. November Patch Tuesday is the largest on record by Qualys&rsquo;s count — 1,252 CVEs this month (Qualys, 13 Nov). <strong>Conflict — flag:</strong> Microsoft&rsquo;s own count differs (1,362 CVEs across 27 updates per other trackers) and Tenable counted 1,093 — a counting-method difference between trackers, not a new item. About 35% of November patches carried a Low reliability rating in Qualys&rsquo;s assessment as of 11 Nov. Outlook CVE-2026-124194 remains the exploited item in the batch. Microsoft confirmed the Windows 11 update KB5132061 fails to install on some devices that took the October non-security preview KB5127936, and KB5131085 (Windows 10 / Server 2019) is reported to break Exchange — both affect deployment planning.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-127063 — carried</td><td class="score high" data-l="CVSS score">9.3</td><td data-l="Affected product">DataComm RMM+ extension for ConnectWise ScreenConnect</td><td data-l="Exploitation status">Not known exploited — no PoC reported</td><td data-l="Relevance to finance">No change in-window. &ldquo;The third-party RMM+ extension for ConnectWise ScreenConnect uses a static API secret by default.&rdquo; <strong>Caveat:</strong> the CVE wording (&ldquo;static API secret&rdquo;) differs from Huntress&rsquo;s account of a blank access key accepted when none was configured — treat as the same extension weakness pending vendor confirmation. This is the extension weakness behind the SCKit worm. Check RMM+ versions 1.0.31/1.0.32 and remove or re-key the extension.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-121529 (&ldquo;Fortinet2Shell&rdquo;) — carried</td><td class="score crit" data-l="CVSS score">Critical (no CVSS figure in sources read)</td><td data-l="Affected product">FortiClientMac 7.4.0–7.4.7; FortiClientWindows 7.4.0–7.4.7 and 7.2.0–7.2.14</td><td data-l="Exploitation status">Public exploit — in-the-wild exploitation not reported</td><td data-l="Relevance to finance">No change in-window. Origin-validation flaw, unauthenticated remote code execution on FortiClient endpoints. PSIRT FG-IR-26-194. Not in CISA KEV. FortiClient is the endpoint agent on bank staff machines; an unauthenticated RCE with a public exploit is a patching priority.</td></tr>
+<tr><td class="cve" data-l="CVE ID">Able2Shell — seven CVEs — carried</td><td class="score high" data-l="CVSS score">9.3 (highest)</td><td data-l="Affected product">N-able N-central</td><td data-l="Exploitation status">PoC public — exploitation of new chains claimed, contested</td><td data-l="Relevance to finance">No change in-window except the 4EverAble2Shell row above. Original Able2Shell (9 Nov): researcher Sean Bales published PoC code for 33 alleged N-central flaws. Hotfix N-central 2026.4 HF2 (build 2026.4.1.26), released 10 Nov, fixes seven CVEs: CVE-2026-125883 (XXE, 9.3), CVE-2026-125878 (OGNL injection), CVE-2026-125879, CVE-2026-125880, CVE-2026-125881 (SSRF), CVE-2026-125882 (RCE via path traversal), CVE-2026-91000. All hosted servers upgraded by 11 Nov 01:04 UTC. The Able2Shell PoC repository (Oracle-Security/CVEs, path &ldquo;0-Days/N-Central N-Able&rdquo;, 26 Python PoC scripts) is a genuine researcher disclosure — linkable as the PoC source, with the caveat that N-able has not validated all 33 findings.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-123864 — carried</td><td class="score high" data-l="CVSS score">High (no CVSS published)</td><td data-l="Affected product">Node.js 22.x / 24.x / 26.x (HTTPS servers)</td><td data-l="Exploitation status">Not known exploited — no PoC reported</td><td data-l="Relevance to finance">No change in-window. HTTPS heap-memory disclosure: a zero-length TLS write re-enters the HTTP parser, and the server copies other connections&rsquo; heap memory — including TLS private keys and other users&rsquo; requests — into a request body. Fixed in 26.13.1 / 24.22.3 / 22.23.5. Node.js published no CVSS scores and lists no workarounds — upgrade only.</td></tr>
+<tr><td class="cve" data-l="CVE ID">Node.js batch — six further High — carried</td><td class="score high" data-l="CVSS score">High (no CVSS published)</td><td data-l="Affected product">Node.js 22.x / 24.x / 26.x</td><td data-l="Exploitation status">Not known exploited — no PoC reported</td><td data-l="Relevance to finance">No change in-window. CVE-2026-123863, CVE-2026-123865, CVE-2026-123866, CVE-2026-123872, CVE-2026-123874, CVE-2026-126051 (HTTP/2 and TLS memory disclosure / DoS / use-after-free). Six Medium and three Low complete the 16-CVE release. Node.js states 16 CVEs; one aggregator lists 17 IDs — report Node.js&rsquo;s count.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-126263 — carried</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">FortiMail 8.0.0–8.0.1, 7.6.0–7.6.4, 7.4.0–7.4.6</td><td data-l="Exploitation status">Not known exploited — no PoC reported</td><td data-l="Relevance to finance">No change in-window. SQL injection (CWE-89): an authenticated attacker can execute unauthorised code/commands via crafted requests. Fixed in 8.0.2 / 7.6.7 / 7.4.7; FortiMail Cloud already remediated. Internally discovered with the Frontier AI model Claude Mythos.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-126155 — carried</td><td class="score high" data-l="CVSS score">9.1</td><td data-l="Affected product">FortiMail 8.0.0–8.0.1, 7.6.0–7.6.6, 7.4.0–7.4.8, 7.2 all versions</td><td data-l="Exploitation status">Not known exploited — no PoC reported</td><td data-l="Relevance to finance">No change in-window. Incorrect authorisation (CWE-863): an unauthenticated remote attacker can obtain an authenticated IBE webmail session as any IBE recipient and read or send their encrypted mail. Fixed in 8.0.2 / 7.6.7 / 7.4.9; 7.2 must migrate to a fixed release; FortiMail Cloud remediated 5 Oct.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-121653 — carried</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">Ivanti Endpoint Manager Core, 2024 SU7 and earlier</td><td data-l="Exploitation status">Not known exploited — no PoC reported</td><td data-l="Relevance to finance">No change in-window. SQL injection in EPM Core allows a remote unauthenticated attacker to achieve remote code execution. Fix: EPM 2024 SU8. Sibling critical: CVE-2026-121683 (9.4, missing authentication in Cloud Services Application 5.0.8 only; fix 5.0.8.1). Ivanti says it is not aware of any customers being exploited, and none of the 13 CVEs in its 10 Nov batch is in CISA KEV.</td></tr>
+<tr><td class="cve" data-l="CVE ID">VSA-2026-062 (no CVE ID yet) — carried</td><td class="score high" data-l="CVSS score">— no CVSS assigned</td><td data-l="Affected product">Xen Orchestra / Xen Orchestra Appliance</td><td data-l="Exploitation status">Actively exploited</td><td data-l="Relevance to finance">No change in-window. Empty-object login token gives Admin privilege; full XCP-ng host takeover as root. Fixed in Xen Orchestra 6.9.1 / 6.10.0. IOCs: 91.211.251.112:8001 and Tor domain ustar3rqxgnskzgnwkgpofgtvxevm6cx3lxdbwt4mndtveqyaohid.onion:3333.</td></tr>
+<tr><td class="cve" data-l="CVE ID">SAP November Patch Day — four CVSS 10.0 — carried</td><td class="score crit" data-l="CVSS score">10.0</td><td data-l="Affected product">SAP NetWeaver AS ABAP / Web Dispatcher / Gateway</td><td data-l="Exploitation status">Not known exploited</td><td data-l="Relevance to finance">No change in-window. CVE-2026-76964 (ICM memory corruption, unauthenticated RCE — &ldquo;ICM2SHELL&rdquo;), CVE-2026-89126 (Web Dispatcher memory corruption, unauthenticated RCE), CVE-2026-89103 (Gateway broken access control), CVE-2026-120017 (SAML2 missing authentication). Patch internet-facing systems first.</td></tr>
+<tr><td class="cve" data-l="CVE ID">Fortinet batch — eight criticals — STATUS, public PoC for CVE-2026-126170</td><td class="score crit" data-l="CVSS score">9.8–9.0</td><td data-l="Affected product">FortiOS / FortiManager / FortiAnalyzer / FortiSASE</td><td data-l="Exploitation status">Public PoC — exploitation not confirmed</td><td data-l="Relevance to finance">New in-window development: a public proof of concept for the worst flaw, CVE-2026-126170 (9.8, JSON-RPC API, unauthenticated remote code execution on FortiManager/FortiAnalyzer), has been verified on GitHub (Ghost-Bx1/cve-2026-126170-fortimanager-jsonrpc-rce, created 11 Nov, contains working exploit.py and poc.py — genuine, not a lure); the NVD record was modified 14 Nov. <strong>Conflict — flag:</strong> PatchCVE states public exploitation activity has been reported, while Fortinet&rsquo;s advisory says exploitation was not known at publication and cve.now says &ldquo;public exploit code, no confirmed attacks&rdquo;; the CVE is not in CISA KEV. Do not present exploitation as confirmed. The JSON-RPC API is disabled by default; the workaround is <span class="mono">set rpc-permit none</span>. Fixed in FortiOS 7.2.14/7.4.13/7.6.8/8.0.2 and FortiManager/FortiAnalyzer 7.2.13/7.4.12/7.6.8/8.0.2 — some fixes still &ldquo;upcoming&rdquo;; apply the FortiGuard virtual patch, keep OFTP/FGFM ports off the internet.</td></tr>
+<tr><td class="cve" data-l="CVE ID">Microsoft November Patch Tuesday — carried</td><td class="score crit" data-l="CVSS score">Up to 9.9</td><td data-l="Affected product">Microsoft enterprise stack (Exchange, SharePoint, SQL Server, AD, LDAP, DNS)</td><td data-l="Exploitation status">One exploited (Outlook CVE-2026-124194 — see row above)</td><td data-l="Relevance to finance">No change in-window. 1,094 newly released CVEs per Microsoft (Qualys counts 1,252 for the month; Tenable counts 1,093 — counting-method differences, flagged not resolved). Notable criticals, none reported exploited: SharePoint CVE-2026-120002 (9.9); SQL Server CVE-2026-116945 (9.8); Windows Search CVE-2026-116928 (9.8, zero-click); LDAP CVE-2026-119958 (9.8, zero-click, unauthenticated); Windows DNS CVE-2026-88218 (9.8); iSCSI CVE-2026-88234 (9.8); Exchange CVE-2026-118207 (8.8); AD DS CVE-2026-118146 (8.8); Schannel CVE-2026-119952 (8.1). Tenable notes the exploited Outlook CVE was discovered by a researcher using Claude.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-88771 — carried</td><td class="score crit" data-l="CVSS score">9.5 / 9.8*</td><td data-l="Affected product">Citrix NetScaler ADC and NetScaler Gateway</td><td data-l="Exploitation status">In the Wild (KEV)</td><td data-l="Relevance to finance">No change in-window. Public Metasploit module (6.5.9, 6 Nov). Unauthenticated pre-auth command injection as root via attacker-controlled text written to appliance logs, later executed by maintenance script ns_monuploadd_err.pl — execution can lag the request by up to 24 hours. In KEV since 27 Sept. Fixed in 14.1-73.37 and 13.1-64.23. Patching does not remove existing implants. *CVSS v4.0 9.5 (Citrix) vs v3.1 9.8 (NVD).</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-76443 — carried</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">Cisco Secure Email Gateway and Secure Email and Web Manager, 15.5 and earlier</td><td data-l="Exploitation status">In the Wild (KEV, sibling)</td><td data-l="Relevance to finance">No change in-window. Public Metasploit module (6.5.9, 6 Nov). Rapid7 describes the module as an S/MIME/email-parsing SQL injection leading to unauthenticated root RCE — treat the CVE mapping as Rapid7&rsquo;s, not Cisco&rsquo;s. The actively exploited zero-day in the same family is sibling CVE-2026-76461 (9.8, in KEV since 14 Sept).</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-97229 — carried</td><td class="score crit" data-l="CVSS score">10.0</td><td data-l="Affected product">GitLab CE / EE</td><td data-l="Exploitation status">In the Wild (KEV)</td><td data-l="Relevance to finance">No change in-window. Public Metasploit module (6.5.9, 6 Nov). CI/CD RegExp integer-overflow RCE as the git user; authenticated, requiring write access to a public project. In KEV since 29 Oct.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-119977 — carried</td><td class="score high" data-l="CVSS score">8.1 / Low*</td><td data-l="Affected product">WordPress core 4.7.0–7.1.3</td><td data-l="Exploitation status">In the Wild (attempts)</td><td data-l="Relevance to finance">No change in-window. 240,000+ blocked attempts (peaking at 74,000+ on 30 Oct). Still no victim publicly named and no confirmed compromise. Fix 7.1.4 / backport; block web access to wp-content/upgrade/ before updating. Public PoC: lysophavin18/CVE-2026-119977 (GitHub). A second repo claiming to bypass the 7.1.4 fix holds no code, only a download link — flagged as a likely malware lure, do not download. *Wordfence 8.1 vs WordPress Low.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-107441 — carried</td><td class="score high" data-l="CVSS score">8.8 (Zyxel) / 9.8*</td><td data-l="Affected product">Zyxel GS1900 series switches, ten models, web management interface</td><td data-l="Exploitation status">In the Wild (zero-day)</td><td data-l="Relevance to finance">No change in-window. June fix added a check that ran after the unsafe copy in /cgi-bin/dispatcher.cgi, so June-patched firmware stayed exploitable. Payloads: Jitterly backdoor and Sixzut rootkit; suspected Chinese-speaking actor Kapibala/Red Heron (attribution via Binarly/Acronis, not independently verified). *Secondary analysis rates it 9.8. Not in KEV as of 7 Nov. Fix: 22 Oct firmware; change default credentials.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-109593 / 109594 — carried</td><td class="score high" data-l="CVSS score">9.1 / 6.8</td><td data-l="Affected product">SonicWall Global Management System 9.5.2 and earlier (end-of-life)</td><td data-l="Exploitation status">Not reported exploited in-window</td><td data-l="Relevance to finance">No change in-window. 109593 critical (9.1): unauthenticated information disclosure via internal file reads. 109594 medium (6.8): high-privilege SQL injection. SonicWall will not patch — migrate to Network Security Manager.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-72898 — carried</td><td class="score crit" data-l="CVSS score">10.0</td><td data-l="Affected product">Metabase 58+ (free and paid editions)</td><td data-l="Exploitation status">In the Wild</td><td data-l="Relevance to finance">No change in-window. CSA Singapore warned 4 Nov that this SQL-injection flaw, fixed 6 Aug and on KEV since 11 Aug, is actively exploited and a PoC is public. Public PoC: 4minx/CVE-2026-72898 (GitHub), referenced in CSA alert AL-2026-158. Safe releases: 58.24, 59.21, 60.17, 61.11, 62.9, 63.5+.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-40217 — carried</td><td class="score high" data-l="CVSS score">8.8</td><td data-l="Affected product">LiteLLM proxy</td><td data-l="Exploitation status">In the Wild (LLMjacking)</td><td data-l="Relevance to finance">No change in-window. User-ID rebind to PROXY_ADMIN. Update LiteLLM, lock endpoints off the internet, rotate keys.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-98432 — carried</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">Linux kernel IPv4 TCP, 4.4+</td><td data-l="Exploitation status">Research exploit only</td><td data-l="Relevance to finance">No change in-window. Demonstrated exploit needs MPTCP; RHEL fixed kernels require reboot, Ubuntu was still in -proposed on 3 Nov.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-58115 — carried</td><td class="score crit" data-l="CVSS score">10.0</td><td data-l="Affected product">Node-RED / Siemens IoT2050</td><td data-l="Exploitation status">In the Wild</td><td data-l="Relevance to finance">No change in-window. Port 1880 without adminAuth remains an active target. Siemens scope revision noted 8 Nov (more SIMATIC IoT2050 models).</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-111497 — carried</td><td class="score high" data-l="CVSS score">9.2</td><td data-l="Affected product">Google Brotli; Cisco and Splunk products (Node2Shell)</td><td data-l="Exploitation status">In the Wild (KEV)</td><td data-l="Relevance to finance">No change in-window. Scope as of 5 Nov: 19 Cisco products affected, dozens under investigation, about a dozen Splunk products also affected. Same Brotli root cause also affects ClickHouse. KEV federal due date fell 10 November, but per the KEV rule a deadline alone is not a new development. Qualys published detection/verification guidance for PHP2Shell and Node2Shell on 12 Nov (four non-intrusive QIDs, two intrusive verification QIDs) and reports 167 million PHP installations across 10,000+ customers; attackers probed PHP2Shell four days before a patch existed.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section aria-labelledby="supply-h">
+<div class="sec-head"><h2 id="supply-h">Supply chain &amp; third-party risk</h2><p>Vendor, SaaS and service-provider exposure affecting financial organisations.</p></div>
+<div class="panels">
+<div class="panel">
+<h3>Arara — STATUS (Osaka City disclosure, 13 Nov, reported 14 Nov)</h3>
+<p>Osaka City confirmed 1,078,713 email addresses leaked from its online administrative system after attackers hit Arara, the email-delivery service used by its contractor TKC — email addresses only, no contents or My Number data. The platform&rsquo;s 6 Nov third report put the total at 81,329,467 email addresses (deduplicated) across up to about 380 client companies, exfiltrated 28–31 Oct; another source cites about 77 million — the two totals conflict, do not merge them. The same platform was also abused 28–30 Oct to send up to about 7.13 million phishing emails impersonating a credit-card company. Osaka Prefecture separately disclosed ID-document images for 12 food-support applicants.</p>
+<p><strong>Critique:</strong> the count matters less than the channel — a ready-made phishing list of shareholder and citizen emails plus a proven bank-impersonation sending channel. Do not add the per-company figures together — they are subsets of the same incident.</p>
+</div>
+<div class="panel">
+<h3>Monex and AXA — the breach ran through a supplier (NEW)</h3>
+<p>Both of today&rsquo;s Japanese breaches ran through a supplier. Monex&rsquo;s breach was in a third-party account-opening system (the contractor is unnamed and the intrusion method undisclosed), and AXA&rsquo;s roadside-assistance provider Prestige Core Solution was breached separately (detected 29 Oct; Prestige International separately disclosed up to about 5.5 million records, duplicates included, across its own systems on 6 Nov).</p>
+<p><strong>Critique:</strong> neither company has named its supplier&rsquo;s failing, and in both cases the breached system sat outside the firm&rsquo;s own perimeter — the pattern peers should be checking is which third-party systems hold customer identity data and whether those suppliers are in scope for the firm&rsquo;s own incident response.</p>
+</div>
+<div class="panel">
+<h3>ScreenConnect and N-able — MSP supply chain (status)</h3>
+<p>No new SCKit wave was found in this window, and N-able&rsquo;s follow-up hotfix HF3 is still in validation. Both RMM stories remain supply-chain stories first: a compromised MSP panel reaches straight into customer networks. Firms should ask their providers whether they run ScreenConnect with the RMM+ extension and whether they run N-central with the Legacy API enabled, and hunt for RelayTrap, the TrapWatch task and the N-central IOCs in the Indicators section.</p>
+</div>
+<div class="panel">
+<h3>Expedia / Qubole — pattern note (13 Nov)</h3>
+<p>Expedia confirmed on 13 Nov that attackers reached its systems through a compromised third-party data platform (a Qubole vendor key, per Wiz/Sentra); the extortion group&rsquo;s claim of about 1 billion records — 830 million loyalty records, 58 million traveller profiles, 333 million account/credential records — is unconfirmed by Expedia. Travel, not BFSI — included only as a pattern note: a vendor key was the entry route, the same third-party-credential pattern behind wfx-loot.</p>
+</div>
+<div class="panel">
+<h3>Microsoft 365 outage — operational, not a cyberattack (status)</h3>
+<p>An outage that began 12 Nov (Exchange Online) disrupted Outlook, Teams, Copilot and Defender XDR for users across 74 countries — about 130,000 Downdetector Outlook reports at peak — and was mostly restored by about 03:00 SGT on 14 Nov, with email queues still draining. Microsoft states there was no malicious activity and no security breach. The UK&rsquo;s NCSC warned on 13 Nov to beware scam calls and messages exploiting the outage — and a credential-phishing campaign doing exactly that is now confirmed; see the fraud section.</p>
+<p><strong>Critique:</strong> the incident is operational, not a threat event — but the fraud risk is real and immediate, and it arrived while the monitoring tools themselves were degraded.</p>
+</div>
+<div class="panel">
+<h3>CSC Telecom — no new development in-window</h3>
+<p>The open database that exposed 125 million+ SMS messages, including Swedbank account details and one-time codes, has no new development in this window. Swedbank has stopped using the provider and opened an investigation; CERT.LV is investigating. No evidence anyone other than researchers read the data; no confirmed account takeovers or financial loss.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="fraud-h">
+<div class="sec-head"><h2 id="fraud-h">Emerging fraud &amp; attack vectors</h2><p>Account takeover, mobile banking trojans, infostealers, DDoS extortion and vishing/smishing.</p></div>
+<div class="panels">
+<div class="panel">
+<h3>Microsoft 365 outage credential phishing — NEW (confirmed campaign, alert 13 Nov, reported 14 Nov)</h3>
+<p>Attackers are impersonating Microsoft 365 service-health notifications to exploit the 12–13 Nov outage (Exchange Online incident EX1550543, a network-capacity failure Microsoft says shows no sign of malicious activity). Messages cite the real incident ID, with subject lines &ldquo;Outage – [six-character code]&rdquo; and sender display names of an organisation-specific prefix plus &ldquo;Outage Notification&rdquo; or &ldquo;Service Health&rdquo;. They falsely claim emails held during the outage will be permanently deleted within 24 hours unless the recipient clicks to restore them. Three sender domains are identified: <span class="mono">moments-notice.com</span>, <span class="mono">planetmaison.com</span>, <span class="mono">newbooker.com</span>. Microsoft characterises the campaign as &ldquo;consistent with credential phishing&rdquo; but has not confirmed credential theft or malware delivery; no actor attribution has been published. The UK&rsquo;s NCSC warned on 13 Nov of scam calls and messages exploiting the outage.</p>
+<p><strong>Critique:</strong> the timing is the point — the campaign arrived while Defender XDR and Safe Links monitoring were themselves degraded by the outage, so the usual safety nets were thinner than usual. Verify via official status pages only.</p>
+</div>
+<div class="panel">
+<h3>YES Bank denial — NEW (confirmed denial, reported 14 Nov)</h3>
+<p>YES Bank has denied a report by The Banker, a Financial Times Group publication, alleging the bank suffered a cyber fraud loss of about $3.4 million (Rs 32 crore) involving government-linked accounts in an incident towards the end of October 2026. In a clarification issued on Friday 13 November, the bank called the claims factually incorrect: its banking systems had not been compromised, no government accounts had been affected, and it had suffered no monetary loss linked to the reported incident. It has asked the publication for a retraction. No independent forensic evidence of a breach has been published, and The Banker has not publicly responded to the retraction request in the reporting seen.</p>
+<p><strong>Critique:</strong> report this as a denial, not a breach — but note the separate, earlier disclosure: SG Finserve said on 3 Nov that it detected 15 unauthorised debits totalling ₹5.10 crore from two accounts at YES Bank&rsquo;s South Extension II branch. That is a separate disclosure, not evidence for The Banker&rsquo;s claim, and the two should not be merged.</p>
+</div>
+<div class="panel">
+<h3>Tamil Nadu government fund theft — NEW (arrests confirmed, reported 14 Nov)</h3>
+<p>Chennai cybercrime police arrested seven suspected money mules after cybercriminals used stolen credentials of authorised Block Development Officers to access the Tamil Nadu rural development department&rsquo;s Single Nodal Account (HDFC Bank, CIT Nagar branch) between 12 and 30 October and move ₹22.3 crore in 46 transactions to 24–25 accounts. The money has not been recovered and the main culprits are still at large; the case was registered on 3 Nov.</p>
+<p><strong>Critique:</strong> the theft is an October event — the arrests are the in-window development. The method (stolen officer credentials used against a government nodal account) is a credential-theft and account-takeover pattern, not a bank-system breach, and the unrecovered funds show the laundering chain worked.</p>
+</div>
+<div class="panel">
+<h3>Phishing watches — Monex, AXA, KOMSCO, KBIZ, Arara, SBI (ongoing)</h3>
+<p>Monex&rsquo;s 1.13 million email addresses and AXA&rsquo;s about 597,000 accounts are now impersonation material — expect phishing citing Monex account opening and AXA MyAXA. KOMSCO warned its chak users of voice-phishing and smishing; KBIZ warned of impersonation and loan fraud using Yellow Umbrella details. Arara&rsquo;s leaked shareholder emails are live phishing bait, and the same platform was already abused to send about 7.13 million phishing emails impersonating a credit-card company. SBI&rsquo;s confirmed personal data is impersonation material — expect phishing citing SBI loan and account-opening details. KB Capital&rsquo;s leaked staff and partner details are business-email-compromise material. The Tesouro Nacional leak (names, CPFs, Pix keys) and Caixa&rsquo;s leaked CPFs are impersonation material for 7.6 million-plus people. The FSI leak gives attackers real assessment-staff contact details and firm names — expect phishing citing the FSI or the evaluation process. SMBC Nikko&rsquo;s leaked holdings and account details are impersonation material for shareholders. Mirae Asset&rsquo;s leak gives attackers 3,800 customer account numbers plus names, emails and mobiles of 35,255 employees. Binance, Mercado Bitcoin, Gopax and Nubank/Mercado Pago outage messages remain live phishing bait, and the Microsoft 365 outage is now confirmed as a phishing lure — verify via official status pages only. Watch for Rs 1 test transactions on compromised accounts.</p>
+</div>
+<div class="panel">
+<h3>FaceStealer — no new facts (status)</h3>
+<p>The FBI/DOJ disruption of the North Korean &ldquo;FaceStealer&rdquo; scheme (more than $400m stolen over 18 months via fake video calls; 900+ victim webcam videos seized) was announced 12 Nov and covered in the 13 November edition; the 14 Nov write-ups add no new facts. The FBI notes the scheme still &ldquo;overwhelmingly&rdquo; relies on genuine stolen video, with AI-generated deepfakes of crypto executives increasingly used. Targets are crypto/Web3 and open-source developers — no named bank targeted — so this is an AI-as-weapon item, not a bank campaign. The $400m figure covers the whole scheme, not deepfakes alone.</p>
+</div>
+<div class="panel">
+<h3>Bank of Khartoum — no new development in-window</h3>
+<p>Customer allegations of thefts from Bank of Khartoum accounts via the Bankak mobile banking app remain reported / unconfirmed: more than 50 traders and customers in West Kordofan claim millions of Sudanese pounds were stolen, with individual reported losses of SDG 18–45 million. The bank has still not responded to comment requests, and no technical evidence that the app itself was breached has been published. Treat as an allegation, not a confirmed bank breach.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="ttp-h">
+<div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No mapping is shown where the source published none.</p></div>
+<table>
+<thead><tr><th>MITRE technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">Credential phishing impersonating Microsoft 365 service-health notifications, citing the real incident ID EX1550543</td><td data-l="Seen in this edition">Microsoft Threat Intelligence alert, 13 Nov (reported 14 Nov)</td><td data-l="BFSI relevance / detection note">Direct: corporate M365 credential phishing timed to degraded Defender XDR / Safe Links monitoring. Detect on &ldquo;Outage – [six-character code]&rdquo; subjects and the sender domains <span class="mono">moments-notice.com</span>, <span class="mono">planetmaison.com</span>, <span class="mono">newbooker.com</span>.</td><td data-l="Status">No mapping published</td></tr>
+<tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">PHP2Shell exploitation of Windows PHP servers; targeting discussion on a closed dark-web channel</td><td data-l="Seen in this edition">Cyperma update via Yonhap, 15 Nov 08:43 SGT</td><td data-l="BFSI relevance / detection note">Banks and financial institutions named among target sectors; 30 of 216 exposed servers analysed were in South Korea. Attribution is Cyperma&rsquo;s, reported not confirmed. Hunt the PHP2Shell indicators in the Indicators section; keep management interfaces off the internet.</td><td data-l="Status">No mapping published</td></tr>
+<tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">N-able 4EverAble2Shell / Agent2Shell chains (HF3 still in validation)</td><td data-l="Seen in this edition">N-able status, 14 Nov</td><td data-l="BFSI relevance / detection note">RMM used by MSPs serving small banks. The Legacy API remains the gating control; Hotfix 2 does not fix the new chains. No new vendor-published mapping in this window; the secondary-summary IDs (T1190, T1072, T1136, T1552, T1496, T1068) were published on 13 Nov, not in this window, and are not carried forward as a new sighting.</td><td data-l="Status">No mapping published</td></tr>
+<tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">Unauthorised access and data viewing at financial-sector portals and mutual-aid sites (Monex, AXA, KOMSCO, KBIZ)</td><td data-l="Seen in this edition">Company disclosures, 13–14 Nov</td><td data-l="BFSI relevance / detection note">No intrusion detail was published for any of the four, so no technique can be mapped; detection rests on the companies&rsquo; own notices and the fraud-watch indicators. Two of the four breaches ran through a supplier&rsquo;s system.</td><td data-l="Status">No mapping published</td></tr>
+</tbody>
+</table>
+<p class="small muted" style="margin-top:12px"><strong>Recurring-TTP watch:</strong> the techniques that keep recurring across editions are exploitation of internet-facing management and edge interfaces (RMM panels, gateways, VPNs), weak or default credentials on exposed services (SQL Server 1433, FortiGate VPNs), abuse of trusted third-party channels (MSP remote-access tools, email-delivery and CI/CD services), and now outage-themed credential phishing timed to degraded defences. No technique was published with a MITRE ID in this window — that gap is stated, not filled.</p>
+</section>
+
+<section aria-labelledby="ai-h">
+<div class="sec-head"><h2 id="ai-h">AI in the current threat landscape</h2><p>The three AI roles are kept separate. Vendor forecasts are marked as forecasts.</p></div>
+<div class="panels">
+<div class="panel">
+<h3>AI as a target</h3>
+<p><strong>No new AI-target item was found in this window.</strong> The wfx-loot campaign&rsquo;s harvesting of AI service keys (OpenAI, Anthropic, Cursor, Copilot) has no new development in-window, and Binance&rsquo;s zero-knowledge proof is a reserves attestation, not an AI-target event. The gap is stated plainly: nothing new was published about LLM or API-key theft, exposed LLM endpoints or LLMjacking in this window.</p>
+</div>
+<div class="panel">
+<h3>AI as a weapon or accelerator</h3>
+<p><strong>FaceStealer — status (12 Nov announcement; 14 Nov write-ups add no new facts).</strong> The North Korean scheme stole more than $400m in cryptocurrency over 18 months by hijacking messaging accounts, inviting victims to video meetings and playing secretly recorded webcam video of a known contact — or, increasingly, AI-generated deepfakes of well-known crypto executives — while faking an audio fault to get the victim to run a malicious fix. The FBI notes the scheme still &ldquo;overwhelmingly&rdquo; relies on genuine stolen video. Targets are crypto/Web3 and open-source developers; no named bank was targeted.</p>
+<p><strong>Lazarus / Cyperma PHP2Shell targeting is reported as conventional PHP exploitation</strong> — it is not presented as AI-driven, and this brief does not re-label it.</p>
+<p><strong>No new AI-scaled phishing, vishing or deepfake campaign against a named bank was found in this window.</strong></p>
+</div>
+<div class="panel">
+<h3>AI as a risk and control problem for BFSI</h3>
+<p><strong>The Korean regulator continues to describe the FSI and financial-firm incident wave as AI-assisted;</strong> the 16-firm count reported on 14 Nov could not be reconciled with the FSC&rsquo;s 14 October press release carrying the same figures, so it is not treated as a new development here. CSA Singapore&rsquo;s Advisory AD-2026-017 (covered in the 14 November edition) says AI is letting attackers find and exploit weaknesses faster. <strong>No new AI governance or control development was found in this window.</strong></p>
+<p><strong>N-able&rsquo;s HF3 validation delay is a patching-process note, not an AI item</strong> — but it is the same detection-time compression the ARTEX reporting warned about: exploitation moved within hours of a public PoC, while the fix is still in validation.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="ioc-h">
+<div class="sec-head"><h2 id="ioc-h">Indicators &amp; defensive actions</h2><p>Notable indicators from this edition, and prioritised steps for SOC and vulnerability-management teams.</p></div>
+<div class="ioc">
+<h3>Microsoft 365 outage phishing (Microsoft Threat Intelligence, 13 Nov; reported 14 Nov)</h3>
+<ul>
+<li>Sender domains: <span class="mono">moments-notice.com</span>, <span class="mono">planetmaison.com</span>, <span class="mono">newbooker.com</span></li>
+<li>Subject lines: <span class="mono">Outage – [six-character code]</span>; sender display names: organisation-specific prefix plus &ldquo;Outage Notification&rdquo; or &ldquo;Service Health&rdquo;; messages cite incident ID <span class="mono">EX1550543</span> and threaten permanent deletion of held emails within 24 hours</li>
+</ul>
+</div>
+<div class="ioc">
+<h3>Fortinet CVE-2026-126170 PoC (GitHub, verified genuine)</h3>
+<ul>
+<li>Repository: <span class="mono">Ghost-Bx1/cve-2026-126170-fortimanager-jsonrpc-rce</span> (created 11 Nov; contains working exploit.py and poc.py; Portuguese README with attack flow and mitigation) — verified genuine, not a lure. PatchCVE also lists <span class="mono">googlesky/CVE-2026-126170</span>; that repo was not independently verified here.</li>
+</ul>
+</div>
+<div class="ioc">
+<h3>SCKit (Microsoft 13 Nov; Huntress second wave)</h3>
+<ul>
+<li>Domains: <span class="mono">ns[.]mo7sen[.]dev</span>, <span class="mono">sc[.]payproofkit[.]com</span>, <span class="mono">cdn007-digitaldownloads[.]com</span>, <span class="mono">newnewnew[.]gotdns[.]org</span>, <span class="mono">soxnewwork[.]homedns[.]org</span></li>
+<li>IPs: <span class="mono">185[.]99[.]255[.]28</span>, <span class="mono">155[.]94[.]150[.]39</span>, <span class="mono">185.241.211[.]197</span> (wave 2 installer host)</li>
+<li>SHA-256: sc.msi <span class="mono">61a672a13f03a9e81f573535ee92b1ed6cb7e848a33a06048865312d4e185ae2</span>; ToolboxRelayUploader.exe <span class="mono">8cb5f48bbe70b5248db7f327f3d1ad6649df5c767d2a7e0711ee147fd92e06af</span>; TrapWatch.ps1 <span class="mono">d2ed7a7bf4f8ac9c7969e9b3a07ebd4dda0d858f372c876ac0a041611698de9a</span></li>
+<li>Artefacts: <span class="mono">sckit-decoder.ps1</span>; TrapWatch scheduled task (SYSTEM); <span class="mono">C:\ProgramData\RelayTrap</span>; rogue client markers <span class="mono">c=ExploitedNOTUSA</span>, <span class="mono">Exploited529</span>, <span class="mono">Exploited809</span></li>
+</ul>
+</div>
+<div class="ioc">
+<h3>N-able N-central (researcher-published, 13 Nov)</h3>
+<ul>
+<li>IPs: <span class="mono">157.20.241[.]16</span> (ports 8080, 19202–19418; URLs <span class="mono">/jup.sh</span>, <span class="mono">/xvgz</span>, <span class="mono">/xmrig.tgz</span>, <span class="mono">/ob/cronhit</span>, <span class="mono">/ob/fcheck</span>), <span class="mono">139.99.69[.]109:10128</span>, <span class="mono">79.76.51[.]56:39100</span></li>
+<li>Requests to <span class="mono">/dms/services/ServerUI</span> referencing <span class="mono">jline.internal.TerminalLineSettings</span>; unexpected <span class="mono">xvd.service</span> systemd units; files under <span class="mono">/tmp/.xvd</span> or <span class="mono">/var/tmp/.xvd</span>; XMRig processes</li>
+</ul>
+</div>
+<div class="ioc">
+<h3>ARTEX (FBI FLASH-20261113-001 via CTXSec hunt summary; Amazon MadPot 13 Nov)</h3>
+<ul>
+<li>ARTEX host (South Korea campaign): <span class="mono">38.244.50[.]120</span>; proxies <span class="mono">101.53.80[.]20</span>, <span class="mono">205.214.59[.]31</span>, <span class="mono">124.155.252[.]63</span>, <span class="mono">154.201.79[.]246</span>, <span class="mono">23.248.249[.]90</span>, <span class="mono">23.158.220[.]98</span>, <span class="mono">103.248.148[.]84</span>, <span class="mono">203.160.133[.]172</span>, <span class="mono">209.209.85[.]38</span>; LLM reseller domain <span class="mono">xcai[.]pro</span></li>
+<li>ConnectWise campaign: <span class="mono">144.172.64[.]60/.99/.128</span>, <span class="mono">187.15.88[.]186</span>, <span class="mono">187.15.90[.]217</span>, <span class="mono">187.15.89[.]186</span></li>
+<li>Storm-3358 (active as of 6 Nov): WISP C2 <span class="mono">199.19.95[.]66–68</span>; ARTEX servers <span class="mono">91.92.240[.]238</span>, <span class="mono">85.11.168[.]45</span>, <span class="mono">178.16.54[.]129</span>, <span class="mono">31.77.229[.]35</span>; C2 <span class="mono">85.11.167[.]52</span></li>
+<li>Amazon MadPot: <span class="mono">104.28.225[.]223</span>, <span class="mono">31.22.91[.]156</span>, <span class="mono">150.136.38[.]110</span>, <span class="mono">128.242.115[.]131</span>, <span class="mono">216.176.239[.]231</span>; KYC-deepfake <span class="mono">212.107.28[.]51</span>, <span class="mono">103.142.140[.]158</span>, <span class="mono">104.28.251[.]98/.99</span>, <span class="mono">104.28.219[.]97</span>, <span class="mono">125.103.213[.]41</span></li>
+<li>Behaviours: sub-second Azure capability checks and test blob write/delete; ARM deployment dry-runs; AWS DryRun probes; lookups to <span class="mono">api.db-ip[.]com</span>; output to rotating webhook.site URLs; unexpected egress to LLM APIs and self-hosted gateways (CLIProxyAPI, New API); WISP / vshell / AdaptixC2 / BLOODALCHEMY; new 100 GB volumes before exfiltration</li>
+</ul>
+</div>
+<div class="ioc">
+<h3>wfx-loot; PHP2Shell / Check Point; FortiGuard T-SQL</h3>
+<ul>
+<li>wfx-loot: C2 <span class="mono">18[.]143[.]168[.]96:8080/exfil</span> (v2a), <span class="mono">153[.]75[.]82[.]159:8080/exfil</span> (v3, Telegram delivery); PR title &ldquo;docs: dependency audit notes&rdquo;, branch <span class="mono">wfx-docs</span>, commit &ldquo;ci: refresh build cache&rdquo;; gaps in GitHub Actions run numbers are the tell</li>
+<li>PHP2Shell / Check Point: <span class="mono">130.94.19[.]204</span>, <span class="mono">130.94.19[.]168</span>; <span class="mono">upload_progress_pwn</span> string in PHP session files; process masquerading as CPconfigdaemon; scanner/wiper files under /tmp or /temp; DREAM_ANNEXATION.txt notes</li>
+<li>FortiGuard T-SQL: domains <span class="mono">site.vietnam852[.]com:88</span>, <span class="mono">ftp.vietnam852[.]com:88</span>, <span class="mono">server.vietnam852[.]com:8000</span>, <span class="mono">www.swordaa[.]com:8000</span>, <span class="mono">site.hfgjjkrewjk[.]com</span>, <span class="mono">site.jiancai008[.]com</span>; SHA-256 dllhost.exe <span class="mono">8CE2CD98EF6CEEECE8239936E4AEA042C41807F632CD691D5091705BF6C0076D</span>, winlogon.exe (Gh0st RAT) <span class="mono">3F64B0146B323C5716043360E84384A5A197A897F46088DF93A910470A29E1A0</span>, MicrosoftEdgeUpdate.exe (miner) <span class="mono">2A23E10BFC097E98295CBFF8124BD403C4CB677E709B48CCC53D6ACA216C3061</span></li>
+</ul>
+</div>
+<ol class="actions">
+<li><strong>Patch the Check Point November Jumbo Hotfix now:</strong> apply it (R82.20 Take 14, R82.10 Take 52, R82 Take 132, R81.20 Take 174 or later) to every Security Gateway, Management Server, Multi-Domain Server and Log Server — federal due date 16 November for CVE-2026-123039, covered in the 14 November edition and not repeated as a watchlist row here because there is no new development. Treat any unpatched gateway with an exposed Mobile Access portal as potentially compromised and hunt for the PHP2Shell/TSGA indicators.</li>
+<li><strong>Patch PostgreSQL to the 12 Nov releases</strong> (18.7, 17.12, 16.16, 15.20, 14.25); rebuild C-language extensions for full protection; plan the PostgreSQL 14 exit — 14.25 is its last release.</li>
+<li><strong>Disable the N-able Legacy API</strong> on every on-premises N-central server, and confirm it is off — Hotfix 2 does not fix the new chains and HF3 is still in validation, so do not wait for it. Hunt for the researcher IOCs above; any server showing them should be treated as fully compromised.</li>
+<li><strong>Patch FortiManager / FortiAnalyzer for CVE-2026-126170</strong> (public PoC now exists); confirm the JSON-RPC API is disabled or restricted (<span class="mono">set rpc-permit none</span>).</li>
+<li><strong>Warn staff about Microsoft 365 outage phishing:</strong> sender domains <span class="mono">moments-notice.com</span>, <span class="mono">planetmaison.com</span>, <span class="mono">newbooker.com</span>; subjects &ldquo;Outage – [six-character code]&rdquo;; verify via official status pages only.</li>
+<li><strong>Hunt for SCKit in MSP environments:</strong> ask providers whether they run ScreenConnect with the RMM+ extension (versions 1.0.31/1.0.32) and whether they have seen the TrapWatch task, the <span class="mono">sckit-decoder.ps1</span> artefact or the rogue client markers; revoke exposed sessions and reset credentials from a trusted device. Removing the rogue client alone does not remove persistence or invalidate exposed web sessions.</li>
+<li><strong>Patch the Citrix NetScaler batch</strong> (ADC/Gateway 14.1-73.57 and 13.1-64.39; Console 14.1-74.34) and restrict Console access to trusted networks; the Console authentication bypass needs only network access to the Console IP. Separately, hunt for existing CitrixBleed 2 implants — patching does not remove them.</li>
+<li><strong>Fraud teams:</strong> warn customers about Monex, AXA, KOMSCO and KBIZ impersonation; screen MEXC-linked transfers; check staff and customer credentials against the Operation Endgame / Have I Been Pwned notifications; watch for Rs 1 test transactions on compromised accounts; brief frontline staff on Microsoft 365 outage-themed scams.</li>
+<li><strong>Watch for the Korean FSI special audit</strong> starting Monday 16 November and for SinoPac&rsquo;s full report, which was due 12 November with no confirmation it was filed.</li>
+</ol>
+</section>
+
+<section aria-labelledby="unv-h">
+<div class="sec-head"><h2 id="unv-h">Could not verify</h2></div>
+<div class="unverified">
+<ul>
+<li><strong>CISA KEV (14 Nov):</strong> the live CISA feed read in this run was crawled 14 Nov 08:36 UTC (catalogue version 2026.11.13, 1,781 entries) and shows no 14 Nov additions, corroborated by two independent KEV trackers (Daily CISO, ImmunitySec). A KEV release later on 14 Nov US time or early 15 Nov SGT cannot be 100% excluded from these sources alone.</li>
+<li><strong>ninjalabz KEV claim — refuted:</strong> a daily page (ninjalabz, 14 Nov) claims CISA added CVE-2026-5430 (WSO2) and CVE-2026-71362 (Adobe) &ldquo;this morning&rdquo;. That is wrong: both were added on 24 September 2026 (CISA alert of 24 Sep), with a due date of 27 September 2026. They are not reported as new.</li>
+<li><strong>Korean FSI 16-firm count:</strong> Korean press on 14 Nov reported the regulator counts 16 financial firms breached in the AI-assisted hacking wave, with about 100,000 records leaked, naming five newly reported firms. The same figures appear in the FSC&rsquo;s press release of 14 October, and the framing of a &ldquo;second emergency meeting&rdquo; on 14 Nov matches that October meeting — while the newly named firms include November incidents (DB Savings Bank, KDB Capital) that the October meeting could not have named. The two accounts could not be reconciled, so the 16-firm count is not treated as a new development. The live wire still carries the 14 Nov framing; the next wire check should correct it.</li>
+<li><strong>AXA Direct Japan:</strong> no direct axa.co.jp notice URL could be retrieved from search; the facts are corroborated across ad-hoc-news and Japanese write-ups citing the 12 Nov first report and 13 Nov second report. The company notice itself is not linked.</li>
+<li><strong>Microsoft 365 outage phishing:</strong> no direct URL for the Microsoft Threat Intelligence X post could be established; the campaign is cited via re-reports (tvcnews, thehansindia) and corroborated by the NCSC UK warning of 13 Nov.</li>
+<li><strong>Vietnam CIC:</strong> the date of the State Bank of Vietnam statement could not be verified from the reporting seen (likely 13–14 Nov); the scale of the breach is still under review and no victim count has been published.</li>
+<li><strong>SBI:</strong> re-reporting of the FIR continued on 14 Nov; the incident is the 21 October disclosure, not new. Figures conflict across sources: 375,000 is the size of the record pool examined, SBI&rsquo;s preliminary analysis identified about 3,897 customer records, and FIR-based reporting cites about 4,280 customers&rsquo; sensitive PII. Do not pick one.</li>
+<li><strong>Marquis 672,075:</strong> re-reported again on 14 Nov — this is the March 2026 Maine AG disclosure of the August 2025 breach, re-reported, not new. Not included.</li>
+<li><strong>SinoPac:</strong> the full report due 12 Nov is still unconfirmed as filed; no 14 Nov update was found.</li>
+<li><strong>TodoPago, Endzone, N0n, Payoutsking:</strong> leak-site or actor claims only; no company confirmation, no published data, no data volume for any of them. The JETS October incident is confirmed, but INC Ransom&rsquo;s responsibility for it is not (carried from the 14 November edition).</li>
+<li><strong>FaceStealer:</strong> 14 Nov write-ups add no new facts beyond the 12 Nov FBI/DOJ announcement (covered in the 13 November edition).</li>
+</ul>
+</div>
+</section>
+
+<section aria-labelledby="src-h" id="sources">
+<div class="sec-head"><h2 id="src-h">Sources</h2><p>Every source is hyperlinked to the original vendor, government or primary reporting; translated items link to the original-language article.</p></div>
+<ol class="sources">
+<li>PR Times — Monex Securities announcement (13 Nov; Japanese): <a href="https://prtimes.jp/main/html/rd/p/000000595.000005159.html" target="_blank" rel="noopener noreferrer">prtimes.jp</a></li>
+<li>TokyoReporter — Monex Securities suffers massive data breach exposing 1.1 million email addresses (14 Nov): <a href="https://www.tokyoreporter.com/japan-news/monex-securities-suffers-massive-data-breach-exposing-1-1-million-email-addresses/" target="_blank" rel="noopener noreferrer">tokyoreporter.com</a></li>
+<li>auone — Monex Securities (14 Nov; Japanese): <a href="https://article.auone.jp/84879066-79a4-451b-bcdd-0fcb6f1dde3b" target="_blank" rel="noopener noreferrer">article.auone.jp</a></li>
+<li>ad-hoc-news — AXA stock: Japan unit discloses MyAXA data breach affecting 597,000 (13 Nov): <a href="https://www.ad-hoc-news.de/boerse/news/corporate-news/axa-stock-japan-unit-discloses-myaxa-data-breach-affecting-597-000/70505763" target="_blank" rel="noopener noreferrer">ad-hoc-news.de</a></li>
+<li>Rocket Boys — AXA MyAXA 597,000 data exposure, second report (13 Nov; Japanese): <a href="https://rocket-boys.co.jp/security-measures-lab/axa-myaxa-597000-data-exposure-second-report-20261113/" target="_blank" rel="noopener noreferrer">rocket-boys.co.jp</a></li>
+<li>Yonhap — KOMSCO chak app breach (14 Nov; Korean): <a href="https://www.yna.co.kr/view/AKR20261114043100063?section=local/daejeon-chungnam-sejong/index" target="_blank" rel="noopener noreferrer">yna.co.kr</a></li>
+<li>Herald Business — KOMSCO chak (14 Nov; Korean): <a href="https://biz.heraldcorp.com/article/10937115" target="_blank" rel="noopener noreferrer">biz.heraldcorp.com</a></li>
+<li>NoCut News — KBIZ Yellow Umbrella suspected data viewing (14 Nov; Korean): <a href="https://m.nocutnews.co.kr/news/6606919" target="_blank" rel="noopener noreferrer">nocutnews.co.kr</a></li>
+<li>Chosun Biz — KBIZ Yellow Umbrella (14 Nov; English): <a href="https://biz.chosun.com/en/en-industry/2026/11/14/3C275BYESVBZNO4XWXP7KUTE4E/" target="_blank" rel="noopener noreferrer">biz.chosun.com</a></li>
+<li>NoCut News — FSI follow-up: hacking IPs Korean nationality, 246 blocked (14 Nov; English): <a href="https://en.nocutnews.co.kr/news/6606874" target="_blank" rel="noopener noreferrer">en.nocutnews.co.kr</a></li>
+<li>Tuoi Tre News — Vietnam central bank on credit-data breach (English): <a href="https://news.tuoitre.vn/print/vietnam-central-bank-on-credit-data-breach-cic-does-not-collect-deposit-or-payment-account-data-103250914162300684.htm" target="_blank" rel="noopener noreferrer">news.tuoitre.vn</a></li>
+<li>ByteEU — Lazarus targeting Korean banks via PHP flaws (15 Nov; Yonhap via ByteEU): <a href="https://www.byteseu.com/2522485/" target="_blank" rel="noopener noreferrer">byteseu.com</a></li>
+<li>Undercode News — TodoPago full-database leak claim (14 Nov): <a href="https://undercodenews.com/honduras-threat-actor-claims-full-database-leak-of-todopago-digital-payment-platform-video/" target="_blank" rel="noopener noreferrer">undercodenews.com</a></li>
+<li>Ransomware.live — Absolute Bail Bonds, Endzone (14 Nov): <a href="https://www.ransomware.live/id/QWJzb2x1dGUgQmFpbCBCb25kc0BFbmRab25l" target="_blank" rel="noopener noreferrer">ransomware.live</a></li>
+<li>Cyber Threat Intelligence — Steeden Financial, N0n (14 Nov): <a href="https://cyberthreatintelligence.net/ransomware-victim/steeden-financial-n0n-2026" target="_blank" rel="noopener noreferrer">cyberthreatintelligence.net</a></li>
+<li>Cyber Threat Intelligence — MM Insurance Agency, N0n (14 Nov): <a href="https://cyberthreatintelligence.net/ransomware-victim/mm-insurance-agency-n0n-2026" target="_blank" rel="noopener noreferrer">cyberthreatintelligence.net</a></li>
+<li>Bitdefender — Threat Debrief, November 2026 (N0n victim-count inflation): <a href="https://www.bitdefender.com/en-us/blog/businessinsights/bitdefender-threat-debrief-november-2026" target="_blank" rel="noopener noreferrer">bitdefender.com</a></li>
+<li>Cyber Threat Intelligence — iLending and J.C. Flowers &amp; Co., Payoutsking (12 Nov): <a href="https://cyberthreatintelligence.net/ransomware-victim/ilending-j-c-flowers-co-payoutsking-2026" target="_blank" rel="noopener noreferrer">cyberthreatintelligence.net</a></li>
+<li>ET BFSI — YES Bank denies $3.4m cyber-fraud report (14 Nov): <a href="https://bfsi.economictimes.indiatimes.com/articles/yes-bank-denies-report-on-3-4-million-cyber-fraud-loss/135825529" target="_blank" rel="noopener noreferrer">bfsi.economictimes.indiatimes.com</a></li>
+<li>The Times of India — Tamil Nadu ₹22.3 crore fund case, seven mules arrested (14 Nov): <a href="https://timesofindia.indiatimes.com/city/chennai/22cr-govt-fund-misappropriate-case-seven-mules-arrested-money-not-yet-recovered/articleshow/135840098.cms" target="_blank" rel="noopener noreferrer">timesofindia.indiatimes.com</a></li>
+<li>BleepingComputer — US disrupts North Korean FaceStealer campaign (14 Nov): <a href="https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/" target="_blank" rel="noopener noreferrer">bleepingcomputer.com</a></li>
+<li>US Department of Justice — Actions to disrupt North Korea&rsquo;s theft of cryptocurrency (12 Nov): <a href="https://www.justice.gov/opa/pr/justice-department-announces-actions-disrupt-north-koreas-massive-theft-cryptocurrency" target="_blank" rel="noopener noreferrer">justice.gov</a></li>
+<li>FBI — FLASH AC-111226-MS, FaceStealer (12 Nov): <a href="https://www.ic3.gov/CSA/2026/261112.pdf" target="_blank" rel="noopener noreferrer">ic3.gov</a></li>
+<li>CoinPaper — Binance reopens 87 crypto networks (14 Nov): <a href="https://coinpaper.com/38857/binance-reopens-87-crypto-networks-after-6-3-b-hack-targets-full-withdrawals-next-week" target="_blank" rel="noopener noreferrer">coinpaper.com</a></li>
+<li>Coinotag — Binance zero-knowledge proof of reserves (14 Nov): <a href="https://en.coinotag.com/binance-zero-knowledge-proof-reserves-100-05" target="_blank" rel="noopener noreferrer">en.coinotag.com</a></li>
+<li>Binance — Proof of reserves (live read 15 Nov 00:08 SGT): <a href="https://www.binance.com/en/proof-of-reserves" target="_blank" rel="noopener noreferrer">binance.com</a></li>
+<li>Europesays — Osaka City confirms 1,078,713 email addresses leaked via Arara (14 Nov): <a href="https://www.europesays.com/japan/123796/" target="_blank" rel="noopener noreferrer">europesays.com</a></li>
+<li>Nacionale — Why is Japan being hit by so many cyber attacks (Arara, 14 Nov): <a href="https://www.nacionale.com/en/articles/why-is-japan-being-hit-by-so-many-cyber-attacks-osaka-sega-arara-breach" target="_blank" rel="noopener noreferrer">nacionale.com</a></li>
+<li>TVC News — Microsoft warns of phishing campaign exploiting Microsoft 365 outage (14 Nov): <a href="https://www.tvcnews.tv/microsoft-warns-of-phishing-campaign-exploiting-microsoft-365-service-disruption/" target="_blank" rel="noopener noreferrer">tvcnews.tv</a></li>
+<li>The Hans India — Microsoft warns users of phishing attacks after outage (14 Nov): <a href="https://www.thehansindia.com/tech/microsoft-warns-users-of-phishing-attacks-after-recent-outage-1142131" target="_blank" rel="noopener noreferrer">thehansindia.com</a></li>
+<li>Europesays — NCSC warns of scam calls exploiting Microsoft outage (13 Nov): <a href="https://www.europesays.com/uk/1311409/" target="_blank" rel="noopener noreferrer">europesays.com</a></li>
+<li>Dev.to — PostgreSQL CVE-2026-6460 write-up, Mehmet Ince (13 Nov): <a href="https://dev.to/slabb/4-sql-statements-and-a-segfault-inside-postgresqls-22-year-old-type-confusion-cve-2026-6460-1ggm" target="_blank" rel="noopener noreferrer">dev.to</a></li>
+<li>SwapUpdate — PostgreSQL patches 52 flaws (13 Nov): <a href="https://www.swapupdate.in/postgresql-patches-52-flaws-including-22-year-old-bug-enabling-authenticated-rce/" target="_blank" rel="noopener noreferrer">swapupdate.in</a></li>
+<li>GitHub — Ghost-Bx1/cve-2026-126170-fortimanager-jsonrpc-rce (verified PoC): <a href="https://github.com/Ghost-Bx1/cve-2026-126170-fortimanager-jsonrpc-rce" target="_blank" rel="noopener noreferrer">github.com</a></li>
+<li>PatchCVE — CVE-2026-126170 reference (PoC list): <a href="https://www.patchcve.com/reference/cve/CVE-2026-126170" target="_blank" rel="noopener noreferrer">patchcve.com</a></li>
+<li>Check Point Research — PHP2Shell exploitation on Check Point gateway (12 Nov): <a href="https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/" target="_blank" rel="noopener noreferrer">research.checkpoint.com</a></li>
+<li>CISA — Known Exploited Vulnerabilities JSON feed: <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">cisa.gov</a></li>
+<li>Daily CISO — CISA KEV tracker: <a href="https://www.dailyciso.com/kev" target="_blank" rel="noopener noreferrer">dailyciso.com</a></li>
+<li>CISA — CISA adds two known exploited vulnerabilities (24 Sep 2026): <a href="https://www.cisa.gov/news-events/alerts/2026/09/24/cisa-adds-two-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">cisa.gov</a></li>
+<li>isec.news — N-central flaws, miners on 21 servers (14 Nov): <a href="https://www.isec.news/2026/11/14/n-central-flaws-miners-21-servers/" target="_blank" rel="noopener noreferrer">isec.news</a></li>
+<li>Medium — N-central vulnerabilities: Able2Shell, what MSPs should do now (updated 15 Nov): <a href="https://medium.com/@varaxon/n-central-vulnerabilities-able2shell-what-msps-should-do-now-55f558f6daca" target="_blank" rel="noopener noreferrer">medium.com</a></li>
+<li>The Times of India — SBI files police case a month after hackers stole 375,000 records (13 Nov): <a href="https://timesofindia.indiatimes.com/city/mumbai/data-wasnt-misused-bank-registers-police-case-one-month-after-3-7-lakh-records-were-stolen/articleshow/135807985.cms" target="_blank" rel="noopener noreferrer">timesofindia.indiatimes.com</a></li>
+<li>Carried sources (items unchanged in-window — full detail in the 14 November edition): Microsoft SCKit teardown; Huntress SCKit blog; SecurityWeek N-able; Tenable Able2Shell FAQ; SOCRadar 4EverAble2Shell; Citrix CTX697305 and ThreatAft; OffSeq CitrixBleed 2; GitHub googlesky/CVE-2026-119618; Sysdig and Abijita on Apache CVE-2026-119618; Censys advisory; Qualys Patch Tuesday; Fortinet FortiGuard T-SQL; Group-IB DarkLunnen; SentinelOne week 46; GitGuardian wfx-loot; GitHub nirzadokox/php2shell check; The Times of India Crafty Falcon; Seoul Economic Daily KB Capital; Olhar Digital Tesouro Nacional and Caixa; Nationwide News Network JETS; QPulse Raymond James and Game Changer; Undercode News INC Ransom; BreachSense Four Points; BleepingComputer and The Hacker News Trezor; BleepingComputer Token Security; Channel NewsAsia and The Straits Times CSA; American Banker Storm-1175; Yonhap FSI; USA News Hub Ark&eacute;a; Reuters FaceStealer; and the 13 November edition&rsquo;s source list for older items.</li>
+</ol>
+</section>
+<footer><p>BFSI Cyber Threat Intelligence Briefing — Sunday 15 November 2026. Window approximately 14 November 09:00 SGT to 15 November 09:00 SGT. Items are included only where reporting, an update or a follow-up fell in that window; gaps and conflicts are stated rather than smoothed over. Sources are hyperlinked to the original vendor, government or primary reporting; translated items link to the original-language article.</p></footer>
+</div>
+<style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#1c1e22;color:#fff !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style>
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a></body>
+</html>
