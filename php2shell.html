@@ -467,7 +467,7 @@ section > p { margin-bottom: 14px; }
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 · revised 15 Nov &middot; CYFIRMA raises the Lazarus link to high confidence (v4, 29 Oct); 216-host target list: 30 in South Korea; CVE-2026-123039 in KEV (due 16 Nov); CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
+      <span>Compiled 21 Oct 03:55 · revised 16 Nov &middot; GreyNoise count moves to 1,265 (last shell 15 Nov 17:33 UTC); CYFIRMA raises the Lazarus link to high confidence (v4, 29 Oct); 216-host target list: 30 in South Korea; CVE-2026-123039 in KEV (due 16 Nov); CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -603,6 +603,46 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-16-nov">
+<p class="eyebrow">Update &middot; 16 November</p>
+<h2>GreyNoise count moves to 1,265; the mining cluster ran through 15 November evening</h2>
+<p class="lede">The GreyNoise PHP2Shell Activity dashboard now counts <strong>1,265 successful exploitations</strong> (was 1,229 at the 15 November 08:58 UTC reading), with the latest shell starting <strong>15 November 17:33:02 UTC</strong> &mdash; exploitation was still succeeding on GreyNoise sensors into the evening of 15 November, three days after the previous last shell. One attacker IP new to this brief appears in the 15 November cluster rows &mdash; <strong>104.233.14.236</strong> (Web2Objects LLC, AS62874, US), first seen 12:11:33 UTC &mdash; and the miner commands in those rows point at a new pool address, <strong>107.178.98.234:3333</strong>, in place of <code>pool.supportxmr.com:3333</code>, with the same XMR wallet and the same cc-url (<code>159.89.162.100:4001</code>). This supersedes the 15 November section&rsquo;s GreyNoise row (&ldquo;Unchanged &mdash; no new shells in this check&rdquo;).</p>
+<div class="callout">
+<span class="label">What the +36 does not prove &mdash; read the count carefully</span>
+<p>The 17:00&ndash;17:33 UTC rows that close the count are xmrig miner commands (<code>xmrigMiner</code> / <code>xmrigDaemon</code>, <code>/sbin/modprobe msr</code>) with &ldquo;Not attributed&rdquo; as the attacker IP &mdash; commands running on shells already established, not fresh exploit sessions. The tag table records them as shell-start records, so the +36 is a count of those records, not necessarily 36 fresh exploitations. The direction is still real &mdash; the count moved for the first time since 12 November, and the 12:11&ndash;12:29 UTC cluster rows carry attributed exploit sessions &mdash; but do not quote 1,265 as 1,265 distinct newly exploited hosts.</p>
+</div>
+<div class="board">
+<div class="tile"><div class="k">GreyNoise successes</div><div class="v">1,265</div><div class="n">Successful exploitations; was 1,229 (12 Nov 15:12 UTC)</div></div>
+<div class="tile"><div class="k">Last successful shell</div><div class="v">15 Nov 17:33 UTC</div><div class="n">17:33:02 UTC; xmrig commands on established shells &mdash; see callout</div></div>
+<div class="tile"><div class="k">New attacker IP</div><div class="v">1</div><div class="n"><code>104.233.14.236</code> (Web2Objects LLC, AS62874, US); 16 exploit sessions, first seen 15 Nov 12:11:33 UTC</div></div>
+<div class="tile"><div class="k">CVE-2026-123039 KEV / NVD</div><div class="v">Unchanged</div><div class="n">KEV still v2026.11.13, 1,781 entries (checked 16 Nov 01:00 UTC); NVD still &ldquo;Undergoing Enrichment&rdquo;, last modified 13 Nov</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Item</th><th>Before</th><th>Now</th></tr></thead>
+<tbody>
+<tr><td>GreyNoise successful exploitations</td><td>1,229 (12 Nov 15:12:48 UTC last shell)</td><td><strong>1,265</strong> (15 Nov 17:33:02 UTC last shell) &mdash; exploitation still succeeding on GreyNoise sensors; +36 since the 15 Nov 08:58 UTC reading</td></tr>
+<tr><td>New attacker IP</td><td><code>104.233.14.236</code> not in this brief (12 Nov section: <code>154.3.235.207</code>, <code>45.115.192.75</code>, <code>31.57.193.98</code>; 13 Nov section: <code>45.89.209.106</code>, <code>216.173.102.156</code>, <code>45.115.193.109</code>)</td><td><code>104.233.14.236</code> (Web2Objects LLC, AS62874, US) &mdash; first seen 15 Nov 12:11:33 UTC, 16 exploit sessions to 12:28:21 UTC, in the 15 Nov 12:11&ndash;12:29 UTC cluster rows</td></tr>
+<tr><td>Miner pool</td><td><code>pool.supportxmr.com:3333</code> (12 Nov section; same wallet)</td><td><strong><code>107.178.98.234:3333</code></strong> &mdash; first seen 15 Nov 12:11:12 UTC, 8 occurrences to 17:00:02 UTC; the xmrig commands in the 15 Nov rows point the miner at this IP instead of the supportxmr.com hostname; same wallet and cc-url <code>159.89.162.100:4001</code></td></tr>
+<tr><td>Post-exploitation payload</td><td>XMRig Monero mining (13 Nov section: same wallet and pool; Cloudflare-tunnel miner ran 12 Nov 05:54&ndash;15:12 UTC)</td><td><strong>Unchanged in kind</strong> &mdash; same wallet <code>49Gej6TbPqyRhZvJQKpthyaBhd6DsUPq4BmtBKMxXHfb8Xv57iVSPg3PJ6iaokogkzKKuFFryE9qgRTKwJv8addzEcyhP7b</code>; the 17:00&ndash;17:33 UTC rows are xmrig commands on established shells (see callout)</td></tr>
+<tr><td>CVE-2026-123039 KEV</td><td>Catalog v2026.11.13, 1,781 entries; added 13 Nov, due 16 Nov (15 Nov section)</td><td><strong>Unchanged</strong> (checked 16 Nov 01:00 UTC) &mdash; still v2026.11.13, 1,781 entries; no new additions in this check. The due date falling today is not itself a development (standing rule)</td></tr>
+<tr><td>CVE-2026-123039 NVD record</td><td>&ldquo;Undergoing Enrichment&rdquo;; last modified 13 Nov (15 Nov section)</td><td><strong>Unchanged</strong> (checked 16 Nov 01:00 UTC) &mdash; still &ldquo;Undergoing Enrichment&rdquo;; last modified 13 Nov; no NVD assessment</td></tr>
+<tr><td>CYFIRMA</td><td>v4 (29 Oct), HIGH confidence Lazarus link; 216-host breakdown (15 Nov section)</td><td><strong>Unchanged</strong> (checked 16 Nov 00:59 UTC) &mdash; still v4; no v5; 62-vs-54 IOC reconciliation still outstanding</td></tr>
+<tr><td>Other trackers</td><td>Trend Micro KA-0024802 (DDAN ETA 18 Nov, TMMS ETA 17 Nov); NCSC-NL 972 / 213 / 212; Fortinet FG-IR-26-186; Xerox XRX26-016 v6; Fiery FS800&ndash;FS500 shipment unconfirmed, FS400&ndash;FS300 target 16 Nov (15 Nov section)</td><td><strong>Unchanged</strong> in this check &mdash; no new patch, hotfix or vendor status surfaced; Fiery FS400&ndash;FS300 target is today, no shipment confirmation yet</td></tr>
+<tr><td>CVE-2026-115560</td><td>No NVD record (checked 15 Nov)</td><td><strong>Still no NVD record</strong>; no PHP fix; no full advisory</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>The exploitation picture moves for the first time since 12 November.</strong> +36 shells, latest 15 Nov 17:33 UTC: unpatched PHP on GreyNoise sensors is still being won, three days after the last recorded success. Patch and hunt advice is unchanged &mdash; it is the same campaign, the same wallet, the same miner.</li>
+<li><strong>It does not change the attribution or the patch picture.</strong> No new named victim, no new vendor advisory, no KEV change. CVE-2026-123039&rsquo;s federal remediation date falls today (16 Nov), but the due date alone is not a development, and the fix is unchanged.</li>
+<li><strong>The new pool IP is the actionable addition.</strong> <code>107.178.98.234:3333</code> replaces the supportxmr.com hostname in the miner commands. Hunt for it alongside the wallet and the cc-url. The 15 Nov cluster&rsquo;s other addresses were already active on 10 November and are not new.</li>
+<li><strong>The count needs its caveat.</strong> The 17:00&ndash;17:33 UTC rows are miner commands on established shells, so the +36 counts shell-start records, not necessarily 36 fresh exploitations. Quote the figure with that attached.</li>
+</ul>
+<p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 16 Nov 01:04 UTC (1,265 successful exploitations; latest shell 15 Nov 17:33:02 UTC; new attacker IP 104.233.14.236, Web2Objects LLC, AS62874, first seen 15 Nov 12:11:33 UTC, 16 sessions; connect-back 107.178.98.234:3333, first seen 15 Nov 12:11:12 UTC, 8 occurrences)</a> &middot; <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog (still v2026.11.13, 1,781 entries; checked 16 Nov 01:00 UTC)</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123039" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123039 record, read 16 Nov 01:00 UTC (still &ldquo;Undergoing Enrichment&rdquo;; last modified 13 Nov)</a> &middot; <a href="https://www.cyfirma.com/blogs/php2shell-vulnerability-under-active-exploitation-are-you-affected-and-what-should-you-do-today/" target="_blank" rel="noopener noreferrer">CYFIRMA &mdash; PHP2Shell Vulnerability Explained (still advisory v4, 29 Oct; read 16 Nov 00:59 UTC)</a></p>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
 
 <section id="update-15-nov">
 <p class="eyebrow">Update &middot; 15 November</p>
