@@ -171,6 +171,20 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "A payment fintech holding IBANs, card tokens and KYC data is a direct fraud enabler if that data was taken: IBANs plus identity documents support impersonation and invoice fraud, and password hashes invite credential-stuffing where passwords are reused. The confirmed facts so far are service suspension and indications of theft, not a confirmed exfiltration volume, so the impact is watch-level; firms should warn staff and customers about phishing citing CrediBill and check for reuse of CrediBill credentials.",
+      "headline": "Swiss fintech CrediBill suspends service after cyberattack; new findings point to data theft",
+      "id": "entry-credibill-20261116",
+      "known": "Swiss bill-payment fintech CrediBill (a Bottomline-owned service for paying invoices by card) has taken its systems offline after a cyberattack that began on 11 November 2026; customers cannot log in or use the service. CEO Alexander Segmuller said the firm acted quickly to protect customer data and that in-house staff and a Swiss security firm are investigating. Up to midday on 14 November the investigation had found no proof that data had left the business; the latest findings now point to data having been taken without permission, though Segmuller said it is not yet clear which data is affected. Two categories of data may be at risk: personal data such as contact details, ID and KYC data and password hashes, and transaction data including IBANs, card tokens and bills. The firm says it has never held card numbers and stores cards only as tokens. CrediBill has reported the case to the Swiss data protection office, filed a criminal complaint, and a police cybercrime unit is involved. Once the service returns, each user must set a new password on first login; users who reuse their CrediBill password elsewhere should change it there at once. Reported 16 November 2026 by Fintech News Switzerland, quoting the CEO.",
+      "severity": "watch",
+      "source_name": "Fintech News Switzerland, 16 November 2026 (reporting CrediBill's statements and CEO Alexander Segmuller)",
+      "source_url": "https://fintechnews.ch/payments/credibill-cyberattack-swiss-data-exfiltration/87101/",
+      "status": "confirmed",
+      "summary": "Swiss bill-payment fintech CrediBill said on 16 November that its service has been suspended since an attack that began on 11 November, and that new findings point to data having been taken; personal data including ID and KYC details and password hashes, and transaction data including IBANs and card tokens, may be affected. The scope is still unclear.",
+      "timestamp_sgt": "2026-11-16T16:00:00+08:00",
+      "type": "Named BFSI victim — fintech breach, possible data theft",
+      "unknown": "Which data, if any, was actually exfiltrated and how many customers are affected; the attack method and whether a ransom was demanded; when the service will reopen."
+    },
+    {
       "bfsi_impact": "A template risk for any lender whose disbursement flow trusts whitelisted cloud IP addresses: fraudsters register on the same public clouds, send payout commands that look routine, and sit undetected for a week because reconciliation runs weekly or fortnightly. The use of an AI platform (CyberStrikeAI) to generate command scripts at bulk speed, and a nationwide total above Rs 300 crore across 150+ NBFC complaints, marks Indian NBFCs as a sustained target class; firms should reconcile disbursements daily, review cloud IP whitelists, and audit front-end and payout APIs.",
       "headline": "Delhi Police: 12 NBFCs in Delhi-NCR lost over Rs 65 crore to cyber fraud in three months; AI tools used in the attacks",
       "id": "entry-nbfc-delhi-fraud-20261116",
@@ -1067,8 +1081,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-16T12:00:00+08:00",
-  "next_check_sgt": "2026-11-16T16:00:00+08:00",
-  "updated_sgt": "2026-11-16T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-16T16:00:00+08:00",
+  "next_check_sgt": "2026-11-16T20:00:00+08:00",
+  "updated_sgt": "2026-11-16T16:00:00+08:00",
   "version": 1
 }
