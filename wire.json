@@ -171,6 +171,34 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "If authentic, a leak combining payment-card photographs, identity documents, passwords and customer records from a Brazilian credit lender is direct identity-theft and fraud material: card photos support payment fraud, identity documents support fraudulent loan and account applications, and the 8,000 password-bearing records invite credential-stuffing where passwords are reused. Nothing is confirmed, so the impact is watch-level; Brazilian issuers and lenders should watch for impersonation and account-opening fraud citing ERBANK, and for credential-stuffing against reused passwords.",
+      "headline": "ERBANK (Brazil) hit by alleged 40GB data breach; 65,000 payment-card and identity photos reportedly exposed — claim unverified",
+      "id": "entry-erbank-20261116",
+      "known": "A threat actor claims to have leaked approximately 40GB of data allegedly stolen from ERBANK Technology Services and Payments, a Brazilian credit lender. The published claims include 65,000 payment-card photographs, personal photographs, identity-document photographs, 8,000 financial records reportedly containing passwords, and 11,000 customer records. Reported 16 November 2026 by Undercode News, citing a 16 November post by Dark Web Intelligence (@DailyDarkWeb). The dataset is also advertised on a dark-web forum. The existence, authenticity, completeness and origin of the allegedly leaked information have not been independently established, and ERBANK has not publicly confirmed a breach.",
+      "severity": "watch",
+      "source_name": "Undercode News, 16 November 2026 (via Dark Web Intelligence / @DailyDarkWeb, 16 November 2026)",
+      "source_url": "https://undercodenews.com/brazils-erbank-hit-by-alleged-40gb-data-breach-as-65000-payment-card-and-identity-photos-reportedly-exposed-video/",
+      "status": "reported / unconfirmed",
+      "summary": "A threat actor claims to have leaked about 40GB of data allegedly from Brazilian credit lender ERBANK, including 65,000 payment-card photographs, identity-document photographs and 8,000 financial records reportedly containing passwords. Reported 16 November 2026 via Dark Web Intelligence; unverified, with no public confirmation from ERBANK.",
+      "timestamp_sgt": "2026-11-16T20:00:00+08:00",
+      "type": "Alleged data leak — Brazilian credit lender, unverified",
+      "unknown": "Whether ERBANK was actually breached, whether the advertised data is authentic or belongs to ERBANK customers, when the underlying forum advertisement first appeared, and whether the passwords are plaintext or hashed; no time of day was given for the @DailyDarkWeb post."
+    },
+    {
+      "bfsi_impact": "If authentic, 70GB of payment-card and bank-account data tied to a major Brazilian consumer-finance ecosystem is direct card-fraud, account-takeover and phishing material; even unconfirmed, the advertisement puts Banco Carrefour customers at risk of impersonation messages citing card suspension or account verification. Nothing is confirmed, so the impact is watch-level; issuers should watch for phishing citing Banco Carrefour and for the separately mentioned transaction-history dataset appearing for sale.",
+      "headline": "Banco Carrefour (Brazil) faces alleged 70GB card and account data sale; 11m+ lines claimed — allegation unverified",
+      "id": "entry-banco-carrefour-20261116",
+      "known": "A threat actor advertises approximately 70GB of payment-card and bank-account data allegedly connected to Banco Carrefour, the financial-services arm of Carrefour Brazil, claiming more than 11 million lines of financial information with sample links reportedly provided to prospective buyers. A separate transaction-history dataset was mentioned but not yet advertised for sale. Reported by Undercode News, citing Dark Web Intelligence; the article was published 15 November 2026 at 20:32 -04:00 (16 November 08:32 SGT). No confirmed evidence establishes that Banco Carrefour suffered a direct cyberattack or that the advertised information originated from its infrastructure; the data could come from a payment processor, a third-party provider, or previously exposed information repackaged for resale. No purchase price was disclosed and no official response from Banco Carrefour has been reported.",
+      "severity": "watch",
+      "source_name": "Undercode News, 15 November 2026 (via Dark Web Intelligence)",
+      "source_url": "https://undercodenews.com/brazil-banking-data-leak-allegation-dark-web-seller-claims-70gb-of-banco-carrefour-card-and-account-records-video/",
+      "status": "reported / unconfirmed",
+      "summary": "A dark-web seller advertises about 70GB of payment-card and bank-account data allegedly connected to Banco Carrefour, claiming 11m+ lines of financial information. Reported 16 November 2026 (08:32 SGT); unverified, with no confirmed evidence of a direct compromise of Banco Carrefour infrastructure.",
+      "timestamp_sgt": "2026-11-16T20:00:00+08:00",
+      "type": "Alleged data sale — Brazilian consumer finance, unverified",
+      "unknown": "Whether Banco Carrefour was breached at all, the true source of the advertised data (direct intrusion, payment processor, third party, or repackaged older material), whether the 11m lines represent unique customers, and whether the mentioned transaction-history dataset will appear; no official statement from Banco Carrefour has been reported."
+    },
+    {
       "bfsi_impact": "A payment fintech holding IBANs, card tokens and KYC data is a direct fraud enabler if that data was taken: IBANs plus identity documents support impersonation and invoice fraud, and password hashes invite credential-stuffing where passwords are reused. The confirmed facts so far are service suspension and indications of theft, not a confirmed exfiltration volume, so the impact is watch-level; firms should warn staff and customers about phishing citing CrediBill and check for reuse of CrediBill credentials.",
       "headline": "Swiss fintech CrediBill suspends service after cyberattack; new findings point to data theft",
       "id": "entry-credibill-20261116",
@@ -1081,8 +1109,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-16T16:00:00+08:00",
-  "next_check_sgt": "2026-11-16T20:00:00+08:00",
-  "updated_sgt": "2026-11-16T16:00:00+08:00",
+  "last_checked_sgt": "2026-11-16T20:00:00+08:00",
+  "next_check_sgt": "2026-11-17T00:00:00+08:00",
+  "updated_sgt": "2026-11-16T20:00:00+08:00",
   "version": 1
 }
