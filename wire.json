@@ -171,6 +171,20 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "If genuine, a ransomware listing naming a UK financial services firm extends VORTEX's extortion activity into another financial target; treat as unverified until the firm or a primary source confirms it, and watch for a published data sample, a company statement, or publication at the 19 November deadline.",
+      "headline": "VORTEX ransomware group lists UK financial services firm CARRINGTON as victim; claim unverified",
+      "id": "entry-carrington-vortex-20261116",
+      "known": "The VORTEX ransomware group listed CARRINGTON, a financial services organisation in the United Kingdom, on its dark-web leak site on 16 November 2026, per RedPacket Security's automated scrape of the VORTEX leak page. The listing gives a publication deadline of 19 November 2026 but states no ransom amount and provides no details on whether the incident involved system encryption, data theft or both, the circumstances or impact of the alleged attack, or the type or volume of any potentially affected data; no screenshots or other images are included. The claim has not been independently verified. The 16:00 wire check rejected this same claim because no sector was then known; the sector is now identified as UK financial services.",
+      "severity": "watch",
+      "source_name": "RedPacket Security (scraping the VORTEX leak page), 16 November 2026",
+      "source_url": "https://www.redpacketsecurity.com/vortex-ransomware-victim-carrington/",
+      "status": "reported / unconfirmed",
+      "summary": "The VORTEX ransomware group listed UK financial services firm CARRINGTON on its leak site on 16 November 2026, with a publication deadline of 19 November. No ransom amount, data details or evidence has been reported and the claim is unverified.",
+      "timestamp_sgt": "2026-11-16T20:00:00+08:00",
+      "type": "Unverified ransomware claim — UK financial services firm",
+      "unknown": "Whether VORTEX actually breached CARRINGTON, what data if any it holds, whether systems were encrypted, and whether any ransom was demanded; no time of day was given for the listing."
+    },
+    {
       "bfsi_impact": "If authentic, a leak combining payment-card photographs, identity documents, passwords and customer records from a Brazilian credit lender is direct identity-theft and fraud material: card photos support payment fraud, identity documents support fraudulent loan and account applications, and the 8,000 password-bearing records invite credential-stuffing where passwords are reused. Nothing is confirmed, so the impact is watch-level; Brazilian issuers and lenders should watch for impersonation and account-opening fraud citing ERBANK, and for credential-stuffing against reused passwords.",
       "headline": "ERBANK (Brazil) hit by alleged 40GB data breach; 65,000 payment-card and identity photos reportedly exposed — claim unverified",
       "id": "entry-erbank-20261116",
