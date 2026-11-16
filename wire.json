@@ -171,46 +171,18 @@
   ],
   "entries": [
     {
-      "bfsi_impact": "A confirmed exchange breach with a novel control failure — a custodian's freeze could not stop transfers signed with the exchange's own backup keys — is a template risk for any firm relying on multisignature custody; customer PII exposure also feeds phishing and identity fraud against Unocoin customers. The loss is small (under 1% of customer holdings) and Unocoin is covering it, so the direct market impact is limited, but the backup-key handling failure is the lesson for custody arrangements.",
-      "headline": "Indian exchange Unocoin confirms about $200,000 taken from three hot wallets; customer data may have been exposed",
-      "id": "entry-unocoin-20261114",
-      "known": "Indian crypto exchange Unocoin said on 14 November 2026 that attackers took about $200,000 in cryptocurrency from three of its more than 20 operational hot wallets, signing the transfers with encrypted paper backup keys generated about eight years ago; the keys were compromised and a decryption passphrase existed within the compromised infrastructure. BitGo's investigation, published 13 November, found the transfers were signed with Unocoin-controlled user and backup keys and broadcast directly to the blockchain, bypassing the BitGo account freeze; BitGo says its systems were not compromised and its key was never used. Unocoin detected suspicious activity on 6 November, suspended all services on 9 November, and they remain suspended with no restoration date. Unocoin will cover the loss from its own funds and customer balances will not be reduced. Customer emails, home addresses, encrypted passwords, KYC details and balances may have been exposed; Unocoin says it has not found evidence that customer KYC documents were accessed. Bitquery's figures (98 transfers, $182,270, 9-11 November; plus about 39,167 XRP, about $42,700, from another wallet) do not reconcile exactly with Unocoin's about $200,000 estimate. Flagged for the wire by the 15 November evening deep-research check.",
-      "severity": "watch",
-      "source_name": "Unocoin security incident update, 14 November 2026; BitGo, 13 November 2026",
-      "source_url": "https://blog.unocoin.com/security-incident-update/",
-      "status": "confirmed",
-      "summary": "Indian crypto exchange Unocoin confirmed on 14 November that attackers used its compromised paper backup keys to take about $200,000 from three hot wallets; customer emails, addresses, encrypted passwords and KYC details may have been exposed, and all services remain suspended since 9 November.",
-      "timestamp_sgt": "2026-11-16T08:00:00+08:00",
-      "type": "Exchange breach — backup-key compromise",
-      "unknown": "How the attackers obtained the encrypted backup keys and the decryption passphrase; the exact total loss (Unocoin's about $200,000 estimate versus Bitquery's figures); when services will reopen; whether any customer data was actually accessed."
-    },
-    {
-      "bfsi_impact": "If genuine, a Pixelleaks listing naming a financial-education institute extends the group's November campaign into another finance-sector target; the institute trains financial professionals, so exposed personnel and client records could feed phishing against finance workers. Treat as unverified until the institute or a primary source confirms it, and watch for the scheduled publication at 11:45 UTC on 16 November.",
+      "bfsi_impact": "If genuine, a Pixelleaks listing naming a financial-education institution extends the group's November campaign — it has already listed AMD Capital, Four Points Financial and Koehler Financial Group — into another finance-sector target; treat as unverified until the institute or a primary source confirms it, and watch for the scheduled data publication or a company statement.",
       "headline": "Pixelleaks ransomware group lists Boston Institute of Finance as victim; claim unverified",
       "id": "entry-boston-institute-finance-pixelleaks-20261115",
-      "known": "The Pixelleaks ransomware group listed the Boston Institute of Finance, a financial-education institute (formerly InFRE, part of the Colibri Group), on its leak site on 15 November 2026. The group says the material is a set of business records, including personnel and operational records, with publication scheduled for 16 November 2026 at 11:45 UTC. No data sample, ransom demand or victim statement has been reported, and the claim has not been independently verified.",
+      "known": "The Pixelleaks ransomware group listed the Boston Institute of Finance (CRC designation; formerly InFRE, part of Colibri Group), a financial-services professional-education institution, on its dark-web leak site on 15 November 2026, per ThreatMon relayed by Undercode News and indexed by Ransomware.live. The group scheduled publication of a set of business records — described as personnel and operational records — for 2026-11-16 at 11:45 UTC. No data sample, ransom demand, attack vector or victim statement has been reported, and the claim has not been independently verified. Pixelleaks typically follows a double-extortion model, exfiltrating data before encrypting systems.",
       "severity": "watch",
-      "source_name": "Q Pulse (Quasar Cybertech), 15 November 2026",
-      "source_url": "https://qpulse.quasarcybertech.com/news/8469/pixelleaks-ransomware-group-targets-boston-institute-of-finance-with-data-publication-threat",
+      "source_name": "Undercode News (via ThreatMon), 15 November 2026; QPulse (via Ransomware.live), 15 November 2026",
+      "source_url": "https://undercodenews.com/pixelleaks-claims-boston-institute-of-finance-as-new-victim-in-november-15-leak-site-update-video/",
       "status": "reported / unconfirmed",
-      "summary": "The Pixelleaks ransomware group listed the Boston Institute of Finance, a financial-education institute, on its leak site on 15 November 2026, with publication of business records scheduled for 16 November at 11:45 UTC. The claim is unverified.",
-      "timestamp_sgt": "2026-11-16T08:00:00+08:00",
-      "type": "Unverified ransomware claim — financial education institute",
-      "unknown": "Whether Pixelleaks actually breached the institute, what data if any it holds, and whether any ransom demand was made."
-    },
-    {
-      "bfsi_impact": "Yellow Umbrella is a financial mutual-aid scheme for small business owners, so a leak of names plus partial resident registration numbers feeds voice-phishing and identity fraud against that population; the scale is unconfirmed — KBIZ announced a possible leak, not a confirmed count — and the disclosure adds to the Korean wave already tracked as breaking (FSI) and in several entries.",
-      "headline": "Korea Federation of SMEs discloses possible leak from Yellow Umbrella scheme site; names and partial resident numbers at risk",
-      "id": "entry-kbiz-yellow-umbrella-20261114",
-      "known": "The Korea Federation of SMEs (KBIZ) said on 14 November 2026 that personal data may have leaked from the website of its Yellow Umbrella mutual-aid scheme for small business owners, including names and the first seven digits of resident registration numbers; the scheme has about 1.92 million subscribers. The disclosure was reported by iNews24 on 15 November 2026, alongside disclosures the same day by Inje University (24,011 records) and the Korea Minting and Security Printing Corporation's 'chak' regional-currency platform (about 3,000 users; already on the wire). No confirmed secondary financial harm has been reported. Translated from Korean; missed by earlier checks.",
-      "severity": "watch",
-      "source_name": "iNews24 (Korean, translated), 15 November 2026",
-      "source_url": "http://m.inews24.com/v/2026304",
-      "status": "confirmed",
-      "summary": "The Korea Federation of SMEs said on 14 November that names and partial resident registration numbers may have leaked from its Yellow Umbrella mutual-aid scheme site, which has about 1.92 million subscribers. The number affected is unconfirmed.",
-      "timestamp_sgt": "2026-11-16T08:00:00+08:00",
-      "type": "Possible data leak — SME mutual-aid scheme",
-      "unknown": "How many of the scheme's 1.92 million subscribers are affected; the intrusion vector; whether any data has been published or misused."
+      "summary": "The Pixelleaks ransomware group listed the Boston Institute of Finance, a financial-education institution, on its leak site on 15 November 2026, with data publication scheduled for 16 November 11:45 UTC. The institute has not confirmed a breach and the claim is unverified.",
+      "timestamp_sgt": "2026-11-16T04:00:00+08:00",
+      "type": "Unverified ransomware claim — financial education institution",
+      "unknown": "Whether Pixelleaks actually breached the Boston Institute of Finance, what data if any it holds, and whether any ransom demand was made; no time of day was given for the listing."
     },
     {
       "bfsi_impact": "If genuine, a Pixelleaks listing naming a US financial-services firm extends the group's November campaign — it has listed 23 victims, including AMD Capital and Four Points Financial — into another financial target; treat as unverified until the firm or a primary source confirms it, and watch for a published data sample or a company statement.",
@@ -227,18 +199,18 @@
       "unknown": "Whether Pixelleaks actually breached Koehler Financial Group, what data if any it holds, and whether any ransom demand was made; no time of day was given for the listing."
     },
     {
-      "bfsi_impact": "La Poste group owns La Banque Postale, and Maileva handles financial documents — payslips, invoices, shareholder meeting notices — for more than 70,000 business clients, so the exposed names and postal addresses of 22 million recipients support phishing, social-engineering and identity-fraud targeting, including of bank customers. The billing data also holds business clients' IBANs, which can feed president/CEO fraud; direct account-takeover risk for recipients is low because their bank details were not compromised. Firms whose mail Maileva handles should expect customer queries and watch for phishing using the exposed details.",
-      "headline": "La Poste subsidiary Maileva confirms breach exposing names and addresses of 22 million people; business clients' IBANs also in billing data",
+      "bfsi_impact": "La Poste group owns La Banque Postale, and Maileva handles financial documents — payslips, invoices, shareholder meeting notices — for more than 70,000 business clients, so the exposed names and postal addresses of 22 million recipients support phishing, social-engineering and identity-fraud targeting, including of bank customers; direct account-takeover risk is low because no bank details were compromised, but firms whose mail Maileva handles should expect customer queries and watch for phishing using the exposed details.",
+      "headline": "La Poste subsidiary Maileva confirms breach exposing names and addresses of 22 million people; no bank details affected",
       "id": "entry-maileva-laposte-20261115",
-      "known": "A mid-September cyberattack on Maileva, a Docaposte business in the La Poste group that prints and posts documents such as payslips, registered letters, invoices and shareholder meeting notices for more than 70,000 business clients, stole the first names, surnames and postal addresses of 22 million recipients, La Poste confirmed to AFP on 14 November 2026. About 39 million mail references were in the compromised database, equal to 22 million distinct people after deduplication. Maileva suspended services on 23 September and resumed on 29 September. Maileva says bank details were not affected; it has notified France's CNIL, filed a criminal complaint, and a judicial investigation is under way. This item was confirmed before the 20:00 wire check on 15 November and missed by it. On 15 November 2026 the Paris prosecutor's office confirmed it had opened a criminal investigation, assigned to the BL2C cybercrime brigade. Docaposte's 5 October information sheet also describes a second data set, from the OpenCell billing application, covering business clients' billing contacts, invoice amounts and IBANs; Maileva's statement that bank details were not affected refers to the 22 million recipients, while the IBANs belong to business clients.",
+      "known": "A mid-September cyberattack on Maileva, a Docaposte business in the La Poste group that prints and posts documents such as payslips, registered letters, invoices and shareholder meeting notices for more than 70,000 business clients, stole the first names, surnames and postal addresses of 22 million recipients, La Poste confirmed to AFP on 14 November 2026. About 39 million mail references were in the compromised database, equal to 22 million distinct people after deduplication. Maileva suspended services on 23 September and resumed on 29 September. Maileva says bank details were not affected; it has notified France's CNIL, filed a criminal complaint, and a judicial investigation is under way. This item was confirmed before the 20:00 wire check on 15 November and missed by it.",
       "severity": "watch",
-      "source_name": "Security Affairs, 15 November 2026; Le Temps / AFP, 14 November 2026; MACCUS, 15 November 2026",
+      "source_name": "Security Affairs, 15 November 2026; Le Temps / AFP, 14 November 2026",
       "source_url": "https://securityaffairs.com/203126/data-breach/data-breach-at-la-poste-subsidiary-maileva-affects-22-million-people-in-france.html",
       "status": "confirmed",
-      "summary": "La Poste confirmed to AFP on 14 November that a mid-September attack on its subsidiary Maileva stole the names and postal addresses of 22 million recipients of client companies' mail. Recipients' bank details were not affected, but business clients' IBANs were in a separate billing data set; CNIL was notified, a criminal complaint filed, and the Paris prosecutor opened an investigation on 15 November.",
+      "summary": "La Poste confirmed to AFP on 14 November that a mid-September attack on its subsidiary Maileva stole the names and postal addresses of 22 million recipients of client companies' mail. Bank details were not affected; CNIL was notified and a criminal complaint filed.",
       "timestamp_sgt": "2026-11-16T00:00:00+08:00",
       "type": "Major breach — postal group with banking arm",
-      "unknown": "Which client companies' recipients are affected; whether letter contents beyond names and postal addresses were consulted — Hôpital Foch says payment-reminder contents may have been; whether the business-client IBANs in the OpenCell billing data were accessed; the intrusion vector and whether any actor has claimed responsibility — reporting does not establish attribution."
+      "unknown": "Which client companies' recipients are affected; whether any letter contents beyond names and postal addresses were taken; the intrusion vector and whether any actor has claimed responsibility — reporting does not establish attribution."
     },
     {
       "bfsi_impact": "If genuine, a Pixelleaks listing naming a financial-services firm extends the group's November campaign — it has listed 23 victims, including Four Points Financial — into another sector target; treat as unverified until the firm or a primary source confirms it, and watch for a published data sample or a company statement.",
@@ -1053,8 +1025,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-16T08:00:00+08:00",
-  "next_check_sgt": "2026-11-16T12:00:00+08:00",
-  "updated_sgt": "2026-11-16T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-16T04:00:00+08:00",
+  "next_check_sgt": "2026-11-16T08:00:00+08:00",
+  "updated_sgt": "2026-11-16T04:00:00+08:00",
   "version": 1
 }
