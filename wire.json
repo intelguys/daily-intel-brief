@@ -171,6 +171,62 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "A confirmed attack on an AIB-owned wealth manager, but limited in scope: email addresses only, no assets affected. Peer firms should note the regulator-notification pattern \u2014 the Data Protection Commission and the Central Bank of Ireland were both notified \u2014 and watch for phishing using the exposed client email addresses.",
+      "headline": "Goodbody confirms cyberattack; 15-20 client email addresses accessed, no client assets affected",
+      "id": "entry-goodbody-20261116",
+      "known": "Goodbody, the AIB-owned Irish stockbroker and wealth manager, detected a cyberattack on Tuesday 10 November 2026 and took its client portal down early last week; the portal was restored on Monday morning, 16 November. The firm said 15-20 client email addresses were accessed and no client assets were affected. It has notified Ireland's Data Protection Commission and the Central Bank of Ireland. The Irish Times reported the scope, the restoration and the notifications on 16 November 2026 (00:43 SGT 17 November).",
+      "severity": "watch",
+      "source_name": "The Irish Times, 16 November 2026",
+      "source_url": "https://irishtimes-irishtimes-live.production.zephrcf.com/business/2026/11/16/goodbody-reports-cyber-attack-to-dpc-as-up-to-20-client-email-addresses-accessed/",
+      "status": "confirmed",
+      "summary": "Irish stockbroker and wealth manager Goodbody, owned by AIB, said a cyberattack detected on 10 November 2026 gave attackers access to 15-20 client email addresses; its client portal was restored on 16 November and no client assets were affected. The firm has notified Ireland's Data Protection Commission and the Central Bank of Ireland.",
+      "timestamp_sgt": "2026-11-17T04:00:00+08:00",
+      "type": "Confirmed cyberattack \u2014 Irish stockbroker / wealth manager",
+      "unknown": "How the attackers gained access, whether any data beyond email addresses was touched, and whether the regulator notifications will lead to further action; no victim count beyond the 15-20 email addresses has been given."
+    },
+    {
+      "bfsi_impact": "If genuine, a ransomware listing naming an Indonesian sharia bank with claimed customer and financial data would be a significant BFSI incident; treat as unverified until the bank or a primary source confirms it. Watch for a bank statement, a published data sample or corroboration, and warn staff and customers about phishing using the claimed data.",
+      "headline": "PANZER ransomware group lists Indonesian sharia bank Bjbsayariah as victim; claim unverified",
+      "id": "entry-bjbsayariah-panzer-20261116",
+      "known": "The PANZER ransomware group listed Bank Jabar Banten Syariah (Bjbsayariah), an Indonesian sharia bank, on its dark-web leak site, with the leak post dated 16 November 2026; the page was first observed in this check's window (RedPacket Security crawled it at 19:18 UTC 16 November, 03:18 SGT 17 November). The post claims fund-transfer information, credit reports and confidential documents or profiles were taken. No ransom amount, screenshots or evidence of encryption have been reported, and no Indonesian press corroboration was found.",
+      "severity": "watch",
+      "source_name": "RedPacket Security (scraping the PANZER leak page), 16 November 2026; Cyber Threat Intelligence, 16 November 2026",
+      "source_url": "https://www.redpacketsecurity.com/panzer-ransomware-victim-bjbsayariah/",
+      "status": "reported / unconfirmed",
+      "summary": "The PANZER ransomware group listed Bank Jabar Banten Syariah (Bjbsayariah), an Indonesian sharia bank, on its leak site on 16 November 2026, claiming fund-transfer information, credit reports and confidential documents. The bank has not confirmed a breach and the claim is unverified.",
+      "timestamp_sgt": "2026-11-17T04:00:00+08:00",
+      "type": "Unverified ransomware claim \u2014 Indonesian sharia bank",
+      "unknown": "Whether PANZER actually breached the bank, what data if any it holds, whether systems were encrypted, and whether any ransom was demanded; no compromise date was given."
+    },
+    {
+      "bfsi_impact": "If genuine, a leak-site claim naming a global card network and describing cardmember programme records would be a major BFSI incident; treat as unverified until Visa or a primary source confirms it. Firms should watch for a company statement, a published data sample or corroboration, and warn staff and customers about phishing using cardmember and travel-booking details. No confirmed breach, data loss or service impact has been reported.",
+      "headline": "N0n ransomware group lists Visa as victim, claiming cardmember programme data; claim unverified",
+      "id": "entry-visa-n0n-20261116",
+      "known": "The N0n ransomware group posted a leak-site listing for Visa Inc. on 16 November 2026; ransomware.live discovered it at 12:08 UTC (20:08 SGT). The post claims cardmember programme profiles for Asia-Pacific programmes \u2014 names, emails and mobiles, issuing-bank and BIN linkage, premium travel and dining bookings, and campaign-engagement histories \u2014 and marks the data '[NOT PAID \u2014 EXPOSED]'. The claim was amplified on X by Hackmanac (@H4ckmanac) on 16 November, which lists it as awaiting verification. Visa has not confirmed a breach; no data sample, screenshots, card numbers, security codes, transactions or login credentials have been published. The sibling N0n claims against Mastercard and JPMorgan Chase were added to the wire at the 00:00 check; the Visa listing was missed and is added here.",
+      "severity": "watch",
+      "source_name": "ransomware.live, 16 November 2026; Hackmanac (@H4ckmanac) on X, 16 November 2026",
+      "source_url": "https://pasqualepillitteri.it/en/news/34013/n0n-group-claims-attack-on-visa-mastercard-and-jpmorgan",
+      "status": "reported / unconfirmed",
+      "summary": "The N0n ransomware group listed Visa Inc. on its leak site on 16 November 2026, claiming cardmember programme profiles for Asia-Pacific programmes. Visa has not confirmed a breach and the claim is unverified.",
+      "timestamp_sgt": "2026-11-17T04:00:00+08:00",
+      "type": "Unverified ransomware claim \u2014 US payment card network",
+      "unknown": "Whether N0n actually breached Visa, what data if any it holds, whether systems were encrypted, and whether any ransom was demanded; no compromise date was given."
+    },
+    {
+      "bfsi_impact": "If genuine, a ransomware listing naming a Canadian financial firm with claimed client emails and investment-account references would be a significant BFSI incident; treat as unverified until the firm or a primary source confirms it. Watch for a company statement, a published data sample or corroboration.",
+      "headline": "N0n ransomware group lists Canadian financial firm D.R. Johnson Financial as victim; claim unverified",
+      "id": "entry-dr-johnson-n0n-20261116",
+      "known": "The N0n ransomware group posted a leak-site listing for D.R. Johnson Financial, a Canadian financial firm, on 16 November 2026; ransomware.live discovered it at 12:37 UTC (20:37 SGT). The post claims 245,667 emails, investment-account and bank-trust references, and 89,740 GoldMine files. No data sample or screenshots have been published and the firm has not confirmed a breach. The listing belongs to the same N0n cluster whose other victims were added to the wire at the 00:00 check.",
+      "severity": "watch",
+      "source_name": "HookPhish, 16 November 2026; ransomware.live, 16 November 2026",
+      "source_url": "https://www.hookphish.com/blog/ransomware-group-n0n-hits-d-r-johnson-financial/",
+      "status": "reported / unconfirmed",
+      "summary": "The N0n ransomware group listed D.R. Johnson Financial, a Canadian financial firm, on its leak site on 16 November 2026, claiming 245,667 emails and investment-account and bank-trust references. The firm has not confirmed a breach and the claim is unverified.",
+      "timestamp_sgt": "2026-11-17T04:00:00+08:00",
+      "type": "Unverified ransomware claim \u2014 Canadian financial firm",
+      "unknown": "Whether N0n actually breached the firm, what data if any it holds, whether systems were encrypted, and whether any ransom was demanded; no compromise date was given."
+    },
+    {
       "bfsi_impact": "If genuine, a leak-site claim naming the largest US bank and describing cardmember programme data would be a major BFSI incident; treat as unverified until JPMorgan Chase or a primary source confirms it. Firms should watch for a company statement, a published data sample or corroboration, and warn staff and customers about phishing using cardmember details. No confirmed breach, data loss or service impact has been reported.",
       "headline": "N0n ransomware group lists JPMorgan Chase & Co. as victim, claiming cardmember programme data; claim unverified",
       "id": "entry-jpmorgan-chase-n0n-20261116",
@@ -1221,8 +1277,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-17T00:00:00+08:00",
-  "next_check_sgt": "2026-11-17T04:00:00+08:00",
-  "updated_sgt": "2026-11-17T00:00:00+08:00",
+  "last_checked_sgt": "2026-11-17T04:00:00+08:00",
+  "next_check_sgt": "2026-11-17T08:00:00+08:00",
+  "updated_sgt": "2026-11-17T04:00:00+08:00",
   "version": 1
 }
