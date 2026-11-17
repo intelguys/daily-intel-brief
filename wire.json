@@ -213,6 +213,34 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "If genuine, a payroll provider holding employee banking details and client account data would expose hundreds of employees and client firms to fraud and identity theft; payroll and HR providers should check what banking data they hold for clients and watch for phishing using employee and client details. Treat as unverified until Paychex or a primary source confirms it.",
+      "headline": "Inception ransomware group claims Paychex leak exposed employee bank details and client account data; claim unverified",
+      "id": "entry-paychex-inception-20261117",
+      "known": "The Inception ransomware group listed Paychex, Inc., a US payroll and HR services provider, on its leak site; the listing was discovered on 17 November 2026 at 08:16 UTC (16:16 SGT). The post claims employee Social Security number and bank-account workbooks covering about 300 people, client deal and account lists, quotes, signed agreements and FY27 incentives, a ServiceNow incident and change corpus with git commit maps, HR, benefits and training rosters of about 1,000 named people, and architecture and dependency diagrams. The post marks the data as leaked and its publication deadline as expired. Paychex has not confirmed a breach and the claim is unverified.",
+      "severity": "watch",
+      "source_name": "HookPhish, 17 November 2026; Undercode News, 17 November 2026",
+      "source_url": "https://www.hookphish.com/blog/ransomware-group-inception-hits-paychex-inc/",
+      "status": "reported / unconfirmed",
+      "summary": "The Inception ransomware group listed US payroll provider Paychex on its leak site on 17 November 2026, claiming employee Social Security number and bank-account workbooks for about 300 people plus client account data, with the data marked as leaked. Paychex has not confirmed a breach and the claim is unverified.",
+      "timestamp_sgt": "2026-11-18T00:00:00+08:00",
+      "type": "Unverified ransomware claim — US payroll and financial services provider",
+      "unknown": "Whether Inception actually breached Paychex, what data if any it holds, whether systems were encrypted, and whether any ransom was demanded or paid."
+    },
+    {
+      "bfsi_impact": "If genuine, a wealth manager's client financial data could be exposed, with phishing risk to clients; wealth and advisory firms should watch for impersonation using client details. Treat as unverified until the firm or a primary source confirms it.",
+      "headline": "Shiba ransomware group claims attack on US wealth manager Burney Wealth Management; claim unverified",
+      "id": "entry-burney-shiba-20261116",
+      "known": "The Shiba ransomware group claimed an attack on Burney Wealth Management, a US firm providing investment management, tax planning and retirement planning services; ransomware.live reported the claim on 16 November 2026 at 19:36 UTC (17 November, 03:36 SGT), with an estimated attack date of 16 November. No details of the attack method, vulnerability or data taken have been published, and an exposure report cited by QPulse found zero passwords and zero cookies linked to the incident. Burney Wealth Management has not confirmed a breach and the claim is unverified.",
+      "severity": "watch",
+      "source_name": "QPulse / QuasarCyberTech, 17 November 2026; ransomware.live, 16 November 2026",
+      "source_url": "https://qpulse.quasarcybertech.com/news/8611/shiba-ransomware-group-claims-attack-on-burney-wealth-management",
+      "status": "reported / unconfirmed",
+      "summary": "The Shiba ransomware group claimed an attack on US wealth-management firm Burney Wealth Management on 16 November 2026; no attack details or data have been published and the firm has not confirmed a breach, so the claim is unverified.",
+      "timestamp_sgt": "2026-11-18T00:00:00+08:00",
+      "type": "Unverified ransomware claim — US wealth-management firm",
+      "unknown": "Whether Shiba actually breached Burney Wealth Management, what data if any it holds, whether systems were encrypted, and whether any ransom was demanded."
+    },
+    {
       "bfsi_impact": "An Indian housing-finance NBFC with large credential exposure — 14,883 passwords and 85 session cookies — that could enable unauthorised access to corporate networks and SaaS platforms (Google Workspace, Atlassian, Microsoft 365). If genuine, the exposure is an immediate credential-rotation and monitoring problem for the firm; but the claim is unverified and no victim confirmation or ransom demand has been reported.",
       "headline": "Ransomhouse claims Indiabulls Housing Finance as victim after infostealer infection; claim unverified",
       "id": "entry-indiabulls-ransomhouse-20261117",
@@ -1445,8 +1473,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-17T20:00:00+08:00",
-  "next_check_sgt": "2026-11-18T00:00:00+08:00",
-  "updated_sgt": "2026-11-17T20:00:00+08:00",
+  "last_checked_sgt": "2026-11-18T00:00:00+08:00",
+  "next_check_sgt": "2026-11-18T04:00:00+08:00",
+  "updated_sgt": "2026-11-18T00:00:00+08:00",
   "version": 1
 }
