@@ -213,6 +213,20 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "Java runs core banking, payments and identity stacks — Keycloak and PingFederate single sign-on, Jenkins and Confluence internal tooling, and internet-facing Java applications are directly exposed if unpatched. BFSI firms should patch internet-facing Java runtimes immediately (Oracle November CPU or vendor builds), prioritising Keycloak, PingFederate, Jira/Confluence, Jenkins and Artifactory, and apply the -XX:-UseBASE64Intrinsics or -XX:UseAVX=2 workaround where patching must wait. No BFSI victim has been named and no exploitation has been confirmed, so this is a patching priority, not an incident response.",
+      "headline": "CISA warns of critical unauthenticated RCE in OpenJDK ('Java4Shell', CVE-2026-114938); no confirmed exploitation",
+      "id": "entry-java4shell-cve-2026-114938-20261118",
+      "known": "CISA published the alert 'Critical Java Vulnerability Requires Immediate Patching' on 17 November 2026 at 22:32 UTC (06:32 SGT 18 November). The flaw is a memory-corruption issue in the Base64 decoder of the x86-64 HotSpot JVM (AVX-512 VBMI path); specially crafted Base64 input can crash the JVM and allow unauthenticated remote code execution. The researcher (Calif) rates it CVSS 4.0 9.2; Oracle rates it CVSS 3.1 8.1. Affected: OpenJDK 17.0.6 onward (17, 21, 25, 27) and downstream builds (Corretto, Temurin, Microsoft Build of OpenJDK, Azul Zulu, Red Hat, Oracle Java SE/GraalVM) on x86-64 with AVX-512 VBMI; ARM64 is unaffected. Oracle shipped fixes in its November Critical Security Patch Update on 17 November. Calif demonstrated pre-authentication RCE against default configurations of Keycloak, Atlassian Jira, Confluence, JFrog Artifactory, Jenkins and PingFederate; product-specific exploit chains are being withheld, but a bounded proof of concept reproducing the memory overwrite was published, and Wiz independently built a proof of concept within two hours. CISA 'strongly urges' immediate patching, prioritising internet-facing systems; the Canadian Centre for Cyber Security contributed to the alert. Workarounds: -XX:-UseBASE64Intrinsics or -XX:UseAVX=2. No confirmed exploitation in the wild as of 17 November (Qualys and Censys), and the flaw is not in CISA KEV.",
+      "severity": "watch",
+      "source_name": "CISA alert, 17 November 2026; Calif technical write-up, 17 November 2026; Qualys blog, 17 November 2026; Wiz blog, 17 November 2026",
+      "source_url": "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching",
+      "status": "confirmed",
+      "summary": "CISA issued an alert on 17 November 2026 for a critical memory-corruption flaw in the OpenJDK HotSpot Base64 decoder ('Java4Shell', CVE-2026-114938) that can allow unauthenticated remote code execution on x86-64 systems with AVX-512 VBMI; Oracle shipped fixes on 17 November. No exploitation in the wild has been confirmed and the flaw is not in CISA KEV.",
+      "timestamp_sgt": "2026-11-18T08:00:00+08:00",
+      "type": "Critical vulnerability — Java runtime RCE, CISA alert",
+      "unknown": "Whether the flaw is being exploited in the wild; whether a weaponised public exploit will appear; how many internet-facing Java systems remain unpatched; whether any BFSI system has been affected."
+    },
+    {
       "bfsi_impact": "If genuine, a payroll provider holding employee banking details and client account data would expose hundreds of employees and client firms to fraud and identity theft; payroll and HR providers should check what banking data they hold for clients and watch for phishing using employee and client details. Treat as unverified until Paychex or a primary source confirms it.",
       "headline": "Inception ransomware group claims Paychex leak exposed employee bank details and client account data; claim unverified",
       "id": "entry-paychex-inception-20261117",
@@ -552,15 +566,15 @@
       "bfsi_impact": "If authentic, 70GB of payment-card and bank-account data tied to a major Brazilian consumer-finance ecosystem is direct card-fraud, account-takeover and phishing material; even unconfirmed, the advertisement puts Banco Carrefour customers at risk of impersonation messages citing card suspension or account verification. Nothing is confirmed, so the impact is watch-level; issuers should watch for phishing citing Banco Carrefour and for the separately mentioned transaction-history dataset appearing for sale.",
       "headline": "Banco Carrefour (Brazil) faces alleged 70GB card and account data sale; 11m+ lines claimed — allegation unverified",
       "id": "entry-banco-carrefour-20261116",
-      "known": "A threat actor advertises approximately 70GB of payment-card and bank-account data allegedly connected to Banco Carrefour, the financial-services arm of Carrefour Brazil, claiming more than 11 million lines of financial information with sample links reportedly provided to prospective buyers. A separate transaction-history dataset was mentioned but not yet advertised for sale. Reported by Undercode News, citing Dark Web Intelligence; the article was published 15 November 2026 at 20:32 -04:00 (16 November 08:32 SGT). No confirmed evidence establishes that Banco Carrefour suffered a direct cyberattack or that the advertised information originated from its infrastructure; the data could come from a payment processor, a third-party provider, or previously exposed information repackaged for resale. No purchase price was disclosed and no official response from Banco Carrefour has been reported.",
+      "known": "A threat actor advertises approximately 70GB of payment-card and bank-account data allegedly connected to Banco Carrefour, the financial-services arm of Carrefour Brazil, claiming more than 11 million lines of financial information with sample links reportedly provided to prospective buyers. A separate transaction-history dataset was mentioned but not yet advertised for sale. Reported by Undercode News, citing Dark Web Intelligence; the article was published 15 November 2026 at 20:32 -04:00 (16 November 08:32 SGT). No confirmed evidence establishes that Banco Carrefour suffered a direct cyberattack or that the advertised information originated from its infrastructure; the data could come from a payment processor, a third-party provider, or previously exposed information repackaged for resale. No purchase price was disclosed and no official response from Banco Carrefour has been reported. Banco Carrefour told TI Inside on 17 November 2026 that it is investigating a possible exposure and verifying any link to the bank; the bank has not confirmed an intrusion.",
       "severity": "watch",
-      "source_name": "Undercode News, 15 November 2026 (via Dark Web Intelligence)",
+      "source_name": "Undercode News, 15 November 2026 (via Dark Web Intelligence); TI Inside, 17 November 2026",
       "source_url": "https://undercodenews.com/brazil-banking-data-leak-allegation-dark-web-seller-claims-70gb-of-banco-carrefour-card-and-account-records-video/",
       "status": "reported / unconfirmed",
       "summary": "A dark-web seller advertises about 70GB of payment-card and bank-account data allegedly connected to Banco Carrefour, claiming 11m+ lines of financial information. Reported 16 November 2026 (08:32 SGT); unverified, with no confirmed evidence of a direct compromise of Banco Carrefour infrastructure.",
       "timestamp_sgt": "2026-11-16T20:00:00+08:00",
       "type": "Alleged data sale — Brazilian consumer finance, unverified",
-      "unknown": "Whether Banco Carrefour was breached at all, the true source of the advertised data (direct intrusion, payment processor, third party, or repackaged older material), whether the 11m lines represent unique customers, and whether the mentioned transaction-history dataset will appear; no official statement from Banco Carrefour has been reported."
+      "unknown": "Whether Banco Carrefour was breached at all, the true source of the advertised data (direct intrusion, payment processor, third party, or repackaged older material), whether the 11m lines represent unique customers, and whether the mentioned transaction-history dataset will appear; the bank has said it is investigating a possible exposure and verifying any link to it, but has not confirmed an intrusion."
     },
     {
       "bfsi_impact": "A payment fintech holding IBANs, card tokens and KYC data is a direct fraud enabler if that data was taken: IBANs plus identity documents support impersonation and invoice fraud, and password hashes invite credential-stuffing where passwords are reused. The confirmed facts so far are service suspension and indications of theft, not a confirmed exfiltration volume, so the impact is watch-level; firms should warn staff and customers about phishing citing CrediBill and check for reuse of CrediBill credentials.",
@@ -1473,8 +1487,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-18T00:00:00+08:00",
-  "next_check_sgt": "2026-11-18T04:00:00+08:00",
-  "updated_sgt": "2026-11-18T00:00:00+08:00",
+  "last_checked_sgt": "2026-11-18T08:00:00+08:00",
+  "next_check_sgt": "2026-11-18T12:00:00+08:00",
+  "updated_sgt": "2026-11-18T08:00:00+08:00",
   "version": 1
 }
