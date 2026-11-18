@@ -456,6 +456,25 @@ section > p { margin-bottom: 14px; }
 .ref-details summary:hover { color: var(--accent); }
 /* Masthead: tighter headline tracking, nothing else changed. */
 .masthead h1 { letter-spacing: -0.02em; }
+
+  /* ---- collapsible dated updates (consolidation, 18 Nov 2026) ---- */
+  .upd-details summary { cursor: pointer; margin: 0 0 6px; }
+  .upd-details summary .eyebrow { display: block; margin-bottom: 4px; }
+  .upd-title {
+    display: block; font-size: clamp(1.32rem, 3vw, 1.66rem); line-height: 1.2;
+    letter-spacing: -.015em; font-weight: 600; text-wrap: balance;
+    max-width: var(--prose);
+  }
+  .upd-details summary:hover .upd-title { color: var(--accent); }
+  .upd-toggle {
+    display: inline-block; font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+    border: 1px solid var(--rule); border-radius: 3px; padding: 2px 7px;
+    margin: 10px 0 4px;
+  }
+  .upd-details summary:hover .upd-toggle { color: var(--accent); border-color: var(--accent); }
+  .upd-details:not([open]) .upd-hide { display: none; }
+  .upd-details[open] .upd-show { display: none; }
 </style>
 </head>
 <body>
@@ -504,7 +523,7 @@ section > p { margin-bottom: 14px; }
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#update-13-nov-pm">Update, 13&nbsp;Nov (afternoon)</a><a href="#update-13-nov">Update, 13&nbsp;Nov</a><a href="#update-12-nov-pm">Update, 12&nbsp;Nov (evening)</a><a href="#update-12-nov">Update, 12&nbsp;Nov</a><a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
+      <a href="#at-a-glance">At a glance</a><a href="#status-board">Status board</a><a href="#update-18-nov">Update, 18&nbsp;Nov</a><a href="#update-17-nov">Update, 17&nbsp;Nov</a><a href="#update-16-nov">Update, 16&nbsp;Nov</a><a href="#update-15-nov">Update, 15&nbsp;Nov</a><a href="#update-14-nov">Update, 14&nbsp;Nov</a><a href="#update-13-nov-pm">Update, 13&nbsp;Nov (afternoon)</a><a href="#update-13-nov">Update, 13&nbsp;Nov</a><a href="#update-12-nov-pm">Update, 12&nbsp;Nov (evening)</a><a href="#update-12-nov">Update, 12&nbsp;Nov</a><a href="#update-11-nov">Update, 11&nbsp;Nov</a><a href="#update-09-nov-pm">Update, 9&nbsp;Nov (afternoon)</a><a href="#update-09-nov">Update, 9&nbsp;Nov</a><a href="#update-05-nov">Update, 5&nbsp;Nov</a><a href="#update-04-nov">Update, 4&nbsp;Nov</a><a href="#update-29">Update, 29&nbsp;Oct</a><a href="#update-28">Update, 28&nbsp;Oct</a>
       <a href="#situation">Confirmed &mdash; and withdrawn</a>
       <a href="#attribution">Attribution</a>
       <a href="#exploitation-status">Exploitation status</a>
@@ -516,13 +535,17 @@ section > p { margin-bottom: 14px; }
       <a href="#exploit-availability">Exploit availability</a>
       <a href="#poc-ecosystem">PoC ecosystem</a>
       <a href="#ttps">Observed TTPs</a>
+      <a href="#procedure">What the tooling does</a>
     </div>
     <div class="toc-col">
       <p class="toc-h">Context and sources</p>
       <a href="#exposure">Exposure</a>
       <a href="#context">Estate and patching</a>
       <a href="#timeline">Timeline</a>
+      <a href="#lessons-learnt">Lessons learnt</a>
       <a href="#appendix-a">Appendices</a>
+      <a href="#appendix-b">Revision log</a>
+      <a href="#confidence">What the advisory settled</a>
       <a href="#sources">Source register</a>
     </div>
   </nav>
@@ -604,9 +627,25 @@ section > p { margin-bottom: 14px; }
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
+<section id="at-a-glance">
+<p class="eyebrow">At a glance</p>
+<h2>PHP2Shell in brief</h2>
+<p class="lede">Two critical PHP remote-code-execution flaws, patched on 21 October 2026 and under opportunistic mass exploitation within hours. This section is a summary only &mdash; every figure here is stated in full, with its caveats, in the sections below.</p>
+<ul>
+<li><strong>The flaws.</strong> CVE-2026-109618 (RCE via out-of-memory corruption, CVSS 9.2) and CVE-2026-109619 (RCE via stale worker-global state, CVSS 9.2) &mdash; four bugs under two CVEs, in the request-lifecycle bailout path. Fixed in PHP 8.5.12, 8.4.27, 8.3.36 and 8.2.35, released 13:44 UTC on 21 October, with source backports for 7.4, 8.0 and 8.1. Unauthenticated RCE was demonstrated against Apache mod_php and PHP-FPM.</li>
+<li><strong>Exploitation, as of 18 November.</strong> Both CVEs have been in CISA KEV since 26 October (remediation due 29 October). GreyNoise counts 1,304 successful exploitations &mdash; shell-start records, not necessarily 1,304 distinct hosts &mdash; the latest shell 17 November 23:01 UTC, from the same Monero-mining cluster active since 10 November. Exploitation is at scale. The only vendor-confirmed compromise is Check Point&rsquo;s own gateways &mdash; a couple of dozen unpatched systems, 30 October to 4 November &mdash; and both earlier named-victim claims were withdrawn.</li>
+<li><strong>Patching is far from done.</strong> Censys, via Kaspersky on 3 November: 29 million of 46 million scannable servers running a vulnerable PHP version still contain the flaws. NCSC-NL tracks 972 products &mdash; 213 fixed, 212 vulnerable (12 November). Roughly 110 million instances run end-of-life PHP that will never receive a vendor fix.</li>
+<li><strong>Attribution is narrow.</strong> CYFIRMA assesses with high confidence (advisory v4, 29 October) that a Korean-speaking actor in the Lazarus ecosystem staged a campaign against unpatched PHP &mdash; a 216-host captured target list, government and banks first. No malware or infrastructure overlap with a named Lazarus cluster has been confirmed, and the exploitation in logs is multi-actor commodity activity.</li>
+<li><strong>What is still open.</strong> A third RCE, CVE-2026-115560, has no NVD record and no fix; it is held for the regular release cycle, and PHP 8.6.0 GA is due 19 November. Vendor patch dates have slipped &mdash; Trend Micro DDAN to 18 November and TMMS to 17 November, Fiery FS400&ndash;FS300 target 16 November passed with no shipment confirmation. An unconfirmed claim that the 8.5.12 fix is incomplete has no reproducer.</li>
+<li><strong>The action, unchanged.</strong> Patch to a fixed release, restart every worker, keep <code>session.upload_progress.enabled=0</code> in place after patching, and hunt process parentage &mdash; a shell whose parent is the web server &mdash; rather than request signatures.</li>
+</ul>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
+
+
 <section id="update-18-nov">
-<p class="eyebrow">Update &middot; 18 November</p>
-<h2>GreyNoise count moves to 1,304; seven fresh exploit sessions on 17 November evening</h2>
+<details class="upd-details" open>
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 18 November</span><span class="upd-title">GreyNoise count moves to 1,304; seven fresh exploit sessions on 17 November evening</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">The GreyNoise PHP2Shell Activity dashboard now counts <strong>1,304 successful exploitations</strong> (was 1,297 at the 17 November 09:01 UTC reading), with the latest attributed shell now <strong>17 November 23:01:38 UTC</strong> &mdash; the +7 are seven attributed exploit sessions running <strong>17 November 22:52:54&ndash;23:01:38 UTC</strong>, each with fresh POST exploit traffic (8.3&ndash;8.5 MB sent to <code>/</code>) from the same IP set active since 10&ndash;11 November. Unlike the morning&rsquo;s +32, these are new exploit sessions, not miner commands on established shells. The rows stage the miner from a new URL, <strong><code>https://tmpfiles.org/dl/1794955401.ad53b237c5894f83/wBADtEaHccV3/backup109.tgz</code></strong>, and use a new xmrig worker suffix, <strong><code>-m4</code></strong> (earlier rows used <code>-miner2</code> / <code>-miner3</code>); the wallet, the pool <code>107.178.98.234:3333</code> and the command-and-control URL <code>159.89.162.100:4001</code> are unchanged. Delft&rsquo;s telemetry feed has resumed after its fourth gap: the data window advanced from 15 November 17:08:49 UTC to 17 November 17:45:22 UTC, total <strong>89,571 to 89,574 (+3)</strong> &mdash; the interval is largely unmeasured, so the flat totals must not be read as a quiet network.</p>
 <div class="callout">
 <span class="label">The +7 are fresh sessions &mdash; but the count is still shell-start records</span>
@@ -639,11 +678,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>PHP 8.6.0 GA is due tomorrow, 19 November</strong> &mdash; the event that would close the CVE-2026-115560 watch.</li>
 </ul>
 <p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 18 Nov 00:58 UTC (1,304 successful exploitations; seven attributed sessions 17 Nov 22:52:54&ndash;23:01:38 UTC; tmpfiles.org staging URL and -m4 worker suffix in those rows; pool 107.178.98.234:3333; latest attributed shell 17 Nov 23:01:38 UTC)</a> &middot; <a href="https://f4n6.co.uk/php2shell/" target="_blank" rel="noopener noreferrer">Delft telemetry feed, checked 17 Nov 22:02 UTC (fourth gap closed after 48 h 36 min; total 89,574; window resumed 17 Nov 17:45:22 UTC)</a> &middot; <a href="https://www.cisa.gov/news-events/alerts/2026/11/17/cisa-adds-one-known-exploited-vulnerability-catalog" target="_blank" rel="noopener noreferrer">CISA &mdash; CISA Adds One Known Exploited Vulnerability to Catalog, 17 Nov 2026 (catalog v2026.11.17, 1,782 entries; CVE-2026-115731 added, unrelated)</a></p>
-<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></details>
+</section>
 
 <section id="update-17-nov">
-<p class="eyebrow">Update &middot; 17 November</p>
-<h2>GreyNoise count moves to 1,297; miners still running on established shells into the morning</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 17 November</span><span class="upd-title">GreyNoise count moves to 1,297; miners still running on established shells into the morning</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">The GreyNoise PHP2Shell Activity dashboard now counts <strong>1,297 successful exploitations</strong> (was 1,265 at the 16 November 01:04 UTC reading), with the latest attributed shell still <strong>15 November 17:33:02 UTC</strong> &mdash; the +32 are xmrig miner commands (<code>xmrigMiner</code> / <code>xmrigDaemon</code>) on shells already established, running <strong>17 November 07:18&ndash;07:22 UTC</strong>, not fresh exploit sessions. The same wallet and the same command-and-control URL appear in those rows, and <code>pool.supportxmr.com:3333</code> is still in use. A second pool host the scripts probe, <strong>stratum.nonceward.com:3333</strong>, appears in the 15 November rows and is new to this brief, and three further cluster addresses not named in earlier sections &mdash; <strong>31.57.233.159</strong>, <strong>23.27.87.101</strong> and <strong>154.12.135.249</strong> &mdash; are recorded below. Delft&rsquo;s telemetry feed has not advanced since 15 November 17:08:49 UTC, so everything after that time is unmeasured there.</p>
 <div class="callout">
 <span class="label">What the +32 does not prove &mdash; read the count carefully</span>
@@ -679,11 +720,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>Delft is dark after 15 Nov 17:08 UTC.</strong> Its total (89,571) is flat and its window has not moved in ~38 hours. The 17 Nov miner activity is visible only because GreyNoise&rsquo;s dashboard kept moving; Delft&rsquo;s coverage ends at 15 Nov 17:08 UTC.</li>
 </ul>
 <p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 17 Nov 09:01 UTC (1,297 successful exploitations; latest attributed shell 15 Nov 17:33:02 UTC; xmrig commands 17 Nov 07:18&ndash;07:22 UTC; stratum.nonceward.com:3333 in the 15 Nov 10:35 UTC connectivity-check rows; 31.57.233.159 and 23.27.87.101 in the 10 Nov 15:07 UTC rows; 154.12.135.249 first seen 15 Nov 12:11:35 UTC)</a> &middot; <a href="https://f4n6.co.uk/php2shell/" target="_blank" rel="noopener noreferrer">Delft telemetry feed, checked 17 Nov 07:02 UTC (data window still 15 Nov 17:08:49 UTC; total 89,571; fourth gap still open)</a> &middot; <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog (still v2026.11.13, 1,781 entries; checked 17 Nov)</a></p>
-<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></details>
+</section>
 
 <section id="update-16-nov">
-<p class="eyebrow">Update &middot; 16 November</p>
-<h2>GreyNoise count moves to 1,265; the mining cluster ran through 15 November evening</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 16 November</span><span class="upd-title">GreyNoise count moves to 1,265; the mining cluster ran through 15 November evening</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">The GreyNoise PHP2Shell Activity dashboard now counts <strong>1,265 successful exploitations</strong> (was 1,229 at the 15 November 08:58 UTC reading), with the latest shell starting <strong>15 November 17:33:02 UTC</strong> &mdash; exploitation was still succeeding on GreyNoise sensors into the evening of 15 November, three days after the previous last shell. One attacker IP new to this brief appears in the 15 November cluster rows &mdash; <strong>104.233.14.236</strong> (Web2Objects LLC, AS62874, US), first seen 12:11:33 UTC &mdash; and the miner commands in those rows point at a new pool address, <strong>107.178.98.234:3333</strong>, in place of <code>pool.supportxmr.com:3333</code>, with the same XMR wallet and the same cc-url (<code>159.89.162.100:4001</code>). This supersedes the 15 November section&rsquo;s GreyNoise row (&ldquo;Unchanged &mdash; no new shells in this check&rdquo;).</p>
 <div class="callout">
 <span class="label">What the +36 does not prove &mdash; read the count carefully</span>
@@ -719,11 +762,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>The count needs its caveat.</strong> The 17:00&ndash;17:33 UTC rows are miner commands on established shells, so the +36 counts shell-start records, not necessarily 36 fresh exploitations. Quote the figure with that attached.</li>
 </ul>
 <p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 16 Nov 01:04 UTC (1,265 successful exploitations; latest shell 15 Nov 17:33:02 UTC; new attacker IP 104.233.14.236, Web2Objects LLC, AS62874, first seen 15 Nov 12:11:33 UTC, 16 sessions; connect-back 107.178.98.234:3333, first seen 15 Nov 12:11:12 UTC, 8 occurrences)</a> &middot; <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog (still v2026.11.13, 1,781 entries; checked 16 Nov 01:00 UTC)</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123039" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123039 record, read 16 Nov 01:00 UTC (still &ldquo;Undergoing Enrichment&rdquo;; last modified 13 Nov)</a> &middot; <a href="https://www.cyfirma.com/blogs/php2shell-vulnerability-under-active-exploitation-are-you-affected-and-what-should-you-do-today/" target="_blank" rel="noopener noreferrer">CYFIRMA &mdash; PHP2Shell Vulnerability Explained (still advisory v4, 29 Oct; read 16 Nov 00:59 UTC)</a></p>
-<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></details>
+</section>
 
 <section id="update-15-nov">
-<p class="eyebrow">Update &middot; 15 November</p>
-<h2>CYFIRMA raises the Lazarus link to high confidence &mdash; and Korean press publishes the target-list breakdown</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 15 November</span><span class="upd-title">CYFIRMA raises the Lazarus link to high confidence &mdash; and Korean press publishes the target-list breakdown</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">CYFIRMA&rsquo;s updated report on PHP2Shell exploitation (blog published 4 November; advisory version 4, 29 October; reference CYF-FS-2026-1029-PHP2SHELL-DPRK) raises its assessment of the operators as DPRK state-nexus actors within the Lazarus Group ecosystem from <strong>moderate to high confidence</strong>. Korean press reported the findings on 15 November (Chosun Biz; SBS; Yonhap-originated), publishing the country breakdown of the captured 216-host target list: <strong>United States 49, Japan 47, India 31, South Korea 30</strong>, Thailand 16, United Arab Emirates 14, Indonesia 10, Australia 10, Saudi Arabia 5, Singapore 4 &mdash; 148 in Asia-Pacific (68.5%). The operators&rsquo; stated priority was government and banks first, then logistics and trading platforms, with a mandate CYFIRMA describes as financial gain with espionage against government hosts as a parallel objective. This supersedes the bottom line&rsquo;s &ldquo;MODERATE confidence in a Lazarus link&rdquo; and &ldquo;Grade the nexus Low&ndash;Medium&rdquo;, the status board&rsquo;s Attribution and DPRK-nexus tiles, the Attribution section&rsquo;s LOW&ndash;MEDIUM grading, and the source register&rsquo;s CYFIRMA entry &mdash; all of which record the version 1&ndash;3 position. Dark-web chats quoted in the report show the operators scouting targets in late October (27 October per Chosun Biz; 28 October per SBS &mdash; the two accounts differ by a day and are not reconciled here).</p>
 <div class="callout">
 <span class="label">What the raise does not settle &mdash; do not overstate it</span>
@@ -756,11 +801,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>The news event is the press coverage, not new vendor facts.</strong> The advisory is version 4, dated 29 October; the 15 November reporting publicised it. Do not read the 15 November date as a new campaign, and do not treat the 30-South-Korea figure as a breach count &mdash; CYFIRMA has not confirmed any damage.</li>
 </ul>
 <p>Sources: <a href="https://www.cyfirma.com/blogs/php2shell-vulnerability-under-active-exploitation-are-you-affected-and-what-should-you-do-today/" target="_blank" rel="noopener noreferrer">CYFIRMA &mdash; PHP2Shell Vulnerability Explained: Active Exploitation, Security Risks &amp; Mitigation Steps (blog published 4 Nov 2026; advisory v4, 29 Oct; ref CYF-FS-2026-1029-PHP2SHELL-DPRK; TLP:CLEAR)</a> &middot; <a href="https://biz.chosun.com/en/en-it/2026/11/15/S7H4BV7HSRAW5ITC2NX5INJSVI/" target="_blank" rel="noopener noreferrer">Chosun Biz &mdash; Lazarus targets 30 South Korea servers in PHP flaw probe, report says, 15 Nov 2026 (AI-translated from Korean)</a> &middot; <a href="https://news.sbs.co.kr/english/article.do?news_id=N1008846395" target="_blank" rel="noopener noreferrer">SBS &mdash; &ldquo;South Korean IP Ranges Look Promising&rdquo;... North Korea&rsquo;s Lazarus Targeted 30 Domestic Servers, 15 Nov 2026 (AI-translated from Korean)</a> &middot; <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 15 Nov 08:58 UTC (1,229 successful exploitations, unchanged; last shell 12 Nov 15:12:48 UTC)</a> &middot; <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog (still v2026.11.13, 1,781 entries; checked 15 Nov 08:58 UTC)</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123039" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123039 record, read 15 Nov 08:58 UTC (still &ldquo;Undergoing Enrichment&rdquo;; last modified 13 Nov)</a></p>
-<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></details>
+</section>
 
 <section id="update-14-nov">
-<p class="eyebrow">Update &middot; 14 November</p>
-<h2>CVE-2026-123039 added to CISA KEV &mdash; federal remediation due 16 November</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 14 November</span><span class="upd-title">CVE-2026-123039 added to CISA KEV &mdash; federal remediation due 16 November</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">CISA added <strong>CVE-2026-123039</strong> to the Known Exploited Vulnerabilities catalog on <strong>13 November</strong> &mdash; catalog <code>2026.11.13</code>, <strong>1,781</strong> entries &mdash; with federal remediation due <strong>16 November</strong>. The only other addition that day was CVE-2026-114713 (UnrealIRCd), out of scope here. This supersedes the 13 November afternoon section&rsquo;s &ldquo;not in KEV&rdquo; line and board tile. The fix is unchanged &mdash; the November Jumbo Hotfix &mdash; and so is the victim count (a couple of dozen customers, per Check Point on 12 November). <strong>Verification note:</strong> the CISA KEV feed served a stale cached copy in this check (catalog 2026.10.30, crawled 1 November), so the addition was confirmed against independent KEV trackers, which agree on the date and the due date; the exact hour of the CISA update on 13 November is not established.</p>
 <div class="board">
 <div class="tile"><div class="k">CVE-2026-123039 KEV</div><div class="v">Listed 13 Nov</div><div class="n">Catalog v2026.11.13, 1,781 entries; federal remediation due 16 Nov</div></div>
@@ -789,11 +836,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>The CISA feed itself could not be read live in this check.</strong> It served a stale cached copy (catalog 2026.10.30), so the listing rests on independent KEV trackers agreeing on the addition, the date and the due date. If the CISA feed disagrees when it is next read directly, this section will be corrected.</li>
 </ul>
 <p>Sources: <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog, JSON feed (served a stale cached copy, catalog 2026.10.30, in this check; the 13 Nov addition could not be verified from the feed directly)</a> &middot; <a href="https://eastbaycyber.com/kev/added/" target="_blank" rel="noopener noreferrer">East Bay Cyber &mdash; KEV added (13 Nov 2026: CVE-2026-123039 and CVE-2026-114713; catalog v2026.11.13)</a> &middot; <a href="https://ax-news.com/cve/CVE-2026-123039" target="_blank" rel="noopener noreferrer">AX-NEWS &mdash; CVE-2026-123039 (added 13 Nov 2026, federal remediation due 16 Nov; first seen 13 Nov 07:39 UTC)</a> &middot; <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-123039" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123039 record, read 14 Nov 00:59 UTC (still Awaiting Analysis; last modified 12 Nov)</a> &middot; <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 14 Nov 00:59 UTC (1,229 successful exploitations, unchanged; last shell 12 Nov 15:12:48 UTC)</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, read 14 Nov 01:03 UTC (unchanged; still headed &ldquo;as of Nov. 12&rdquo;; DDAN ETA 18 Nov, TMMS ETA 17 Nov)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), unchanged (972 tracked, 213 fixed, 212 vulnerable; last commit 12 Nov 11:39 UTC)</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-13-nov-pm">
-<p class="eyebrow">Update &middot; 13 November (afternoon)</p>
-<h2>GreyNoise count moves to 1,229; the mining cluster ran through 12 November afternoon</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 13 November (afternoon)</span><span class="upd-title">GreyNoise count moves to 1,229; the mining cluster ran through 12 November afternoon</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">The GreyNoise PHP2Shell Activity dashboard loads again &mdash; the morning check&rsquo;s tag page returned &ldquo;Tag not found&rdquo; &mdash; and the count is now <strong>1,229 successful exploitations</strong> (was 1,226, last shell 12 Nov 05:55 UTC). The latest successful exploitation is <strong>12 Nov 15:12:48 UTC</strong>, so the fresh cluster that began on 10 November was still winning shells into the afternoon of 12 November. Three attacker IPs not named in the 12 November section appear in the cluster&rsquo;s rows &mdash; <code>45.89.209.106</code>, <code>216.173.102.156</code> and <code>45.115.193.109</code> &mdash; alongside <code>107.172.204.206</code>, <code>31.56.127.35</code>, <code>31.57.192.177</code> and <code>198.89.122.192</code> in the same afternoon rows. The post-exploit payload is unchanged in kind: XMRig Monero mining to <code>pool.supportxmr.com:3333</code> with the same wallet, including a Cloudflare-tunnel-hosted miner (<code>barnes-table-everybody-feels.trycloudflare.com/backup109.tgz</code>, <code>xmrigDaemon</code>) whose commands ran 12 Nov 05:54&ndash;15:12 UTC. This supersedes the 13 November section&rsquo;s GreyNoise row (&ldquo;no new public figure obtainable&rdquo;): the figure is now a fresh reading, not a carried one.</p>
 <div class="board">
 <div class="tile"><div class="k">GreyNoise successes</div><div class="v">1,229</div><div class="n">Successful exploitations, as of 12 Nov 15:12 UTC; was 1,226 (12 Nov 05:55 UTC)</div></div>
@@ -824,11 +873,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>CVE-2026-123039&rsquo;s NVD record now lists the affected Take ranges, with a Take 51 gap flagged.</strong> That is a bookkeeping flag, not a patching change: the November Jumbo Hotfix remains the fix, and the flaw is still not in KEV.</li>
 </ul>
 <p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 13 Nov 2026 08:59 UTC (1,229 successful exploitations; latest shell 12 Nov 15:12:48 UTC; new IPs 45.89.209.106, 216.173.102.156, 45.115.193.109; XMRig wallet and Cloudflare-tunnel miner)</a> &middot; <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-123039" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-123039 record, published 12 Nov 14:17 UTC, last modified 20:04 UTC (Awaiting Analysis; CNA CVSS 3.1 7.8; affected Takes R82.10 &le;50, R82.20 &le;10, R82 &le;130, R81.20 &le;173)</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 12 Nov (unchanged; DDAN ETA 18 Nov; TMMS ETA 17 Nov)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 12 Nov 08:56 CET, unchanged (972 tracked, 213 fixed, 212 vulnerable)</a> &middot; <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA &mdash; Known Exploited Vulnerabilities catalog v2026.11.10, 1,779 entries (CVE-2026-123039 not listed; checked 13 Nov)</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-13-nov">
-<p class="eyebrow">Update &middot; 13 November</p>
-<h2>Check Point confirms PHP2Shell exploitation on its own gateways &mdash; chained with a new privilege-escalation flaw, wiper in the first wave</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 13 November</span><span class="upd-title">Check Point confirms PHP2Shell exploitation on its own gateways &mdash; chained with a new privilege-escalation flaw, wiper in the first wave</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">Check Point Research confirmed on 12 November that an attacker exploited PHP2Shell against unpatched Check Point Security Gateways from 30 October, using the Mobile Access portal for initial access and then escalating to root through a new local privilege-escalation flaw, <strong>CVE-2026-123039</strong> (DynamicCLI IPC interface, CVSS 3.1 <strong>7.8</strong>). Activity ran <strong>30 October&ndash;4 November</strong>: a first wave on 30 October against Israeli organisations, destructive against some of them, and a broader second wave on 2 November across multiple countries and sectors, with no destructive activity. Only <strong>a couple of dozen unpatched systems, in a single region</strong>, were compromised; the PHP2Shell fix had been available since 23 October, and both fixes are in the November Jumbo Hotfix. This is the first vendor-confirmed compromise in this case: Check Point confirms its own gateways were compromised, though the affected organisations are unnamed. It supersedes the status board&rsquo;s &ldquo;still no confirmed named-victim compromise&rdquo;, the bottom line&rsquo;s &ldquo;no confirmed compromise of these CVEs exists&rdquo;, and the 12 November evening section&rsquo;s &ldquo;no new named PHP victim&rdquo;.</p>
 <div class="callout">
 <span class="label">Attribution is not settled &mdash; do not overstate it</span>
@@ -863,11 +914,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>It does not change the wider counts.</strong> NCSC-NL is unchanged (972 / 213 / 212); Censys has no new public figure; CVE-2026-115560 still has no NVD record (checked 13 Nov); php.net&rsquo;s latest item is still 5 November; Fortinet FG-IR-26-186 and Cisco&rsquo;s PHP advisory are unchanged; Xerox Fiery FS800&ndash;FS500 shipment is still unconfirmed, FS400&ndash;FS300 target 16 November. The GreyNoise 1,226 figure could not be re-verified in this window &mdash; it is carried as the last published figure, not a fresh reading.</li>
 </ul>
 <p>Sources: <a href="https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/" target="_blank" rel="noopener noreferrer">Check Point Research &mdash; PHP2Shell Exploitation on Check Point Gateway, published 12 Nov 2026 13:56 UTC (updated 14:02 UTC): exploitation from 30 Oct, CVE-2026-123039 LPE, TSGA/TSProxy, wiper, IOCs, attribution caveat</a> &middot; <a href="https://blog.checkpoint.com/security/security-advisory-active-exploitation-of-php2shell-and-local-privilege-escalation/" target="_blank" rel="noopener noreferrer">Check Point &mdash; Security Advisory: Active Exploitation of PHP2Shell and Local Privilege Escalation, published 12 Nov 2026 13:58 UTC (updated 16:24 UTC): couple of dozen systems, November Jumbo Hotfix, CVE-2026-123039 7.8 (SK sk1000362), CVE-2026-107484 7.3 and CVE-2026-120490 3.8 not exploited</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 12 Nov (Apex One CP B20113 and Apex Central CP B7351 shipped; DDAN ETA 18 Nov; TMMS ETA 17 Nov)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 12 Nov 08:56 CET, unchanged (972 tracked, 213 fixed, 212 vulnerable)</a> &middot; <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard (1,226 successful exploitations as last published; tag page returns &ldquo;Tag not found&rdquo; at this check, no new figure obtainable)</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-12-nov-pm">
-<p class="eyebrow">Update &middot; 12 November (evening)</p>
-<h2>First Apex patches ship &mdash; Japanese 2019 editions only &mdash; as NCSC-NL moves for the first time since 9 November</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 12 November (evening)</span><span class="upd-title">First Apex patches ship &mdash; Japanese 2019 editions only &mdash; as NCSC-NL moves for the first time since 9 November</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">NCSC-NL updated its product list at 08:56 CET on 12 November: <strong>972 products tracked</strong> (was 968), <strong>213 fixed</strong> (was 205), <strong>212 vulnerable</strong> (was 215) &mdash; the first movement since 9 November. The headline inside the update is Trend Micro&rsquo;s first Apex patches: Critical Patch build 20113 for Apex One 2019 and build 7351 for Apex Central 2019, both released 12 November and both updating PHP to 8.2.35 &mdash; but both are <strong>Japanese Windows releases only</strong>. Trend Micro&rsquo;s global advisory KA-0024802 is still headed &ldquo;Current Status as of Nov. 4&rdquo;: Apex One (on-premise) and Apex Central remain &ldquo;Impacted &mdash; Critical Patch ETA: Nov. 11&rdquo; with the ETA passed and no replacement date, and Deep Discovery Analyzer&rsquo;s ETA is today, 12 November, with no patch evidenced at this check. GreyNoise is unchanged at 1,226 successful exploitations, last successful shell 12 November 05:55 UTC &mdash; the same figure and last-shell time the 12 November section recorded.</p>
 <div class="callout">
 <span class="label">Do not read the Japanese patches as the general fix</span>
@@ -901,11 +954,13 @@ section > p { margin-bottom: 14px; }
 <li><strong>It does not change the exploitation picture.</strong> GreyNoise counts no new successful exploitation since 05:55 UTC; no new named PHP victim, no new attribution and no new IOC set were found in this check. CVE-2026-115560 remains unpatched; php.net&rsquo;s latest item is still 5 November (PHP 8.6.0 RC5). Fortinet FG-IR-26-186 and Cisco&rsquo;s PHP advisory are unchanged (v1.11, 6 November, Final). Fiery FS800&ndash;FS500 patches still have no public confirmation of shipment; FS400&ndash;FS300 target 16 November.</li>
 </ul>
 <p>Sources: <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 12 Nov 08:56 CET (972 tracked, 213 fixed, 212 vulnerable)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell/blob/main/software/changelog_software_list.md" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; software status update history (PR #84 rows, 12 Nov 08:56 CET: Trend Micro Apex One 2019 CP 20113 and Apex Central 2019 CP 7351, both Japanese Windows, released 12 Nov, PHP 8.2.35; Cisco URWB / Unified Industrial Wireless 26.2.1.9; QNAP QNE 1.0.7.q327; OroCommerce managed patched 22 Oct; Xerox firmware 123.xxx.006.29800 and 123.xxx.006.30100)</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 4 Nov (Apex One/Central Critical Patch ETA 11 Nov passed unmet, still Impacted; DDAN ETA 12 Nov; TMMS ETA 17 Nov)</a> &middot; <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 12 Nov 2026 14:57 UTC (1,226 successful exploitations, unchanged; last successful shell 05:55 UTC)</a> &middot; <a href="https://www.qnap.com/en/security-advisory/qsa-26-19" target="_blank" rel="noopener noreferrer">QNAP &mdash; QSA-26-19 (QNE (ADRA) 1.0.7.q327 fixed; resolves QSA-26-18 omission)</a> &middot; <a href="https://oroinc.com/b2b-ecommerce/blog/security-update/" target="_blank" rel="noopener noreferrer">Oro Inc. &mdash; Security update (OroCommerce on OroCloud managed environments patched 22 Oct; no customer action; self-hosted needs its own PHP update)</a> &middot; <a href="https://securitydocs.business.xerox.com/wp-content/uploads/2026/11/Xerox-Security-Bulletin-XRX26-016-for-PHP2Shell-Vulnerabilities-CVE-2026-109618-and-CVE-2026-109619-v6.pdf" target="_blank" rel="noopener noreferrer">Xerox &mdash; Security Bulletin XRX26-016, v6, updated 6 Nov 2026 (firmware 123.xxx.006.29800 and 123.xxx.006.30100, PHP 8.2.35)</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-12-nov">
-<p class="eyebrow">Update &middot; 12 November</p>
-<h2>Exploitation is still running: GreyNoise counts 1,226 successes, and a fresh cluster mines Monero</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 12 November</span><span class="upd-title">Exploitation is still running: GreyNoise counts 1,226 successes, and a fresh cluster mines Monero</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">The trackers moved again. GreyNoise now counts <strong>1,226 successful exploitations</strong> (was 1,215 on 9 November), and the new successes are not a tail of the October wave: a fresh cluster began on <strong>10 November at about 14:50 UTC</strong> and was still running on <strong>12 November at 05:54&ndash;05:55 UTC</strong>, with post-exploit commands downloading XMRig and mining Monero. NCSC-NL&rsquo;s list is unchanged since its 9 November 09:49 CET update (968 products tracked, 205 fixed, 215 vulnerable), php.net&rsquo;s latest item is still 5 November (PHP 8.6.0 RC5), and CVE-2026-115560 is still unpatched. Trend Micro&rsquo;s advisory is still headed &ldquo;Current Status as of Nov. 4&rdquo;: the 11 November critical-patch ETA for Apex One (on-premise) and Apex Central has passed with both still listed &ldquo;Impacted&rdquo; and no new ETA given; Deep Discovery Analyzer&rsquo;s ETA is today, 12 November.</p>
 <div class="callout">
 <span class="label">New operator indicators &mdash; GreyNoise, 10&ndash;12 November</span>
@@ -938,11 +993,13 @@ section > p { margin-bottom: 14px; }
 <li><code>CVE-2026-115560</code> remains unpatched at the 12 November check; PHP has not released 8.5.13 or 8.4.28; mitigation remains <code>session.upload_progress.enabled=0</code>. It is not in CISA KEV.</li>
 </ul>
 <p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 12 Nov 2026 09:00 UTC (1,226 successful exploitations; fresh cluster 10 Nov 14:50 UTC to 12 Nov 05:55 UTC; new IPs 154.3.235.207, 45.115.192.75, 31.57.193.98; XMRig download and Monero mining)</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 4 Nov (Apex One/Central Critical Patch ETA 11 Nov passed unmet, still Impacted; DDAN ETA 12 Nov; TMMS ETA 17 Nov)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 9 Nov 09:49 CET, unchanged</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-11-nov">
-<p class="eyebrow">Update &middot; 11 November</p>
-<h2>No tracker movement &mdash; and two vendor items from 5&ndash;6 November now recorded</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 11 November</span><span class="upd-title">No tracker movement &mdash; and two vendor items from 5&ndash;6 November now recorded</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">Nothing in the trackers moved in this check: NCSC-NL&rsquo;s list is unchanged since its 9 November 09:49 CET update (968 products tracked, 205 fixed, 215 vulnerable), php.net&rsquo;s latest item is still 5 November (PHP 8.6.0 RC5), and CVE-2026-115560 is still unpatched. Two vendor patch-status items dated 5&ndash;6 November were missing from this brief and are recorded here, with their true dates &mdash; they are not 11 November news. Fortinet added FortiSOAR and FortiSOAR PaaS to its impacted list on 5 November; Xerox&rsquo;s 6 November bulletin marks AltaLink and EC81xx products remediated and puts patches out for the C80xx, B80xx, EC80xx and WorkCentre lines. Fiery FS800&ndash;FS500 patches, targeted &ldquo;by November 9&rdquo;, still have no public confirmation of shipment.</p>
 <div class="callout">
 <span class="label">Vendor items found in this check&rsquo;s coverage verification &mdash; dated 5&ndash;6 November</span>
@@ -975,11 +1032,13 @@ section > p { margin-bottom: 14px; }
 <li><code>CVE-2026-115560</code> remains unpatched at the 11 November check; PHP has not released 8.5.13 or 8.4.28; mitigation remains <code>session.upload_progress.enabled=0</code>. It is not in CISA KEV.</li>
 </ul>
 <p>Sources: <a href="https://fortiguard.fortinet.com/psirt/FG-IR-26-186" target="_blank" rel="noopener noreferrer">Fortinet &mdash; FG-IR-26-186, PHP2Shell, updated 5 Nov 2026 (FortiSOAR and FortiSOAR PaaS added to impacted list; fixes 8.0.1, upcoming 7.6.8 and 7.5.5; CVE-2026-115560 affects no Fortinet product)</a> &middot; <a href="https://securitydocs.business.xerox.com/wp-content/uploads/2026/11/Xerox-Security-Bulletin-XRX26-016-for-PHP2Shell-Vulnerabilities-CVE-2026-109618-and-CVE-2026-109619-v6.pdf" target="_blank" rel="noopener noreferrer">Xerox &mdash; Security Bulletin XRX26-016, v6, updated 6 Nov 2026 (AltaLink 82xx/81xx and EC81xx remediated; C80xx/B80xx/EC80xx and WorkCentre patches available via XRX26-018 and XRX26-017; Fiery still target dates only)</a> &middot; <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 9 Nov 09:49 CET, unchanged</a> &middot; <a href="https://success.trendmicro.com/en-US/solution/KA-0024802" target="_blank" rel="noopener noreferrer">Trend Micro &mdash; KA-0024802, status as of 4 Nov (Apex One/Central Critical Patch ETA 11 Nov, not yet confirmed shipped)</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-09-nov-pm">
-<p class="eyebrow">Update &middot; 9 November (afternoon)</p>
-<h2>The trackers move at last: NCSC-NL adds 20 fixed products, GreyNoise counts 38 more successful exploitations</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 9 November (afternoon)</span><span class="upd-title">The trackers move at last: NCSC-NL adds 20 fixed products, GreyNoise counts 38 more successful exploitations</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">Both trackers the morning section recorded as unchanged moved within hours of the morning check. NCSC-NL updated its product list at 09:49 CET on 9 November: 968 products tracked (was 948), 205 fixed (was 185), 215 vulnerable unchanged. ThreatDefence updated the same day: GreyNoise now counts 1,215 successful exploitations from 5 attacker IPs (was 1,177), out of 255,240 sessions from 682 attacker IPs. The morning section&rsquo;s &ldquo;no change to the NCSC-NL inventory&rdquo; and &ldquo;ThreatDefence still Updated November 5&rdquo; lines are superseded; the morning section is left as written.</p>
 <div class="callout">
 <span class="label">NCSC-NL inventory &mdash; 9 November 09:49 CET</span>
@@ -1013,11 +1072,13 @@ section > p { margin-bottom: 14px; }
 <li><code>CVE-2026-115560</code> remains unpatched at the 9 November afternoon check; PHP has not released 8.5.13 or 8.4.28; mitigation remains <code>session.upload_progress.enabled=0</code>. It is not in CISA KEV.</li>
 </ul>
 <p>Sources: <a href="https://github.com/NCSC-NL/php2shell" target="_blank" rel="noopener noreferrer">NCSC-NL &mdash; php2shell (TLP:CLEAR), software list last status update 9 Nov 09:49 CET</a> &middot; <a href="https://threatdefence.com/article/php2shell-php-remote-code-execution-advisory" target="_blank" rel="noopener noreferrer">ThreatDefence &mdash; PHP2Shell CVE-2026-109618: Detection, Hunting and Patching, updated 9 Nov 2026 (GreyNoise 9 Nov figures; 206.245.153.56 cleanup script and persistence indicators; Siemens SSA-166980)</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-09-nov">
-<p class="eyebrow">Update &middot; 9 November</p>
-<h2>Cisco fixes land months early: URWB and Unified Industrial Wireless available now</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 9 November</span><span class="upd-title">Cisco fixes land months early: URWB and Unified Industrial Wireless available now</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">Cisco's PHP2Shell advisory went to v1.11 (Final) on 6 November: the fixes for Ultra-Reliable Wireless Backhaul and Unified Industrial Wireless Software are available in release 26.2.1.9 &mdash; months ahead of the February and March 2027 estimates this brief carried. ISE Portal Builder is fixed by the vendor with no customer action required. No new PHP release, no new exploitation signal and no change to the NCSC-NL inventory were found to 9 November.</p>
 <div class="callout">
 <span class="label">Cisco advisory v1.11, 6 November &mdash; Final</span>
@@ -1051,11 +1112,13 @@ section > p { margin-bottom: 14px; }
 <li><code>CVE-2026-115560</code> remains unpatched at the 9 November check; fix planned for the next regular PHP release, date unannounced; mitigation remains <code>session.upload_progress.enabled=0</code>. It is not in CISA KEV.</li>
 </ul>
 <p>Sources: <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-php-october26-Jj384Daq" target="_blank" rel="noopener noreferrer">Cisco &mdash; Vulnerabilities in PHP Affecting Cisco Products: October 2026 (v1.11, 6 Nov, Final)</a> &middot; <a href="https://www.configlane.io/en/blog/php2shell-cisco-sicherheitsluecken" target="_blank" rel="noopener noreferrer">ConfigLane &mdash; PHP2Shell and Cisco: security status, 7 Nov</a> &middot; <a href="https://pwn.watch/i/php2shell-cve-2026-109618-109619" target="_blank" rel="noopener noreferrer">pwn.watch &mdash; PHP2Shell timeline (Cisco v1.11, 6 Nov)</a> &middot; <a href="https://www.tetoran.com/php2shell-affected-products/" target="_blank" rel="noopener noreferrer">Tetoran &mdash; PHP2Shell affected products, 4 Nov (in Japanese; corroborates ISE Portal Builder fixed and 26.2.1.9)</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-05-nov">
-<p class="eyebrow">Update &middot; 5 November</p>
-<h2>Patch uptake measured at last: 29 million servers still flawed, and no mass-breach wave</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 5 November</span><span class="upd-title">Patch uptake measured at last: 29 million servers still flawed, and no mass-breach wave</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">The first patch-adoption measurement since the 21 October fixes puts the unpatched population at 29 million of 46 million scannable servers running a vulnerable PHP version — about two weeks on, nearly two-thirds still flawed. No new named PHP victim, no new public IOC set and no new PAN-OS victim count were found to 5 November, and Kaspersky's two-week review reports no mass-breach wave.</p>
 <div class="callout">
 <span class="label">Censys patch uptake &mdash; Kaspersky, 3 November</span>
@@ -1086,11 +1149,13 @@ section > p { margin-bottom: 14px; }
 <li><code>CVE-2026-115560</code> remains unpatched at the 5 November check; fix planned for the next regular PHP release, date unannounced; mitigation remains <code>session.upload_progress.enabled=0</code>.</li>
 </ul>
 <p>Sources: <a href="https://www.kaspersky.co.uk/blog/php2shell-two-weeks-after-patches/31035/" target="_blank" rel="noopener noreferrer">Kaspersky — PHP2Shell: what we know about the threat two weeks later, 3 Nov</a> · <a href="https://php2shell.censys.com/" target="_blank" rel="noopener noreferrer">Censys — PHP2Shell remediation dashboard</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 <section id="update-04-nov">
-<p class="eyebrow">Update &middot; 4 November</p>
-<h2>Hotfixes complete, the alert widens, and a third bug still waits</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 4 November</span><span class="upd-title">Hotfixes complete, the alert widens, and a third bug still waits</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
 <p class="lede">No new mass victim wave. Palo Alto completed its PAN-OS hotfixes, Singapore's CSA widened the alert beyond PAN-OS, and a third PHP bug remains unpatched — while no new named PHP victim, no new public IOC set, and no published patch-adoption percentage was found to 4 November.</p>
 <div class="callout crit">
 <span class="label">CSA Singapore, 3 November &mdash; multi-vendor alert AL-2026-157</span>
@@ -1135,13 +1200,15 @@ section > p { margin-bottom: 14px; }
 <li><strong>BFSI, honestly thin:</strong> no named bank or payment breach attributed to PHP2Shell was found to 4 November. Plausible exposure is perimeter PHP (marketing/onboarding portals, vendor platforms, PHP e-commerce checkouts) and stolen API or payment-partner keys outliving the patch. Precautionary shutdowns (not breaches) were reported for Dutch, Finnish and Belgian government sites.</li>
 </ul>
 <p>Sources: <a href="https://security.paloaltonetworks.com/CVE-2026-109618" target="_blank" rel="noopener noreferrer">Palo Alto CVE-2026-109618 advisory</a> · <a href="https://www.csa.gov.sg/alerts-and-advisories/alerts/al-2026-157/" target="_blank" rel="noopener noreferrer">CSA Singapore AL-2026-157</a> · <a href="https://www.securityweek.com/php2shell-attacks-root-palo-alto-firewalls-but-fail-against-wordpress/" target="_blank" rel="noopener noreferrer">SecurityWeek, PHP2Shell attacks</a> · <a href="https://www.channelnewsasia.com/singapore/php-flaw-exploitation-mddi-6519861" target="_blank" rel="noopener noreferrer">Channel News Asia, Singapore Parliament</a> · <a href="https://securityonline.info/php2shell-affected-products-list/" target="_blank" rel="noopener noreferrer">NCSC inventory summary</a></p>
-<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+<p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
 
 
   <section id="update-29">
-    <p class="eyebrow">Update &middot; 29 October</p>
-    <h2>The chain is now official: CISA names these CVEs as the route to a root webshell</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 29 October</span><span class="upd-title">The chain is now official: CISA names these CVEs as the route to a root webshell</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
     <p class="lede">Three things moved. CISA's KEV text states the chain explicitly; GreyNoise logged successful command execution rather than attempts; and a second victim-side report describes firewalls rooted with this pair plus a kernel flaw.</p>
 
     <div class="callout crit">
@@ -1203,11 +1270,13 @@ section > p { margin-bottom: 14px; }
       <li><strong>NCSC-NL</strong>: 757 products tracked, 218 vulnerable / 144 fixed.</li>
       <li><strong>Status</strong>: NVD both <em>Analyzed</em>, EPSS <strong>0.99999</strong> unchanged; no PHP source release after 21 Oct (the 26 Oct Windows rebuilds are Brotli fixes); <code>CVE-2026-115560</code> still has <strong>no record</strong> in either registry.</li>
     </ul>
-  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
   <section id="update-28">
-    <p class="eyebrow">Update &middot; 28 October</p>
-    <h2>Listed in KEV, a second sensor's indicator set, and an export that was missing its best evidence</h2>
+<details class="upd-details">
+<summary><span class="upd-head"><span class="eyebrow">Update &middot; 28 October</span><span class="upd-title">Listed in KEV, a second sensor's indicator set, and an export that was missing its best evidence</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
     <p class="lede">Both CVEs entered CISA&rsquo;s Known Exploited Vulnerabilities catalog on 26 October with a remediation deadline of <strong>29 October</strong>. A second independent sensor published nine addresses on 27 October &mdash; the first set to overlap the exploitation this brief had already confirmed. The third RCE has no record in either CVE registry. And the block/monitor export was carrying 54 weak addresses while omitting the two hosts the packets actually came from.</p>
 
     <div class="callout crit">
@@ -1267,7 +1336,8 @@ section > p { margin-bottom: 14px; }
 
     <h3>Detection content moved</h3>
     <p><a href="https://github.com/corelight/php2shell-detect" target="_blank" rel="noopener noreferrer">corelight/php2shell-detect</a> was pushed again on <strong>28 October 02:08 UTC</strong> and now ships both Zeek notices (<code>PHP_Crash_Sequence</code>, <code>Multipart_Header_Flood</code>, <code>Large_Form_Key</code>, the serialized-collision family) and Suricata rules <strong>SIDs 3000650&ndash;3000652</strong> (POST body marker, response version header, phpinfo response body). CISA&rsquo;s SIGMA rule <code>261429</code> has not changed since 23 October.</p>
-  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+  <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></details>
+</section>
 
   <section id="situation">
     <p class="eyebrow">Update &middot; 26 October</p>
@@ -2696,7 +2766,42 @@ if (isset($_GET['page'])) { include($_GET['page']); }</code></pre>
     <p>No PoC was executed and no active scanning was performed against any target in producing this brief.</p>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
 
-  <section id="sources">
+  
+<section id="lessons-learnt">
+<p class="eyebrow">Lessons learnt</p>
+<h2>What this case teaches</h2>
+<p class="lede">Four weeks of tracking, from the leak on 20 October to the 18 November check, keep returning to the same short list. Each lesson below is drawn from the record above; where the record is still open, it stays open here.</p>
+
+<h3>Attempts, successes and compromises are three different claims</h3>
+<p>Six sensor operators saw attempts within hours of the patch. The first confirmed shells were on honeypots built to the exploit&rsquo;s preconditions &mdash; one worker and a tight memory limit &mdash; not on production hosts. Both named-victim claims were withdrawn within days, and the first vendor-confirmed compromise arrived three weeks in, and it was a couple of dozen gateways, not a mass breach. &ldquo;Exploited at scale&rdquo; and &ldquo;no confirmed victim&rdquo; were both true at the same time. A briefing that merges the three claims will overstate the damage and understate the risk in the same sentence.</p>
+
+<h3>Quote the count with its denominator and its caveat</h3>
+<p>GreyNoise&rsquo;s 1,304 is shell-start records, not distinct newly exploited hosts &mdash; the +32 on 17 November were miner commands on shells already established. Delft&rsquo;s flat total was a frozen feed, not a quiet network. Censys&rsquo;s 29 million is scannable servers, and version strings under-count patching because backports keep old numbers. NCSC-NL&rsquo;s 972 is products, not hosts. The record above refuses throughout to add different measurements together, and each time a count moves it says what moved and what did not.</p>
+
+<h3>The tail is the exposure</h3>
+<p>Two weeks on, nearly two-thirds of the scannable base was still flawed, and roughly 110 million instances sit on end-of-life PHP that will never be fixed. The harder problem is the embedded estate: appliances and vendor platforms whose PHP runtimes routine patching never reaches, tracked product by product in the NCSC-NL inventory. Assume you run PHP, then go and check the boxes you cannot log into.</p>
+
+<h3>A leaked embargo is a footrace, and the prepared win it</h3>
+<p>The CVE IDs leaked twenty hours before the patch; an exploit bundle was downloadable within hours; a pre-disclosure attempt was recorded on 17 October; Chainguard shipped patched images six hours early. The coordinated release held, but the window between &ldquo;known&rdquo; and &ldquo;exploitable&rdquo; compressed to hours, and the defenders who had inventory and a patch path ready were the ones who used it.</p>
+
+<h3>Verify the PoC before you run it &mdash; and before you cite it</h3>
+<p>Of 1,091 public repositories, only three of 23 reviewed engaged the advisory&rsquo;s actual mechanism; the rest re-implemented the older session-plus-LFI technique. The two most-starred artefacts were a partial and a mislabelled one. The withdrawn bundle&rsquo;s checksum never matched the file it advertised. One repository claiming three patch bypasses was LFI by construction. Star count was anti-correlated with accuracy. The same discipline governed claims: PAN-OS was held as unverified until Palo Alto published, and the &ldquo;no IOCs&rdquo; line was retracted when the feeds&rsquo; silence turned out to be a statement about four feeds, not about the world.</p>
+
+<h3>An ETA is not a shipped fix</h3>
+<p>Trend Micro&rsquo;s Apex One and Apex Central ETA of 11 November passed unmet; the first patches to land were Japanese 2019 editions only. Deep Discovery Analyzer slipped from 12 to 18 November. Fiery&rsquo;s FS800&ndash;FS500 target of 9 November still has no shipment confirmation. The one ETA that beat itself was Cisco&rsquo;s, moving two wireless fixes from February&ndash;March 2027 to available now. The forcing function that worked was the KEV listing: both CVEs listed 26 October with a 29 October deadline, and CVE-2026-123039 listed 13 November with a 16 November deadline.</p>
+
+<h3>Keep the indicator sets apart, or the blocklist will hurt the wrong people</h3>
+<p>CYFIRMA&rsquo;s three sets carry different handling: staging addresses to monitor, tooling addresses that are a commodity crowd, scan nodes that may include victims. The distinction did not survive republication &mdash; an OTX pulse merged all 54 under one nation-state label &mdash; and reputation scores ran inverse to significance: the staging set&rsquo;s median AbuseIPDB score was 10% against 63% for the tooling set. The two addresses with packet-to-process RCE evidence appear nowhere in the 54. Source-IP geolocation is not attribution, and a block built from either set alone protects against neither.</p>
+
+<h3>Keep the mitigation after the patch</h3>
+<p>The third RCE, CVE-2026-115560, is not fixed by the 21 October releases, has no NVD record, and is held for the regular cycle; the same <code>session.upload_progress.enabled=0</code> setting covers it. And a stopgap can cost you your detector: <code>memory_limit=-1</code> blinds the OOM-fatal signal that is the best early indicator of the 109618 chain.</p>
+
+<p>The standing advice has not changed through any of it: patch to a fixed release, restart every worker, leave the upload-progress mitigation in place, and hunt process parentage. The root-cause dispute, the retractions, the third CVE, the appliance exposure and the indicator set all moved around that core.</p>
+
+<p class="note">Still open at the 18 November check: the CVE-2026-115560 fix (PHP 8.6.0 GA due 19 November); the unconfirmed claim that 8.5.12 is incomplete; the 62-versus-54 IOC reconciliation; Fiery FS400&ndash;FS300 shipment; and Trend Micro&rsquo;s DDAN and TMMS dates.</p>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
+
+<section id="sources">
     <p class="eyebrow">Source register</p>
     <h2>Everything this brief rests on</h2>
 <details open class="ref-details"><summary>Source register — click to collapse</summary>
