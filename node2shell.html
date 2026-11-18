@@ -137,7 +137,7 @@ footer p { font-size:13px; color:var(--muted); }
 <header class="masthead">
   <div class="eyebrow">
     <span class="tlp">TLP:CLEAR</span>
-    <span>Deep research &middot; 26 Oct 2026 &middot; updated 17 Nov 2026</span>
+    <span>Deep research &middot; 26 Oct 2026 &middot; updated 18 Nov 2026</span>
     <span>Node2Shell / HTTP2Shell / Broccoli2Shell</span>
   </div>
   <h1>Node2Shell &mdash; CVE-2026-111497</h1>
@@ -148,7 +148,7 @@ footer p { font-size:13px; color:var(--muted); }
     <span>Sources: 11 primary + 9 in update</span>
     <span>PoC repos: 39 (name) / 69 (CVE) — masthead counts undated; body gives 30 / 52 on 26 Oct</span>
     <span>Network IOCs: 1 IP, 1 hash (26 Oct); plus 5 Zscaler exploitation addresses (28 Oct)</span>
-    <span>Queries: 26 + 28 Oct 2026; re-checked to 17 Nov</span>
+    <span>Queries: 26 + 28 Oct 2026; re-checked to 18 Nov</span>
   </div>
 </header>
 
@@ -186,6 +186,45 @@ footer p { font-size:13px; color:var(--muted); }
   <div class="fig"><span class="n">0.55</span><span class="d">EPSS (FIRST API), 99th percentile (27 Oct)</span></div>
   <div class="fig"><span class="n">1+1</span><span class="d">IP and hash published (26 Oct)</span></div>
 </div>
+
+
+<section>
+<h2>Update &mdash; 18 November: Splunk revises its Brotli guidance &mdash; Enterprise 10.0 affected, 10.2+ clear; Cisco moves to v1.14</h2>
+<p class="sub">Splunk&rsquo;s advisory SVD-2026-1015 was updated on 17 November &mdash; its first movement since 9 November. Splunk Enterprise 10.0 includes Node.js with the affected Brotli package, used only by the legacy Simple XML PDF renderer, which is disabled by default and unused; versions 9.4 and 10.2 and higher do not include the vulnerable package, and Splunk recommends upgrading to 10.2 or higher. The Splunk Observability OpenTelemetry Collector fix is now named: upgrade to 0.165.0 or higher. Cisco&rsquo;s October Node.js advisory moved to v1.14 on 17 November, with the same change note as v1.13; the live advisory confirms IOS XE, IOS XR, ASA and FMC as Not impacted, as already recorded under v1.12 &mdash; which revision first moved them still cannot be pinned from Cisco&rsquo;s history. No new Node.js release in the window, and no new exploitation evidence for the November batch.</p>
+<div class="callout warn">
+<span class="k">Enterprise 10.0 is affected only through a disabled renderer &mdash; check the flag, then upgrade</span>
+<p>Splunk Enterprise 10.0 bundles the vulnerable Brotli package only for the legacy Simple XML PDF renderer, disabled by default and unused; verify the legacy-export feature flag and plan the upgrade to 10.2 or higher, which does not include the vulnerable package. Splunk plans to upgrade the packages in a future 10.0 release, so 10.0 stays affected until then. The Visual Exporter app still bundles the affected package in all Enterprise versions &mdash; disabling or removing it breaks scheduled dashboard exports.</p>
+<p class="cite">Sources: <a href="https://advisory.splunk.com/advisories/SVD-2026-1015" target="_blank" rel="noopener noreferrer">Splunk &mdash; SVD-2026-1015 (Last Updated 17 Nov 2026)</a> &middot; <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Cisco &mdash; Vulnerabilities in Node.js and Brotli Affecting Cisco Products: October 2026 (v1.14, 17 Nov 2026)</a></p>
+</div>
+<h3>Evidence ladder</h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Evidence</th><th>Status to 18 Nov</th></tr></thead>
+<tbody>
+<tr><td>Splunk advisory SVD-2026-1015 (updated 17 Nov)</td><td><strong>Updated 17 Nov</strong> &mdash; first movement since 9 Nov. Splunk Enterprise 10.0 includes Node.js with the affected Brotli package (legacy Simple XML PDF renderer only, disabled by default, unused) &mdash; new detail; 9.4 and 10.2+ do not include the vulnerable package &mdash; new detail; upgrade to 10.2 or higher remains the recommended path. Splunk plans to upgrade the packages in a future 10.0 release. Observability OpenTelemetry Collector: upgrade to <strong>0.165.0 or higher</strong> (new). Synthetic Runner 1.71.0 or higher (unchanged); Galileo remedied. Enterprise, Visual Exporter, SOAR Automation Broker, UBA, Attack Analyzer, Python for Scientific Computing, AppDynamics SaaS/On-Premises, Smartlook and Observability Cloud remain In progress.</td></tr>
+<tr><td>Cisco advisory v1.14 (17 Nov)</td><td>Version bump; the change note is identical to v1.13 (&ldquo;Updated products under investigation, vulnerable products, and products confirmed not vulnerable&rdquo;). The live advisory confirms IOS XE, IOS XR, ASA and FMC Not impacted &mdash; as already recorded under v1.12. Which revision first moved them cannot be pinned from Cisco&rsquo;s history, since v1.13 and v1.14 carry the same note. Status still Interim; PSIRT not aware of malicious use; PoC code available. Still covers the October CVEs only &mdash; no November-16-CVE advisory yet.</td></tr>
+<tr><td>Node.js November releases</td><td><strong>No new release in the window</strong> &mdash; still v26.13.1, v24.22.3, v22.23.5 (11 Nov).</td></tr>
+<tr><td>CVE-2026-123873</td><td><strong>Still no NVD record</strong> (checked 18 Nov). CVE-2026-106071 is confirmed a distinct October item (NVD: published 23 Oct, last modified 2 Nov, 26.x only, 3.6 Low, wildcard <code>--allow-fs-read</code> / <code>--allow-fs-write</code> over-grant) &mdash; it does not close the 123873 gap, which stays open.</td></tr>
+<tr><td>Neat advisory NEAT-SA-2026-11-02</td><td><strong>Unchanged</strong> &mdash; still &ldquo;Interim: fix in progress&rdquo; (2 Nov); Neat OS 26.6.3 Stable rollout completes by 21 Nov.</td></tr>
+<tr><td><strong>Confirmed production compromise</strong></td><td><strong>None named to 18 November.</strong> This row is empty on purpose &mdash; do not add attempts + KEV into a victim count.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What is known, and what is not</h3>
+<div class="figures">
+<div class="fig"><span class="n">1</span><span class="d">advisory with concrete new remediation (Splunk SVD-2026-1015)</span></div>
+<div class="fig"><span class="n">0</span><span class="d">new Node.js releases in the window</span></div>
+<div class="fig"><span class="n">1</span><span class="d">CVE still without an NVD record (CVE-2026-123873)</span></div>
+<div class="fig"><span class="n">0</span><span class="d">exploitation reports for the batch</span></div>
+</div>
+<ul>
+<li><strong>Splunk&rsquo;s first movement since 9 November gives 10.0 operators a concrete path.</strong> Enterprise 10.0 is affected only through a disabled legacy renderer, and 10.2 or higher does not include the vulnerable package &mdash; upgrade, and check the legacy-export flag in the meantime. The Otel Collector fix (0.165.0) is now named.</li>
+<li><strong>Cisco v1.14 is a version bump, not new substance.</strong> The 17 November revision repeats the v1.13 change note and adds nothing the 13 November section has not already recorded; the dating question for IOS XE, IOS XR, ASA and FMC stays open, since the revision history alone cannot say which version first moved them to Not impacted.</li>
+<li><strong>CVE-2026-106071 is a separate October item, not the November gap.</strong> NVD confirms it was published 23 October, lists Node.js 26.x only and scores it 3.6 Low &mdash; the 123873 record is still missing, and the 16-versus-17 count stays open until Node.js or NVD clarifies it.</li>
+<li><strong>No new exploitation evidence in the window.</strong> No PoC, KEV listing or exploitation statement was found for the November batch; the single observed attempt (26 October) remains the only one for CVE-2026-111497.</li>
+</ul>
+<p class="cite">Sources: <a href="https://advisory.splunk.com/advisories/SVD-2026-1015" target="_blank" rel="noopener noreferrer">Splunk &mdash; SVD-2026-1015, Last Updated 17 Nov 2026 (Enterprise 10.0 impact; Otel Collector 0.165.0)</a> &middot; <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Cisco &mdash; Vulnerabilities in Node.js and Brotli Affecting Cisco Products: October 2026, v1.14, 17 Nov 2026</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-106071" target="_blank" rel="noopener noreferrer">NVD &mdash; CVE-2026-106071 (3.6 Low; published 23 Oct; 26.x only)</a></p>
+</section>
 
 
 <section>
@@ -1129,6 +1168,12 @@ Node HTTP surface: 400 + ERR__ERROR_FORMAT_BLOCK_SWITCH</code></pre>
     <li><strong>Neat</strong> &mdash; <a href="https://support.neat.no/article/security-advisory-november-2026-brotli-decoder-vulnerability-cve-2026-111497-affecting-neat-devices/" target="_blank" rel="noopener noreferrer">Security advisory November 2026, Brotli decoder vulnerability CVE-2026-111497 affecting Neat devices (NEAT-SA-2026-11-02)</a>, published and last updated 2 Nov 2026: &ldquo;Interim: fix in progress&rdquo;, fix &ldquo;planned for OTA Stable release on November 21, 2026&rdquo;; no evidence of exploitation against Neat devices. Primary. Advisory not updated since 2 Nov &mdash; its &ldquo;planned&rdquo; wording is stale against the release page.</li>
     <li><strong>Neat</strong> &mdash; <a href="https://support.neat.no/c/software-updates/page/2/" target="_blank" rel="noopener noreferrer">Software updates</a>: Stable latest Neat OS 26.6.3, 7 Nov 2026; Preview 26.6.4, 14 Nov. Primary.</li>
     <li><strong>UC Today</strong> &mdash; <a href="https://uctoday.com/weekly-wrap" target="_blank" rel="noopener noreferrer">Weekly Wrap</a>, 13 Nov 2026: Marcus Law, &ldquo;Neat Rolls Out Fix for Brotli Flaw on CISA&rsquo;s Exploited List&rdquo;. Secondary.</li>
+  </ul>
+  <h3 style="margin-top:26px;">Added in the 18 November update</h3>
+  <ul class="src">
+    <li><strong>Splunk</strong> &mdash; <a href="https://advisory.splunk.com/advisories/SVD-2026-1015" target="_blank" rel="noopener noreferrer">SVD-2026-1015</a>, Last Updated 17 Nov 2026: Splunk Enterprise 10.0 includes Node.js with the affected Brotli package (legacy Simple XML PDF renderer only, disabled by default, unused); 9.4 and 10.2+ do not include the vulnerable package &mdash; upgrade to 10.2 or higher; Otel Collector fix &mdash; upgrade to 0.165.0 or higher. Primary.</li>
+    <li><strong>Cisco</strong> &mdash; <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Vulnerabilities in Node.js and Brotli Affecting Cisco Products</a>, v1.14, 17 Nov 2026: same change note as v1.13; priority products IOS XE, IOS XR, ASA, FMC confirmed Not impacted on the live page; status still Interim; PSIRT aware of no malicious use. Primary.</li>
+    <li><strong>NVD</strong> &mdash; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-106071" target="_blank" rel="noopener noreferrer">CVE-2026-106071</a>, published 23 Oct 2026, last modified 2 Nov: 3.6 Low, CWE-284, Node.js 26.x only; wildcard <code>--allow-fs-read</code> / <code>--allow-fs-write</code> over-grant. Confirms it is a distinct October item, not the November CVE-2026-123873 gap. Primary.</li>
   </ul>
 </section>
 

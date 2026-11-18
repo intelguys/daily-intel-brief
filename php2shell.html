@@ -467,7 +467,7 @@ section > p { margin-bottom: 14px; }
     <div class="meta-row">
       <span class="chip chip-crit">Critical · exploited</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 21 Oct 03:55 &middot; revised 17 Nov &middot; GreyNoise count moves to 1,297 (last shell 15 Nov 17:33 UTC; miner commands on established shells into 17 Nov morning); CYFIRMA raises the Lazarus link to high confidence (v4, 29 Oct); 216-host target list: 30 in South Korea; CVE-2026-123039 in KEV (due 16 Nov); CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
+      <span>Compiled 21 Oct 03:55 &middot; revised 18 Nov &middot; GreyNoise count moves to 1,304 (last shell 17 Nov 23:01 UTC; seven fresh exploit sessions 17 Nov evening; Delft fourth gap closed, total 89,574); CYFIRMA raises the Lazarus link to high confidence (v4, 29 Oct); 216-host target list: 30 in South Korea; CVE-2026-123039 in KEV (due 16 Nov); CVE-2026-115560 still unpatched, Censys: 29m of 46m servers still flawed</span>
       <span>Patched 13:44 UTC · in CISA KEV, remediation due 29 Oct</span>
     </div>
     <h1>PHP2Shell: <span class="nw">CVE-2026-109618</span> &amp; <span class="nw">CVE-2026-109619</span></h1>
@@ -603,6 +603,43 @@ section > p { margin-bottom: 14px; }
       </table>
     </div>
   <p class="to-contents"><a href="#toc">↑ Back to contents</a></p></section>
+
+<section id="update-18-nov">
+<p class="eyebrow">Update &middot; 18 November</p>
+<h2>GreyNoise count moves to 1,304; seven fresh exploit sessions on 17 November evening</h2>
+<p class="lede">The GreyNoise PHP2Shell Activity dashboard now counts <strong>1,304 successful exploitations</strong> (was 1,297 at the 17 November 09:01 UTC reading), with the latest attributed shell now <strong>17 November 23:01:38 UTC</strong> &mdash; the +7 are seven attributed exploit sessions running <strong>17 November 22:52:54&ndash;23:01:38 UTC</strong>, each with fresh POST exploit traffic (8.3&ndash;8.5 MB sent to <code>/</code>) from the same IP set active since 10&ndash;11 November. Unlike the morning&rsquo;s +32, these are new exploit sessions, not miner commands on established shells. The rows stage the miner from a new URL, <strong><code>https://tmpfiles.org/dl/1794955401.ad53b237c5894f83/wBADtEaHccV3/backup109.tgz</code></strong>, and use a new xmrig worker suffix, <strong><code>-m4</code></strong> (earlier rows used <code>-miner2</code> / <code>-miner3</code>); the wallet, the pool <code>107.178.98.234:3333</code> and the command-and-control URL <code>159.89.162.100:4001</code> are unchanged. Delft&rsquo;s telemetry feed has resumed after its fourth gap: the data window advanced from 15 November 17:08:49 UTC to 17 November 17:45:22 UTC, total <strong>89,571 to 89,574 (+3)</strong> &mdash; the interval is largely unmeasured, so the flat totals must not be read as a quiet network.</p>
+<div class="callout">
+<span class="label">The +7 are fresh sessions &mdash; but the count is still shell-start records</span>
+<p>Unlike the 17 November morning +32, which were xmrig commands on shells already established, these seven rows are attributed exploit sessions with fresh POST traffic and shell starts, so the +7 is a real increase in exploit activity. The dashboard still counts shell-start records, so do not quote 1,304 as 1,304 distinct newly exploited hosts &mdash; but the direction is real: the same cluster is still exploiting a week after its first rows, and it has rotated to a new staging URL and worker suffix while keeping the same wallet, pool and command-and-control URL.</p>
+</div>
+<div class="board">
+<div class="tile"><div class="k">GreyNoise successes</div><div class="v">1,304</div><div class="n">Successful exploitations; was 1,297 (17 Nov 09:01 UTC)</div></div>
+<div class="tile"><div class="k">Last attributed shell</div><div class="v">17 Nov 23:01 UTC</div><div class="n">23:01:38 UTC; seven attributed sessions 22:52&ndash;23:01 UTC</div></div>
+<div class="tile"><div class="k">New staging URL</div><div class="v">1</div><div class="n"><code>tmpfiles.org/dl/1794955401&hellip;/backup109.tgz</code> &mdash; miner tarball fetched in the 17 Nov evening rows; new worker suffix <code>-m4</code></div></div>
+<div class="tile"><div class="k">Delft telemetry</div><div class="v">Gap closed</div><div class="n">Window resumed 17 Nov 17:45:22 UTC after 48 h 36 min; total 89,574 (+3); interval largely unmeasured</div></div>
+</div>
+<div class="scroll">
+<table>
+<thead><tr><th>Item</th><th>Before</th><th>Now</th></tr></thead>
+<tbody>
+<tr><td>GreyNoise successful exploitations</td><td>1,297 (15 Nov 17:33:02 UTC last shell)</td><td><strong>1,304</strong> (18 Nov 00:58 UTC reading) &mdash; +7 attributed exploit sessions, 17 Nov 22:52:54&ndash;23:01:38 UTC; fresh POST traffic, 8.3&ndash;8.5 MB sent to <code>/</code>; latest attributed shell now 17 Nov 23:01:38 UTC</td></tr>
+<tr><td>Miner staging URL</td><td>No staging URL recorded in earlier sections</td><td><strong><code>https://tmpfiles.org/dl/1794955401.ad53b237c5894f83/wBADtEaHccV3/backup109.tgz</code></strong> &mdash; fetched as <code>b.tgz</code> in the 17 Nov 22:52&ndash;23:01 UTC rows; new xmrig worker suffix <code>-m4</code> (earlier rows used <code>-miner2</code> / <code>-miner3</code>); same wallet, same pool <code>107.178.98.234:3333</code>, same cc-url <code>159.89.162.100:4001</code>. tmpfiles.org is a public file host, so the link may not stay live &mdash; hunt for the <code>backup109.tgz</code> name and the <code>-m4</code> suffix too</td></tr>
+<tr><td>Delft telemetry feed</td><td>Frozen (checked 17 Nov 07:02 UTC); window 15 Nov 17:08:49 UTC; total 89,571; fourth gap still open</td><td><strong>Gap closed</strong> (checked 17 Nov 22:02 UTC) &mdash; window resumed 17 Nov 17:45:22 UTC after 48 h 36 min; total 89,571 to 89,574 (+3); sources 802, code 182; funnel probe 68,285 / 687, later steps unchanged. +3 across 48.6 hours is far below the normal rate, so the interval is largely or wholly unmeasured</td></tr>
+<tr><td>CVE-2026-123039 KEV</td><td>Catalog v2026.11.13, 1,781 entries (17 Nov section)</td><td><strong>v2026.11.17, 1,782 entries</strong> (checked 18 Nov) &mdash; the sole 17 Nov addition is CVE-2026-115731 (Perforce Puppet Enterprise deserialization), unrelated to PHP2Shell</td></tr>
+<tr><td>Other trackers</td><td>CYFIRMA v4 (29 Oct); CVE-2026-115560 no NVD record; Fiery FS400&ndash;FS300 target 16 Nov passed; Fortinet FG-IR-26-186; Xerox XRX26-016 v7 (17 Nov section)</td><td><strong>Unchanged</strong> in this check &mdash; no new patch, hotfix or vendor status surfaced; the Fiery FS400&ndash;FS300 patch target (16 Nov) has passed with no shipment confirmation; CVE-2026-115560 still has no NVD record; PHP 8.6.0 GA due 19 Nov</td></tr>
+</tbody>
+</table>
+</div>
+<h3>What this changes, and what it does not</h3>
+<ul>
+<li><strong>The cluster is still exploiting.</strong> Seven fresh attributed sessions on the evening of 17 November, a week after the cluster&rsquo;s first rows. The campaign is not over on the sensors GreyNoise watches, even though the morning&rsquo;s +32 was only miner activity.</li>
+<li><strong>The new staging URL and worker suffix are the actionable additions.</strong> Hunt for the tmpfiles.org URL, the <code>backup109.tgz</code> name and the <code>-m4</code> worker suffix alongside the known pool and cc-url &mdash; but note the staging link sits on a public file host and may not stay live.</li>
+<li><strong>Delft&rsquo;s fourth gap is closed, but the interval is largely unmeasured.</strong> +3 requests across 48 h 36 min cannot distinguish &ldquo;almost no traffic&rdquo; from &ldquo;never replayed&rdquo;. Do not read the flat totals as a quiet network.</li>
+<li><strong>No change to attribution or patching.</strong> No new named victim, no new vendor advisory; KEV&rsquo;s only 17 Nov addition is an unrelated Puppet CVE.</li>
+<li><strong>PHP 8.6.0 GA is due tomorrow, 19 November</strong> &mdash; the event that would close the CVE-2026-115560 watch.</li>
+</ul>
+<p>Sources: <a href="https://php.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; PHP2Shell Activity 2026, live dashboard read 18 Nov 00:58 UTC (1,304 successful exploitations; seven attributed sessions 17 Nov 22:52:54&ndash;23:01:38 UTC; tmpfiles.org staging URL and -m4 worker suffix in those rows; pool 107.178.98.234:3333; latest attributed shell 17 Nov 23:01:38 UTC)</a> &middot; <a href="https://f4n6.co.uk/php2shell/" target="_blank" rel="noopener noreferrer">Delft telemetry feed, checked 17 Nov 22:02 UTC (fourth gap closed after 48 h 36 min; total 89,574; window resumed 17 Nov 17:45:22 UTC)</a> &middot; <a href="https://www.cisa.gov/news-events/alerts/2026/11/17/cisa-adds-one-known-exploited-vulnerability-catalog" target="_blank" rel="noopener noreferrer">CISA &mdash; CISA Adds One Known Exploited Vulnerability to Catalog, 17 Nov 2026 (catalog v2026.11.17, 1,782 entries; CVE-2026-115731 added, unrelated)</a></p>
+<p class="to-contents"><a href="#toc">&uarr; Back to contents</a></p></section>
 
 <section id="update-17-nov">
 <p class="eyebrow">Update &middot; 17 November</p>
