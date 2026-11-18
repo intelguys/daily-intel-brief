@@ -294,6 +294,185 @@
   .paths a:hover { text-decoration: underline; }
 
 
+
+  /* ============================================================
+     Layout — one left-aligned content column.
+
+     Rule: every block shares the same left edge. Prose is
+     measure-limited (~74ch); tables, code, callouts and the board
+     use the full column width. Nothing is centred, because a
+     centred column of varying widths produces the ragged left edge
+     this replaced.
+     ============================================================ */
+
+  :root {
+    --col: 980px;    /* content column — wide blocks run to this */
+    --prose: 74ch;   /* reading measure — prose stops here */
+  }
+
+  .wrap { max-width: calc(var(--col) + 48px); }
+
+  /* ---- masthead ---- */
+  .masthead { text-align: left; padding-top: 22px; margin-bottom: 4px; }
+  .meta-row { justify-content: flex-start; gap: 6px 16px; margin-bottom: 20px; }
+  h1 { margin: 0 0 14px; max-width: 100%; }
+  .subtitle {
+    margin: 0 0 30px; max-width: var(--prose);
+    text-align: left; color: var(--muted); font-size: 1.05rem; line-height: 1.6;
+  }
+
+  /* ---- section headings: shared left edge, generous rhythm ---- */
+  section > .eyebrow,
+  section > h2,
+  section > h3 { text-align: left; margin-inline: 0; max-width: var(--prose); }
+  section > h2 { margin: 46px 0 8px; }
+  section > h3 { margin: 34px 0 6px; }
+  section > h2::after {
+    content: ""; display: block; width: 36px; height: 2px;
+    margin: 14px 0 0; background: var(--accent); opacity: .45;
+  }
+
+  /* ---- prose ---- */
+  section > p,
+  section > ul,
+  section > ol { max-width: var(--prose); margin-inline: 0; text-align: left; }
+  section > p { line-height: 1.72; }
+
+  /* ---- lede ---- */
+  .lede { max-width: var(--prose); }
+
+  /* ---- bottom line: a card on the same left edge ---- */
+  .bluf {
+    text-align: left; max-width: 100%; margin: 26px 0 34px;
+    padding: 22px 26px 20px;
+  }
+  .bluf h2 { margin: 0 0 10px; }
+  .bluf ol { max-width: 100%; margin-inline: 0; padding-left: 1.4em; }
+  .bluf li { max-width: 86ch; text-align: left; }
+
+  /* ---- contents ---- */
+  .toc { max-width: 100%; margin: 12px 0 8px; }
+  .paths { max-width: var(--prose); }
+
+  /* ---- status board ---- */
+  .board { max-width: 100%; }
+  .tile { text-align: left; }
+
+  /* ---- callouts: full column width, same left edge ---- */
+  .callout { margin: 20px 0; max-width: 100%; }
+  .callout p,
+  .callout ul,
+  .callout ol { max-width: none; margin-inline: 0; text-align: left; }
+
+  /* ---- code ---- */
+  .code { max-width: 100%; margin: 14px 0 20px; }
+  .code pre { text-align: left; }
+
+  /* ---- tables ---- */
+  .scroll { max-width: 100%; margin: 10px 0 22px; }
+  th, td { text-align: left; vertical-align: top; }
+  thead th {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+    border-bottom: 1px solid var(--rule); padding-bottom: 8px;
+  }
+  tbody tr:nth-child(even) { background: var(--surface-2); }
+  tbody td { border-bottom: 1px solid var(--rule); }
+  tbody tr:last-child td { border-bottom: 0; }
+
+  /* ---- timeline / sources / figures: left edge ---- */
+  .timeline, .sources, figure, figcaption {
+    max-width: 100%; margin-inline: 0; text-align: left;
+  }
+  .timeline .e, .sources li, .sources .src-meta { text-align: left; }
+  figure svg { max-width: 100%; margin: 0; }
+
+  /* ---- footer ---- */
+  footer { text-align: left; margin-inline: 0; }
+  footer p { margin-inline: 0; max-width: var(--prose); }
+
+  /* long URLs inside prose must not stretch the line */
+  section > p a, .callout p a, .bluf li a { overflow-wrap: anywhere; }
+
+  @media (max-width: 760px) {
+    :root { --col: 100%; --prose: 100%; }
+    .wrap { max-width: 100%; padding-inline: 16px; box-sizing: border-box; }
+    h1 { font-size: 1.9rem; line-height: 1.14; max-width: none; }
+    .subtitle { font-size: .98rem; }
+    .bluf { padding: 18px 16px; }
+    section > h2 { margin-top: 36px; }
+    section > h3 { margin-top: 28px; }
+  }
+
+  /* advisory tables: keep the identifier column from shredding */
+  table.adv td:first-child { min-width: 11.5rem; }
+  table.adv td:first-child code { white-space: nowrap; }
+  table.adv td:first-child .subtle {
+    font-size: 11px; overflow-wrap: anywhere; line-height: 1.45;
+  }
+
+  @media print {
+    .code pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+    section { break-inside: avoid-page; }
+    .toc { display: none; }
+  }
+
+
+/* Visual refresh, 4 Nov 2026 — presentation only. No content, table or figure was changed.
+   All colours come from the page's own --bg/--surface/--rule/--accent/--crit/--warn/--ok variables,
+   so the light and dark themes keep working exactly as before. */
+.reading-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 10001; background: transparent; }
+.reading-progress span { display: block; height: 100%; width: 0; background: var(--accent); }
+/* Sticky contents on desktop; static on mobile so it never eats the screen. */
+.toc { position: sticky; top: 3px; z-index: 100; box-shadow: 0 10px 28px rgba(0,0,0,.10); }
+@media (max-width: 700px) { .toc { position: static; box-shadow: none; } }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+/* Section rhythm: a clear divider between sections, and anchor jumps clear the sticky TOC. */
+section { scroll-margin-top: 150px; }
+section + section { border-top: 1px solid var(--rule); padding-top: 28px; }
+section > p { margin-bottom: 14px; }
+.to-contents { margin-top: 24px; font-size: 13px; }
+.to-contents a { color: var(--muted); text-decoration: none; }
+.to-contents a:hover { text-decoration: underline; color: var(--accent); }
+/* Status board: tiles become cards with air between them, instead of a 1px grid. */
+.board { gap: 12px; background: transparent; border: none; }
+.tile { border: 1px solid var(--rule); border-radius: 8px; }
+.tile .v { font-size: 1.6rem; }
+/* Tables: sticky headers inside their scroll containers, zebra rows, roomier cells. */
+.scroll table th { position: sticky; top: 0; background: var(--surface-2); z-index: 1; }
+.scroll table th, .scroll table td { padding: 10px 12px; }
+.scroll tbody tr:nth-child(even) td { background: var(--surface-2); }
+/* Callouts: a stronger accent edge and a soft shadow, severity colours unchanged. */
+.callout { border-left-width: 5px; border-radius: 6px; box-shadow: 0 2px 14px rgba(0,0,0,.06); }
+/* Timeline: a vertical accent rail, and the date in accent colour. */
+.timeline li { border-left: 3px solid var(--accent); padding-left: 16px; }
+.timeline .t { color: var(--accent); font-weight: 600; }
+/* Collapsible reference sections: open by default, summary is the collapse control. */
+.ref-details summary { cursor: pointer; color: var(--muted); font-size: 13px; margin: 12px 0; }
+.ref-details summary:hover { color: var(--accent); }
+/* Masthead: tighter headline tracking, nothing else changed. */
+.masthead h1 { letter-spacing: -0.02em; }
+
+  /* ---- collapsible dated updates (consolidation, 18 Nov 2026) ---- */
+  .upd-details summary { cursor: pointer; margin: 0 0 6px; }
+  .upd-details summary .eyebrow { display: block; margin-bottom: 4px; }
+  .upd-title {
+    display: block; font-size: clamp(1.32rem, 3vw, 1.66rem); line-height: 1.2;
+    letter-spacing: -.015em; font-weight: 600; text-wrap: balance;
+    max-width: var(--prose);
+  }
+  .upd-details summary:hover .upd-title { color: var(--accent); }
+  .upd-toggle {
+    display: inline-block; font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+    border: 1px solid var(--rule); border-radius: 3px; padding: 2px 7px;
+    margin: 10px 0 4px;
+  }
+  .upd-details summary:hover .upd-toggle { color: var(--accent); border-color: var(--accent); }
+  .upd-details:not([open]) .upd-hide { display: none; }
+  .upd-details[open] .upd-show { display: none; }
+
 </style>
 </head>
 <body>
@@ -403,7 +582,8 @@
       </div>
     </div>
     <p class="subtle" style="font-size:13px; margin-top:4px;">Confidence labels used below: <span class="chip chip-ok">High</span> vendor or government primary, or independently reproduced &middot; <span class="chip chip-warn">Medium</span> single-researcher claim corroborated in part &middot; <span class="chip chip-crit">Low</span> uncorroborated claim, or conflicting reports.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="at-a-glance">
     <p class="eyebrow">At a glance</p>
@@ -417,7 +597,8 @@
       <li><strong>The AI angle.</strong> Calif&rsquo;s Quang Luong found the bug in about an hour using OpenAI&rsquo;s Codex, auditing HotSpot&rsquo;s JIT compiler, intrinsics and cryptography code, and had a first working exploit two hours later, for under $200 in AI token costs. OpenAI co-founder Greg Brockman credited GPT-6 Cyber and said the work was part of OpenAI&rsquo;s Patch the Planet initiative. The <em>New York Times</em> independently verified the vulnerability using proof-of-concept details supplied by Calif.</li>
       <li><strong>Same researchers, second runtime.</strong> Calif disclosed PHP2Shell first &mdash; its write-up opens &ldquo;After we disclosed PHP2Shell, we realized many people didn&rsquo;t know what PHP was. So we decided to go after something a little more familiar: Java.&rdquo; The firm also found Squidbleed, an older Heartbleed cousin in the Squid proxy, earlier in 2026.</li>
     </ul>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="update-18-nov">
     <details class="upd-details" open>
@@ -431,7 +612,8 @@
       <p><strong>First GitHub PoCs.</strong> cve.now counts 13 proofs of concept on GitHub, the first appearing 18 November at 02:15 UTC (Ghost-Bx1/java-exploits, r3dvei1/java4shell). None is linked here: none has been verified as genuine rather than a lookalike or a lure, and Calif&rsquo;s own safe trigger is the only reproducer with a verified provenance.</p>
       <p class="subtle">Sources: Censys advisory; The Hacker News; ThreatDefence; GreyNoise via Malware News; Blackpoint Cyber; Harness; Upwind; cve.now; Korea MSIT/KISA via FN News; NCSC NZ via CVETodo.</p>
     </details>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="update-17-nov">
     <details class="upd-details">
@@ -444,7 +626,8 @@
       <p><strong>17 November.</strong> CISA issued its alert, &ldquo;Critical Java Vulnerability Requires Immediate Patching&rdquo;, with the Canadian Centre for Cyber Security contributing (alert AL26-029, classifying the flaw as a heap-based buffer overflow and reporting no awareness of active exploitation). Red Hat published RHSB-2026-018. Amazon released Corretto 17.0.21.1.2. Wiz said its Atlas AI harness built a proof-of-concept exploit within two hours, before the full details were disclosed, and confirmed remote code execution against Jira, Confluence and Jenkins. Tenable, Sophos and Qualys each reported no known exploitation; Cisco Talos reported none seen.</p>
       <p class="subtle">Sources: Calif; CISA alert; OpenJDK advisory; Oracle November CPU via Censys, Tenable and The Hacker News; Wiz; Red Hat bulletin RHSB-2026-018; Canadian Centre AL26-029 via The Hacker News and CyberScoop reporting.</p>
     </details>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="situation">
     <p class="eyebrow">The vulnerability</p>
@@ -467,14 +650,15 @@ output_mask := bzhiq(-1, output_len)</code></pre>
     <p><strong>Provenance of the code.</strong> The AVX-512 Base64 optimisation was written as JDK-8268276 for JDK 18 and backported to Java 17 as JDK-8296735 in the 17.0.6 update &mdash; which is why 17.0.6 is the boundary and why the vulnerable code has been shipping since January 2023. Endor Labs describes the fix as four lines. The trigger, in full:</p>
     <pre><code>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</code></pre>
     <p class="subtle">On older OpenJDK 17 builds the trigger is 128 <code>A</code> characters followed by <code>=</code>.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="exploitation-status">
     <p class="eyebrow">Exploitation status</p>
     <h2>Demonstrated by the discoverers, disputed in scope, not seen in the wild</h2>
     <p>The central question of this case is not whether the overflow is real &mdash; every lab that tried reproduced it &mdash; but how far it reaches. The table below keeps each party&rsquo;s claim separate from what anyone else confirmed.</p>
     <div class="scroll">
-      <table>
+      <table class="adv">
         <thead><tr><th>Party</th><th>Claim / finding</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td>Calif</td><td>Pre-authentication RCE against Keycloak, Jira, Confluence, Artifactory, Jenkins and PingFederate in default configurations; post-authentication RCE against Kafka Broker, Solr, Elasticsearch, Gerrit and Spinnaker; RCE in Struts and Spring Boot samples; client-side exploit over TLS (samczsun)</td><td><span class="chip chip-warn">Medium</span> &mdash; the discoverer&rsquo;s own testing; not independently confirmed</td></tr>
@@ -491,14 +675,15 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       </table>
     </div>
     <p>Two readings of the same code coexist. Calif and Wiz describe a hard but demonstrated path from heap corruption to code execution, per application, with no universal exploit. Equixly and Harness read the same fault as pre-authentication heap corruption with a demonstrated denial of service, and treat code execution as unproven. Oracle&rsquo;s own scoring sides with the harder reading: CVSS 3.1 8.1 with high attack complexity, described as &ldquo;difficult to exploit&rdquo;. What no party disputes: the overflow is reachable before authentication on any service that decodes attacker-controlled Base64 with the fast intrinsic, and the only complete fix is the patched runtime.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="affected-versions">
     <p class="eyebrow">Scope</p>
     <h2>Affected and fixed versions</h2>
     <p>Three conditions must all hold. Red Hat&rsquo;s bulletin RHSB-2026-018 states them plainly: the runtime is OpenJDK 17.0.6 or later; the processor is x86-64 with AVX-512 VBMI; and the application passes Base64 data that an attacker controls to <code>java.util.Base64.Decoder</code>, without the JVM having been started with AVX-512 disabled. No special configuration is needed &mdash; the fast path is chosen automatically on capable CPUs, so affected systems are vulnerable out of the box.</p>
     <div class="scroll">
-      <table>
+      <table class="adv">
         <thead><tr><th>Java line</th><th>Affected Oracle builds (and likely earlier)</th><th>Fixed Oracle build (17 Nov)</th></tr></thead>
         <tbody>
           <tr><td>Java SE 8 Enterprise Performance Pack</td><td><code>8u511b33-perf</code></td><td><code>8u513-perf</code></td></tr>
@@ -515,14 +700,15 @@ output_mask := bzhiq(-1, output_len)</code></pre>
     <p><strong>Hardware.</strong> Intel Xeon Ice Lake, Sapphire Rapids, Emerald Rapids and Granite Rapids; AMD EPYC and Ryzen Zen 4 and newer (Red Hat also names Zen 5 and Zen 6). On Linux, check whether a host runs the vulnerable path:</p>
     <pre><code>grep -m1 '^flags' /proc/cpuinfo | tr ' ' '\n' | grep -E '^(avx512f|avx512bw|avx512vbmi|bmi2)$'</code></pre>
     <p class="subtle">All four flags must be present. Oracle&rsquo;s list covers only the builds it supports and says earlier versions are likely also affected; do not read Oracle&rsquo;s build numbers onto other distributions &mdash; confirm the fix from your vendor&rsquo;s own release notes.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="vendor-patch-status">
     <p class="eyebrow">Patch rollout</p>
     <h2>Vendor patch status, 18 November</h2>
     <p>Oracle&rsquo;s November Critical Patch Update covers 655 vulnerabilities across its portfolio, 62 of them rated critical. Eleven fixes are in Java SE, all described as remotely exploitable without authentication, with a maximum CVSS 3.1 score of 8.1. Three of the other ten (CVE-2026-114941, CVE-2026-114942 and CVE-2026-114945) affect only the Java 21, 25 and 27 builds Oracle lists. Oracle&rsquo;s advisory does not publish CVE identifiers for the Java fixes, and its release notes for 17.0.21.1 do not name CVE-2026-114938 &mdash; the OpenJDK advisory is the document that ties the CVE to the release.</p>
     <div class="scroll">
-      <table>
+      <table class="adv">
         <thead><tr><th>Distribution</th><th>Status, 18 Nov</th><th>Fixed build</th></tr></thead>
         <tbody>
           <tr><td>Oracle Java SE</td><td><span class="chip chip-ok">Shipped 17 Nov</span></td><td>17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1, 8u513-perf; 11.0.33.1 for other flaws in the same update</td></tr>
@@ -537,14 +723,15 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       </table>
     </div>
     <p>Until a vendor&rsquo;s fixed build ships, the JVM flags in the <a href="#action-plan">action plan</a> are the mitigation. Berkeley&rsquo;s Information Security Office, citing Oracle and the OpenJDK advisory, lists the same Oracle replacement builds; Oracle advises moving every line, including 8 and 11, to the November releases, because the update fixes other flaws beyond this CVE.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="demonstrated-apps">
     <p class="eyebrow">Demonstrated impact</p>
     <h2>Applications Calif says it exploited</h2>
     <p>These are Calif&rsquo;s results from its own testing, in the applications&rsquo; default configurations. They have not been independently confirmed, and Calif stresses the lists are non-exhaustive: any endpoint that Base64-decodes attacker-controlled bytes is a candidate. Wiz confirmed remote code execution against three of the six pre-authentication applications &mdash; Jira, Confluence and Jenkins.</p>
     <div class="scroll">
-      <table>
+      <table class="adv">
         <thead><tr><th>Pre-authentication RCE (Calif)</th><th>What it is</th></tr></thead>
         <tbody>
           <tr><td>Keycloak</td><td>Identity and access management; single sign-on for staff and customers</td></tr>
@@ -557,7 +744,7 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       </table>
     </div>
     <div class="scroll">
-      <table>
+      <table class="adv">
         <thead><tr><th>Post-authentication RCE (Calif)</th><th>What it is</th></tr></thead>
         <tbody>
           <tr><td>Apache Kafka Broker</td><td>Event streaming; the backbone of many payment and messaging pipelines</td></tr>
@@ -569,7 +756,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       </table>
     </div>
     <p>Calif also demonstrated RCE in sample applications built on Apache Struts and Spring Boot, and reports a client-side case: researcher samczsun shared an exploit in which a Java program that opens a TLS connection to a malicious server can be compromised, even if it exposes no service of its own. Ordinary features such as authentication and file uploads can expose the vulnerable decoder &mdash; Base64 decoding runs almost anywhere a Java service parses input: authentication tokens, file uploads, network messages. Harness notes that HTTP Basic credentials, JWT segments and SASL tokens all pass through <code>java.util.Base64</code> while the caller is still anonymous.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="poc-ecosystem">
     <p class="eyebrow">Exploit availability</p>
@@ -577,7 +765,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
     <p><strong>Calif&rsquo;s safe trigger.</strong> Calif published a self-contained proof of concept in its write-up. It warms the Base64 decoder until the vulnerable intrinsic is used, then decodes the malformed <code>64 &times; &ldquo;A&rdquo; + &ldquo;=&rdquo;</code> input into a 4096-byte array. On an affected JDK it prints <code>REPRODUCED</code>: the decoder rejects the input, but 62 bytes (offsets 50 to 111) past the decoded output have already been overwritten. Every write lands inside a real array, so the trigger is safe to run. The product-specific exploits &mdash; the weaponised chains for individual products &mdash; stay private until everyone has had a chance to upgrade; Calif says it will publish them later.</p>
     <p><strong>GitHub.</strong> cve.now counts 13 proofs of concept on GitHub, the first appearing on 18 November at 02:15 UTC (Ghost-Bx1/java-exploits, r3dvei1/java4shell). <strong>None is linked here.</strong> None has been verified as the genuine reproducer rather than a lookalike or a lure, and the PoC-link rule for this project is to verify author, date and contents before linking. Calif&rsquo;s write-up, which contains the trigger inline, is the verified source.</p>
     <p><strong>Detection tooling.</strong> Harness published a runtime checker script (linked from its blog) that compares each local JDK against the October 2026 advisory builds to report whether a host is vulnerable. Wiz customers can use a pre-built query and advisory in the Wiz Threat Center to search for vulnerable instances. Endor Labs describes the fix itself as four lines.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="detection">
     <p class="eyebrow">Detection and hunting</p>
@@ -589,7 +778,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       <li><strong>Heap-corruption symptoms.</strong> Neighbouring-object corruption can surface as wrong data in responses, corrupted tokens, or application logic behaving as if its inputs changed &mdash; the data-only attacks Calif describes. JavaBleed-style disclosure would surface as heap contents (PII, keys, tokens) appearing where they should not.</li>
       <li><strong>Exposure inventory.</strong> The CPU-flag check above establishes whether a host can run the vulnerable path; the runtime checker from Harness compares installed JDKs against the affected builds. WAF rules can help against some exploits as they emerge, but Wiz warns they are unlikely to cover all paths &mdash; the vulnerable code sits behind any endpoint that decodes Base64, including home-grown applications &mdash; and will never cover them completely.</li>
     </ul>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="action-plan">
     <p class="eyebrow">Action plan</p>
@@ -601,7 +791,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       <li><strong>Compensating controls.</strong> Where immediate patching is not feasible, CISA recommends restricting and validating Base64 input at the application boundary, enforcing input-size limits, and limiting unauthenticated access. Wiz recommends temporarily restricting external network access to vulnerable management portals (Jira, Jenkins, Keycloak) until mitigations or updates are deployed.</li>
       <li><strong>Do not rely on the network edge.</strong> WAF rules and request-body buffering (nginx buffers bodies by default) blunt some attack profiles, not all: Elasticsearch runs from one complete request, and WebSocket frames pass through a tunnel after upgrade. Treat edge controls as delay, not defence.</li>
     </ol>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="bfsi">
     <p class="eyebrow">BFSI relevance</p>
@@ -610,7 +801,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
     <p>Java runs the sector. Calif puts it bluntly in its write-up: Java powers 90% of Fortune 500 companies, and &ldquo;banking, aviation, telecommunications, nearly every critical sector runs on Java, including national security systems.&rdquo; Core banking systems, payment switches, trading platforms, messaging and event-streaming backbones (Kafka is on Calif&rsquo;s post-authentication list) and the identity layer all commonly run on the JVM. Two of the six products Calif says it took over without logging in are identity systems &mdash; Keycloak and PingFederate &mdash; the single sign-on that guards staff access to everything else. Jenkins, Jira and Confluence are standard tooling inside financial IT. A runtime flaw needs no vulnerable application: any Java service that decodes attacker-controlled Base64 on affected hardware is a candidate, and Base64 is how authentication tokens, file uploads and network messages are commonly represented.</p>
     <p>The practical exposure for a bank is the same inventory trap CISA describes, sharpened by the sector&rsquo;s vendor estate: Java runtimes bundled inside third-party products, core-banking appliances and container images, on patch cycles the bank does not control, with the vendor&rsquo;s fixed build as the only route. Red Hat&rsquo;s bulletin naming Azure D-series instance families shows the exposure extends into cloud estates banks rent rather than own. Patch the runtime you run, chase the runtime your vendors run, and treat the two JVM flags as the bridge where a vendor&rsquo;s build has not shipped &mdash; Red Hat and Temurin are the two that matter most on 18 November.</p>
     <p class="subtle">Covered in the daily brief of 18 November 2026 (<a href="11182026.html">11182026.html</a>) as the edition&rsquo;s lead vulnerability; this page is the deep-research record for it.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="exposure">
     <p class="eyebrow">Exposure</p>
@@ -623,7 +815,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       <li>The vulnerable path is chosen automatically on capable CPUs. No configuration is needed to be exposed, and no configuration short of the JVM flags or the patch removes the exposure.</li>
     </ul>
     <p>Exposure is therefore best measured per estate &mdash; how many of your JVMs run 17.0.6 or later on AVX-512 VBMI hardware, including the ones inside vendor products &mdash; rather than from any global count. If a global count appears, it belongs here with its methodology, not as a bare number.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="timeline">
     <p class="eyebrow">Timeline</p>
@@ -640,14 +833,15 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       <li><strong>18 November, 02:15 UTC.</strong> The first public exploit code appears on GitHub (cve.now).</li>
       <li><strong>18 November.</strong> GreyNoise detects probing requests, with no confirmed successful attack. Blackpoint, Harness and Upwind publish independent reproductions (crash and local heap disclosure; no remote RCE). Immersive says it built its own working exploit. Korea&rsquo;s MSIT/KISA urge urgent checks; New Zealand&rsquo;s NCSC issues an alert. Azul and SAP builds ship; Red Hat and Temurin fixed builds remain pending. No exploitation in the wild reported; not in CISA KEV.</li>
     </ul>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="confidence">
     <p class="eyebrow">Confidence calibration</p>
     <h2>What is settled, and what is not</h2>
     <p>The standing rule for this project is to state what is missing rather than round up. On day two, root cause, affected range and fixed builds are settled; the reach of exploitation is not.</p>
     <div class="scroll">
-      <table>
+      <table class="adv">
         <thead><tr><th>Claim</th><th>Confidence</th><th>Why</th></tr></thead>
         <tbody>
           <tr><td>The overflow exists, in the AVX-512 Base64 intrinsic, with the stated trigger</td><td><span class="chip chip-ok">High</span></td><td>Calif&rsquo;s write-up with pseudocode and trigger; OpenJDK and Oracle confirm the component; Blackpoint, Harness and Upwind reproduced the overflow independently</td></tr>
@@ -663,7 +857,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
         </tbody>
       </table>
     </div>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="lessons-learnt">
     <p class="eyebrow">Lessons learnt</p>
@@ -681,7 +876,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
     <p>Calif&rsquo;s caveat is genuine &mdash; each target needs its own chain &mdash; but it is not reassurance. It means there is no single signature to detect and no single patch to the application layer; it also means a motivated adversary can tailor the chain per target, with AI, for the products that matter most. The absence of a generic exploit is not the absence of risk.</p>
     <h3>Withheld exploits buy time only if patching uses it</h3>
     <p>Calif is holding its product chains back until users have had a chance to upgrade, and other labs have so far reproduced crashes rather than shells. That window is measured in days: probing has already begun, GitHub PoCs are appearing, and a second firm says it has built its own working exploit. The value of the delay is spent on patching, not on reassurance.</p>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
   <section id="sources">
     <p class="eyebrow">Source register</p>
@@ -713,7 +909,8 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       <li><span class="src-title"><a href="11182026.html">Daily BFSI Cyber Threat Intelligence Briefing &mdash; 18 November 2026</a></span><span class="src-meta">This project &middot; 18 Nov &middot; Java4Shell as the edition&rsquo;s lead vulnerability; the daily-brief record of the same disclosure</span></li>
     </ul>
     </details>
-  </section>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
 
 </div>
 
