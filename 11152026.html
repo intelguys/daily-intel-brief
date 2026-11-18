@@ -93,16 +93,17 @@ section{margin-top:44px}
 .vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
 .vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
 table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
-th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:none}
-td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:nowrap}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:normal}
 .score{font-weight:700}
 .score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
 .status{font-size:.78rem;font-weight:700}
 .status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
 .count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
 
+.table-scroll{overflow-x:auto}
 /* Two-col panels */
 .panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
@@ -176,7 +177,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <section aria-labelledby="actors-h">
 <div class="sec-head"><h2 id="actors-h">Threat actor activity</h2><p>Confirmed, reported and unconfirmed items are labelled as such. No MITRE mapping is shown where the source published none.</p></div>
 <div class="filters"><button type="button" data-filter="all">All</button><button type="button" data-filter="confirmed">Confirmed</button><button type="button" data-filter="reported">Reported / unconfirmed</button></div>
-<div class="actor-grid">
+<div class="actor-grid" id="actorGrid">
 
 <div class="actor" data-status="confirmed">
 <div class="badges"><span class="badge red">New</span><span class="badge teal">Confirmed</span></div>
@@ -314,8 +315,8 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="vuln-h">
 <div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>No new CISA KEV additions were made on 14 November. The catalogue stands at 1,781 entries (version 2026.11.13). A claim that CVE-2026-5430 (WSO2) and CVE-2026-71362 (Adobe) were added on 14 Nov is wrong — both were added on 24 September 2026. The two 13 November additions (CVE-2026-123039 and CVE-2026-114713) are not carried forward: no new attribution, IOCs or PoC appeared in-window, and a due date alone is not a new development under the standing rule — the Check Point November Jumbo Hotfix remains a live patching action (see Indicators &amp; defensive actions).</p></div>
-<div class="vuln-tools"><input type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
-<table>
+<div class="vuln-tools"><input id="vulnSearch" type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
+<div class="table-scroll"><table id="vulnTable">
 <thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-6460 — NEW, catch-up</td><td class="score high" data-l="CVSS score">8.8</td><td data-l="Affected product">PostgreSQL 14–18 (flaw dates to 2004)</td><td data-l="Exploitation status">Public partial PoC — in-the-wild exploitation not reported</td><td data-l="Relevance to finance">Catch-up — patch published 12 Nov, researcher write-up 13 Nov; missed by the 14 November edition. A type-confusion flaw in PostgreSQL core (composite types plus <span class="mono">ALTER TYPE</span> between PREPARE and EXECUTE) lets an authenticated database user with object-creation privileges execute arbitrary code as the OS user running the database server. CVSS 8.8. It was one of 52 flaws fixed in the 12 Nov release (32 scored 8.8); the researcher traces the primitive to May 2004 — effectively every PostgreSQL since then. Researcher Mehmet Ince published the crash PoC and address-leak steps on 13 Nov and deliberately withheld the final RCE step, so there is a public partial PoC, not a copy-paste weapon. Full protection also requires rebuilding C-language extensions. PostgreSQL 14 is now end-of-life (14.25 is its last release). Sibling flaw CVE-2026-116322 lets an unauthenticated client trigger a restart of PostgreSQL 18 servers (denial of service). Not in CISA KEV. PostgreSQL underpins many banking and fintech stacks; authenticated RCE as the database OS user is a high-priority patch.</td></tr>
@@ -348,7 +349,8 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <tr><td class="cve" data-l="CVE ID">CVE-2026-58115 — carried</td><td class="score crit" data-l="CVSS score">10.0</td><td data-l="Affected product">Node-RED / Siemens IoT2050</td><td data-l="Exploitation status">In the Wild</td><td data-l="Relevance to finance">No change in-window. Port 1880 without adminAuth remains an active target. Siemens scope revision noted 8 Nov (more SIMATIC IoT2050 models).</td></tr>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-111497 — carried</td><td class="score high" data-l="CVSS score">9.2</td><td data-l="Affected product">Google Brotli; Cisco and Splunk products (Node2Shell)</td><td data-l="Exploitation status">In the Wild (KEV)</td><td data-l="Relevance to finance">No change in-window. Scope as of 5 Nov: 19 Cisco products affected, dozens under investigation, about a dozen Splunk products also affected. Same Brotli root cause also affects ClickHouse. KEV federal due date fell 10 November, but per the KEV rule a deadline alone is not a new development. Qualys published detection/verification guidance for PHP2Shell and Node2Shell on 12 Nov (four non-intrusive QIDs, two intrusive verification QIDs) and reports 167 million PHP installations across 10,000+ customers; attackers probed PHP2Shell four days before a patch existed.</td></tr>
 </tbody>
-</table>
+</table></div>
+<p class="count-note" id="vulnCount">Showing all 29 watchlist rows.</p>
 </section>
 
 <section aria-labelledby="supply-h">
@@ -419,7 +421,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="ttp-h">
 <div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No mapping is shown where the source published none.</p></div>
-<table>
+<div class="table-scroll"><table>
 <thead><tr><th>MITRE technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">Credential phishing impersonating Microsoft 365 service-health notifications, citing the real incident ID EX1550543</td><td data-l="Seen in this edition">Microsoft Threat Intelligence alert, 13 Nov (reported 14 Nov)</td><td data-l="BFSI relevance / detection note">Direct: corporate M365 credential phishing timed to degraded Defender XDR / Safe Links monitoring. Detect on &ldquo;Outage – [six-character code]&rdquo; subjects and the sender domains <span class="mono">moments-notice.com</span>, <span class="mono">planetmaison.com</span>, <span class="mono">newbooker.com</span>.</td><td data-l="Status">No mapping published</td></tr>
@@ -427,7 +429,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">N-able 4EverAble2Shell / Agent2Shell chains (HF3 still in validation)</td><td data-l="Seen in this edition">N-able status, 14 Nov</td><td data-l="BFSI relevance / detection note">RMM used by MSPs serving small banks. The Legacy API remains the gating control; Hotfix 2 does not fix the new chains. No new vendor-published mapping in this window; the secondary-summary IDs (T1190, T1072, T1136, T1552, T1496, T1068) were published on 13 Nov, not in this window, and are not carried forward as a new sighting.</td><td data-l="Status">No mapping published</td></tr>
 <tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">Unauthorised access and data viewing at financial-sector portals and mutual-aid sites (Monex, AXA, KOMSCO, KBIZ)</td><td data-l="Seen in this edition">Company disclosures, 13–14 Nov</td><td data-l="BFSI relevance / detection note">No intrusion detail was published for any of the four, so no technique can be mapped; detection rests on the companies&rsquo; own notices and the fraud-watch indicators. Two of the four breaches ran through a supplier&rsquo;s system.</td><td data-l="Status">No mapping published</td></tr>
 </tbody>
-</table>
+</table></div>
 <p class="small muted" style="margin-top:12px"><strong>Recurring-TTP watch:</strong> the techniques that keep recurring across editions are exploitation of internet-facing management and edge interfaces (RMM panels, gateways, VPNs), weak or default credentials on exposed services (SQL Server 1433, FortiGate VPNs), abuse of trusted third-party channels (MSP remote-access tools, email-delivery and CI/CD services), and now outage-themed credential phishing timed to degraded defences. No technique was published with a MITRE ID in this window — that gap is stated, not filled.</p>
 </section>
 
@@ -584,5 +586,36 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <footer><p>BFSI Cyber Threat Intelligence Briefing — Sunday 15 November 2026. Window approximately 14 November 09:00 SGT to 15 November 09:00 SGT. Items are included only where reporting, an update or a follow-up fell in that window; gaps and conflicts are stated rather than smoothed over. Sources are hyperlinked to the original vendor, government or primary reporting; translated items link to the original-language article.</p></footer>
 </div>
 <style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#1c1e22;color:#fff !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style>
-<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a></body>
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a><script>
+(function(){
+  var actorBtns=document.querySelectorAll('.filters [data-filter]');
+  var cards=document.querySelectorAll('#actorGrid .actor');
+  actorBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      actorBtns.forEach(function(b){b.setAttribute('aria-pressed','false');});
+      btn.setAttribute('aria-pressed','true');
+      var f=btn.getAttribute('data-filter');
+      cards.forEach(function(card){
+        card.style.display=(f==='all'||card.getAttribute('data-status')===f)?'':'none';
+      });
+    });
+  });
+  if(actorBtns.length){actorBtns[0].setAttribute('aria-pressed','true');}
+  var search=document.getElementById('vulnSearch');
+  var rows=document.querySelectorAll('#vulnTable tbody tr');
+  var count=document.getElementById('vulnCount');
+  function applyVuln(){
+    var q=(search.value||'').trim().toLowerCase();
+    var shown=0;
+    rows.forEach(function(row){
+      var vis=!q||row.textContent.toLowerCase().indexOf(q)!==-1;
+      row.style.display=vis?'':'none';
+      if(vis)shown++;
+    });
+    if(count){count.textContent=shown===rows.length?'Showing all '+rows.length+' watchlist rows.':'Showing '+shown+' of '+rows.length+' watchlist rows.';}
+  }
+  if(search){search.addEventListener('input',applyVuln);applyVuln();}
+})();
+</script>
+</body>
 </html>

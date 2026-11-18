@@ -93,16 +93,17 @@ section{margin-top:44px}
 .vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
 .vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
 table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
-th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:none}
-td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:nowrap}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:normal}
 .score{font-weight:700}
 .score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
 .status{font-size:.78rem;font-weight:700}
 .status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
 .count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
 
+.table-scroll{overflow-x:auto}
 /* Two-col panels */
 .panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
@@ -176,7 +177,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <section aria-labelledby="actors-h">
 <div class="sec-head"><h2 id="actors-h">Threat actor activity</h2><p>Confirmed, reported and unconfirmed items are labelled as such. No MITRE mapping is shown where the source published none.</p></div>
 <div class="filters"><button type="button" data-filter="all">All</button><button type="button" data-filter="confirmed">Confirmed</button><button type="button" data-filter="reported">Reported / unconfirmed</button></div>
-<div class="actor-grid">
+<div class="actor-grid" id="actorGrid">
 
 <div class="actor" data-status="confirmed">
 <div class="badges"><span class="badge red">New</span><span class="badge teal">Confirmed</span></div>
@@ -324,8 +325,8 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="vuln-h">
 <div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>Two CISA KEV additions were made on 13 November. The catalogue stands at 1,781 entries (version 2026.11.13). The Barracuda pair (CVE-2026-116606 / CVE-2026-111560) and Ivanti CVE-2026-118527 fell due on 13 November with no new attribution, IOCs or PoC in-window — per the standing rule a due date alone is not a new development, so they are not carried forward as watchlist rows.</p></div>
-<div class="vuln-tools"><input type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
-<table>
+<div class="vuln-tools"><input id="vulnSearch" type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
+<div class="table-scroll"><table id="vulnTable">
 <thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-123039 — NEW KEV 13 Nov</td><td class="score high" data-l="CVSS score">7.8</td><td data-l="Affected product">Check Point Security Gateways (Gaia DynamicCLI)</td><td data-l="Exploitation status">In the Wild (KEV, due 16 Nov)</td><td data-l="Relevance to finance">New in-window (CISA KEV addition, 13 Nov). Local privilege escalation in Gaia DynamicCLI, chained with PHP2Shell (CVE-2026-109618/109619) in the Mobile Access Portal to gain root on unpatched Security Gateways. Check Point reported exploitation from 30 Oct to 4 Nov, &ldquo;a couple of dozen&rdquo; systems in one region. Fix is the November Jumbo Hotfix: R82.20 Take 14, R82.10 Take 52, R82 Take 132, R81.20 Take 174 or later; stopping <span class="mono">dynamic_server</span> is a temporary mitigation. No standalone PoC reported — exploitation is via the chained PHP2Shell flaw. KEV ransomware use: Unknown. <strong>Verification limit:</strong> the live CISA feed fetched during this run was a stale cached copy (1 Nov); the addition is confirmed by three independent KEV trackers (Carthage Electronics, Axis Intelligence, EastBayCyber) agreeing on the date, catalogue version 2026.11.13 and 1,781 entries — see Could not verify.</td></tr>
@@ -359,7 +360,8 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <tr><td class="cve" data-l="CVE ID">CVE-2026-58115 — carried</td><td class="score crit" data-l="CVSS score">10.0</td><td data-l="Affected product">Node-RED / Siemens IoT2050</td><td data-l="Exploitation status">In the Wild</td><td data-l="Relevance to finance">No change in-window. Port 1880 without adminAuth remains an active target. Siemens scope revision noted 8 Nov (more SIMATIC IoT2050 models).</td></tr>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-111497 — carried</td><td class="score high" data-l="CVSS score">9.2</td><td data-l="Affected product">Google Brotli; Cisco and Splunk products (Node2Shell)</td><td data-l="Exploitation status">In the Wild (KEV)</td><td data-l="Relevance to finance">No change in-window. Scope as of 5 Nov: 19 Cisco products affected, dozens under investigation, about a dozen Splunk products also affected. Same Brotli root cause also affects ClickHouse. KEV federal due date fell 10 November, but per the KEV rule a deadline alone is not a new development. Qualys published detection/verification guidance for PHP2Shell and Node2Shell on 12 Nov (four non-intrusive QIDs, two intrusive verification QIDs) and reports 167 million PHP installations across 10,000+ customers; attackers probed PHP2Shell four days before a patch existed.</td></tr>
 </tbody>
-</table>
+</table></div>
+<p class="count-note" id="vulnCount">Showing all 30 watchlist rows.</p>
 </section>
 
 <section aria-labelledby="supply-h">
@@ -435,7 +437,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="ttp-h">
 <div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No mapping is shown where the source published none.</p></div>
-<table>
+<div class="table-scroll"><table>
 <thead><tr><th>MITRE technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="MITRE technique ID">T1046, T1110.001, T1505.001, T1059.003, T1059.005, T1105, T1071.001, T1071.002, T1095, T1053.005, T1543.003, T1547.001, T1036.005, T1027.002, T1496, T1562.002, T1057, T1082, T1012, T1112</td><td data-l="Technique / behaviour">Network service discovery; password guessing; SQL stored procedures; Windows command shell and Visual Basic; ingress tool transfer; web protocols and file transfer protocols; non-application-layer protocol; scheduled task/job; Windows service; registry run keys / startup folder; masquerading; obfuscated files; resource hijacking (Monero mining); impair defences; system information discovery; system information discovery (registry); modify registry</td><td data-l="Seen in this edition">FortiGuard Labs T-SQL campaign against internet-exposed Microsoft SQL Server (published 12 Nov; catch-up — not in the 13 November edition)</td><td data-l="BFSI relevance / detection note">Direct: SQL Server underpins core banking and payment back-ends. The campaign brute-forces TCP 1433 with a 2,700+ password list (users <span class="mono">sa</span>, <span class="mono">admin</span>), enables xp_cmdshell, then drops an XMRig miner and a Gh0st RAT variant. Detect on failed 1433 logins, xp_cmdshell enablement and scheduled tasks mimicking Microsoft Edge Update. No SQL Server vulnerability is involved — this is a configuration failure, not a patch failure.</td><td data-l="Status">Confirmed</td></tr>
@@ -444,7 +446,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">Agentic intrusion via ARTEX and related frameworks (planner/worker LLM agents, autonomous exploitation and credential theft)</td><td data-l="Seen in this edition">FBI FLASH-20261113-001; Cisco Talos ARTEX post (13 Nov)</td><td data-l="BFSI relevance / detection note">Financial services explicitly named. Neither source publishes a MITRE mapping, so no IDs are shown — do not invent one. Detection rests on the behavioural indicators in the FLASH: sub-second Azure capability checks and test blob write/delete, ARM deployment dry-runs, AWS DryRun probes, lookups to <span class="mono">api.db-ip[.]com</span>, output to rotating webhook.site URLs, unexpected egress to LLM APIs and self-hosted gateways (CLIProxyAPI, New API), and new 100 GB volumes before exfiltration.</td><td data-l="Status">No mapping published</td></tr>
 <tr><td class="cve" data-l="MITRE technique ID">— none published</td><td data-l="Technique / behaviour">Rogue ScreenConnect client deployment; session-cookie theft (RelayTrap); technician-workstation trap</td><td data-l="Seen in this edition">Microsoft SCKit teardown; Huntress second wave (13 Nov)</td><td data-l="BFSI relevance / detection note">MSP supply-chain risk for banks and insurers. No MITRE mapping was published in the Microsoft post. Hunt for the TrapWatch scheduled task, the <span class="mono">sckit-decoder.ps1</span> artefact, the <span class="mono">c=Exploited&lt;N&gt;</span> client markers and the domains in the Indicators section.</td><td data-l="Status">No mapping published</td></tr>
 </tbody>
-</table>
+</table></div>
 <p class="small muted" style="margin-top:12px"><strong>Recurring-TTP watch:</strong> the techniques that keep recurring across editions are exploitation of internet-facing management and edge interfaces (RMM panels, gateways, VPNs), weak or default credentials on exposed services (SQL Server 1433, FortiGate VPNs), and abuse of trusted third-party channels (MSP remote-access tools, email-delivery and CI/CD services). No technique was published with a MITRE ID for the ARTEX or SCKit items in this edition — that gap is stated, not filled.</p>
 </section>
 
@@ -600,5 +602,36 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <footer><p>BFSI Cyber Threat Intelligence Briefing — Saturday 14 November 2026. Window approximately 13 November 09:00 SGT to 14 November 09:00 SGT. Items are included only where reporting, an update or a follow-up fell in that window; gaps and conflicts are stated rather than smoothed over. Sources are hyperlinked to the original vendor, government or primary reporting; translated items link to the original-language article.</p></footer>
 </div>
 <style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#1c1e22;color:#fff !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style>
-<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a></body>
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a><script>
+(function(){
+  var actorBtns=document.querySelectorAll('.filters [data-filter]');
+  var cards=document.querySelectorAll('#actorGrid .actor');
+  actorBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      actorBtns.forEach(function(b){b.setAttribute('aria-pressed','false');});
+      btn.setAttribute('aria-pressed','true');
+      var f=btn.getAttribute('data-filter');
+      cards.forEach(function(card){
+        card.style.display=(f==='all'||card.getAttribute('data-status')===f)?'':'none';
+      });
+    });
+  });
+  if(actorBtns.length){actorBtns[0].setAttribute('aria-pressed','true');}
+  var search=document.getElementById('vulnSearch');
+  var rows=document.querySelectorAll('#vulnTable tbody tr');
+  var count=document.getElementById('vulnCount');
+  function applyVuln(){
+    var q=(search.value||'').trim().toLowerCase();
+    var shown=0;
+    rows.forEach(function(row){
+      var vis=!q||row.textContent.toLowerCase().indexOf(q)!==-1;
+      row.style.display=vis?'':'none';
+      if(vis)shown++;
+    });
+    if(count){count.textContent=shown===rows.length?'Showing all '+rows.length+' watchlist rows.':'Showing '+shown+' of '+rows.length+' watchlist rows.';}
+  }
+  if(search){search.addEventListener('input',applyVuln);applyVuln();}
+})();
+</script>
+</body>
 </html>
