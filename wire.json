@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "One vendor platform exposed several Japanese financial firms at once. The leaked fields at the banks are non-identifying in isolation, so the immediate risk is impersonation and phishing using the leaked data — Plaid has warned of fake emails using its name, and the banks warn customers about suspicious calls and emails impersonating them. Plaid has told KARTE clients to revoke leaked integration keys and access tokens at once, warning that otherwise data in connected services could be altered or leaked. No passwords, PINs or account numbers leaked at the financial firms, and the banks' own systems were not breached, so the immediate risk is social engineering rather than direct account takeover.",
+      "headline": "Plaid KARTE supply-chain breach reaches MUFG Bank (about 6.5 million records) and three more Japanese financial firms",
+      "id": "breaking-plaid-karte-mufg-20261118",
+      "known": "Plaid Inc. said on 16 November 2026 that in the early hours of 13 November an attacker exploited a vulnerability in its servers to steal credentials for its systems and databases, read data out of its databases, and took over a Plaid account to get into the admin console. Plaid detected the intrusion at 08:59 JST on 13 November and finished containing it by about 15:23. It has confirmed three kinds of leaked data: 79,249 email addresses registered as KARTE accounts, the secret keys and access tokens customers use to connect KARTE to other services, and part of the customer data companies loaded into KARTE through its 'linking table' feature. Plaid says it is reporting the breach to Japan's Personal Information Protection Commission and consulting the police; KARTE remains shut down with no restore date as of 18 November. MUFG Bank, Japan's largest bank, announced on 18 November that about 6.5 million customer records leaked via KARTE — gender, age and prefecture/region — with nothing that identifies or contacts a customer, and no misuse confirmed (Yomiuri Shimbun via Livedoor News, 18 November 2026, 16:20 JST, translated from Japanese). Mitsubishi UFJ Morgan Stanley Securities announced the same day that about 280,000 records leaked — gender and age-band only, no identifying data — and has stopped its data link to Plaid; its own systems were not breached (Nikkin ONLINE, 18 November 2026, 13:53 JST, translated from Japanese). Higo Bank disclosed up to 377,194 records — app customer-management number plus date of birth, with no name, address, account number, PIN or balance (Nikkin ONLINE, 18 November 2026, 15:09 JST, translated from Japanese). MUFG Trust Bank disclosed about 230,000 records — generated identifier, gender and email-registration flag, plus some LINE IDs and survey answers; no name, address, email address, account number, PIN or password (bank notice, 18 November 2026, exact time not established). Robo-adviser WealthNavi disclosed about 910,000 customers' internal ID code, year and month of birth and prefecture, timing unconfirmed. Published counts across all KARTE clients top 62 million records, but that includes non-BFSI retail (eyewear chain JINS up to 18.29 million, Shimamura about 7 million) and is not a banking figure. Rakuten Securities' leak, disclosed 17 November, came from its own test environment and is a separate incident, already on the wire.",
+      "severity": "high",
+      "source_name": "Yomiuri Shimbun via Livedoor News, 18 November 2026 (translated from Japanese); Nikkin ONLINE, 18 November 2026 (translated from Japanese); Plaid Inc. notice, 16 November 2026",
+      "source_url": "https://news.livedoor.com/topics/detail/32846366/",
+      "status": "confirmed",
+      "summary": "MUFG Bank announced on 18 November 2026 that about 6.5 million customer records leaked after an attacker exploited a server vulnerability at Plaid Inc. and stole data from its KARTE customer-experience platform. Mitsubishi UFJ Morgan Stanley Securities (about 280,000 records), Higo Bank (up to 377,194) and MUFG Trust Bank (about 230,000) disclosed same-day KARTE leaks from the same incident. The leaked fields at the banks are non-identifying in isolation — no names, account numbers, passwords or PINs — and no misuse has been confirmed; the banks' own systems were not breached.",
+      "timestamp_sgt": "2026-11-18T16:00:00+08:00",
+      "type": "Supply-chain breach — Plaid KARTE platform, Japanese financial firms",
+      "unknown": "Which vulnerability Plaid's servers were exploited through (Plaid has not named it); how long the attacker was inside before 13 November; how many companies and people are affected in total; whether any leaked key or token has been used against a connected service; when KARTE will return."
+    },
+    {
       "bfsi_impact": "Japan's largest online broker; the leaked data — names, withdrawal bank accounts, declared income and financial assets for up to about 4.47 million accounts, plus login IDs for up to about 11.25 million more, a total of up to about 15.7 million accounts — enables highly targeted phishing and fraud against millions of investors. Firms should watch for impersonation and phishing using Rakuten Securities customer details, and customers should verify any message citing the incident through known channels. No passwords or PINs are confirmed leaked, so the immediate risk is impersonation and social engineering rather than direct account takeover.",
       "headline": "Rakuten Securities confirms leak of up to about 15.7 million accounts' data; up to 4.47 million with bank-account and income data",
       "id": "breaking-rakuten-securities-20261117",
@@ -1501,8 +1515,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-18T12:00:00+08:00",
-  "next_check_sgt": "2026-11-18T16:00:00+08:00",
-  "updated_sgt": "2026-11-18T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-18T16:00:00+08:00",
+  "next_check_sgt": "2026-11-18T20:00:00+08:00",
+  "updated_sgt": "2026-11-18T16:00:00+08:00",
   "version": 1
 }
