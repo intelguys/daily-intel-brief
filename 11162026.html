@@ -26,7 +26,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   font-size:16px;line-height:1.55;}
-.wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
 h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
 h2{font-size:1.55rem;margin:0 0 6px}
 h3{font-size:1.12rem}
@@ -92,7 +92,7 @@ section{margin-top:44px}
 .vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
 .vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
 .vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
 th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:none}
@@ -306,7 +306,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <section aria-labelledby="vuln-h">
 <div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>No new CISA KEV additions were made on 14, 15 or 16 November. The catalogue stands at 1,781 entries (version 2026.11.13). The two 13 November additions (CVE-2026-123039 Check Point, CVE-2026-114713 UnrealIRCd) fall due today, 16 November, and are not carried as rows: both were covered in earlier editions and there is no new attribution, IOC or PoC — a due date alone is not a new development under the standing rule. The Check Point November Jumbo Hotfix remains a live patching action (see Indicators &amp; defensive actions).</p></div>
 <div class="vuln-tools"><input id="vulnSearch" type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
-<div class="table-scroll"><table id="vulnTable">
+<div class="table-scroll"><table id="vulnTable"><colgroup><col style="width:24%"><col style="width:8%"><col style="width:18%"><col style="width:14%"><col style="width:36%"></colgroup>
 <thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-121653 — NEW, public exploit reported</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">Ivanti Endpoint Manager Core, 2024 SU7 and earlier</td><td data-l="Exploitation status">Public PoC — in-the-wild exploitation not confirmed</td><td data-l="Relevance to finance">Unauthenticated SQL injection leading to remote code execution on the endpoint-management server. Fix: EPM 2024 SU8; no workaround published. Ivanti notes it is not externally exploitable in dual-NIC deployments and says it is not aware of any customers being exploited. A public exploit was reported on 12 Nov, and VulnCheck added the CVE to its KEV feed on 15 Nov — that is VulnCheck&rsquo;s feed, not CISA KEV; do not present it as a CISA listing. Not in CISA KEV. The specific PoC repository URL could not be established from the sources read — do not link a repo for this CVE. Sibling critical in the same 10 Nov batch: CVE-2026-121683 (9.4, missing authentication in Cloud Services Appliance 5.0.8 only; fix 5.0.8.1). EPM Core is the management server for bank endpoints; unauthenticated RCE on it is a full-compromise path.</td></tr>
@@ -416,7 +416,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="ttp-h">
 <div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No mapping is shown where the source published none. The FBI FLASH-20261113-001 is the first consolidated MITRE mapping for ARTEX carried in this briefing series.</p></div>
-<div class="table-scroll"><table>
+<div class="table-scroll"><table><colgroup><col style="width:13%"><col style="width:20%"><col style="width:22%"><col style="width:33%"><col style="width:12%"></colgroup>
 <thead><tr><th>MITRE technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="MITRE technique ID">T1595, T1580, T1087.004, T1069.003, T1526</td><td data-l="Technique / behaviour">Active scanning; cloud infrastructure discovery; cloud account discovery; cloud groups discovery; cloud service discovery</td><td data-l="Seen in this edition">ARTEX initial recon — FBI FLASH-20261113-001, 13 Nov</td><td data-l="BFSI relevance / detection note">Sub-second Azure capability checks of SAS tokens, service principals, Kudu and storage-account keys; test blob write/delete; ARM deployment dry-runs; AWS DryRun probes; WHOIS asset mapping; fuzzing across 500+ requests; lookups to <span class="mono">api.db-ip[.]com</span>. Detect on bursts of capability checks and dry-run calls from a single source against cloud APIs.</td><td data-l="Status">Confirmed</td></tr>

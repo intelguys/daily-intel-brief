@@ -26,7 +26,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   font-size:16px;line-height:1.55;}
-.wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
 h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
 h2{font-size:1.55rem;margin:0 0 6px}
 h3{font-size:1.12rem}
@@ -92,7 +92,7 @@ section{margin-top:44px}
 .vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
 .vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
 .vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
 th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:none}
@@ -326,7 +326,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <section aria-labelledby="vuln-h">
 <div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>Two CISA KEV additions were made on 13 November. The catalogue stands at 1,781 entries (version 2026.11.13). The Barracuda pair (CVE-2026-116606 / CVE-2026-111560) and Ivanti CVE-2026-118527 fell due on 13 November with no new attribution, IOCs or PoC in-window — per the standing rule a due date alone is not a new development, so they are not carried forward as watchlist rows.</p></div>
 <div class="vuln-tools"><input id="vulnSearch" type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
-<div class="table-scroll"><table id="vulnTable">
+<div class="table-scroll"><table id="vulnTable"><colgroup><col style="width:24%"><col style="width:8%"><col style="width:18%"><col style="width:14%"><col style="width:36%"></colgroup>
 <thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-123039 — NEW KEV 13 Nov</td><td class="score high" data-l="CVSS score">7.8</td><td data-l="Affected product">Check Point Security Gateways (Gaia DynamicCLI)</td><td data-l="Exploitation status">In the Wild (KEV, due 16 Nov)</td><td data-l="Relevance to finance">New in-window (CISA KEV addition, 13 Nov). Local privilege escalation in Gaia DynamicCLI, chained with PHP2Shell (CVE-2026-109618/109619) in the Mobile Access Portal to gain root on unpatched Security Gateways. Check Point reported exploitation from 30 Oct to 4 Nov, &ldquo;a couple of dozen&rdquo; systems in one region. Fix is the November Jumbo Hotfix: R82.20 Take 14, R82.10 Take 52, R82 Take 132, R81.20 Take 174 or later; stopping <span class="mono">dynamic_server</span> is a temporary mitigation. No standalone PoC reported — exploitation is via the chained PHP2Shell flaw. KEV ransomware use: Unknown. <strong>Verification limit:</strong> the live CISA feed fetched during this run was a stale cached copy (1 Nov); the addition is confirmed by three independent KEV trackers (Carthage Electronics, Axis Intelligence, EastBayCyber) agreeing on the date, catalogue version 2026.11.13 and 1,781 entries — see Could not verify.</td></tr>
@@ -437,7 +437,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="ttp-h">
 <div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No mapping is shown where the source published none.</p></div>
-<div class="table-scroll"><table>
+<div class="table-scroll"><table><colgroup><col style="width:13%"><col style="width:20%"><col style="width:22%"><col style="width:33%"><col style="width:12%"></colgroup>
 <thead><tr><th>MITRE technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="MITRE technique ID">T1046, T1110.001, T1505.001, T1059.003, T1059.005, T1105, T1071.001, T1071.002, T1095, T1053.005, T1543.003, T1547.001, T1036.005, T1027.002, T1496, T1562.002, T1057, T1082, T1012, T1112</td><td data-l="Technique / behaviour">Network service discovery; password guessing; SQL stored procedures; Windows command shell and Visual Basic; ingress tool transfer; web protocols and file transfer protocols; non-application-layer protocol; scheduled task/job; Windows service; registry run keys / startup folder; masquerading; obfuscated files; resource hijacking (Monero mining); impair defences; system information discovery; system information discovery (registry); modify registry</td><td data-l="Seen in this edition">FortiGuard Labs T-SQL campaign against internet-exposed Microsoft SQL Server (published 12 Nov; catch-up — not in the 13 November edition)</td><td data-l="BFSI relevance / detection note">Direct: SQL Server underpins core banking and payment back-ends. The campaign brute-forces TCP 1433 with a 2,700+ password list (users <span class="mono">sa</span>, <span class="mono">admin</span>), enables xp_cmdshell, then drops an XMRig miner and a Gh0st RAT variant. Detect on failed 1433 logins, xp_cmdshell enablement and scheduled tasks mimicking Microsoft Edge Update. No SQL Server vulnerability is involved — this is a configuration failure, not a patch failure.</td><td data-l="Status">Confirmed</td></tr>

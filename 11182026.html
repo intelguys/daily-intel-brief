@@ -26,7 +26,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   font-size:16px;line-height:1.55;}
-.wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
 h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
 h2{font-size:1.55rem;margin:0 0 6px}
 h3{font-size:1.12rem}
@@ -92,7 +92,7 @@ section{margin-top:44px}
 .vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
 .vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
 .vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
 th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:none}
@@ -296,7 +296,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <section aria-labelledby="vuln-h">
 <div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>One new CISA KEV addition was made on 17 November: CVE-2026-115731 (Perforce Puppet Enterprise). The catalogue now stands at 1,782 entries (version 2026.11.17). The live CISA feed read in this run was a stale 14 November crawl, so the addition rests on CISA&rsquo;s own advisory as re-reported by multiple secondary trackers — see Could not verify. The 13 November KEV additions (CVE-2026-123039 Check Point, CVE-2026-114713 UnrealIRCd) fell due on 16 November and are not carried as rows: a due date alone is not a new development under the standing rule.</p></div>
 <div class="vuln-tools"><input id="vulnSearch" type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
-<div class="table-scroll"><table id="vulnTable">
+<div class="table-scroll"><table id="vulnTable"><colgroup><col style="width:24%"><col style="width:8%"><col style="width:18%"><col style="width:14%"><col style="width:36%"></colgroup>
 <thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-114938 (&ldquo;Java4Shell&rdquo;) — NEW, CISA alert 17 Nov</td><td class="score crit" data-l="CVSS score">8.1 / 9.2*</td><td data-l="Affected product">Oracle Java / OpenJDK, HotSpot JVM on x86-64 with AVX-512 VBMI; OpenJDK 17.0.6 and later (also 21, 25, 27)</td><td data-l="Exploitation status">No confirmed exploitation; no verified public PoC repository</td><td data-l="Relevance to finance">Memory corruption / out-of-bounds write in the HotSpot JVM&rsquo;s AVX-512 Base64 decoder: specially crafted Base64 input can crash the JVM and, in the worst case, allow unauthenticated remote code execution. CISA issued an alert on 17 November (06:32 SGT 18 November) urging immediate patching, starting with internet-facing systems; Oracle released fixed builds on 17 November as part of its November 2026 CPU (11 Java SE fixes, maximum CVSS 3.1 8.1). Wiz says its Atlas harness built a proof of concept within two hours, but no verified public PoC repository was found and none is linked. Datadog notes reliable remote code execution needs per-application work and a crash / denial of service is the more readily achievable impact. ARM64 is not affected. Named affected applications in reporting include Jenkins, Jira, Confluence and Keycloak. Workaround: the <span class="mono">-XX:UseAVX=2</span> flag disables the AVX-512 path. Java underpins core banking, payments and identity stacks, and CISA warns bundled runtimes in containers and appliances may not appear in software inventories. *Oracle rates the CVE 8.1 (CVSS 3.1); researcher Calif rates it 9.2 (CVSS 4.0). Do not merge the two scores.</td></tr>
@@ -431,7 +431,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="ttp-h">
 <div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No MITRE mapping is shown where the source published none.</p></div>
-<div class="table-scroll"><table>
+<div class="table-scroll"><table><colgroup><col style="width:13%"><col style="width:20%"><col style="width:22%"><col style="width:33%"><col style="width:12%"></colgroup>
 <thead><tr><th>MITRE Technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Memory corruption in a Java Base64 decoder (CVE-2026-114938, &ldquo;Java4Shell&rdquo;): crafted Base64 input crashes the JVM and can allow unauthenticated remote code execution</td><td data-l="Seen in this edition">CISA alert, 17 Nov; Oracle November 2026 CPU</td><td data-l="BFSI relevance / detection note">No MITRE IDs were published. Detection rests on inventorying JDKs and Java runtimes, including bundled runtimes in containers and appliances, and on monitoring for unexpected JVM crashes, rogue runtimes and suspicious Java processes. Affects x86-64 with AVX-512 VBMI only; ARM64 is not affected.</td><td data-l="Status">No mapping published</td></tr>

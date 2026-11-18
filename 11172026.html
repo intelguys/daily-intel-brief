@@ -26,7 +26,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   font-size:16px;line-height:1.55;}
-.wrap{max-width:1060px;margin:0 auto;padding:0 18px 64px}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
 h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
 h2{font-size:1.55rem;margin:0 0 6px}
 h3{font-size:1.12rem}
@@ -92,7 +92,7 @@ section{margin-top:44px}
 .vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
 .vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
 .vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
 th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
 tbody tr:last-child td{border-bottom:none}
@@ -316,7 +316,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 <section aria-labelledby="vuln-h">
 <div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>No new CISA KEV additions were made on 16 or 17 November. The catalogue stands at 1,781 entries (version 2026.11.13). The two 13 November additions (CVE-2026-123039 Check Point, CVE-2026-114713 UnrealIRCd) fell due on 16 November, and neither is carried as a row: a due date alone is not a new development under the standing rule. SecurityWeek reported on 16 November that CVE-2026-114713 is being exploited in attacks, but no new attribution, IOC or PoC was published. The Check Point November Jumbo Hotfix federal due date passed on 16 November — apply it if not yet done (see Indicators &amp; defensive actions).</p></div>
 <div class="vuln-tools"><input id="vulnSearch" type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /></div>
-<div class="table-scroll"><table id="vulnTable">
+<div class="table-scroll"><table id="vulnTable"><colgroup><col style="width:24%"><col style="width:8%"><col style="width:18%"><col style="width:14%"><col style="width:36%"></colgroup>
 <thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="CVE ID">CVE-2026-84869 — NEW, exploitation confirmed</td><td class="score crit" data-l="CVSS score">9.9</td><td data-l="Affected product">ConnectWise ScreenConnect, technician host client below 26.6.5</td><td data-l="Exploitation status">Exploitation confirmed (Huntress, 12 Nov incident)</td><td data-l="Relevance to finance">A guest in a ScreenConnect session triggers file transfers the technician&rsquo;s host client runs without authorisation. Huntress confirms a full technician-workstation compromise in about nine seconds on 12 Nov and more than 688,000 guest &ldquo;run file&rdquo; requests across 42 MSP servers from 20 Oct to 16 Nov. In CISA KEV since 11 September. Fix: upgrade technician clients to 26.6.5+ — the server patch alone does not fix it — or remove the <span class="mono">TransferFiles</span> permission. A technician compromise can cascade to every client the MSP serves, including financial firms.</td></tr>
@@ -456,7 +456,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:v
 
 <section aria-labelledby="ttp-h">
 <div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No mapping is shown where the source published none. The FBI FLASH-20261113-001 mapping for ARTEX was carried in the 16 November edition and is not a new sighting in this edition.</p></div>
-<div class="table-scroll"><table>
+<div class="table-scroll"><table><colgroup><col style="width:13%"><col style="width:20%"><col style="width:22%"><col style="width:33%"><col style="width:12%"></colgroup>
 <thead><tr><th>MITRE technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td class="cve" data-l="MITRE technique ID">T1566.002, T1036, T1204.001</td><td data-l="Technique / behaviour">Phishing: spearphishing link; masquerading; user execution</td><td data-l="Seen in this edition">Microsoft 365 outage phishing campaign — Microsoft Threat Intelligence blog, 16 Nov</td><td data-l="BFSI relevance / detection note">Outage-themed service-health lures with subject &ldquo;Outage – &lt;random token&gt;&rdquo;, display names &ldquo;MSF Outage Notification&rdquo; / &ldquo;AMZ Service Health&rdquo;, threatening deletion of held emails within 24 hours. Sender domains <span class="mono">moments-notice.com</span>, <span class="mono">planetmaison.com</span>, <span class="mono">newbooker.com</span>; click-tracking <span class="mono">reallifeaccounting[.]com/themelist0.html</span>. Detect on the sender domains and the outage subject pattern; verify via official status pages only.</td><td data-l="Status">Confirmed</td></tr>
