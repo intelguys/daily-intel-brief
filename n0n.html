@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tracking the n0n data-theft extortion group: history, attack path, behaviour and procedures, indicators, victimology and telemetry.">
+<title>n0n — Threat Actor Tracking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600&display=swap">
+<style>
+/* Design plan — inherits the Tracking Offensive AI Tooling page:
+   warm-neutral paper + deep slate ink, amber accent (TLP:AMBER).
+   IBM Plex Serif (headings), IBM Plex Sans (body), IBM Plex Mono (indicators, code).
+   Single measured column; wide blocks scroll inside themselves. */
+:root {
+  --bg: #f2f4f5;
+  --surface: #ffffff;
+  --surface-2: #e9edee;
+  --ink: #131e27;
+  --muted: #5a6a76;
+  --line: #d3dbdf;
+  --accent: #a85f08;
+  --accent-soft: #fbf1e0;
+  --block: #9a2028;
+  --block-soft: #fbeaea;
+  --monitor: #8a5a06;
+  --safe: #1c6a60;
+  --safe-soft: #e3f1ee;
+  --code-bg: #101a22;
+  --code-fg: #dbe6ed;
+  --shadow: 0 1px 2px rgba(19, 30, 39, .06), 0 8px 24px rgba(19, 30, 39, .05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d141a;
+    --surface: #141e26;
+    --surface-2: #1a262f;
+    --ink: #e7eef3;
+    --muted: #93a5b1;
+    --line: #26343e;
+    --accent: #e6a344;
+    --accent-soft: #241b0e;
+    --block: #ef868b;
+    --block-soft: #2a1416;
+    --monitor: #e6a344;
+    --safe: #5cb9a9;
+    --safe-soft: #102824;
+    --code-bg: #060c11;
+    --code-fg: #cfdde6;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px rgba(0, 0, 0, .3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d141a;
+  --surface: #141e26;
+  --surface-2: #1a262f;
+  --ink: #e7eef3;
+  --muted: #93a5b1;
+  --line: #26343e;
+  --accent: #e6a344;
+  --accent-soft: #241b0e;
+  --block: #ef868b;
+  --block-soft: #2a1416;
+  --monitor: #e6a344;
+  --safe: #5cb9a9;
+  --safe-soft: #102824;
+  --code-bg: #060c11;
+  --code-fg: #cfdde6;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.62;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 64px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 78ch; margin: 0 auto; }
+.wide { max-width: 110ch; margin: 0 auto; }
+.masthead { border-bottom: 1px solid var(--line); padding-block: 28px 22px; margin-bottom: 30px; }
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .72rem; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--accent); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px;
+}
+.tlp {
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 3px; padding: 2px 7px; letter-spacing: .1em;
+}
+h1 {
+  font-family: "IBM Plex Serif", Georgia, serif; font-weight: 600;
+  font-size: clamp(1.72rem, 4.4vw, 2.55rem); line-height: 1.14; letter-spacing: -.015em;
+  text-wrap: balance; margin: 0 0 12px;
+}
+.standfirst { color: var(--muted); font-size: 1.03rem; max-width: 62ch; margin: 0 0 16px; }
+.meta {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .76rem; color: var(--muted);
+  display: flex; flex-wrap: wrap; gap: 6px 16px;
+}
+.verdict { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 34px; }
+.vcard {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+  padding: 18px 18px 16px; box-shadow: var(--shadow); min-width: 0;
+}
+.vcard .label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px;
+}
+.vcard .grade {
+  font-family: "IBM Plex Serif", Georgia, serif; font-size: 1.5rem; line-height: 1.1;
+  display: block; margin-bottom: 7px;
+}
+.vcard p { margin: 0; font-size: .93rem; color: var(--ink); }
+.vcard p + p { margin-top: 8px; }
+.grade.high { color: var(--block); }
+.grade.med { color: var(--monitor); }
+.vcard .foot { color: var(--muted); font-size: .84rem; }
+.callout {
+  border-left: 3px solid var(--accent); background: var(--accent-soft);
+  padding: 14px 16px; border-radius: 0 4px 4px 0; margin: 0 0 30px; font-size: .95rem;
+}
+.callout strong { font-weight: 600; }
+.callout.warn { border-left-color: var(--block); background: var(--block-soft); }
+.figures {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--line); border: 1px solid var(--line); border-radius: 4px;
+  overflow: hidden; margin-bottom: 40px;
+}
+.fig { background: var(--surface); padding: 15px 14px; min-width: 0; }
+.fig .n {
+  display: block; font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 1.42rem; font-weight: 500; font-variant-numeric: tabular-nums;
+  letter-spacing: -.03em; line-height: 1.1;
+}
+.fig .d { display: block; font-size: .77rem; color: var(--muted); line-height: 1.35; margin-top: 5px; }
+section { margin-bottom: 42px; }
+h2 {
+  font-family: "IBM Plex Serif", Georgia, serif; font-weight: 600; font-size: 1.32rem;
+  line-height: 1.22; letter-spacing: -.01em; margin: 0 0 4px; text-wrap: balance;
+}
+.sub { color: var(--muted); font-size: .89rem; margin: 0 0 16px; }
+h3 { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: .97rem; margin: 24px 0 8px; }
+p { margin: 0 0 14px; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+code {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .86em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px;
+  overflow-wrap: anywhere;
+}
+.tbl-wrap { overflow-x: auto; margin: 0 0 20px; border: 1px solid var(--line); border-radius: 4px; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; background: var(--surface); }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+  background: var(--surface-2); white-space: nowrap;
+}
+tr:last-child td { border-bottom: 0; }
+td.mono, td code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .82rem; overflow-wrap: anywhere; }
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline li { display: grid; grid-template-columns: 118px 1fr; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.timeline li:last-child { border-bottom: 0; }
+.timeline .t {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem; color: var(--muted);
+  padding-top: 2px; white-space: nowrap;
+}
+.timeline .e { font-size: .93rem; min-width: 0; }
+.timeline .e p { margin: 0 0 6px; }
+.timeline .e p:last-child { margin-bottom: 0; }
+.is-hidden { display: none !important; }
+.tl-note { color: var(--muted); font-size: .85rem; margin: 0 0 12px; }
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+.chip {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem;
+  padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); }
+.chip.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-theme="dark"] .chip.is-active { color: #14100a; }
+/* ── MITRE matrix ── */
+.matrix-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; margin-bottom: 16px; }
+.matrix { display: grid; grid-template-columns: repeat(13, minmax(118px, 1fr)); min-width: 1560px; background: var(--line); gap: 1px; }
+.matrix .mhead {
+  background: var(--surface-2); padding: 9px 8px; font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  text-align: center; line-height: 1.3;
+}
+.matrix .mcol { display: flex; flex-direction: column; gap: 1px; background: var(--line); }
+.matrix .mcell {
+  display: block; width: 100%; text-align: left; padding: 8px; min-height: 52px;
+  background: var(--surface); border: 0; cursor: pointer;
+  font-family: "IBM Plex Sans", sans-serif; font-size: .78rem; line-height: 1.3; color: var(--ink);
+}
+.matrix .mcell:hover { background: var(--accent-soft); }
+.matrix .mcell.is-selected { background: var(--accent); color: #fff; }
+:root[data-theme="dark"] .matrix .mcell.is-selected { color: #14100a; }
+.matrix .mcell .tid { display: block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; font-weight: 500; }
+.matrix .mcell.conf-reported { border-left: 3px solid var(--monitor); }
+.matrix .mcell.conf-aggregator { border-left: 3px dashed var(--muted); }
+.matrix .mcell.conf-confirmed { border-left: 3px solid var(--accent); }
+.matrix .mcell.impact { box-shadow: inset 0 -3px 0 var(--block); }
+.matrix .mempty {
+  padding: 8px; min-height: 52px; background: var(--surface); color: var(--muted);
+  font-size: .78rem; display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.matrix-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .82rem; color: var(--muted); margin: 0 0 16px; }
+.matrix-legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.sw-confirmed { background: var(--accent); }
+.sw-reported { background: var(--monitor); }
+.sw-aggregator { background: var(--muted); }
+.sw-impact { background: var(--block); }
+.tech-detail {
+  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: 4px; padding: 16px 18px; margin-bottom: 24px; box-shadow: var(--shadow);
+}
+.tech-detail h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.tech-detail .tmeta {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; color: var(--muted); margin-bottom: 10px;
+}
+.tech-detail p { margin: 0 0 8px; font-size: .93rem; }
+.tech-detail p:last-child { margin-bottom: 0; }
+.tech-detail .proc-label, .tech-detail .det-label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+ol.path { counter-reset: step; list-style: none; padding: 0; margin: 0 0 20px; }
+ol.path li { counter-increment: step; position: relative; padding: 0 0 18px 44px; }
+ol.path li::before {
+  content: counter(step); position: absolute; left: 0; top: 0;
+  width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff;
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8rem;
+  display: grid; place-items: center;
+}
+:root[data-theme="dark"] ol.path li::before { color: #14100a; }
+ol.path li::after {
+  content: ""; position: absolute; left: 13px; top: 30px; bottom: 0;
+  width: 2px; background: var(--line);
+}
+ol.path li:last-child::after { display: none; }
+ol.path h3 { margin: 2px 0 6px; }
+ol.path p { margin: 0 0 8px; font-size: .93rem; }
+ol.path p:last-child { margin-bottom: 0; }
+details.wallets { border: 1px solid var(--line); border-radius: 4px; background: var(--surface); padding: 12px 14px; margin-bottom: 20px; }
+details.wallets summary { cursor: pointer; font-weight: 600; font-size: .93rem; }
+details.wallets code { display: block; font-size: .78rem; line-height: 1.7; background: none; padding: 0; }
+ul.src { list-style: none; padding: 0; margin: 0; }
+ul.src li { padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }
+ul.src li:last-child { border-bottom: 0; }
+ul.src .smeta { color: var(--muted); font-size: .82rem; }
+.tag {
+  display: inline-block; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem;
+  letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+  background: var(--surface-2); color: var(--muted); margin-right: 6px; vertical-align: 1px;
+}
+.tag.confirmed { background: var(--accent-soft); color: var(--accent); }
+.tag.reported { background: var(--safe-soft); color: var(--safe); }
+.tag.unconfirmed { background: var(--block-soft); color: var(--block); }
+@media (max-width: 760px) {
+  .verdict { grid-template-columns: 1fr; }
+  .figures { grid-template-columns: 1fr 1fr; }
+  .timeline li { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">Threat actor tracking <span class="tlp">TLP:AMBER</span> <span>First profile</span></div>
+    <h1>n0n</h1>
+    <p class="standfirst">A data-theft and destructive-extortion group that surfaced in September 2026 and built its reputation on an AI-assisted operation and a leak site listing hundreds of victims — while its own exposed server showed a far smaller operation. Tracked here: history, attack path, behaviour and procedures, indicators and victimology, with every claim tied to its source and every leak-site listing labelled as a claim until a victim confirms it or data is published.</p>
+    <div class="meta"><span>First seen: 18 September 2026</span><span>Status: Active</span><span>Last updated: 18 November 2026</span><span>Sources: 14</span></div>
+  </header>
+
+  <div class="verdict">
+    <div class="vcard">
+      <span class="label">What it is</span>
+      <span class="grade">Data-theft extortion with destructive impact</span>
+      <p>Credential-only access — no vulnerability exploitation has been documented in any intrusion. The group exfiltrates data, then encrypts files with the <code>.n0n</code> extension or destroys data and backups instead, and pressures victims through a Tor leak site.</p>
+      <p class="foot">SOCRadar, from the group&rsquo;s own exposed workspace, October 2026.</p>
+    </div>
+    <div class="vcard">
+      <span class="label">What to believe</span>
+      <span class="grade med">The leak-site count is inflated</span>
+      <p>Bitdefender: the site listed more than 100 victims, but data from the group&rsquo;s own file server shows it targeted just over 20 organisations. Treat every listing as a claim, not a confirmed breach.</p>
+      <p class="foot">Bitdefender Threat Debrief, November 2026.</p>
+    </div>
+  </div>
+
+  <div class="figures">
+    <div class="fig"><span class="n">18 Sep 2026</span><span class="d">First seen; leak site live within four days</span></div>
+    <div class="fig"><span class="n">93</span><span class="d">Victims listed by 19 Oct, total demands $283.7M (SOCRadar)</span></div>
+    <div class="fig"><span class="n">100+ vs ~20</span><span class="d">Listed victims vs real targets, per the exposed server (Bitdefender)</span></div>
+    <div class="fig"><span class="n">0</span><span class="d">Transactions across 55 collected ransom wallets as of 16 Oct (SOCRadar)</span></div>
+  </div>
+
+  <section>
+    <h2>At a glance</h2>
+    <p class="sub">The profile in one table. Spelling matters: the group insists on its name as two lowercase n letters with a zero between them.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>Attribute</th><th>Detail</th></tr>
+      <tr><td>Name</td><td><strong>n0n</strong> — two lowercase n letters with a zero between them; written N0n in some reporting</td></tr>
+      <tr><td>Type</td><td>Financially motivated data-theft and destructive-extortion group</td></tr>
+      <tr><td>First seen</td><td>18 September 2026 (CyberXTron); leak site listing victims within four days</td></tr>
+      <tr><td>Slogan</td><td>&ldquo;n0n | no js | no mercy&rdquo; — carried across its Tor and clearnet portals</td></tr>
+      <tr><td>Leak site</td><td>Tor-hosted data leak site; clearnet portal n0n.to (inactive); RSS feed; active / leaked / honor listings; keyed negotiation rooms</td></tr>
+      <tr><td>Encryptor</td><td>Lightweight AES-256-CBC locker, Windows / Linux / PowerShell variants plus an OpenSSL stage for firewall appliances; appends <code>.n0n</code>; ransom note <code>n0n_READ_ME.txt</code></td></tr>
+      <tr><td>Initial access</td><td>Credential-only: infostealer-harvested credentials, credential stuffing against FortiGate SSL-VPN, weak RDP/WinRM credentials, exposed AWS keys, reused hosting-portal sessions. No CVE has been tied to an intrusion.</td></tr>
+      <tr><td>Extortion model</td><td>Double extortion plus a declared threat to encrypt or destroy backups and shadow copies; demands 0.5–33 BTC per victim, up to $28M in the maritime wave; negotiation room requires a 10% upfront payment</td></tr>
+      <tr><td>Attribution</td><td>None established. Some vendors list the group as likely Russia-based without showing evidence; SOCRadar found no definitive geographic or national attribution. Evidence cited by Cydome indicates the group is not related to Iran, China or North Korea.</td></tr>
+      <tr><td>Assessment</td><td>Opportunistic and broad, with a maritime / logistics concentration in October and a US and South Korea focus. Bitdefender has high confidence n0n does not have the means to sustain a top-10 ransomware ranking.</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>History</h2>
+    <p class="sub">Newest first. Each entry is dated and sourced; leak-site claims are labelled as claims.</p>
+    <ul class="timeline">
+      <li><span class="t">18 Nov 2026</span><div class="e"><p><strong>59 organisations named in a single day, including Eli Lilly, Visa, Mastercard and JPMorgan Chase.</strong> 46 of the 59 had sat on the site since 9 November as numbered placeholders (&ldquo;Company #150&rdquo; and similar); n0n swapped the numbers for names and marked all 59 unpaid. Visa confirmed an incident at a third-party provider in Asia Pacific and said its own systems were not involved and no card numbers were affected; JPMorgan Chase said its 16 November outage was a software bug with no evidence of a cyberattack. The Ransomtracker holds 363 n0n entries, 168 of them numbered placeholders. All 59 are claims, not confirmed breaches.</p><p><a href="https://ransomnews.com/n0n-eli-lilly-visa-jpmorgan-leak-site-claims-2026/" target="_blank" rel="noopener noreferrer">Ransomnews, 17 Nov 2026</a></p></div></li>
+      <li><span class="t">16 Nov 2026</span><div class="e"><p><strong>MediaMath listed (unverified claim).</strong> Detection content published for the group&rsquo;s FortiGate SSL-VPN credential-stuffing pipeline: bursts of failed logins at <code>/remote/login</code>, one source address trying many distinct usernames within 10 minutes, run through a 15-thread residential SOCKS5 proxy pool. No CVE is involved; access relies on weak or stolen credentials.</p><p><a href="https://intel.threadlinqs.com/threat/TL-2026-6143" target="_blank" rel="noopener noreferrer">Threadlinqs TL-2026-6143</a></p></div></li>
+      <li><span class="t">10–11 Nov 2026</span><div class="e"><p><strong>Bitdefender&rsquo;s Threat Debrief exposes the inflation.</strong> October data-leak-site claims totalled 1,072 victims; excluding 126 n0n entries the total falls to 946. The group&rsquo;s exposed file server shows it targeted just over 20 organisations, against 100+ listings. Bitdefender: high confidence n0n cannot sustain a top-10 ranking. Check Point Research, the same week: a record 1,063 ransomware attacks in October (+35% year on year); n0n third with 8% of published attacks, up from about 2% in September, with 170+ claimed victims by early November.</p><p><a href="https://www.bitdefender.com/en-us/blog/businessinsights/bitdefender-threat-debrief-november-2026" target="_blank" rel="noopener noreferrer">Bitdefender, 10 Nov 2026</a> · <a href="https://blog.checkpoint.com/research/october-2026-cyber-threat-landscape-record-ransomware-rising-genai-risk-and-an-ai-powered-newcomer/" target="_blank" rel="noopener noreferrer">Check Point Research, 11 Nov 2026</a></p></div></li>
+      <li><span class="t">4 Nov 2026</span><div class="e"><p><strong>About 189 victims claimed since mid-September.</strong> The group ranks among the top three ransomware operators alongside The Gentlemen and Qilin. Primary geographic focus is the US and South Korea; most-targeted sectors in descending order are logistics and shipping, technology, retail, healthcare, manufacturing and finance. Persistence observed: Windows scheduled tasks with a *sync naming convention, rogue administrator accounts with an svc_* naming convention, and SSH authorized keys on cloud hosts. Initial access primarily credential stuffing against Fortinet, RDP and WinRM.</p><p><a href="https://www.osec.com/resources/threat-briefs/weekly-situation-report-11-9-26/" target="_blank" rel="noopener noreferrer">OSec weekly situation report, 9 Nov 2026</a></p></div></li>
+      <li><span class="t">28–30 Oct 2026</span><div class="e"><p><strong>The operator&rsquo;s workspace is exposed.</strong> SOCRadar finds a Python HTTP file server at 185.157.161[.]148:8877 exposing 1,719 files across two September snapshots — 829 scripts, five C++ encryptor sources, extortion infrastructure and an AI coding-agent environment. The findings implicate at least 23 organisations across 14 countries. No vulnerability exploitation was identified: every documented compromise relied on weak or stolen credentials. The Register reports the exposure on 30 October.</p><p><a href="https://socradar.io/blog/n0n-ransomware-ai-assisted-extortion/" target="_blank" rel="noopener noreferrer">SOCRadar, 28 Oct 2026</a></p></div></li>
+      <li><span class="t">19 Oct 2026</span><div class="e"><p><strong>Maritime deadline passes; none of the 38 settled and all were published.</strong> The group lists 93 victims with total ransom demands of $283.7M.</p><p><a href="https://socradar.io/blog/n0n-ransomware-ai-assisted-extortion/" target="_blank" rel="noopener noreferrer">SOCRadar, 28 Oct 2026</a></p></div></li>
+      <li><span class="t">12 Oct 2026</span><div class="e"><p><strong>38 maritime, port and logistics organisations listed in a single batch</strong> across 18 countries, with a common publication deadline of 19 October, 13:27 UTC, and demands from $400,000 to $28 million. Maritime security research traced at least 21 of the listings to customers of South Korean maritime software provider CyberLogitec; CyberLogitec has not confirmed an incident and the supply-chain connection remains unverified. The small, application-scoped data sets point to one shared system rather than 38 separate intrusions.</p><p><a href="https://cydome.io/n0n-cyber-extortion-incident-involving-38-maritime-companies-likely-traces-back-to-a-single-vendor/" target="_blank" rel="noopener noreferrer">Cydome, 15 Oct 2026</a> · <a href="https://socradar.io/blog/n0n-group-global-ports-shipping-leak/" target="_blank" rel="noopener noreferrer">SOCRadar</a></p></div></li>
+      <li><span class="t">8 Oct 2026</span><div class="e"><p><strong>21 victims listed before the maritime wave</strong>, spanning investment firms, telecommunications, retail, education and pharmaceuticals across 17 countries, including claims against Fanatics, Transcom WorldWide, AstraZeneca T&uuml;rkiye, Argentina&rsquo;s Ministry of Education, STOKR and Venezuelan ISP Inter.</p><p><a href="https://socradar.io/blog/n0n-group-global-ports-shipping-leak/" target="_blank" rel="noopener noreferrer">SOCRadar</a></p></div></li>
+      <li><span class="t">2 Oct 2026</span><div class="e"><p><strong>Fortra publishes the first vendor explainer.</strong> The group is described as a data-theft extortion operation using valid credentials harvested by infostealer malware, legitimate admin tools and RDP — not an exotic vulnerability. Early headline claims relayed: Transcom (86.7 million support-agent records claimed from PayPal&rsquo;s Citrix and authentication systems), Inter (15.3 million subscriber connection records claimed), Fanatics (~108 GB claimed), TapClicks (full source code claimed) and Dediserve (46 servers &ldquo;paused&rdquo;, 167 customer accounts claimed). All unconfirmed.</p><p><a href="https://www.fortra.com/blog/n0n-ransomware-what-you-need-know" target="_blank" rel="noopener noreferrer">Fortra, 2 Oct 2026</a></p></div></li>
+      <li><span class="t">22 Sep 2026</span><div class="e"><p><strong>13 victims across 10 countries within four days of surfacing.</strong> United States (3), Vietnam (2), Uzbekistan (1), Mali (1), Venezuela (1), Sweden (1), T&uuml;rkiye (1), Argentina (1), Luxembourg (1), Brazil (1). Financial services is the largest share at 23% (3 victims); technology, retail &amp; e-commerce and education each 15%. 11 of the 13 listings had already passed their deadlines and had data leaked; 2 remained active.</p><p><a href="https://cyberxtron.com/resources/blogs/-n0n-ransomware-emerges-as-a-new-threat-group-with-destructive-extortion-claims--8167" target="_blank" rel="noopener noreferrer">CyberXTron</a></p></div></li>
+      <li><span class="t">18 Sep 2026</span><div class="e"><p><strong>n0n first surfaces.</strong> The group appears with a Tor leak site under the tagline &ldquo;no js | no mercy&rdquo; and, within four days, lists more than a dozen claimed victims. The speed suggests an already structured operation at discovery, not a group in its embryonic phase.</p><p><a href="https://cyberxtron.com/resources/blogs/-n0n-ransomware-emerges-as-a-new-threat-group-with-destructive-extortion-claims--8167" target="_blank" rel="noopener noreferrer">CyberXTron</a> · <a href="https://www.fortra.com/blog/n0n-ransomware-what-you-need-know" target="_blank" rel="noopener noreferrer">Fortra, 2 Oct 2026</a></p></div></li>
+    </ul>
+  </section>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Attack path</h2>
+    <p class="sub">One lifecycle, with the impact shifting between exfiltration, encryption, destruction and network disruption depending on the target. Reconstructed from the exposed operator workspace (SOCRadar).</p>
+    <ol class="path">
+      <li><h3>Initial access — credentials only</h3>
+        <p>Credential stuffing against 305 FortiGate SSL-VPN appliances through residential proxies (requests to <code>/remote/logincheck</code> carrying <code>Cookie: APBSID=n0n</code>), weak or default RDP/WinRM administrator credentials, exposed long-lived AWS IAM access keys, and reused hosting-provider portal sessions. The earliest reporting attributes the credentials to third-party infostealer malware. No exploit payloads and no CVE references were found in the operator&rsquo;s files.</p>
+        <p><strong>Maritime-wave variant:</strong> for the 12 October batch, the evidence points the other way — small, application-scoped data sets and incomplete infostealer coverage across the victims suggest an exposed shared application or vulnerability (a terminal system, EDI integration or file-transfer product), not 38 separate credential intrusions. The shared source is unconfirmed.</p></li>
+      <li><h3>Persistence and collection</h3>
+        <p>Hidden administrator accounts disguised as services (<code>svc_upd</code>, <code>svc_reg</code>, <code>svc&lt;slug&gt;</code>), scheduled tasks named <code>*Sync</code>, <code>NetAssist</code> and similar, covert proxies, and SSH authorized keys on cloud hosts. The operator steals browser credentials (including Chrome&rsquo;s app-bound key), live session cookies via cloned Chrome profiles driven over DevTools, mailboxes (a full IMAP dump of a provider staff mailbox), and emailed MFA codes. Discovery sweeps cover 445/3389/5985/1433 internally, plus EC2/ECS/SSM mapping and S3 bucket listing.</p></li>
+      <li><h3>Exfiltration</h3>
+        <p>Per-target pipelines with data budgets, sending everything to the operator&rsquo;s central storage (the &ldquo;monster&rdquo; server). S3 bulk pulls run with per-bucket byte caps; exfiltration uses zip-base64 POSTs to the C2 channel (8 GiB budget) and uploads to a public file-hosting service. Data typically leaks about four days after public disclosure.</p></li>
+      <li><h3>Encryption and destruction</h3>
+        <p>Wrapper scripts stop services (MSSQL, SQL Agent, SSAS, SSIS, SQLWriter, W3SVC, MySQL), delete shadow copies and wipe free space before the locker runs. The locker is AES-256-CBC with a single hardcoded key per build. In some cases the operator deletes data and backups instead of encrypting — S3 mass deletion in 1,000-item batches, and a hosting provider&rsquo;s servers and backups removed. On Cisco Firepower Management Center appliances, the operator flips firewall rules to BLOCK and injects a Snort rule (<code>n0n-lock</code>, sid 2100001); in the Inter case the group claimed this severed national network traffic.</p></li>
+      <li><h3>Extortion and publication</h3>
+        <p>Ransom notes, countdowns, keyed negotiation rooms (opening one requires a 10% upfront payment) and direct extortion emails. To raise pressure, n0n contacts victims&rsquo; clients, MSPs, unions and the media — in one case emailing PayPal&rsquo;s security team over a breach at its contact-centre provider. Leaks are published as scrubbed ZIP archives and torrents distributed from a VPN-bound seedbox. Each victim gets a unique Bitcoin address; a check of all 55 collected addresses showed zero transactions as of 16 October 2026.</p></li>
+    </ol>
+  </section>
+</div>
+
+<div class="wide">
+  <section>
+    <h2>MITRE ATT&amp;CK — interactive diagram</h2>
+    <p class="sub">The group&rsquo;s behaviour, mapped to MITRE ATT&amp;CK. Select a technique to see the procedure n0n actually used, how it was observed, and what to hunt for. The full procedure table follows the diagram, so the content stands even without scripting.</p>
+    <div class="filter-bar" id="mitre-filter" role="group" aria-label="Filter techniques by confidence">
+      <button type="button" class="chip is-active" data-filter="all">All <span class="n"></span></button>
+      <button type="button" class="chip" data-filter="confirmed">Confirmed procedure <span class="n"></span></button>
+      <button type="button" class="chip" data-filter="reported">Reported <span class="n"></span></button>
+      <button type="button" class="chip" data-filter="aggregator">Aggregator-reported <span class="n"></span></button>
+      <button type="button" class="chip" data-filter="impact">Destructive impact <span class="n"></span></button>
+    </div>
+    <div class="matrix-legend">
+      <span><span class="sw sw-confirmed"></span>Confirmed procedure — from the exposed workspace (SOCRadar)</span>
+      <span><span class="sw sw-reported"></span>Reported — early mapping, procedure not published (CyberXTron)</span>
+      <span><span class="sw sw-aggregator"></span>Aggregator-reported — third-party detection content, incl. Azazel-linked items</span>
+      <span><span class="sw sw-impact"></span>Red underline — destructive impact technique</span>
+    </div>
+    <div class="matrix-scroll">
+      <div class="matrix" id="mitre-matrix" aria-label="MITRE ATT&CK matrix for n0n">
+        <div class="mhead">Reconnaissance</div><div class="mhead">Initial Access</div><div class="mhead">Execution</div><div class="mhead">Persistence</div><div class="mhead">Privilege Escalation</div><div class="mhead">Defense Evasion</div><div class="mhead">Credential Access</div><div class="mhead">Discovery</div><div class="mhead">Lateral Movement</div><div class="mhead">Collection</div><div class="mhead">Command &amp; Control</div><div class="mhead">Exfiltration</div><div class="mhead">Impact</div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1595.001"><span class="tid">T1595.001</span>Scanning IP Blocks</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1078"><span class="tid">T1078</span>Valid Accounts</button><button type="button" class="mcell conf-confirmed" data-tech="T1078.004"><span class="tid">T1078.004</span>Valid Accounts: Cloud Accounts</button><button type="button" class="mcell conf-confirmed" data-tech="T1133"><span class="tid">T1133</span>External Remote Services</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1059.001"><span class="tid">T1059.001</span>PowerShell</button><button type="button" class="mcell conf-confirmed" data-tech="T1053.005"><span class="tid">T1053.005</span>Scheduled Task</button><button type="button" class="mcell conf-confirmed" data-tech="T1651"><span class="tid">T1651</span>Cloud Administration Command</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1053.005"><span class="tid">T1053.005</span>Scheduled Task</button><button type="button" class="mcell conf-confirmed" data-tech="T1547.001"><span class="tid">T1547.001</span>Registry Run Keys</button><button type="button" class="mcell conf-confirmed" data-tech="T1136.001"><span class="tid">T1136.001</span>Create Account: Local Account</button><button type="button" class="mcell conf-confirmed" data-tech="T1098.004"><span class="tid">T1098.004</span>SSH Authorized Keys</button></div>
+        <div class="mcol"><div class="mempty">No technique published for this tactic</div></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1562.001"><span class="tid">T1562.001</span>Impair Defenses</button><button type="button" class="mcell conf-confirmed" data-tech="T1564.002"><span class="tid">T1564.002</span>Hidden Users</button><button type="button" class="mcell conf-confirmed" data-tech="T1070.004"><span class="tid">T1070.004</span>File Deletion</button><button type="button" class="mcell conf-reported" data-tech="T1027"><span class="tid">T1027</span>Obfuscated Files or Information</button><button type="button" class="mcell conf-aggregator" data-tech="T1036.004"><span class="tid">T1036.004</span>Masquerading</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1110.004"><span class="tid">T1110.004</span>Credential Stuffing</button><button type="button" class="mcell conf-confirmed" data-tech="T1110.002"><span class="tid">T1110.002</span>Password Cracking</button><button type="button" class="mcell conf-confirmed" data-tech="T1555.003"><span class="tid">T1555.003</span>Credentials from Web Browsers</button><button type="button" class="mcell conf-confirmed" data-tech="T1539"><span class="tid">T1539</span>Steal Web Session Cookie</button><button type="button" class="mcell conf-confirmed" data-tech="T1111"><span class="tid">T1111</span>MFA Interception</button><button type="button" class="mcell conf-confirmed" data-tech="T1003.003"><span class="tid">T1003.003</span>OS Credential Dumping: NTDS</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1046"><span class="tid">T1046</span>Network Service Discovery</button><button type="button" class="mcell conf-confirmed" data-tech="T1580"><span class="tid">T1580</span>Cloud Infrastructure Discovery</button><button type="button" class="mcell conf-confirmed" data-tech="T1619"><span class="tid">T1619</span>Cloud Storage Object Discovery</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1021.001"><span class="tid">T1021.001</span>Remote Desktop Protocol</button><button type="button" class="mcell conf-confirmed" data-tech="T1021.006"><span class="tid">T1021.006</span>Windows Remote Management</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1530"><span class="tid">T1530</span>Data from Cloud Storage</button><button type="button" class="mcell conf-confirmed" data-tech="T1114.002"><span class="tid">T1114.002</span>Remote Email Collection</button><button type="button" class="mcell conf-confirmed" data-tech="T1115"><span class="tid">T1115</span>Clipboard Data</button><button type="button" class="mcell conf-confirmed" data-tech="T1113"><span class="tid">T1113</span>Screen Capture</button><button type="button" class="mcell conf-reported" data-tech="T1074"><span class="tid">T1074</span>Data Staged</button><button type="button" class="mcell conf-aggregator" data-tech="T1114"><span class="tid">T1114</span>Email Collection</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1071.001"><span class="tid">T1071.001</span>Web Protocols</button><button type="button" class="mcell conf-confirmed" data-tech="T1001"><span class="tid">T1001</span>Data Obfuscation</button><button type="button" class="mcell conf-confirmed" data-tech="T1572"><span class="tid">T1572</span>Protocol Tunneling</button><button type="button" class="mcell conf-confirmed" data-tech="T1090.003"><span class="tid">T1090.003</span>Multi-hop Proxy</button><button type="button" class="mcell conf-aggregator" data-tech="T1090"><span class="tid">T1090</span>Proxy</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed" data-tech="T1041"><span class="tid">T1041</span>Exfiltration Over C2 Channel</button><button type="button" class="mcell conf-confirmed" data-tech="T1567.002"><span class="tid">T1567.002</span>Exfiltration to Cloud Storage</button><button type="button" class="mcell conf-aggregator" data-tech="T1567"><span class="tid">T1567</span>Exfiltration Over Web Service</button><button type="button" class="mcell conf-aggregator" data-tech="T1048"><span class="tid">T1048</span>Exfiltration Over Alternative Protocol</button></div>
+        <div class="mcol"><button type="button" class="mcell conf-confirmed impact" data-tech="T1486"><span class="tid">T1486</span>Data Encrypted for Impact</button><button type="button" class="mcell conf-confirmed impact" data-tech="T1485"><span class="tid">T1485</span>Data Destruction</button><button type="button" class="mcell conf-confirmed impact" data-tech="T1490"><span class="tid">T1490</span>Inhibit System Recovery</button><button type="button" class="mcell conf-confirmed impact" data-tech="T1489"><span class="tid">T1489</span>Service Stop</button><button type="button" class="mcell conf-confirmed impact" data-tech="T1565.001"><span class="tid">T1565.001</span>Stored Data Manipulation</button></div>
+      </div>
+    </div>
+    <div class="tech-detail" id="tech-detail" aria-live="polite">
+      <h3 id="td-title">Select a technique</h3>
+      <div class="tmeta" id="td-meta">Click any cell in the matrix to see the procedure n0n used, how it was observed, and what to hunt for.</div>
+      <p id="td-proc"></p>
+      <p id="td-det"></p>
+    </div>
+    <p class="tl-note">Notes on the mapping. The confirmed procedures come from SOCRadar&rsquo;s analysis of the operator&rsquo;s exposed workspace (28 Oct 2026). CyberXTron&rsquo;s first mapping (22 Sep 2026) lists techniques as &ldquo;associated&rdquo; without published procedures — those are marked Reported. Threadlinqs detection content adds parent techniques (T1090, T1114, T1567) and two Azazel-linked items (T1036.004, T1048) — marked Aggregator-reported and not adopted as n0n procedures; see <a href="#connections">Possible connections</a>. One correction: CyberXTron&rsquo;s early table lists &ldquo;T1685 — Disable or Modify Tools&rdquo;; no such technique exists in MITRE ATT&amp;CK. The behaviour matches T1562.001, confirmed in SOCRadar&rsquo;s mapping, and T1685 is not carried as a technique here.</p>
+  </section>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Procedures — the full table</h2>
+    <p class="sub">Every technique in the diagram, with the procedure observed. This table is the reference; the diagram above is the navigation.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>Tactic</th><th>Technique</th><th>Procedure observed</th><th>Confidence</th></tr>
+      <tr><td>Reconnaissance</td><td><a href="https://attack.mitre.org/techniques/T1595/001/" target="_blank" rel="noopener noreferrer">T1595.001</a></td><td>RDP batch scans; a ranked list of 305 FortiGate SSL-VPN appliances.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Initial Access</td><td><a href="https://attack.mitre.org/techniques/T1078/" target="_blank" rel="noopener noreferrer">T1078</a></td><td>Weak or default RDP/WinRM administrator credentials; firewall-manager admin accounts.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Initial Access</td><td><a href="https://attack.mitre.org/techniques/T1078/004/" target="_blank" rel="noopener noreferrer">T1078.004</a></td><td>Exposed long-lived AWS IAM access keys.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Initial Access</td><td><a href="https://attack.mitre.org/techniques/T1133/" target="_blank" rel="noopener noreferrer">T1133</a></td><td>Internet-facing FortiGate SSL-VPN, RDP and WinRM.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Execution</td><td><a href="https://attack.mitre.org/techniques/T1059/001/" target="_blank" rel="noopener noreferrer">T1059.001</a></td><td>Strike, exfiltration and implant scripts pasted into RDP sessions.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Execution / Persistence</td><td><a href="https://attack.mitre.org/techniques/T1053/005/" target="_blank" rel="noopener noreferrer">T1053.005</a></td><td>Locker and audit runs as SYSTEM tasks every 5–10 minutes; persistence tasks named AfricaSync, FinSoftSync*, SvcSync, NetAssist.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Execution</td><td><a href="https://attack.mitre.org/techniques/T1651/" target="_blank" rel="noopener noreferrer">T1651</a></td><td>AWS SSM commands, hosting-panel recipes and Zabbix script execution.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Persistence</td><td><a href="https://attack.mitre.org/techniques/T1547/001/" target="_blank" rel="noopener noreferrer">T1547.001</a></td><td>Registry Run key <code>n0nNote</code> opens the ransom note at every logon.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Persistence</td><td><a href="https://attack.mitre.org/techniques/T1136/001/" target="_blank" rel="noopener noreferrer">T1136.001</a></td><td>Hidden administrators <code>svc_upd</code> (&ldquo;Software Update&rdquo;), <code>svc_reg</code> (&ldquo;Registry Service&rdquo;), <code>svc&lt;slug&gt;</code>.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Persistence</td><td><a href="https://attack.mitre.org/techniques/T1098/004/" target="_blank" rel="noopener noreferrer">T1098.004</a></td><td>Operator keys installed via VNC console on cloud clones; <code>root@3090-AI</code> on FMC appliances.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Defense Evasion</td><td><a href="https://attack.mitre.org/techniques/T1562/001/" target="_blank" rel="noopener noreferrer">T1562.001</a></td><td>Symantec Endpoint Protection stopped and disabled.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Defense Evasion</td><td><a href="https://attack.mitre.org/techniques/T1564/002/" target="_blank" rel="noopener noreferrer">T1564.002</a></td><td>SpecialAccounts\UserList value 0 for the cover accounts.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Defense Evasion</td><td><a href="https://attack.mitre.org/techniques/T1070/004/" target="_blank" rel="noopener noreferrer">T1070.004</a></td><td>Toolkit overwritten three times and deleted; launchers self-delete.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Defense Evasion</td><td><a href="https://attack.mitre.org/techniques/T1027/" target="_blank" rel="noopener noreferrer">T1027</a></td><td>Obfuscated files or information — listed as associated in the early mapping; no procedure published.</td><td><span class="tag reported">Reported</span></td></tr>
+      <tr><td>Defense Evasion</td><td><a href="https://attack.mitre.org/techniques/T1036/004/" target="_blank" rel="noopener noreferrer">T1036.004</a></td><td>Masquerading — reported by Threadlinqs for the Azazel-linked cluster; not in SOCRadar&rsquo;s n0n mapping.</td><td><span class="tag unconfirmed">Aggregator</span></td></tr>
+      <tr><td>Credential Access</td><td><a href="https://attack.mitre.org/techniques/T1110/004/" target="_blank" rel="noopener noreferrer">T1110.004</a></td><td>FortiGate <code>/remote/logincheck</code> credential stuffing via residential proxies (<code>Cookie: APBSID=n0n</code>); 15-thread SOCKS5 pool per Threadlinqs.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Credential Access</td><td><a href="https://attack.mitre.org/techniques/T1110/002/" target="_blank" rel="noopener noreferrer">T1110.002</a></td><td>Offline cracking of stolen SaaS user hashes and encrypted 7z archives.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Credential Access</td><td><a href="https://attack.mitre.org/techniques/T1555/003/" target="_blank" rel="noopener noreferrer">T1555.003</a></td><td>Chrome/Edge credential stores decrypted, including Chrome&rsquo;s app-bound key.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Credential Access</td><td><a href="https://attack.mitre.org/techniques/T1539/" target="_blank" rel="noopener noreferrer">T1539</a></td><td>Live administrator Chrome profiles copied and driven over DevTools.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Credential Access</td><td><a href="https://attack.mitre.org/techniques/T1111/" target="_blank" rel="noopener noreferrer">T1111</a></td><td>Billing-panel MFA codes read from the staff mailbox.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Credential Access</td><td><a href="https://attack.mitre.org/techniques/T1003/003/" target="_blank" rel="noopener noreferrer">T1003.003</a></td><td>NTDS.dit copy from a shadow copy (scripted).</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Discovery</td><td><a href="https://attack.mitre.org/techniques/T1046/" target="_blank" rel="noopener noreferrer">T1046</a></td><td>Internal sweeps of 445/3389/5985/1433.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Discovery</td><td><a href="https://attack.mitre.org/techniques/T1580/" target="_blank" rel="noopener noreferrer">T1580</a></td><td>EC2/ECS/SSM mapping and hosting-panel VM inventories.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Discovery</td><td><a href="https://attack.mitre.org/techniques/T1619/" target="_blank" rel="noopener noreferrer">T1619</a></td><td>S3 bucket listing and prefix census.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Lateral Movement</td><td><a href="https://attack.mitre.org/techniques/T1021/001/" target="_blank" rel="noopener noreferrer">T1021.001</a></td><td>Headless xfreerdp sessions driven by key injection and OCR.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Lateral Movement</td><td><a href="https://attack.mitre.org/techniques/T1021/006/" target="_blank" rel="noopener noreferrer">T1021.006</a></td><td>pywinrm strikes, triage and browser theft.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Collection</td><td><a href="https://attack.mitre.org/techniques/T1530/" target="_blank" rel="noopener noreferrer">T1530</a></td><td>S3 bulk pulls with per-bucket byte caps.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Collection</td><td><a href="https://attack.mitre.org/techniques/T1114/002/" target="_blank" rel="noopener noreferrer">T1114.002</a></td><td>Full IMAP dump of a provider staff mailbox.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Collection</td><td><a href="https://attack.mitre.org/techniques/T1115/" target="_blank" rel="noopener noreferrer">T1115</a></td><td>RDP results returned through the clipboard.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Collection</td><td><a href="https://attack.mitre.org/techniques/T1113/" target="_blank" rel="noopener noreferrer">T1113</a></td><td>Remote screen captured and read with OCR to drive logons.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Collection</td><td><a href="https://attack.mitre.org/techniques/T1074/" target="_blank" rel="noopener noreferrer">T1074</a></td><td>Data staged — listed in the early mapping; per-target staging pipelines with data budgets in the workspace account.</td><td><span class="tag reported">Reported</span></td></tr>
+      <tr><td>Collection</td><td><a href="https://attack.mitre.org/techniques/T1114/" target="_blank" rel="noopener noreferrer">T1114</a></td><td>Email collection — parent technique reported by Threadlinqs; SOCRadar&rsquo;s T1114.002 is the confirmed sub-technique.</td><td><span class="tag unconfirmed">Aggregator</span></td></tr>
+      <tr><td>Command &amp; Control</td><td><a href="https://attack.mitre.org/techniques/T1071/001/" target="_blank" rel="noopener noreferrer">T1071.001</a></td><td>HTTPS implant C2 (<code>c2srv.py</code>) and the kserver panel.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Command &amp; Control</td><td><a href="https://attack.mitre.org/techniques/T1001/" target="_blank" rel="noopener noreferrer">T1001</a></td><td>Status beacon disguised as card-payment JSON to <code>/x/i</code>.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Command &amp; Control</td><td><a href="https://attack.mitre.org/techniques/T1572/" target="_blank" rel="noopener noreferrer">T1572</a></td><td>SSH -D SOCKS tunnels over Tor.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Command &amp; Control</td><td><a href="https://attack.mitre.org/techniques/T1090/003/" target="_blank" rel="noopener noreferrer">T1090.003</a></td><td>Tor, SSH pivots, gost exits on compromised hosts, residential proxies.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Command &amp; Control</td><td><a href="https://attack.mitre.org/techniques/T1090/" target="_blank" rel="noopener noreferrer">T1090</a></td><td>Proxy — parent technique reported by Threadlinqs; SOCRadar&rsquo;s T1090.003 is the confirmed sub-technique.</td><td><span class="tag unconfirmed">Aggregator</span></td></tr>
+      <tr><td>Exfiltration</td><td><a href="https://attack.mitre.org/techniques/T1041/" target="_blank" rel="noopener noreferrer">T1041</a></td><td>Zip-base64 POSTs to <code>/c2/&hellip;/out</code> (8 GiB budget).</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Exfiltration</td><td><a href="https://attack.mitre.org/techniques/T1567/002/" target="_blank" rel="noopener noreferrer">T1567.002</a></td><td>Uploads to a public file-hosting service.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Exfiltration</td><td><a href="https://attack.mitre.org/techniques/T1567/" target="_blank" rel="noopener noreferrer">T1567</a></td><td>Exfiltration over web service — parent technique reported by Threadlinqs; SOCRadar&rsquo;s T1567.002 is the confirmed sub-technique.</td><td><span class="tag unconfirmed">Aggregator</span></td></tr>
+      <tr><td>Exfiltration</td><td><a href="https://attack.mitre.org/techniques/T1048/" target="_blank" rel="noopener noreferrer">T1048</a></td><td>Exfiltration over alternative protocol — reported by Threadlinqs for the Azazel-linked cluster; not in SOCRadar&rsquo;s n0n mapping.</td><td><span class="tag unconfirmed">Aggregator</span></td></tr>
+      <tr><td>Impact</td><td><a href="https://attack.mitre.org/techniques/T1486/" target="_blank" rel="noopener noreferrer">T1486</a></td><td>n0n locker (Windows/Linux) and the OpenSSL stage on FMC appliances; files renamed to <code>.n0n</code>.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Impact</td><td><a href="https://attack.mitre.org/techniques/T1485/" target="_blank" rel="noopener noreferrer">T1485</a></td><td>S3 mass deletion; a provider&rsquo;s servers and backups removed.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Impact</td><td><a href="https://attack.mitre.org/techniques/T1490/" target="_blank" rel="noopener noreferrer">T1490</a></td><td>Shadow copies deleted; free space wiped.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Impact</td><td><a href="https://attack.mitre.org/techniques/T1489/" target="_blank" rel="noopener noreferrer">T1489</a></td><td>MSSQL, MySQL and IIS stopped before encryption.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+      <tr><td>Impact</td><td><a href="https://attack.mitre.org/techniques/T1565/001/" target="_blank" rel="noopener noreferrer">T1565.001</a></td><td>Firewall rules flipped to BLOCK in the FMC configuration database.</td><td><span class="tag confirmed">Confirmed</span></td></tr>
+    </table></div>
+    <p class="tl-note">Technique names link to MITRE ATT&amp;CK. &ldquo;Confirmed&rdquo; means the procedure was observed in the operator&rsquo;s exposed workspace and published by SOCRadar. &ldquo;Reported&rdquo; means the technique appears in an early mapping without a published procedure. &ldquo;Aggregator&rdquo; means it appears in third-party detection content only.</p>
+  </section>
+
+  <section id="ttp-changes">
+    <h2>Tracking changes to TTPs</h2>
+    <p class="sub">Newest first. This is the section that moves: when a new technique is observed, a procedure changes, or a reported technique is confirmed or dropped, it goes here at the top with a date. Techniques are never silently removed — a removal gets a dated entry too.</p>
+    <div class="filter-bar" id="ttp-filter" role="group" aria-label="Filter TTP change log">
+      <button type="button" class="chip is-active" data-filter="all">All <span class="n"></span></button>
+      <button type="button" class="chip" data-filter="added">New techniques <span class="n"></span></button>
+      <button type="button" class="chip" data-filter="changed">Changed understanding <span class="n"></span></button>
+      <button type="button" class="chip" data-filter="note">Notes <span class="n"></span></button>
+    </div>
+    <p class="tl-note" id="ttp-count"></p>
+    <ul class="timeline" id="ttp-log">
+      <li data-kind="added"><span class="t">16 Nov 2026</span><div class="e"><p><strong>FortiGate stuffing pipeline detailed.</strong> Detection content for the credential-stuffing campaign specifies the pattern: bursts of failed FortiGate SSL-VPN logins at <code>/remote/login</code>, one source address trying many distinct usernames within 10 minutes, run through a 15-thread residential SOCKS5 proxy pool. This refines T1110.004 (already confirmed) — no new technique, but the detection procedure is now specific enough to hunt on.</p><p><a href="https://intel.threadlinqs.com/threat/TL-2026-6143" target="_blank" rel="noopener noreferrer">Threadlinqs TL-2026-6143</a></p></div></li>
+      <li data-kind="note"><span class="t">10 Nov 2026</span><div class="e"><p><strong>Azazel / MCP association reported — not adopted.</strong> Aggregator detection content links n0n to the Azazel MCP reverse-shell C2 cluster (Threadlinqs TL-2026-5634, attribution &ldquo;low confidence&rdquo;). The Azazel operation is documented separately by CloudSEK as a Gentlemen RaaS affiliate running its own LEAKNED site with a Penelope reverse shell exposed to an AI coding assistant through an MCP server. The two exposed workspaces are different servers with different toolsets, and SOCRadar&rsquo;s n0n mapping contains no MCP technique. T1036.004 and T1048 stay marked Aggregator-reported, and the link is tracked under <a href="#connections">Possible connections</a>, not as n0n TTPs.</p><p><a href="https://intel.threadlinqs.com/threat/TL-2026-5634" target="_blank" rel="noopener noreferrer">Threadlinqs TL-2026-5634</a> · <a href="https://www.bitdefender.com/en-us/blog/businessinsights/bitdefender-threat-debrief-november-2026" target="_blank" rel="noopener noreferrer">Bitdefender, 10 Nov 2026</a></p></div></li>
+      <li data-kind="added"><span class="t">28–30 Oct 2026</span><div class="e"><p><strong>Full procedure set lands at once.</strong> SOCRadar&rsquo;s analysis of the exposed operator workspace replaces the early CyberXTron table as the authoritative mapping. Newly confirmed: reconnaissance (T1595.001), cloud techniques (T1078.004, T1580, T1619, T1651, T1530), MFA interception (T1111), NTDS dumping (T1003.003), browser credential and session theft (T1555.003, T1539), command-and-control (T1071.001, T1001, T1572, T1090.003), exfiltration over C2 (T1041, T1567.002), and firewall manipulation (T1565.001). The workspace also confirms the locker is real (T1486) while showing destruction (T1485) is used where encryption is not — settling the earlier disagreement over whether n0n is &ldquo;really ransomware&rdquo;.</p><p><a href="https://socradar.io/blog/n0n-ransomware-ai-assisted-extortion/" target="_blank" rel="noopener noreferrer">SOCRadar, 28 Oct 2026</a></p></div></li>
+      <li data-kind="changed"><span class="t">12 Oct 2026</span><div class="e"><p><strong>Initial-access understanding splits for the maritime wave.</strong> The 38-organisation batch does not fit the credential-access pattern: SOCRadar&rsquo;s stealer-log checks found no credential matches for many listed maritime organisations, and the data sets are small and application-scoped. The working hypothesis becomes an exposed shared application or vulnerability. No new technique is added; the access question for this batch is open, and the shared source is unconfirmed (CyberLogitec link unverified).</p><p><a href="https://socradar.io/blog/n0n-group-global-ports-shipping-leak/" target="_blank" rel="noopener noreferrer">SOCRadar</a> · <a href="https://cydome.io/n0n-cyber-extortion-incident-involving-38-maritime-companies-likely-traces-back-to-a-single-vendor/" target="_blank" rel="noopener noreferrer">Cydome, 15 Oct 2026</a></p></div></li>
+      <li data-kind="added"><span class="t">22 Sep 2026</span><div class="e"><p><strong>First mapping published.</strong> CyberXTron&rsquo;s early table associates ten techniques with the group: T1078, T1059, T1021.001, T1547, T1074, T1486, T1490, T1489, T1027 and T1685. Procedures are not published at this stage. Note: &ldquo;T1685 — Disable or Modify Tools&rdquo; does not exist in MITRE ATT&amp;CK; the behaviour matches T1562.001, confirmed later by SOCRadar, and T1685 is not carried as a technique on this page.</p><p><a href="https://cyberxtron.com/resources/blogs/-n0n-ransomware-emerges-as-a-new-threat-group-with-destructive-extortion-claims--8167" target="_blank" rel="noopener noreferrer">CyberXTron</a></p></div></li>
+    </ul>
+  </section>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Indicators of compromise</h2>
+    <p class="sub">As published by SOCRadar from the operator&rsquo;s exposed workspace (28 Oct 2026). Defanged. The full list on SOCRadar&rsquo;s platform may be longer; this is the published set.</p>
+    <h3>Infrastructure</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>Type</th><th>Indicator</th><th>Context</th></tr>
+      <tr><td>IPv4</td><td class="mono">185.157.161.148</td><td>Agent box — kserver C2 — /x/i beacon; open file server on :8877 (AS42675, Sweden)</td></tr>
+      <tr><td>IPv4</td><td class="mono">185.157.161.93</td><td>ntpsync.io origin — PHP payloads</td></tr>
+      <tr><td>IPv4</td><td class="mono">81.161.239.10</td><td>&ldquo;monster&rdquo; — loot vault — implant C2 — payloads (:8455)</td></tr>
+      <tr><td>IPv4</td><td class="mono">188.214.135.130</td><td>&ldquo;raas&rdquo; — leak backend — payloads (:8898, :8899)</td></tr>
+      <tr><td>IPv4</td><td class="mono">198.13.158.143</td><td>SSH pivot over Tor — SOCKS hop to victim SaaS tenants</td></tr>
+      <tr><td>IPv4</td><td class="mono">45.132.114.241</td><td>Operator scrub-list IP</td></tr>
+      <tr><td>IPv4:port</td><td class="mono">217.18.55.185:11434</td><td>Self-hosted LLM</td></tr>
+      <tr><td>Domain</td><td class="mono">ntpsync.io</td><td>Beacon cover domain</td></tr>
+      <tr><td>Domain</td><td class="mono">n0n-cases.net</td><td>Extortion mail sender</td></tr>
+      <tr><td>Email</td><td class="mono">notice@n0n-cases.net</td><td>Extortion mail sender address</td></tr>
+      <tr><td>Domain</td><td class="mono">n0n.to</td><td>Leak site (clearnet, inactive)</td></tr>
+      <tr><td>Domain</td><td class="mono">uberip.com</td><td>Actor mail domain</td></tr>
+      <tr><td>Onion</td><td class="mono">nongzecboljwv3yfndkggsybsglfrkffw7bvk2zemuteoxe6etpusnad.onion</td><td>Onion leak site (Tor)</td></tr>
+    </table></div>
+    <h3>Files, paths, registry and accounts</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>Type</th><th>Indicator</th><th>Context</th></tr>
+      <tr><td>File / path</td><td class="mono">*.n0n, *.n0n.tmp, n0n_READ_ME.txt, C:\Users\Public\n0n\</td><td>Encrypted files — ransom note — staging directory</td></tr>
+      <tr><td>Registry</td><td class="mono">HKLM\Software\Microsoft\Windows\CurrentVersion\Run : n0nNote</td><td>Ransom note at logon</td></tr>
+      <tr><td>Account</td><td class="mono">svc_upd (&ldquo;Software Update&rdquo;), svc_reg (&ldquo;Registry Service&rdquo;), svc&lt;slug&gt;</td><td>Hidden administrators</td></tr>
+      <tr><td>Scheduled task</td><td class="mono">[NAME]Sync*, [NAME]Audit, [NAME]Exfil, NetAssist, ChromeDbg*</td><td>SYSTEM tasks referencing C:\Users\Public\n0n\</td></tr>
+      <tr><td>Firewall</td><td class="mono">Snort rule &ldquo;n0n-lock&rdquo; (sid 2100001)</td><td>Injected on compromised Cisco FMC appliances</td></tr>
+      <tr><td>SSH</td><td class="mono">authorized_keys entries ending root@3090-AI</td><td>Operator keys on FMC appliances and cloud clones</td></tr>
+    </table></div>
+    <h3>Hashes</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>Type</th><th>Value</th><th>Context</th></tr>
+      <tr><td>SHA-1</td><td class="mono">dc82e9c22c4a06c6bc03701fce2b55f4f490c651</td><td>nenc.exe</td></tr>
+      <tr><td>SHA-256</td><td class="mono">d1fd3a8ac4ada74b8ccbcdf5134797acff401b7fb50e16549b337781dfe1a486</td><td>nenc.cpp — Windows locker v1</td></tr>
+      <tr><td>SHA-256</td><td class="mono">340172627cdf40927784956be784bd2b3f5d1584cb79cf31064f387bbe9acb28</td><td>nenc2.cpp — Windows locker v2</td></tr>
+      <tr><td>SHA-256</td><td class="mono">886b3608d05069d314fa6300404de6627f96b13a95c5633f6c91dfc2a545ac87</td><td>nenc2l.cpp — Linux locker</td></tr>
+    </table></div>
+    <details class="wallets">
+      <summary>Ransom wallets — 55 Bitcoin addresses (September, including the maritime wave)</summary>
+      <p class="tl-note">As published by SOCRadar, 28 Oct 2026. A check of all 55 showed zero transactions as of 16 October 2026.</p>
+      <code>bc1qcf8uuvqfnucqt8crr8cgkfjevhvytjahppesem<br>bc1qxr2ruep9ast6sz32x7eza7csf49sguqwsnhhaa<br>bc1qyv92sc45cgah5ggwmsppdm323d4jya4rprrqtu<br>bc1q78uygtqyjumvh3s7dz75s0ttgsrz4jx5t3wu9n<br>bc1q98r9gusxzn4st2sr9mxvq7r66ny8dfgtdlgk9h<br>bc1q7zlg34wgtdw0dl0tn4gh52vj9nglt77p9necy8<br>bc1q97y47gkmd4cve9eadws59xz434ag2mntwy7lnv<br>bc1qezgj37g0hr8d29txsnpdjs02lr9kjvhyxzwtkg<br>bc1qp2hk3dla0tqus76emls2sppekvurrcd3ghj827<br>bc1qncxk5npnqzp39ns8jv5mj9pr6vx0ekpln2605s<br>bc1qv6mhllrmzdgl2rk09j7ynuqlgzhfguw0sj77vc<br>bc1q47wp4v8u5myse07mglenk4skssvdj6zfvdrj0l<br>bc1qh8082ye3dsyhcg8q9mglvr0w80v0gpumd5ndv8<br>bc1qpp89qpfmvf9xm6ued5v49e92s47m3mn4vngusw<br>bc1q030z6k205jz46cyn60jqts9v7xlq895ttd6r9p<br>bc1qtkuqkl5h4qekgpvjpkfgapl5fqgzpxdntlwk9c<br>bc1qck73xcn7p83emjkgrcpkvujqngnraunu09sc9s<br>bc1qthtsf88sx3czclzkx73cjxk0u5ep5kqnvhtpt8<br>bc1qp6wyngevq4aycqll3wpc03pf6qwgwcvr3md6ga<br>bc1qldy6h5zlv0aqhyyxwfsra3gqjw694yfj8rtl83<br>bc1qmfhq8plvqe4cdtypgukq7276jmerdt3gqh33xy<br>bc1qxed2puty9lmcga2mk6780khqtnlrl5ptsm6t49<br>bc1qfed3fh7f6g8dkmvq7pvrln3f0khf8aut9r2hue<br>bc1qcxqsrfrefgyv6tevuytquq28c4zrftvcflwm96<br>bc1qt2f08qa3e4wtn0rkscg4flypp3dxy7dhzefa4e<br>bc1q2ua7h64tmywa7xfn4l7f0v868tfte80lgfcmh3<br>bc1qg7nkelnag2sefg45dgu3ay7xyv3ak3v48fh45h<br>bc1qswvm6d2x8n8mpuz5x2y4wtqpy34xdxe023cw4u<br>bc1qyfc9qlsmp6jrq8y4v50ps94qtffwvzejsezsqk<br>bc1qcrm6qxz633suda3eacqxkdnx05ztd2mh0y3dxa<br>bc1qxktcy6ssugttfr6v5695kzgud9eqw8h7d2r0ss<br>bc1qe9lq4m7rjgk533u3g3cgf7xs5pn2l8e3l5pfjt<br>bc1q48vuydq5j8e98lwmt69aqhr5gcu5mn2pc4eqkx<br>bc1q8etz0apvr6tclxxznsss2tk07v46ckxmrjwsde<br>bc1qpf72d8lk4caqs3ewej75jasd44umg3juw58asn<br>bc1qhavzrsz8y2lqcwp5frckl5fy8exhmacyxz3lcy<br>bc1qqrcegl2a2tkrdln4r6jn2pm9fp84mv60d5y4ug<br>bc1qsv8yzm09njxmt5khlpyrhnjfupzpd7vykc7e46<br>bc1qpek2637ed7a4f2nff60rrng52fudqsk9l905ra<br>bc1q3nswa35s5vax3q3txf3mpy260zad4vyadpfg98<br>bc1ql0pdlaga5q3xrznd80mzuzgsv4nuz4fzut7td6<br>bc1qqrvt0ank3y2axmuzxlm2z4879qqxa37nwdafvr<br>bc1qsclrrwmjnfxzwcmskqlax9htdnc9yd5n99l5ml<br>bc1qk9s5ngavpwla07w2v3wjwwkt75uj6zmspkxg6p<br>bc1qx3u3xa7eqkukxuuyr00zq5ynx5ylepw9e4d4ph<br>bc1qccgses0q46lpttjtuchnsc2rz28qn9lng67hne<br>bc1qqc2dy605g0hmcaqfm8ne85dwctfw7603f7a03m<br>bc1qmdzpn0d0flf4pswu8ze57e7yyx883lxp55f7f2<br>bc1qpjvl29njpedxhljq0nvvskmxra8p9e8stssegm<br>bc1q50x7akwznysr8r3v00p8uzxqztuzg5t2x0tavt<br>bc1qmz68h5vyqa9feduhceh34ygmaq3fr3xnau7myf<br>bc1q3jgtpksgg5ldhq34z93xqtt39y9kzpkz2674x8<br>bc1qgnmfhcppgdynjfwxzrrspxsfr9zgps6ctgkh2z<br>bc1q3aw0gz7nnqvfnv9nld686q05lgh2d4yxmzlgcg<br>bc1q9k3lqn4zfl733pxcwk7erqtdmuw68w80hvru39</code>
+    </details>
+    <h3>Behavioural markers to hunt</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>Where to look</th><th>Marker</th></tr>
+      <tr><td>FortiGate / firewall logs</td><td><code>/remote/logincheck</code> requests carrying <code>Cookie: APBSID=n0n</code>; bursts of failed logins with many distinct usernames from one source</td></tr>
+      <tr><td>Endpoint</td><td>Creation of <code>C:\Users\Public\n0n\</code>; <code>*.n0n</code>, <code>*.n0n.tmp</code>, <code>n0n_READ_ME*</code>; rapid renames to <code>.n0n</code> after MSSQL/W3SVC/MySQL termination and vssadmin shadow deletion</td></tr>
+      <tr><td>PowerShell</td><td><code>Net.WebClient.DownloadFile</code> to HTTPS hex URLs with <code>ServerCertificateValidationCallback={$true}</code>, followed by <code>Get-FileHash</code> SHA1 checks</td></tr>
+      <tr><td>Persistence</td><td>SYSTEM scheduled tasks referencing <code>C:\Users\Public\n0n\</code>; Registry Run key <code>n0nNote</code>; hidden local admins with non-expiring passwords and UserList=0</td></tr>
+      <tr><td>Browser</td><td>Chrome launched with <code>--remote-debugging-port</code> on cloned profiles; portproxy forwarding port 9223 to 127.0.0.1:9222</td></tr>
+      <tr><td>Firewall appliances</td><td>FMC REST tokens from non-management IPs; default policy flips to BLOCK; Snort rule <code>n0n-lock</code> (sid 2100001); OpenSSL-encrypted <code>*.n0n</code> files under <code>/Volume/lib</code>; authorized_keys entries ending <code>root@3090-AI</code></td></tr>
+      <tr><td>Cloud</td><td>CloudTrail sequences of ListBuckets, sustained GetObject and DeleteObjects in 1,000-item batches; PutObject writing <code>n0n_READ_ME.txt</code>; <code>ssm:SendCommand</code> from new or inactive keys</td></tr>
+      <tr><td>Hosting platforms</td><td>New OnApp recipes or Zabbix scripts with &ldquo;maintenance&rdquo; names; backup-to-template conversions; VMs tagged <code>mnt-*</code></td></tr>
+      <tr><td>Network</td><td>JSON POSTs to <code>/x/i</code> containing &ldquo;ippay-web&rdquo; with card data</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Victimology</h2>
+    <p class="sub">What the counts actually mean — and what they do not. Leak-site listings are the group&rsquo;s own claims; a listing is not proof of a breach.</p>
+    <div class="callout warn"><strong>The count is the story.</strong> Bitdefender&rsquo;s October debrief: 1,072 claimed ransomware victims across leak sites, or 946 after removing 126 n0n entries. The group&rsquo;s own server shows just over 20 real targets against 100+ listings. Duplicates and false entries appear to come from weaknesses in maintaining the site and polling potential targets. Do not quote a leak-site total as a victim count.</div>
+    <h3>Claimed counts over time</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>Date</th><th>Claimed total</th><th>Basis</th></tr>
+      <tr><td>22 Sep 2026</td><td>13</td><td>Leak-site listings, 10 countries (CyberXTron)</td></tr>
+      <tr><td>8 Oct 2026</td><td>21</td><td>Leak-site listings, 17 countries (SOCRadar)</td></tr>
+      <tr><td>12 Oct 2026</td><td>59 (21 + 38 maritime)</td><td>Single maritime batch across 18 countries (SOCRadar, Cydome)</td></tr>
+      <tr><td>19 Oct 2026</td><td>93</td><td>Leak-site listings; total demands $283.7M (SOCRadar)</td></tr>
+      <tr><td>Early Nov 2026</td><td>170+</td><td>Claimed victims (Check Point Research)</td></tr>
+      <tr><td>4 Nov 2026</td><td>~189</td><td>Claimed since mid-September (OSec)</td></tr>
+      <tr><td>Mid-Nov 2026</td><td>195</td><td>Claimed victims through mid-month (HackerFeeds, via trade press)</td></tr>
+      <tr><td>16 Nov 2026</td><td>363 entries</td><td>Ransomtracker entries, of which 168 are numbered placeholders (Ransomnews)</td></tr>
+      <tr><td>—</td><td>Just over 20</td><td>Real targets per the group&rsquo;s own exposed server (Bitdefender, SOCRadar: 23 organisations in the workspace)</td></tr>
+    </table></div>
+    <p class="tl-note">Tracker totals disagree because they count different things — listings, named victims, placeholders, and workspace evidence. They are kept side by side here and never added together.</p>
+    <h3>Sectors and geography</h3>
+    <p>Early victimology is broad and opportunistic. The first 13 listings: financial services 23% (3), technology, retail &amp; e-commerce and education 15% each (2), government &amp; defence, healthcare, professional services and other 8% each (1). The workspace&rsquo;s 23 organisations span 15 sectors. October concentrates in logistics and shipping (the 38-organisation maritime wave; South Korea accounts for 12 of the 38, including Busan terminal operators BNCT and Pusan Newport Company), and Bitdefender notes South Korean victims rose to 18 in October, 11 of them claimed by n0n and all in transportation. OSec&rsquo;s assessment: the primary geographic focus is the US and South Korea, and the most-targeted sectors are logistics and shipping, technology, retail, healthcare, manufacturing and finance.</p>
+    <h3>BFSI victims — all claims unless stated</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>Organisation</th><th>What n0n claims</th><th>Status</th></tr>
+      <tr><td>Visa</td><td>Cardmember programme records (Asia Pacific): names, emails, phone numbers, travel and dining bookings. No card numbers mentioned.</td><td><span class="tag reported">Reported</span> — Visa confirmed an incident at a third-party provider in Asia Pacific; Visa&rsquo;s systems not involved, no sign card numbers affected. n0n&rsquo;s role unconfirmed.</td></tr>
+      <tr><td>Mastercard</td><td>MEA cardmember programme records claimed.</td><td><span class="tag unconfirmed">Unconfirmed</span></td></tr>
+      <tr><td>JPMorgan Chase</td><td>Email campaign records for a premium Reserve card programme claimed.</td><td><span class="tag unconfirmed">Unconfirmed</span> — Chase said its 16 Nov outage was a software bug, with no evidence of a cyberattack.</td></tr>
+      <tr><td>D.R. Johnson Financial</td><td>245,667 distinct emails; 5,548 phone numbers; GoldMine archive of 89,740 files.</td><td><span class="tag reported">Reported</span> — data published, per leak-site reporting.</td></tr>
+      <tr><td>Tailored Benefits</td><td>434,983 emails claimed.</td><td><span class="tag unconfirmed">Unconfirmed</span></td></tr>
+      <tr><td>ARCA Financial; Opus Wealth Advisors; Pearl Planning; Terracotta Wealth; Wise Advisory Group</td><td>Canadian advisory and planning firms, named 16 Nov 2026.</td><td><span class="tag unconfirmed">Unconfirmed</span></td></tr>
+      <tr><td>Steeden Financial</td><td>600,000+ emails claimed, including Social Insurance Numbers.</td><td><span class="tag unconfirmed">Unconfirmed</span></td></tr>
+      <tr><td>Scry Analytics</td><td>Leak of a US private banking client&rsquo;s customer/signer records, plus an insurance group&rsquo;s 7,904-record party master.</td><td><span class="tag unconfirmed">Unconfirmed</span> — leak-site post only, no victim confirmation.</td></tr>
+      <tr><td>MM Insurance Agency</td><td>Listed as a claimed victim.</td><td><span class="tag unconfirmed">Unconfirmed</span></td></tr>
+      <tr><td>Higginbotham</td><td>217,000+ documents published.</td><td><span class="tag reported">Reported</span> — publication claimed; victim has not confirmed.</td></tr>
+      <tr><td>Two unnamed Canadian financial firms</td><td>Listed as claimed victims.</td><td><span class="tag unconfirmed">Unconfirmed</span></td></tr>
+      <tr><td>Transcom (PayPal&rsquo;s support outsourcer)</td><td>86.7 million support-agent records claimed from PayPal&rsquo;s Citrix and authentication systems, plus an internal network map.</td><td><span class="tag unconfirmed">Unconfirmed</span></td></tr>
+      <tr><td>Expedia</td><td>Named 9 Nov 2026; claimed travel data.</td><td><span class="tag reported">Reported</span> — Expedia confirmed a supplier breach on 12 Nov but did not confirm n0n&rsquo;s figures or say n0n was responsible.</td></tr>
+    </table></div>
+    <h3>Case highlights</h3>
+    <p><strong>Dediserve (cloud hosting):</strong> taken over through stolen admin browser credentials, with tenant backups extracted — the only Linux locker deployment in the workspace. <strong>Inter (Venezuelan ISP):</strong> the operator flipped every firewall rule on the ISP&rsquo;s Cisco FMC to BLOCK, claimed to have severed national network traffic, and demanded 15 BTC. <strong>Fanatics (sports e-commerce):</strong> an exposed AWS key led to exfiltration from 40 S3 buckets and deletion of a bank-transaction archive and twelve buckets, with a 30 BTC demand. <strong>ChiBiTek (managed IT services):</strong> breached end to end through the FortiGate credential-stuffing pipeline.</p>
+  </section>
+
+  <section>
+    <h2>Telemetry and things worth knowing</h2>
+    <p class="sub">The details that change how to think about this group.</p>
+    <h3>An AI-assisted operation, not an autonomous one</h3>
+    <p>The operator uses opencode, an open-source AI coding agent, configured with 154 model entries across seven providers — including &ldquo;uncensored&rdquo; and &ldquo;abliterated&rdquo; models with safety training removed, and a self-hosted model. The agent wrote and debugged hundreds of attack scripts; gateway spending passed $7,216 by 22 October 2026. The evidence points to a human-directed operation supported by AI; no fully autonomous attack system was observed. The group&rsquo;s own server also held the AI environment alongside 829 scripts and five encryptor sources.</p>
+    <h3>The economics do not add up — yet</h3>
+    <p>Demands range from 0.5 BTC to 33 BTC per victim, and up to $28 million per organisation in the maritime wave (the reviewed subset ran $2.4–$14 million). Each victim gets a unique Bitcoin address, and opening a negotiation room requires a 10% upfront payment. A check of all 55 collected addresses showed zero transactions as of 16 October 2026. One Canadian financial-services company carries the leak site&rsquo;s &ldquo;HONORED&rdquo; label with a settlement date of 7 October 2026 — the only settlement marker found. The gap between the claimed scale and the observed payments is unresolved.</p>
+    <h3>Key reuse is a recovery opportunity</h3>
+    <p>Each locker build uses a single hardcoded AES-256 key with no per-victim derivation, and one key is likely shared across two victims — so a decryptor for one could unlock the other. Bitdefender notes the same reuse. Because the operator also deletes shadow copies, wipes free space and removes provider-hosted backups, offline or immutable backups remain the only reliable recovery path.</p>
+    <h3>Third-party leverage</h3>
+    <p>Pressure is not limited to the victim. n0n contacts victims&rsquo; clients, MSPs, unions and the media, and in one case emailed PayPal&rsquo;s security team over a breach at its contact-centre provider. The maritime wave shows the same logic at scale: the Nam Dinh Vu Port posting states its archive would expose the cargo flows, booking relationships and operational records of every carrier that called at the terminal.</p>
+    <h3>Leak-site mechanics</h3>
+    <p>Listings carry a status and a countdown. &ldquo;PENDING EXPOSURE&rdquo; anonymises the victim as &ldquo;Company #N&rdquo; with only a sector and location, one to three days out. &ldquo;NOT PAID, EXPOSED&rdquo; names the victim with a publication date. &ldquo;HONORED&rdquo; marks a victim that settled before its deadline. Data is offered as a direct .zip archive and a .torrent, distributed from a VPN-bound seedbox. The maritime batch broke the earlier rhythm: named postings with a single shared publication time, seven days out. Data typically leaks about four days after public disclosure.</p>
+    <h3>The Fortinet connection</h3>
+    <p>OSec notes a recent Fortinet brute-forcing campaign (dubbed &ldquo;Fortibleed&rdquo;) likely fuelled the group&rsquo;s access. The group&rsquo;s own credential-stuffing pipeline targeted 305 FortiGate SSL-VPN appliances through residential proxies. No Fortinet vulnerability is involved — the attacks use weak or stolen credentials.</p>
+  </section>
+
+  <section id="connections">
+    <h2>Possible connections — unconfirmed</h2>
+    <p class="sub">Links reported by others, kept separate from the group&rsquo;s own record until evidence ties them together.</p>
+    <h3>Azazel and The Gentlemen</h3>
+    <p>CloudSEK&rsquo;s &ldquo;Caught in 4K: The Gentlemen Files&rdquo; (5 Oct 2026) documents a Russian-speaking affiliate of The Gentlemen ransomware-as-a-service group, using the name Azazel, who used the group&rsquo;s tooling, negotiation channels and ransom-note template but posted victims on his own leak site (LEAKNED) and kept the proceeds. His exposed servers showed 24+ victim directories and about 6 TB of staged data, and the first reported operational use of MCP&rsquo;s <code>exec_in_session</code> as a command-and-control channel — a Penelope reverse-shell handler registered as a tool in an AI coding assistant, driven through a local MCP endpoint at 127.0.0.1:35367.</p>
+    <p>Aggregator detection content (Threadlinqs TL-2026-5634) associates this cluster with n0n at low confidence. The association is not adopted here: the two exposed workspaces are different servers with different toolsets (OpenCode and credential stuffing for n0n; Penelope and MCP for Azazel), SOCRadar&rsquo;s n0n mapping contains no MCP technique, and Bitdefender treats the two as separate stories in the same debrief. If evidence later ties them together, it will be recorded in the TTP change log.</p>
+    <h3>Attribution</h3>
+    <p>No definitive geographic or national attribution exists. Some threat-intelligence vendors list n0n as likely Russia-based, but the evidence behind that assessment has not been shown. Cydome notes evidence that the group is not related to Iran, China or North Korea, and a detail in the maritime analysis was read as a possible indication of Christian origin — neither is attribution. SOCRadar assesses with medium confidence that the exposed server is a private workspace for a single operator or small team, while the group&rsquo;s broader framework, tooling and master wallet control indicate a multi-operator operation.</p>
+  </section>
+
+  <section>
+    <h2>Defensive actions</h2>
+    <p class="sub">Drawn from SOCRadar, Fortra and Bitdefender. Prioritised for identity, remote access, cloud and backup owners.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>Area</th><th>Action</th></tr>
+      <tr><td>Remote access</td><td>Enforce phishing-resistant MFA on RDP, SSL-VPNs and admin portals; monitor <code>/remote/logincheck</code> for credential stuffing (hunt <code>Cookie: APBSID=n0n</code>); invalidate credentials found in infostealer logs; remove internet-exposed RDP.</td></tr>
+      <tr><td>Firewall management</td><td>Restrict FortiManager and FMC interfaces with IP allow-lists and MFA; require approvals for policy changes; flag REST token creation from unknown IPs; hunt the injected Snort rule <code>n0n-lock</code> (sid 2100001).</td></tr>
+      <tr><td>Cloud keys</td><td>Replace long-lived keys with short-lived roles; separate S3 list, read and delete permissions; enable Object Lock and versioning; alert on high-volume DeleteObjects calls.</td></tr>
+      <tr><td>Backups</td><td>Keep air-gapped or immutable backups and test restores — n0n purges shadow copies, wipes free space and deletes provider-hosted backups.</td></tr>
+      <tr><td>Credentials</td><td>Enforce strong password policy and regular rotation; hunt hidden admins (<code>svc_*</code>), UserList=0 accounts and <code>root@3090-AI</code> authorized_keys entries.</td></tr>
+      <tr><td>Detection</td><td>Search EDR, CloudTrail, WinRM/RDP and firewall logs for the indicators and behaviours in this page; consider restricting PowerShell, Python and other advanced scripting for users outside IT.</td></tr>
+      <tr><td>Extortion readiness</td><td>Prepare a data-breach and extortion-specific response plan, not just ransomware recovery — stolen data remains stolen even if systems are restored from backup. Ask suppliers first when a company appears on a leak site: much of n0n&rsquo;s claimed data is the kind suppliers hold.</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Could not verify</h2>
+    <p class="sub">Open questions, stated plainly rather than filled in.</p>
+    <ul>
+      <li><strong>The maritime shared source.</strong> The CyberLogitec connection is unverified — the provider has not confirmed an incident — and no listed maritime organisation has publicly confirmed one. The shared-application hypothesis rests on data shape, not on an identified system.</li>
+      <li><strong>Whether any victim paid.</strong> One &ldquo;HONORED&rdquo; settlement marker exists (a Canadian financial-services company, 7 Oct 2026), but the 55 collected Bitcoin addresses showed zero transactions as of 16 Oct 2026. The two do not reconcile publicly.</li>
+      <li><strong>Whether the maritime data was actually exfiltrated.</strong> The listings describe small, application-scoped data sets; whether data was published after the 19 October deadline in the volumes described has not been established here.</li>
+      <li><strong>The Azazel link.</strong> Aggregator-reported at low confidence; the two operations are documented separately and the toolsets differ.</li>
+      <li><strong>Attribution.</strong> No definitive geographic or national attribution; &ldquo;likely Russia&rdquo; is a vendor assessment without published evidence.</li>
+      <li><strong>Backup destruction, case by case.</strong> S3 mass deletion and provider backup removal are documented in specific cases; the group&rsquo;s declared threat to destroy backups is broader than the documented executions, and no verified count of backup-destruction incidents exists.</li>
+      <li><strong>The full victim list.</strong> Trackers disagree by methodology (listings vs named victims vs placeholders vs workspace evidence). This page carries the counts side by side and does not merge them.</li>
+      <li><strong>No CVE is tied to any n0n intrusion.</strong> Every documented compromise relied on weak or stolen credentials; that is an absence in the available evidence, not proof no vulnerability was ever used.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <p class="sub">Primary sources first. Leak-site content is not linked and no stolen data was accessed.</p>
+    <ul class="src">
+      <li><a href="https://socradar.io/blog/n0n-ransomware-ai-assisted-extortion/" target="_blank" rel="noopener noreferrer">SOCRadar — n0n Ransomware: Inside an AI-Assisted Extortion Operation</a> <span class="smeta">28 Oct 2026 · exposed workspace, full MITRE mapping, IOCs, whitepaper &ldquo;Automating Extortion&rdquo;</span></li>
+      <li><a href="https://socradar.io/blog/n0n-group-global-ports-shipping-leak/" target="_blank" rel="noopener noreferrer">SOCRadar — n0n Group Puts Dozens of Global Ports and Shipping on Its Leak Site</a> <span class="smeta">Oct 2026 · maritime wave, shared-source analysis, leak-site mechanics</span></li>
+      <li><a href="https://socradar.io/free-tools/campaigns/1928" target="_blank" rel="noopener noreferrer">SOCRadar — AI-Assisted Destructive Extortion Operation (campaign profile)</a> <span class="smeta">Detection strategies per technique, IOC summary</span></li>
+      <li><a href="https://cyberxtron.com/resources/blogs/-n0n-ransomware-emerges-as-a-new-threat-group-with-destructive-extortion-claims--8167" target="_blank" rel="noopener noreferrer">CyberXTron — &ldquo;n0n Ransomware&rdquo; Emerges as a New Threat Group With Destructive Extortion Claims</a> <span class="smeta">Sep 2026 · first report, first MITRE table, first 13 victims</span></li>
+      <li><a href="https://www.fortra.com/blog/n0n-ransomware-what-you-need-know" target="_blank" rel="noopener noreferrer">Fortra — n0n Ransomware: What You Need to Know</a> <span class="smeta">2 Oct 2026 · early assessment, headline claims</span></li>
+      <li><a href="https://www.bitdefender.com/en-us/blog/businessinsights/bitdefender-threat-debrief-november-2026" target="_blank" rel="noopener noreferrer">Bitdefender — Threat Debrief, November 2026</a> <span class="smeta">10 Nov 2026 · victim inflation, October DLS totals, Azazel item</span></li>
+      <li><a href="https://blog.checkpoint.com/research/october-2026-cyber-threat-landscape-record-ransomware-rising-genai-risk-and-an-ai-powered-newcomer/" target="_blank" rel="noopener noreferrer">Check Point Research — October 2026 Cyber Threat Landscape</a> <span class="smeta">11 Nov 2026 · record 1,063 attacks; n0n third with 8%, 170+ claimed</span></li>
+      <li><a href="https://cydome.io/n0n-cyber-extortion-incident-involving-38-maritime-companies-likely-traces-back-to-a-single-vendor/" target="_blank" rel="noopener noreferrer">Cydome — n0n Cyber Extortion Incident Involving 38 Maritime Companies Likely Traces Back to a Single Vendor</a> <span class="smeta">15 Oct 2026 · CyberLogitec link, $1.22B total demands</span></li>
+      <li><a href="https://portcyberalliance.org/n0n-38-maritime-organisations-one-supplier-leak-what-ports-can-learn/" target="_blank" rel="noopener noreferrer">Port Cyber Alliance — 38 maritime organisations on a leak site (n0n)</a> <span class="smeta">Oct 2026 · batch analysis, &ldquo;one source, split 38 ways&rdquo;</span></li>
+      <li><a href="https://ransomnews.com/n0n-eli-lilly-visa-jpmorgan-leak-site-claims-2026/" target="_blank" rel="noopener noreferrer">Ransomnews — n0n lists Eli Lilly, Visa and JPMorgan: Visa blames supplier</a> <span class="smeta">17 Nov 2026 · 59-entry batch, supplier-shape analysis, Ransomtracker counts</span></li>
+      <li><a href="https://intel.threadlinqs.com/threat/TL-2026-5634" target="_blank" rel="noopener noreferrer">Threadlinqs — n0n AI Extortion and Azazel MCP C2: Detection &amp; IOCs (TL-2026-5634)</a> <span class="smeta">Detection rules, 22 IOCs, Azazel association at low confidence</span></li>
+      <li><a href="https://intel.threadlinqs.com/threat/TL-2026-6143" target="_blank" rel="noopener noreferrer">Threadlinqs — N0n Ransomware Claims MediaMath Theft: Detection &amp; IOCs (TL-2026-6143)</a> <span class="smeta">16 Nov 2026 · FortiGate stuffing detection, 12 IOCs</span></li>
+      <li><a href="https://www.osec.com/resources/threat-briefs/weekly-situation-report-11-9-26/" target="_blank" rel="noopener noreferrer">OSec — Weekly situation report: 11/9/26</a> <span class="smeta">9 Nov 2026 · ~189 victims, top-three ranking, persistence and &ldquo;Fortibleed&rdquo;</span></li>
+      <li><a href="https://www.cloudsek.com/blog/caught-in-4k-the-gentlemen-files" target="_blank" rel="noopener noreferrer">CloudSEK — Caught in 4K: The Gentlemen Files</a> <span class="smeta">5 Oct 2026 · Azazel affiliate, MCP-as-C2, LEAKNED</span></li>
+    </ul>
+    <p class="tl-note">Page pattern: this profile follows the Tracking Offensive AI Tooling page. New findings go in the <a href="#ttp-changes">TTP change log</a> at the top with a date; the matrix and procedure table update with them. First published 18 November 2026.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  var TECH = {
+    "T1595.001": { tactic: "Reconnaissance", name: "Active Scanning: Scanning IP Blocks", conf: "confirmed", proc: "RDP batch scans and a ranked list of 305 FortiGate SSL-VPN appliances.", det: "Hunt: RDP scanning bursts and ranked FortiGate target lists in the operator's files; no public scan IPs published." },
+    "T1078": { tactic: "Initial Access", name: "Valid Accounts", conf: "confirmed", proc: "Weak or default RDP/WinRM administrator credentials; firewall-manager admin accounts.", det: "Hunt: logins with weak or default admin credentials on RDP, WinRM and firewall-manager interfaces." },
+    "T1078.004": { tactic: "Initial Access", name: "Valid Accounts: Cloud Accounts", conf: "confirmed", proc: "Exposed long-lived AWS IAM access keys.", det: "Hunt: use of long-lived IAM keys from unusual sources; ssm:SendCommand from new or inactive keys." },
+    "T1133": { tactic: "Initial Access", name: "External Remote Services", conf: "confirmed", proc: "Internet-facing FortiGate SSL-VPN, RDP and WinRM.", det: "Hunt: external remote-service logins outside expected hours and sources; enforce phishing-resistant MFA." },
+    "T1059.001": { tactic: "Execution", name: "PowerShell", conf: "confirmed", proc: "Strike, exfiltration and implant scripts pasted into RDP sessions.", det: "Hunt: Net.WebClient.DownloadFile to HTTPS hex URLs with ServerCertificateValidationCallback={$true}, followed by Get-FileHash SHA1 checks." },
+    "T1053.005": { tactic: "Execution / Persistence", name: "Scheduled Task", conf: "confirmed", proc: "Locker and audit runs as SYSTEM tasks every 5–10 minutes; persistence tasks named AfricaSync, FinSoftSync*, SvcSync, NetAssist.", det: "Hunt: SYSTEM scheduled tasks referencing C:\\Users\\Public\\n0n\\, including [NAME]Sync*, [NAME]Audit, [NAME]Exfil and NetAssist." },
+    "T1651": { tactic: "Execution", name: "Cloud Administration Command", conf: "confirmed", proc: "AWS SSM commands, hosting-panel recipes and Zabbix script execution.", det: "Hunt: ssm:SendCommand from new keys; new OnApp recipes or Zabbix scripts with 'maintenance' names." },
+    "T1547.001": { tactic: "Persistence", name: "Registry Run Keys", conf: "confirmed", proc: "Registry Run key n0nNote opens the ransom note at every logon.", det: "Hunt: Run key n0nNote under HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run." },
+    "T1136.001": { tactic: "Persistence", name: "Create Account: Local Account", conf: "confirmed", proc: "Hidden administrators svc_upd ('Software Update'), svc_reg ('Registry Service'), svc<slug>.", det: "Hunt: new local admins with svc_* naming, non-expiring passwords and UserList=0." },
+    "T1098.004": { tactic: "Persistence", name: "SSH Authorized Keys", conf: "confirmed", proc: "Operator keys installed via VNC console on cloud clones; root@3090-AI on FMC appliances.", det: "Hunt: authorized_keys entries ending root@3090-AI." },
+    "T1562.001": { tactic: "Defense Evasion", name: "Impair Defenses: Disable or Modify Tools", conf: "confirmed", proc: "Symantec Endpoint Protection stopped and disabled.", det: "Hunt: security-tool service stops and disables preceding encryption or deletion." },
+    "T1564.002": { tactic: "Defense Evasion", name: "Hidden Users", conf: "confirmed", proc: "SpecialAccounts\\UserList value 0 for the cover accounts.", det: "Hunt: UserList=0 accounts in SpecialAccounts." },
+    "T1070.004": { tactic: "Defense Evasion", name: "File Deletion", conf: "confirmed", proc: "Toolkit overwritten three times and deleted; launchers self-delete.", det: "Hunt: rapid tool deletion and self-deleting launchers after execution." },
+    "T1027": { tactic: "Defense Evasion", name: "Obfuscated Files or Information", conf: "reported", proc: "Listed as associated in CyberXTron's early mapping; no procedure was published.", det: "No detection published for this technique against n0n." },
+    "T1036.004": { tactic: "Defense Evasion", name: "Masquerading: Masquerade Task or Service", conf: "aggregator", proc: "Reported by Threadlinqs for the Azazel-linked cluster; not in SOCRadar's n0n mapping. Not adopted as an n0n procedure.", det: "See Possible connections — the link is aggregator-reported at low confidence." },
+    "T1110.004": { tactic: "Credential Access", name: "Brute Force: Credential Stuffing", conf: "confirmed", proc: "FortiGate /remote/logincheck credential stuffing via residential proxies (Cookie: APBSID=n0n); a 15-thread SOCKS5 pool per Threadlinqs.", det: "Hunt: bursts of failed FortiGate SSL-VPN logins, many usernames from one source; requests carrying Cookie: APBSID=n0n." },
+    "T1110.002": { tactic: "Credential Access", name: "Brute Force: Password Cracking", conf: "confirmed", proc: "Offline cracking of stolen SaaS user hashes and encrypted 7z archives.", det: "Hunt: offline cracking activity against stolen hash and archive material." },
+    "T1555.003": { tactic: "Credential Access", name: "Credentials from Web Browsers", conf: "confirmed", proc: "Chrome/Edge credential stores decrypted, including Chrome's app-bound key.", det: "Hunt: access to browser credential stores and app-bound key material." },
+    "T1539": { tactic: "Credential Access", name: "Steal Web Session Cookie", conf: "confirmed", proc: "Live administrator Chrome profiles copied and driven over DevTools.", det: "Hunt: Chrome launched with --remote-debugging-port on cloned profiles; portproxy forwarding 9223 to 127.0.0.1:9222." },
+    "T1111": { tactic: "Credential Access", name: "Multi-Factor Authentication Interception", conf: "confirmed", proc: "Billing-panel MFA codes read from the staff mailbox.", det: "Hunt: mailbox access used to read MFA codes; review billing-panel MFA delivery." },
+    "T1003.003": { tactic: "Credential Access", name: "OS Credential Dumping: NTDS", conf: "confirmed", proc: "NTDS.dit copy from a shadow copy (scripted).", det: "Hunt: shadow-copy creation followed by NTDS.dit access." },
+    "T1046": { tactic: "Discovery", name: "Network Service Discovery", conf: "confirmed", proc: "Internal sweeps of 445/3389/5985/1433.", det: "Hunt: internal port sweeps across 445, 3389, 5985 and 1433." },
+    "T1580": { tactic: "Discovery", name: "Cloud Infrastructure Discovery", conf: "confirmed", proc: "EC2/ECS/SSM mapping and hosting-panel VM inventories.", det: "Hunt: EC2/ECS/SSM enumeration from unusual principals." },
+    "T1619": { tactic: "Discovery", name: "Cloud Storage Object Discovery", conf: "confirmed", proc: "S3 bucket listing and prefix census.", det: "Hunt: ListBuckets and prefix enumeration preceding bulk reads." },
+    "T1021.001": { tactic: "Lateral Movement", name: "Remote Services: Remote Desktop Protocol", conf: "confirmed", proc: "Headless xfreerdp sessions driven by key injection and OCR.", det: "Hunt: headless RDP sessions and unusual RDP client behaviour." },
+    "T1021.006": { tactic: "Lateral Movement", name: "Remote Services: Windows Remote Management", conf: "confirmed", proc: "pywinrm strikes, triage and browser theft.", det: "Hunt: pywinrm usage from non-admin hosts." },
+    "T1530": { tactic: "Collection", name: "Data from Cloud Storage", conf: "confirmed", proc: "S3 bulk pulls with per-bucket byte caps.", det: "Hunt: sustained GetObject activity followed by DeleteObjects in 1,000-item batches." },
+    "T1114.002": { tactic: "Collection", name: "Email Collection: Remote Email Collection", conf: "confirmed", proc: "Full IMAP dump of a provider staff mailbox.", det: "Hunt: bulk IMAP export from a staff mailbox." },
+    "T1115": { tactic: "Collection", name: "Clipboard Data", conf: "confirmed", proc: "RDP results returned through the clipboard.", det: "Hunt: clipboard use in RDP sessions carrying command output." },
+    "T1113": { tactic: "Collection", name: "Screen Capture", conf: "confirmed", proc: "Remote screen captured and read with OCR to drive logons.", det: "Hunt: screen capture paired with OCR-driven logon attempts." },
+    "T1074": { tactic: "Collection", name: "Data Staged", conf: "reported", proc: "Listed in CyberXTron's early mapping; per-target staging pipelines with data budgets in the workspace account.", det: "Hunt: staging directories ahead of exfiltration." },
+    "T1114": { tactic: "Collection", name: "Email Collection", conf: "aggregator", proc: "Parent technique reported by Threadlinqs; SOCRadar's T1114.002 is the confirmed sub-technique.", det: "See T1114.002 for the confirmed procedure." },
+    "T1071.001": { tactic: "Command & Control", name: "Application Layer Protocol: Web Protocols", conf: "confirmed", proc: "HTTPS implant C2 (c2srv.py) and the kserver panel.", det: "Hunt: HTTPS implant traffic to the kserver panel." },
+    "T1001": { tactic: "Command & Control", name: "Data Obfuscation", conf: "confirmed", proc: "Status beacon disguised as card-payment JSON to /x/i.", det: "Hunt: JSON POSTs to /x/i containing 'ippay-web' with card data." },
+    "T1572": { tactic: "Command & Control", name: "Protocol Tunneling", conf: "confirmed", proc: "SSH -D SOCKS tunnels over Tor.", det: "Hunt: SSH dynamic-forward tunnels over Tor." },
+    "T1090.003": { tactic: "Command & Control", name: "Proxy: Multi-hop Proxy", conf: "confirmed", proc: "Tor, SSH pivots, gost exits on compromised hosts, residential proxies.", det: "Hunt: multi-hop proxy chains and gost exits on compromised hosts." },
+    "T1090": { tactic: "Command & Control", name: "Proxy", conf: "aggregator", proc: "Parent technique reported by Threadlinqs; SOCRadar's T1090.003 is the confirmed sub-technique.", det: "See T1090.003 for the confirmed procedure." },
+    "T1041": { tactic: "Exfiltration", name: "Exfiltration Over C2 Channel", conf: "confirmed", proc: "Zip-base64 POSTs to /c2/…/out (8 GiB budget).", det: "Hunt: large zip-base64 POSTs to C2 endpoints." },
+    "T1567.002": { tactic: "Exfiltration", name: "Exfiltration Over Web Service: to Cloud Storage", conf: "confirmed", proc: "Uploads to a public file-hosting service.", det: "Hunt: uploads to public file-hosting services from servers." },
+    "T1567": { tactic: "Exfiltration", name: "Exfiltration Over Web Service", conf: "aggregator", proc: "Parent technique reported by Threadlinqs; SOCRadar's T1567.002 is the confirmed sub-technique.", det: "See T1567.002 for the confirmed procedure." },
+    "T1048": { tactic: "Exfiltration", name: "Exfiltration Over Alternative Protocol", conf: "aggregator", proc: "Reported by Threadlinqs for the Azazel-linked cluster; not in SOCRadar's n0n mapping. Not adopted as an n0n procedure.", det: "See Possible connections — the link is aggregator-reported at low confidence." },
+    "T1486": { tactic: "Impact", name: "Data Encrypted for Impact", conf: "confirmed", proc: "n0n locker (Windows/Linux) and the OpenSSL stage on FMC appliances; files renamed to .n0n.", det: "Hunt: rapid renames to .n0n after MSSQL/W3SVC/MySQL termination; n0n_READ_ME files; C:\\Users\\Public\\n0n\\." },
+    "T1485": { tactic: "Impact", name: "Data Destruction", conf: "confirmed", proc: "S3 mass deletion; a provider's servers and backups removed.", det: "Hunt: CloudTrail DeleteObjects in 1,000-item batches after sustained GetObject activity." },
+    "T1490": { tactic: "Impact", name: "Inhibit System Recovery", conf: "confirmed", proc: "Shadow copies deleted; free space wiped.", det: "Hunt: vssadmin shadow deletion and free-space wiping before encryption." },
+    "T1489": { tactic: "Impact", name: "Service Stop", conf: "confirmed", proc: "MSSQL, MySQL and IIS stopped before encryption.", det: "Hunt: MSSQL, SQL Agent, SSAS, SSIS, SQLWriter, W3SVC and MySQL stops; sqlservr, mysqld, w3wp, Chrome and Edge killed." },
+    "T1565.001": { tactic: "Impact", name: "Stored Data Manipulation", conf: "confirmed", proc: "Firewall rules flipped to BLOCK in the FMC configuration database.", det: "Hunt: FMC REST tokens from non-management IPs; default policy flips to BLOCK; Snort rule n0n-lock (sid 2100001)." }
+  };
+  var CONF_LABEL = { confirmed: "Confirmed procedure", reported: "Reported", aggregator: "Aggregator-reported" };
+  var detail = document.getElementById('tech-detail');
+  var title = document.getElementById('td-title');
+  var meta = document.getElementById('td-meta');
+  var procEl = document.getElementById('td-proc');
+  var detEl = document.getElementById('td-det');
+  var cells = Array.prototype.slice.call(document.querySelectorAll('#mitre-matrix .mcell'));
+  function show(id) {
+    var d = TECH[id];
+    if (!d) return;
+    cells.forEach(function (c) { c.classList.toggle('is-selected', c.getAttribute('data-tech') === id); });
+    title.textContent = id + ' — ' + d.name;
+    meta.textContent = d.tactic + ' · ' + CONF_LABEL[d.conf] + ' · Source: ' + (d.conf === 'confirmed' ? 'SOCRadar, 28 Oct 2026' : d.conf === 'reported' ? "CyberXTron, Sep 2026" : 'Threadlinqs detection content');
+    procEl.innerHTML = '<span class="proc-label">Procedure — </span>' + d.proc;
+    detEl.innerHTML = '<span class="det-label">Hunt — </span>' + d.det;
+  }
+  cells.forEach(function (cell) {
+    cell.addEventListener('click', function () { show(cell.getAttribute('data-tech')); });
+  });
+  var bar = document.getElementById('mitre-filter');
+  var chips = Array.prototype.slice.call(bar.querySelectorAll('.chip'));
+  function confOf(cell) {
+    if (cell.classList.contains('conf-confirmed')) return 'confirmed';
+    if (cell.classList.contains('conf-reported')) return 'reported';
+    return 'aggregator';
+  }
+  function counts() {
+    chips.forEach(function (chip) {
+      var f = chip.getAttribute('data-filter');
+      var n = chip.querySelector('.n');
+      var c = f === 'all' ? cells.length : f === 'impact' ? cells.filter(function (x) { return x.classList.contains('impact'); }).length : cells.filter(function (x) { return confOf(x) === f; }).length;
+      if (n) n.textContent = '(' + c + ')';
+    });
+  }
+  function apply(filter) {
+    cells.forEach(function (cell) {
+      var showCell = filter === 'all' || (filter === 'impact' ? cell.classList.contains('impact') : confOf(cell) === filter);
+      cell.classList.toggle('is-hidden', !showCell);
+    });
+  }
+  counts();
+  bar.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.chip') : null;
+    if (!btn) return;
+    chips.forEach(function (b) { b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    apply(btn.getAttribute('data-filter'));
+  });
+  show('T1110.004');
+})();
+</script>
+<script>
+(function () {
+  var bar = document.getElementById('ttp-filter');
+  var list = document.getElementById('ttp-log');
+  var count = document.getElementById('ttp-count');
+  if (!bar || !list) return;
+  var items = Array.prototype.slice.call(list.querySelectorAll('li'));
+  var chips = Array.prototype.slice.call(bar.querySelectorAll('.chip'));
+  chips.forEach(function (chip) {
+    var f = chip.getAttribute('data-filter');
+    var n = chip.querySelector('.n');
+    var c = f === 'all' ? items.length : items.filter(function (li) { return li.getAttribute('data-kind') === f; }).length;
+    if (n) n.textContent = '(' + c + ')';
+  });
+  function apply(filter) {
+    var shown = 0;
+    items.forEach(function (li) {
+      var showItem = filter === 'all' || li.getAttribute('data-kind') === filter;
+      li.classList.toggle('is-hidden', !showItem);
+      if (showItem) shown += 1;
+    });
+    if (count) count.textContent = 'Showing ' + shown + ' of ' + items.length + ' entries. New entries go at the top.';
+  }
+  apply('all');
+  bar.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.chip') : null;
+    if (!btn) return;
+    chips.forEach(function (b) { b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    apply(btn.getAttribute('data-filter'));
+  });
+})();
+</script>
+<a href="index.html" style="position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#edf4f2;color:#07111b;text-decoration:none;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.35)">← Back to main page</a>
+</body>
+</html>
