@@ -255,6 +255,34 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "A firm holding sensitive client financial data confirmed unauthorised access to tax documents, creating identity-theft and fraud risk for affected clients even though KPMG says the data is not available online or being misused. Financial firms and their professional-services suppliers should treat client tax and financial records as high-value targets and confirm incident-notification and monitoring arrangements with advisers.",
+      "headline": "KPMG Canada confirms cyber incident; unauthorised access to some clients' tax documents",
+      "id": "entry-kpmg-canada-20261119",
+      "known": "KPMG Canada confirmed on 19 November 2026 that a third party gained unauthorised access to some clients' tax documents in a cybersecurity incident, first reported by The Globe and Mail. The firm did not disclose how many clients were affected, how many files were compromised or how the breach occurred. KPMG has secured its systems and is contacting affected clients, spokesperson Sonja Cloutier-Bosworth said. The spokesperson said the firm is confident client information is protected and, based on ongoing monitoring, the impacted information is not available online or being misused for any purpose.",
+      "severity": "watch",
+      "source_name": "Reuters, 19 November 2026; The Globe and Mail (first report)",
+      "source_url": "https://srnnews.com/kpmg-canada-confirms-cyber-incident-unauthorized-access-to-some-clients-tax-documents/",
+      "status": "confirmed",
+      "summary": "KPMG Canada confirmed on 19 November 2026 that a third party gained unauthorised access to some clients' tax documents. The firm did not disclose how many clients or files were affected or how the breach occurred. KPMG says its systems are secured and it is contacting affected clients.",
+      "timestamp_sgt": "2026-11-19T08:35:00+08:00",
+      "type": "Cyber incident — client tax documents accessed",
+      "unknown": "How many clients and files were affected, and how the attacker gained access, have not been disclosed."
+    },
+    {
+      "bfsi_impact": "A major Indian payment firm lost about US$2.9 million through manipulated payout APIs, matching the payment and disbursement API attack pattern CERT-In and CSIRT-Fin warned about on 9 October 2026. Payment firms and banks should review payout-API controls, beneficiary-change checks and transaction limits, and watch for mule-account networks linked to the arrested suppliers.",
+      "headline": "PayU Payments cloud servers breached; Rs 25.67 crore siphoned via manipulated payout API, two arrested",
+      "id": "entry-payu-payments-20261119",
+      "known": "Gurugram Cyber Police arrested two men in Ludhiana on 15 November 2026 in connection with an alleged cyberattack on PayU Payments Private Limited's cloud servers, following a complaint filed by PayU on 9 November. Attackers gained access to three cloud servers, manipulated the company's payout API and carried out 265 unauthorised transactions involving 156 bank accounts, transferring Rs 25.67 crore (about US$2.9 million) without authorisation. PayU's security team detected unusual API activity around 23:30 on 5 November, after the transfers had taken place; the company's cloud service provider had also flagged suspicious access. Police have frozen around Rs 1.5 crore of the stolen funds. The two arrested men, Atar Singh and Lovepreet Singh, allegedly supplied bank accounts used to receive the stolen money. The incident follows a CERT-In and CSIRT-Fin advisory of 9 October 2026 warning financial institutions about attacks targeting payment and disbursement APIs, though investigators have not established whether the attack involved the specific vulnerabilities in that warning.",
+      "severity": "watch",
+      "source_name": "MediaNama, 19 November 2026; PTI / Hindustan Times",
+      "source_url": "https://www.medianama.com/2026/11/223-payu-cloud-server-breach/",
+      "status": "confirmed",
+      "summary": "Attackers accessed three of PayU Payments' cloud servers and manipulated its payout API to carry out 265 unauthorised transactions to 156 bank accounts, siphoning Rs 25.67 crore (about US$2.9 million). Gurugram Cyber Police arrested two men on 15 November who allegedly supplied mule bank accounts; about Rs 1.5 crore has been frozen.",
+      "timestamp_sgt": "2026-11-18T22:29:00+08:00",
+      "type": "Payment-firm breach — unauthorised transfers",
+      "unknown": "How the attackers obtained access to the cloud servers, whether security controls failed, and whether any merchant funds were affected have not yet been established; an audit report is awaited."
+    },
+    {
       "bfsi_impact": "If genuine, a 30-million-record database attributed to Comerica Bank, a major US bank, would expose customer and account data at large scale, creating phishing, account-takeover and fraud risk. Treat as unverified until the bank or a primary source confirms it. Watch for a company statement, a published data sample or corroboration, and warn staff and customers about phishing and identity theft using the claimed data.",
       "headline": "Threat actor claims 30-million-record Comerica Bank database for sale on DarkForums; claim unverified",
       "id": "entry-comerica-darkforums-20261119",
@@ -1599,8 +1627,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-19T12:00:00+08:00",
-  "next_check_sgt": "2026-11-19T16:00:00+08:00",
+  "last_checked_sgt": "2026-11-19T16:00:00+08:00",
+  "next_check_sgt": "2026-11-19T20:00:00+08:00",
   "updated_sgt": "2026-11-19T12:00:00+08:00",
   "version": 1
 }
