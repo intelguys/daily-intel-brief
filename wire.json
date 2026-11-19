@@ -255,6 +255,34 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "If genuine, a 30-million-record database attributed to Comerica Bank, a major US bank, would expose customer and account data at large scale, creating phishing, account-takeover and fraud risk. Treat as unverified until the bank or a primary source confirms it. Watch for a company statement, a published data sample or corroboration, and warn staff and customers about phishing and identity theft using the claimed data.",
+      "headline": "Threat actor claims 30-million-record Comerica Bank database for sale on DarkForums; claim unverified",
+      "id": "entry-comerica-darkforums-20261119",
+      "known": "Kalir Pulse detected on 19 November 2026 at 01:50 UTC (09:50 SGT) that threat actor UNC6783 posted a 30-million-record database attributed to Comerica Bank on DarkForums on 19 November 2026. Kalir frames authenticity as conditional: if authentic, the database would expose a large volume of customer and account data from a major US financial institution. No data sample, price or bank statement has been published, and no second source has corroborated the claim.",
+      "severity": "watch",
+      "source_name": "Kalir Pulse, 19 November 2026",
+      "source_url": "https://pulse.kalir.io/en/brief/base-de-datos-de-30m-de-89aac824",
+      "status": "reported / unconfirmed",
+      "summary": "Threat actor UNC6783 posted a 30-million-record database attributed to Comerica Bank for sale on DarkForums on 19 November 2026, detected at 09:50 SGT. The claim is unverified: no data sample or bank statement has been published and no second source has corroborated it.",
+      "timestamp_sgt": "2026-11-19T09:50:00+08:00",
+      "type": "Unverified data-sale claim — US bank",
+      "unknown": "Whether the database is genuine, whether it actually originates from Comerica Bank, what fields it contains, how it was obtained, and whether any data has been sold or published."
+    },
+    {
+      "bfsi_impact": "If genuine, the sale of HSBC Taiwan private-banking and wealth-management client records — names, birthdates, contact details and financial-profile data — would expose high-net-worth clients to targeted fraud and precision phishing. Treat as unverified until HSBC or a primary source confirms it. Watch for a bank statement, a published data sample or corroboration, and warn private-banking clients about impersonation attempts using the claimed data.",
+      "headline": "Forum seller claims 10,000+ HSBC Taiwan private-banking client records for sale; claim unverified",
+      "id": "entry-hsbc-taiwan-cabyc-20261119",
+      "known": "TechNews (Chinese, translated) reported on 19 November 2026 that forum user \"h********1\" posted on the Cabyc forum, in Chinese, offering HSBC Taiwan private-banking and wealth-management client data as a CSV file, claiming more than 10,000 records at US$288, including names, birthdates, phone numbers, addresses, emails, deposit plans, interest rates and currency details. The lead comes from an S2W (@S2W_DailyThreat) post on X dated 18 November 2026. TechNews states explicitly that authenticity, HSBC as the source and the scale are all unverified and that this cannot be taken as evidence HSBC systems were breached. The exact publication time of the TechNews article is not shown; the noon timestamp follows the wire's convention for date-only items.",
+      "severity": "watch",
+      "source_name": "TechNews, 19 November 2026 (translated from Chinese); S2W, 18 November 2026",
+      "source_url": "https://infosecu.technews.tw/2026/11/19/hsbc-data-leak-hack/",
+      "status": "reported / unconfirmed",
+      "summary": "A forum seller claims to be selling more than 10,000 HSBC Taiwan private-banking client records for US$288, including names, contact details and financial-profile data. The claim is unverified: TechNews states explicitly that authenticity, HSBC as the source and the scale are all unconfirmed, and no bank statement has been published.",
+      "timestamp_sgt": "2026-11-19T12:00:00+08:00",
+      "type": "Unverified data-sale claim — Taiwan private banking",
+      "unknown": "Whether the data is genuine, whether it actually originates from HSBC Taiwan, the true record count, and how it relates to an earlier, separate unverified HSBC Taiwan listing from 9-10 November claiming 79,000 records for US$5,700 — the two may be a new listing, a repackaged subset or a re-sale, which cannot be determined from the sources."
+    },
+    {
       "bfsi_impact": "If genuine, a ransomware listing naming a regulated Moroccan asset manager would be a significant BFSI incident; treat as unverified until the firm or a primary source confirms it. Watch for a company statement, a published data sample or corroboration, and warn staff and customers about phishing using the claimed data.",
       "headline": "Hyflock ransomware group lists Casablanca asset manager Africapital Management as victim; claim unverified",
       "id": "entry-africapital-hyflock-20261118",
@@ -1571,8 +1599,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-19T08:00:00+08:00",
-  "next_check_sgt": "2026-11-19T12:00:00+08:00",
-  "updated_sgt": "2026-11-19T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-19T12:00:00+08:00",
+  "next_check_sgt": "2026-11-19T16:00:00+08:00",
+  "updated_sgt": "2026-11-19T12:00:00+08:00",
   "version": 1
 }
