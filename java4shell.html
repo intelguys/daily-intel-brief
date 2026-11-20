@@ -423,11 +423,18 @@
    so the light and dark themes keep working exactly as before. */
 .reading-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 10001; background: transparent; }
 .reading-progress span { display: block; height: 100%; width: 0; background: var(--accent); }
-/* Sticky contents on desktop; static on mobile so it never eats the screen. */
-.toc { position: sticky; top: 3px; z-index: 100; box-shadow: 0 10px 28px rgba(0,0,0,.10); }
-@media (max-width: 700px) { .toc { position: static; box-shadow: none; } }
+/* Contents: collapsed by default and static, not sticky — the list grew and the sticky panel ate the screen on desktop. */
+.toc { position: static; box-shadow: none; }
 .toc a { text-decoration: none; }
 .toc a:hover { text-decoration: underline; }
+.toc-details { margin: 12px 0 8px; }
+.toc-details > summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 10px; padding: 2px 0; }
+.toc-details > summary::-webkit-details-marker { display: none; }
+.toc-details .toc-summary-label { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.toc-details > summary:hover .toc-summary-label { color: var(--accent); }
+.toc-details .upd-toggle { margin: 0; }
+.toc-details:not([open]) .upd-hide { display: none; }
+.toc-details[open] .upd-show { display: none; }
 /* Section rhythm: a clear divider between sections, and anchor jumps clear the sticky TOC. */
 section { scroll-margin-top: 150px; }
 section + section { border-top: 1px solid var(--rule); padding-top: 28px; }
@@ -501,7 +508,9 @@ section > p { margin-bottom: 14px; }
     </ol>
   </div>
 
-  <nav class="toc" id="toc" aria-label="Contents">
+  <details class="toc-details" id="toc">
+<summary><span class="toc-summary-label">Contents</span><span class="upd-toggle"><span class="upd-show">Show contents</span><span class="upd-hide">Hide contents</span></span></summary>
+<nav class="toc" aria-label="Contents">
     <div class="toc-col">
       <p class="toc-h">Act now</p>
       <a href="#action-plan">Action plan</a>
@@ -530,6 +539,7 @@ section > p { margin-bottom: 14px; }
       <a href="#sources">Sources</a>
     </div>
   </nav>
+</details>
 
   <section id="status-board">
     <p class="eyebrow">Status board</p>
@@ -984,6 +994,15 @@ output_mask := bzhiq(-1, output_len)</code></pre>
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
   update();
+})();
+</script>
+<script>
+(function () {
+  var toc = document.getElementById('toc');
+  if (!toc || toc.tagName !== 'DETAILS') return;
+  document.querySelectorAll('a[href="#toc"]').forEach(function (a) {
+    a.addEventListener('click', function () { toc.open = true; });
+  });
 })();
 </script>
 </body>
