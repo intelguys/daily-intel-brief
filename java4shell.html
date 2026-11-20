@@ -484,7 +484,7 @@ section > p { margin-bottom: 14px; }
     <div class="meta-row">
       <span class="chip chip-crit">Critical &middot; no confirmed exploitation</span>
       <span class="chip chip-mute">TLP:CLEAR</span>
-      <span>Compiled 19 Nov 2026 &middot; disclosed 17 Nov &middot; Oracle and OpenJDK patched 17 Nov 21:00 UTC &middot; not in CISA KEV (catalogue v2026.11.18, 1,786 entries) &middot; NVD record published 17 Nov 22:18 UTC</span>
+      <span>Compiled 20 Nov 2026 &middot; disclosed 17 Nov &middot; Oracle and OpenJDK patched 17 Nov 21:00 UTC &middot; not in CISA KEV (catalogue v2026.11.18, 1,786 entries) &middot; NVD record published 17 Nov 22:18 UTC</span>
     </div>
     <h1>Java4Shell: <span class="nw">CVE-2026-114938</span></h1>
 
@@ -496,7 +496,7 @@ section > p { margin-bottom: 14px; }
     <ol>
       <li><strong>The bug is real, and the trigger is trivial.</strong> Sixty-four <code>A</code> characters followed by a single <code>=</code> make the HotSpot JVM&rsquo;s hardware-accelerated Base64 decoder write 62 bytes past the end of a 50-byte heap array. The write happens before Java rejects the input as invalid. The discoverers turned it into a heap leak (&ldquo;JavaBleed&rdquo;) and then into remote code execution.</li>
       <li><strong>RCE is demonstrated by the discoverers, not yet independently reproduced.</strong> Calif claims pre-authentication RCE against six widely deployed products in their default configurations; Wiz says it proved remote exploitation feasible against Jenkins, Confluence and Apache Tomcat. Other labs have reproduced the overflow, JVM crashes and a local heap disclosure &mdash; but not remote code execution. Oracle rates the flaw 8.1 (CVSS 3.1, high attack complexity); Calif rates it 9.2 (CVSS 4.0).</li>
-      <li><strong>Patching is under way but uneven.</strong> Oracle&rsquo;s fixed builds shipped on 17 November, as did Amazon Corretto and Azul Zulu. Red Hat has shipped fixed builds for its Build of OpenJDK (portable and Windows), and RHEL RPMs have begun shipping; coverage is still partial. Eclipse Temurin has now published fixed binaries for all four lines on x64 Linux, Microsoft has shipped its fixed builds, and BellSoft has confirmed fixed CSPU builds (17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1) that include the patch. Two JVM flags close the exposure where patching must wait &mdash; but one of them, <code>-XX:UseAVX=2</code>, stops OpenJDK from starting on ARM, so use <code>-XX:-UseBASE64Intrinsics</code> on mixed estates.</li>
+      <li><strong>Patching is under way but uneven.</strong> Oracle&rsquo;s fixed builds shipped on 17 November, as did Amazon Corretto and Azul Zulu. Red Hat has shipped fixed builds for its Build of OpenJDK (portable and Windows), and all six RHEL errata shipped on 19 November; the Red Hat container images and the Red Hat Build of Keycloak remain affected. Eclipse Temurin has now published fixed binaries for all four lines on x64 Linux, Microsoft has shipped its fixed builds, and BellSoft has confirmed fixed CSPU builds (17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1) that include the patch. Okta has published fixed versions for its Access Gateway and agents (19 November). Two JVM flags close the exposure where patching must wait &mdash; but one of them, <code>-XX:UseAVX=2</code>, stops OpenJDK from starting on ARM, so use <code>-XX:-UseBASE64Intrinsics</code> on mixed estates.</li>
       <li><strong>The hard part is inventory, not the patch.</strong> The flaw is in the Java runtime, not in any application or library, so dependency scans will not find it &mdash; and runtimes bundled inside third-party products, container images and appliances may not appear in software inventories at all. Three conditions must all hold: an OpenJDK build from 17.0.6 onward, an x86-64 processor with AVX-512 VBMI, and an application that decodes attacker-controlled Base64.</li>
     </ol>
   </div>
@@ -511,7 +511,7 @@ section > p { margin-bottom: 14px; }
     </div>
     <div class="toc-col">
       <p class="toc-h">What happened</p>
-      <a href="#at-a-glance">At a glance</a><a href="#status-board">Status board</a><a href="#update-19-nov">Update, 19&nbsp;Nov</a><a href="#update-18-nov">Update, 18&nbsp;Nov</a><a href="#update-17-nov">Update, 17&nbsp;Nov</a>
+      <a href="#at-a-glance">At a glance</a><a href="#status-board">Status board</a><a href="#update-20-nov">Update, 20&nbsp;Nov</a><a href="#update-19-nov">Update, 19&nbsp;Nov</a><a href="#update-18-nov">Update, 18&nbsp;Nov</a><a href="#update-17-nov">Update, 17&nbsp;Nov</a>
       <a href="#exploitation-status">Exploitation status</a>
       <a href="#timeline">Timeline</a>
     </div>
@@ -533,7 +533,7 @@ section > p { margin-bottom: 14px; }
 
   <section id="status-board">
     <p class="eyebrow">Status board</p>
-    <h2>Where this stands, 19 November</h2>
+    <h2>Where this stands, 20 November</h2>
     <div class="board">
       <div class="tile">
         <div class="k">Vendor advisory</div>
@@ -558,7 +558,7 @@ section > p { margin-bottom: 14px; }
       <div class="tile">
         <div class="k">Exploited in the wild</div>
         <div class="v">None confirmed</div>
-        <div class="n">GreyNoise has detected probing requests; no confirmed successful attack &middot; Tenable, Sophos, Qualys and Cisco Talos all report no exploitation as of 17 Nov</div>
+        <div class="n">GreyNoise has recorded 192 probing sessions from six IPs, no successful intrusion (tracker last updated 14:48 UTC, 19 Nov) &middot; Tenable, Sophos, Qualys and Cisco Talos all report no exploitation as of 17 Nov</div>
       </div>
       <div class="tile">
         <div class="k">Public exploit</div>
@@ -567,8 +567,8 @@ section > p { margin-bottom: 14px; }
       </div>
       <div class="tile">
         <div class="k">Distributions pending</div>
-        <div class="v">Temurin Win/macOS; some RHEL packages</div>
-        <div class="n">Temurin has published fixed binaries for all four lines on x64 Linux (17.0.21.1+2, 21.0.13.1+2, 25.0.5.1+2, 27.0.1.1+4); Windows and macOS builds are still in testing. Microsoft shipped its fixed builds on 18 Nov; BellSoft confirmed fixed CSPU builds 17.0.21.1, 21.0.13.1, 25.0.5.1 and 27.0.1.1. Red Hat has shipped fixed builds for its Build of OpenJDK (17.0.21.1, 21.0.13.1, 25.0.5.1, 18 Nov), and RHEL RPMs have begun shipping (RHEL 8 java-17, RHEL 10 java-21); other RHEL combinations are still pending</div>
+        <div class="v">Temurin Win/macOS; Red Hat containers</div>
+        <div class="n">Temurin has published fixed binaries for all four lines on x64 Linux (17.0.21.1+2, 21.0.13.1+2, 25.0.5.1+2, 27.0.1.1+4); Windows and macOS builds are still in testing. Microsoft shipped its fixed builds on 18 Nov; BellSoft confirmed fixed CSPU builds 17.0.21.1, 21.0.13.1, 25.0.5.1 and 27.0.1.1. Red Hat has shipped fixed builds for its Build of OpenJDK (17.0.21.1, 21.0.13.1, 25.0.5.1, 18 Nov), and all six RHEL errata shipped on 19 Nov (java-17 for RHEL 8 and 9; java-21 for RHEL 8, 9 and 10; java-25 for RHEL 9 and 10). The Red Hat container images and the Red Hat Build of Keycloak remain affected; Okta published fixed agent versions on 19 Nov</div>
       </div>
       <div class="tile">
         <div class="k">&nbsp;</div>
@@ -600,8 +600,21 @@ section > p { margin-bottom: 14px; }
         <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
     </section>
 
-  <section id="update-19-nov">
+  <section id="update-20-nov">
     <details class="upd-details" open>
+      <summary><span class="upd-head"><span class="eyebrow">Update &middot; 20 November</span><span class="upd-title">Okta publishes fixed versions; Red Hat completes the RHEL errata</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
+
+      <p class="lede">The patch rollout reaches the identity layer, and the last RHEL gaps close. Still no exploitation in the wild, and the flaw is still not in CISA KEV.</p>
+      <p><strong>Okta publishes fixed versions.</strong> Okta&rsquo;s security notice, updated 19 November at 13:51 PST (21:51 UTC), says the necessary patches are actively rolling out across Okta&rsquo;s production environments; Auth0 environments are not affected. Customers should upgrade: Okta Access Gateway to 2026.45.1 or greater, LDAP Agent to 5.26.3 or greater, On-Premises Provisioning Agent to 3.3.4 or greater, and RADIUS Agent to 2.30.0 or greater.</p>
+      <p><strong>Correction: Red Hat&rsquo;s RHEL errata are complete.</strong> All six RHEL errata shipped on 19 November: java-17-openjdk 17.0.21.1.2 for RHEL 8 (RHSA-2026:100563) and RHEL 9 (RHSA-2026:100564); java-21-openjdk 21.0.13.1.2 for RHEL 8 and 9 (RHSA-2026:100567) and RHEL 10 (RHSA-2026:100568); and java-25-openjdk 25.0.5.1.2 for RHEL 9 (RHSA-2026:100571) and RHEL 10 (RHSA-2026:100572). This corrects the &ldquo;coverage is still partial&rdquo; line in the 19 November update and the vendor table below; the Red Hat container images and the Red Hat Build of Keycloak remain affected.</p>
+      <p><strong>Still no exploitation, still not in KEV.</strong> GreyNoise&rsquo;s count stands at 192 sessions from six IP addresses, with no successful intrusion seen on its sensors; its tracker was last updated at 14:48 UTC on 19 November, and no later count has been reported. CISA&rsquo;s KEV catalogue is still v2026.11.18 (1,786 entries) and CVE-2026-114938 is still not in it. No confirmed exploitation and no named victim.</p>
+<p class="subtle">Sources: Okta security notice; Red Hat RHSA advisories; GreyNoise tracker; CISA KEV.</p>
+    </details>
+        <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
+    </section>
+
+  <section id="update-19-nov">
+    <details class="upd-details">
       <summary><span class="upd-head"><span class="eyebrow">Update &middot; 19 November</span><span class="upd-title">Temurin finishes x64 Linux, Microsoft ships, and the first product advisories land</span></span><span class="upd-toggle"><span class="upd-show">Show update</span><span class="upd-hide">Hide update</span></span></summary>
 
       <p class="lede">The patch rollout moved a long way overnight: the two distributions that were still pending on 18 November have now shipped, and the first vendors whose products Calif named have published their own guidance.</p>
@@ -724,20 +737,21 @@ output_mask := bzhiq(-1, output_len)</code></pre>
 
   <section id="vendor-patch-status">
     <p class="eyebrow">Patch rollout</p>
-    <h2>Vendor patch status, 19 November</h2>
+    <h2>Vendor patch status, 20 November</h2>
     <p>Oracle&rsquo;s November Critical Patch Update covers 655 vulnerabilities across its portfolio, 62 of them rated critical. Eleven fixes are in Java SE, all described as remotely exploitable without authentication, with a maximum CVSS 3.1 score of 8.1. Three of the other ten (CVE-2026-114941, CVE-2026-114942 and CVE-2026-114945) affect only the Java 21, 25 and 27 builds Oracle lists. Oracle&rsquo;s advisory does not publish CVE identifiers for the Java fixes, and its release notes for 17.0.21.1 do not name CVE-2026-114938 &mdash; the OpenJDK advisory is the document that ties the CVE to the release.</p>
     <div class="scroll">
       <table class="adv">
-        <thead><tr><th>Distribution</th><th>Status, 19 Nov</th><th>Fixed build</th></tr></thead>
+        <thead><tr><th>Distribution</th><th>Status, 20 Nov</th><th>Fixed build</th></tr></thead>
         <tbody>
           <tr><td>Oracle Java SE</td><td><span class="chip chip-ok">Shipped 17 Nov</span></td><td>17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1, 8u513-perf; 11.0.33.1 for other flaws in the same update</td></tr>
           <tr><td>Amazon Corretto</td><td><span class="chip chip-ok">Shipped 17 Nov</span></td><td>17.0.21.1.2, 21.0.13.1.2, 25.0.5.1.2, 27.0.1.1.4 &mdash; CVE named in the changelogs</td></tr>
           <tr><td>Azul Zulu</td><td><span class="chip chip-ok">Shipped</span></td><td>17.70.201, 21.54.201, 25.38.201, 27.30.201 (free builds)</td></tr>
           <tr><td>SAP SapMachine</td><td><span class="chip chip-warn">Shipped, unconfirmed</span></td><td>17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1 released this week, but the release pages do not say what they fix</td></tr>
-          <tr><td>Red Hat build of OpenJDK / RHEL 8, 9, 10</td><td><span class="chip chip-warn">Partial</span></td><td>Build of OpenJDK 17.0.21.1, 21.0.13.1, 25.0.5.1 shipped 18 Nov (RHSA-2026:100565, 100566, 100569, 100570, 100573); RHEL RPMs begun shipping &mdash; java-17 17.0.21.1.2 for RHEL 8 (RHSA-2026:100563), java-21 21.0.13.1.2 for RHEL 10 (RHSA-2026:100568); other RHEL combinations still affected</td></tr>
+          <tr><td>Red Hat build of OpenJDK / RHEL 8, 9, 10</td><td><span class="chip chip-ok">Shipped</span></td><td>Build of OpenJDK 17.0.21.1, 21.0.13.1, 25.0.5.1 shipped 18 Nov (RHSA-2026:100565, 100566, 100569, 100570, 100573); RHEL RPMs shipped 19 Nov &mdash; java-17 17.0.21.1.2 for RHEL 8 (RHSA-2026:100563) and RHEL 9 (RHSA-2026:100564), java-21 21.0.13.1.2 for RHEL 8 and 9 (RHSA-2026:100567) and RHEL 10 (RHSA-2026:100568), java-25 25.0.5.1.2 for RHEL 9 (RHSA-2026:100571) and RHEL 10 (RHSA-2026:100572). Red Hat container images and the Red Hat Build of Keycloak remain affected</td></tr>
           <tr><td>Eclipse Temurin</td><td><span class="chip chip-warn">Shipping &mdash; x64 Linux done</span></td><td>17.0.21.1+2, 21.0.13.1+2, 25.0.5.1+2, 27.0.1.1+4 for x64 Linux published 18 Nov; Windows and macOS builds still in testing</td></tr>
           <tr><td>Microsoft Build of OpenJDK</td><td><span class="chip chip-ok">Shipped 18 Nov</span></td><td>17.0.21.1, 21.0.13.1, 25.0.5.1 &mdash; CVE named in the release notes</td></tr>
           <tr><td>BellSoft Liberica</td><td><span class="chip chip-ok">Shipped</span></td><td>17.0.21.1+6, 21.0.13.1+6, 25.0.5.1+5, 27.0.1.1+5 published 18 Nov; BellSoft blog (18 Nov, updated 19 Nov) confirms CSPU builds 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1 include the patch for CVE-2026-114938</td></tr>
+          <tr><td>Okta (Access Gateway, LDAP, provisioning and RADIUS agents)</td><td><span class="chip chip-ok">Shipped 19 Nov</span></td><td>Okta Access Gateway 2026.45.1 or greater; LDAP Agent 5.26.3 or greater; On-Premises Provisioning Agent 3.3.4 or greater; RADIUS Agent 2.30.0 or greater. Patches rolling out across Okta production environments; Auth0 not affected</td></tr>
         </tbody>
       </table>
     </div>
@@ -807,7 +821,7 @@ output_mask := bzhiq(-1, output_len)</code></pre>
     <h2>What to do now</h2>
     <ol>
       <li><strong>Inventory the runtime, not the application.</strong> Review software inventories for JDKs and Java runtimes, including those bundled with third-party applications or included in container images and appliances. CISA warns these may not appear as separate entries in software inventories, and Sonatype notes that project dependency scans will not identify every affected installation &mdash; the flaw is in the runtime, not a library. Check the version each running service reports, not just what the package manager says.</li>
-      <li><strong>Patch the runtime; patching the application does not fix it.</strong> Install your vendor&rsquo;s fixed build from the table above and restart the JVMs. Prioritise internet-facing systems first (CISA). Oracle&rsquo;s fixed builds are 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1 and 8u513-perf; Corretto, Azul, Microsoft and Temurin (x64 Linux) have shipped, Red Hat has shipped fixed builds for its Build of OpenJDK and begun shipping RHEL RPMs, and BellSoft has confirmed fixed CSPU builds; some of Red Hat&rsquo;s RHEL packages have not &mdash; track that vendor&rsquo;s advisory rather than waiting for a generic alert.</li>
+      <li><strong>Patch the runtime; patching the application does not fix it.</strong> Install your vendor&rsquo;s fixed build from the table above and restart the JVMs. Prioritise internet-facing systems first (CISA). Oracle&rsquo;s fixed builds are 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1 and 8u513-perf; Corretto, Azul, Microsoft and Temurin (x64 Linux) have shipped, Red Hat has shipped fixed builds for its Build of OpenJDK and all six RHEL errata, BellSoft has confirmed fixed CSPU builds, and Okta has published fixed agent versions; the Red Hat container images and the Red Hat Build of Keycloak remain affected &mdash; track that vendor&rsquo;s advisory rather than waiting for a generic alert.</li>
       <li><strong>Where patching must wait, disable the intrinsic.</strong> Start the JVM with <code>-XX:-UseBASE64Intrinsics</code> to turn off the hardware-accelerated Base64 routines and fall back to the software decoder. This is the recommended flag: it works on every architecture. The alternative, <code>-XX:UseAVX=2</code>, disables AVX-512 &mdash; but OpenJDK on ARM does not recognise it and will fail to start, so applying it blindly across a mixed estate will crash ARM hosts. Apply <code>-XX:UseAVX=2</code> only on x86-64 hosts. Both flags may carry a performance cost.</li>
       <li><strong>Compensating controls.</strong> Where immediate patching is not feasible, CISA recommends restricting and validating Base64 input at the application boundary, enforcing input-size limits, and limiting unauthenticated access. Wiz recommends temporarily restricting external network access to vulnerable management portals (Jira, Jenkins, Keycloak) until mitigations or updates are deployed.</li>
       <li><strong>Do not rely on the network edge.</strong> WAF rules and request-body buffering (nginx buffers bodies by default) blunt some attack profiles, not all: Elasticsearch runs from one complete request, and WebSocket frames pass through a tunnel after upgrade. Treat edge controls as delay, not defence.</li>
@@ -872,7 +886,7 @@ output_mask := bzhiq(-1, output_len)</code></pre>
           <tr><td>Pre-authentication RCE against the six named products</td><td><span class="chip chip-warn">Medium</span></td><td>Calif&rsquo;s own testing, plus Wiz for Jenkins, Confluence and Apache Tomcat; no independent reproduction of full remote RCE; Equixly and Harness dispute the reach</td></tr>
           <tr><td>Score 9.2 under CVSS 4.0</td><td><span class="chip chip-warn">Medium</span></td><td>Attributed to Calif by most reporting; at least one secondary source attributes it to South Korea&rsquo;s NCSC; Horizon3 notes the source of the 9.2 is not named in the CVE record; no CVSS 4.0 vector published</td></tr>
           <tr><td>Score 8.1 under CVSS 3.1, high attack complexity</td><td><span class="chip chip-ok">High</span></td><td>Oracle&rsquo;s CVE record, the OpenJDK risk matrix and the published NVD record; vector published (AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H)</td></tr>
-          <tr><td>Red Hat 9.8</td><td><span class="chip chip-warn">Medium</span></td><td>Red Hat&rsquo;s own CVE page now publishes the vector (CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H); attack complexity low is the whole disagreement with Oracle&rsquo;s high; still described as preliminary in reporting; fixed builds for the Build of OpenJDK shipped 18 Nov (RHSA-2026:100565/100566/100569/100570/100573); RHEL RPMs begun shipping (RHSA-2026:100563, 100568), coverage still partial</td></tr>
+          <tr><td>Red Hat 9.8</td><td><span class="chip chip-warn">Medium</span></td><td>Red Hat&rsquo;s own CVE page now publishes the vector (CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H); attack complexity low is the whole disagreement with Oracle&rsquo;s high; still described as preliminary in reporting; fixed builds for the Build of OpenJDK shipped 18 Nov (RHSA-2026:100565/100566/100569/100570/100573); all six RHEL errata shipped 19 Nov (RHSA-2026:100563, 100564, 100567, 100568, 100571, 100572)</td></tr>
           <tr><td>No exploitation in the wild as of 19 Nov; not in CISA KEV</td><td><span class="chip chip-ok">High</span></td><td>CISA, Tenable, Sophos, Qualys, Cisco Talos, GreyNoise; catalogue v2026.11.18, 1,786 entries</td></tr>
           <tr><td>Details leaked before coordinated disclosure</td><td><span class="chip chip-crit">Low</span></td><td>Calif&rsquo;s claim only; no detail on how, and no independent confirmation</td></tr>
           <tr><td>GraalVM fixed builds</td><td><span class="chip chip-crit">Low</span></td><td>Oracle lists the affected GraalVM builds; no fixed build confirmed in the sources read &mdash; check Oracle&rsquo;s advisory</td></tr>
@@ -921,9 +935,9 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       <li><span class="src-title"><a href="https://semgrep.dev/blog/2026/java4shell-openjdk-base64-vulnerability/" target="_blank" rel="noopener noreferrer">Semgrep &mdash; Java4Shell: Critical OpenJDK Base64 RCE (CVE-2026-114938)</a></span><span class="src-meta">Vendor &middot; 17 Nov &middot; application list, affected distributions, remediation checklist</span></li>
       <li><span class="src-title"><a href="https://censys.com/advisory/cve-2026-114938/" target="_blank" rel="noopener noreferrer">Censys &mdash; Nov 17 Advisory: OpenJDK Remote Code Execution (Java4Shell) [CVE-2026-114938]</a></span><span class="src-meta">Vendor &middot; 17 Nov &middot; Corretto changelogs naming the CVE; Oracle release-notes caveat; &ldquo;Calif&rsquo;s results have not been independently confirmed&rdquo;</span></li>
       <li><span class="src-title"><a href="https://access.redhat.com/security/vulnerabilities/RHSB-2026-018" target="_blank" rel="noopener noreferrer">Red Hat &mdash; Bulletin RHSB-2026-018</a></span><span class="src-meta">Vendor &middot; 17 Nov &middot; three conditions for exploitation; RHEL 8, 9 and 10 and OpenJDK 17, 21, 25 affected; fixes expedited; Azure instance families</span></li>
-      <li><span class="src-title"><a href="https://access.redhat.com/security/cve/cve-2026-114938" target="_blank" rel="noopener noreferrer">Red Hat &mdash; CVE-2026-114938</a></span><span class="src-meta">Vendor &middot; read 19 Nov &middot; score 9.8 with vector published (CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H); statement that public research demonstrated working exploits; fixed builds listed for the Build of OpenJDK (17.0.21.1, 21.0.13.1, 25.0.5.1, released 18 Nov); RHEL RPMs begun shipping for RHEL 8 java-17 and RHEL 10 java-21, other combinations still affected</span></li>
+      <li><span class="src-title"><a href="https://access.redhat.com/security/cve/cve-2026-114938" target="_blank" rel="noopener noreferrer">Red Hat &mdash; CVE-2026-114938</a></span><span class="src-meta">Vendor &middot; read 19 Nov &middot; score 9.8 with vector published (CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H); statement that public research demonstrated working exploits; fixed builds listed for the Build of OpenJDK (17.0.21.1, 21.0.13.1, 25.0.5.1, released 18 Nov); all six RHEL errata shipped 19 Nov (java-17 for RHEL 8 and 9, java-21 for RHEL 8, 9 and 10, java-25 for RHEL 9 and 10)</span></li>
       <li><span class="src-title"><a href="https://access.redhat.com/errata/RHSA-2026:100565" target="_blank" rel="noopener noreferrer">Red Hat &mdash; RHSA-2026:100565, RHSA-2026:100566, RHSA-2026:100569, RHSA-2026:100570, RHSA-2026:100573</a></span><span class="src-meta">Vendor &middot; 18 Nov &middot; fixed builds for the Build of OpenJDK: 17.0.21.1 (portable, Windows), 21.0.13.1 (portable, Windows), 25.0.5.1 (portable)</span></li>
-      <li><span class="src-title"><a href="https://access.redhat.com/errata/RHSA-2026:100563" target="_blank" rel="noopener noreferrer">Red Hat &mdash; RHSA-2026:100563, RHSA-2026:100568</a></span><span class="src-meta">Vendor &middot; read 19 Nov &middot; RHEL RPMs: java-17-openjdk 17.0.21.1.2 for RHEL 8, java-21-openjdk 21.0.13.1.2 for RHEL 10</span></li>
+      <li><span class="src-title"><a href="https://access.redhat.com/errata/RHSA-2026:100563" target="_blank" rel="noopener noreferrer">Red Hat &mdash; RHSA-2026:100563, RHSA-2026:100564, RHSA-2026:100567, RHSA-2026:100568, RHSA-2026:100571, RHSA-2026:100572</a></span><span class="src-meta">Vendor &middot; 19 Nov &middot; RHEL RPMs: java-17-openjdk 17.0.21.1.2 for RHEL 8 and 9, java-21-openjdk 21.0.13.1.2 for RHEL 8, 9 and 10, java-25-openjdk 25.0.5.1.2 for RHEL 9 and 10</span></li>
       <li><span class="src-title"><a href="https://shiro.apache.org/blog/2026/11/apache-shiro-java4shell.html" target="_blank" rel="noopener noreferrer">Apache Shiro &mdash; Java4Shell: what Shiro users should know</a></span><span class="src-meta">Vendor &middot; 18 Nov &middot; CookieRememberMeManager decodes the remember-me cookie via java.util.Base64; fix is the JDK update, interim flag -XX:-UseBASE64Intrinsics</span></li>
       <li><span class="src-title"><a href="https://adoptium.net/news/2026/11/temurin-november-2026-cspu-java4shell" target="_blank" rel="noopener noreferrer">Adoptium &mdash; Eclipse Temurin guidance for CVE-2026-114938 &ldquo;java4shell&rdquo;</a></span><span class="src-meta">Vendor &middot; read 18 Nov &middot; fixed Temurin versions named (17.0.21.1+2, 21.0.13.1+2, 25.0.5.1+2, 27.0.1.1+4); binaries published as testing completes</span></li>
       <li><span class="src-title"><a href="https://github.com/adoptium/temurin/issues/326" target="_blank" rel="noopener noreferrer">Adoptium &mdash; November 2026 Release Status per Platform, Version &amp; Binary Type (issue #326)</a></span><span class="src-meta">Vendor &middot; read 18 Nov &middot; JDK 27 x64 Linux published (AQA and TCK passed); all other JDK 17/21/25 platforms still in testing</span></li>
@@ -946,6 +960,7 @@ output_mask := bzhiq(-1, output_len)</code></pre>
       <li><span class="src-title"><a href="https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/" target="_blank" rel="noopener noreferrer">SecurityWeek &mdash; Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories</a></span><span class="src-meta">Press &middot; 19 Nov &middot; GreyNoise &gt;150 matching requests from 5 IPs, no successful intrusions; Previdian 9 attempts from 6 IPs; Cisco &gt;a dozen products affected, no fixes; Elastic Elasticsearch 7.17.3+ and Logstash 8.6.2+ affected; Keycloak patched 26.8.2-3 images; Atlassian and Jenkins guidance</span></li>
       <li><span class="src-title"><a href="https://bell-sw.com/blog/addressing-java4shell-in-liberica-jdk/" target="_blank" rel="noopener noreferrer">BellSoft &mdash; Addressing Java4Shell in Liberica JDK</a></span><span class="src-meta">Vendor &middot; 18 Nov, updated 19 Nov &middot; Liberica CSPU builds 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1 include the patch for CVE-2026-114938; 32-bit builds not affected</span></li>
       <li><span class="src-title"><a href="https://java4shell.events.greynoise.io/" target="_blank" rel="noopener noreferrer">GreyNoise &mdash; Java4Shell (CVE-2026-114938) Activity 2026</a></span><span class="src-meta">Telemetry &middot; read 19 Nov 15:00 UTC &middot; 6 IPs sending Java4Shell-shaped Base64, 192 sessions; new IP 13.212.144.112 (Amazon EC2, Singapore) first tracked 13:48 UTC; successful exploitation 0</span></li>
+      <li><span class="src-title"><a href="https://sec.okta.com/articles/2026/11/oracle-java-security-updates-openjdk-advisory-cve-2026-114938/" target="_blank" rel="noopener noreferrer">Okta &mdash; Java4Shell: Oracle Java Security Updates &amp; OpenJDK Advisory (CVE-2026-114938)</a></span><span class="src-meta">Vendor &middot; updated 19 Nov 21:51 UTC &middot; patches rolling out across Okta production environments; Auth0 not affected; Access Gateway 2026.45.1+, LDAP Agent 5.26.3+, On-Premises Provisioning Agent 3.3.4+, RADIUS Agent 2.30.0+</span></li>
     </ul>
     </details>
         <p class="to-contents"><a href="#toc">↑ Back to contents</a></p>
