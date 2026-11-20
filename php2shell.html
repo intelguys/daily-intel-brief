@@ -436,6 +436,8 @@
 .toc-details .toc-summary-label { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .toc-details > summary:hover .toc-summary-label { color: var(--accent); }
 .toc-details .upd-toggle { margin: 0; }
+.toc-details:not([open]) .upd-hide { display: none; }
+.toc-details[open] .upd-show { display: none; }
 /* Section rhythm: a clear divider between sections, and anchor jumps clear the sticky TOC. */
 section { scroll-margin-top: 150px; }
 section + section { border-top: 1px solid var(--rule); padding-top: 28px; }
