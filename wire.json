@@ -370,15 +370,15 @@
       "bfsi_impact": "vCenter is core virtualisation infrastructure in banks and payment firms; an unauthenticated attacker who gains vCenter administrator access can reach the virtual machines running core banking, payment and security workloads. The confirmed zero-day exploitation — even though the observed use was in September — makes patching urgent, and firms should hunt for the published BONESAW indicators and check for unauthorised SSO administrator accounts. Patching alone does not remove persistence from an earlier compromise.",
       "headline": "Google GTIG: PRC-nexus ARMORY CASTLE exploited critical VMware vCenter zero-day CVE-2026-123890 in September; Broadcom patches in VMSA-2026-0009",
       "id": "entry-vcenter-cve-2026-123890-20261119",
-      "known": "Google Threat Intelligence Group and Mandiant disclosed on 19 November 2026 that the suspected PRC-nexus actor ARMORY CASTLE (formerly UNC5221) exploited CVE-2026-123890, a critical unauthenticated authentication bypass in the VMware Directory Service in vCenter Server (CVSS 9.8), in early September 2026, using a custom tool called BONESAW to create a vSphere single sign-on administrator account and steal vCenter secrets. The group reached vCenter after pivoting from a BeyondTrust Remote Support zero-day (CVE-2026-102764). Broadcom disclosed and patched the flaw the same day in advisory VMSA-2026-0009 (fixed in vCenter 9.1.1.0200, 9.0.2.0200 and 8.0 U3m), with no workaround; the advisory is silent on exploitation. The CVE was not in CISA's Known Exploited Vulnerabilities catalogue as of the 18 November 2026 release.",
+      "known": "Google Threat Intelligence Group and Mandiant disclosed on 19 November 2026 that the suspected PRC-nexus actor ARMORY CASTLE (formerly UNC5221) exploited CVE-2026-123890, a critical unauthenticated authentication bypass in the VMware Directory Service in vCenter Server (CVSS 9.8), in early September 2026, using a custom tool called BONESAW to create a vSphere single sign-on administrator account and steal vCenter secrets. The group reached vCenter after pivoting from a BeyondTrust Remote Support zero-day (CVE-2026-102764). Broadcom disclosed and patched the flaw the same day in advisory VMSA-2026-0009 (fixed in vCenter 9.1.1.0200, 9.0.2.0200 and 8.0 U3m), with no workaround; the advisory is silent on exploitation. The CVE was not in CISA's Known Exploited Vulnerabilities catalogue as of the 18 November 2026 release; CISA added it on 20 November 2026 (catalogue version 2026.11.20), with a remediation due date of 23 November 2026 for US federal civilian agencies.",
       "severity": "watch",
-      "source_name": "Google Threat Intelligence Group / Mandiant, 19 November 2026; SecurityWeek, 19 November 2026",
+      "source_name": "Google Threat Intelligence Group / Mandiant, 19 November 2026; SecurityWeek, 19 November 2026; CISA KEV catalogue, 20 November 2026",
       "source_url": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/",
       "status": "confirmed",
-      "summary": "GTIG/Mandiant disclosed on 19 November 2026 that ARMORY CASTLE exploited the critical vCenter flaw CVE-2026-123890 (CVSS 9.8) as a zero-day in early September 2026. Broadcom patched it the same day in VMSA-2026-0009; no workaround exists and the CVE is not yet in CISA KEV.",
+      "summary": "GTIG/Mandiant disclosed on 19 November 2026 that ARMORY CASTLE exploited the critical vCenter flaw CVE-2026-123890 (CVSS 9.8) as a zero-day in early September 2026. Broadcom patched it the same day in VMSA-2026-0009; no workaround exists; CISA added the CVE to KEV on 20 November 2026.",
       "timestamp_sgt": "2026-11-19T22:22:00+08:00",
       "type": "Critical vulnerability, exploited as zero-day — virtualization infrastructure",
-      "unknown": "How many organisations were affected beyond the investigated incident; whether other actors are now exploiting the flaw following disclosure; and when CISA will add the CVE to the KEV catalogue."
+      "unknown": "How many organisations were affected beyond the investigated incident; and whether other actors are now exploiting the flaw following disclosure."
     },
     {
       "bfsi_impact": "If genuine, a breach of Block — parent of Square and Cash App — would put a major US payments and fintech provider in scope, with customer and merchant data exposure and fraud risk. As it stands the claim is unverified, so the action is to watch for a Block statement, a data sample or corroboration before treating it as a breach, and to warn staff and customers about phishing using the claim.",
@@ -479,18 +479,18 @@
       "unknown": "Whether the database is genuine, whether it actually originates from Comerica Bank, what fields it contains, how it was obtained, and whether any data has been sold or published."
     },
     {
-      "bfsi_impact": "If genuine, the sale of HSBC Taiwan private-banking and wealth-management client records — names, birthdates, contact details and financial-profile data — would expose high-net-worth clients to targeted fraud and precision phishing. Treat as unverified until HSBC or a primary source confirms it. Watch for a bank statement, a published data sample or corroboration, and warn private-banking clients about impersonation attempts using the claimed data.",
+      "bfsi_impact": "If genuine, the sale of HSBC Taiwan private-banking and wealth-management client records — names, birthdates, contact details and financial-profile data — would expose high-net-worth clients to targeted fraud and precision phishing. The bank denies any leak, so treat the claim as unverified and disputed. Watch for a published data sample or independent corroboration, and warn private-banking clients about impersonation attempts using the claimed data.",
       "headline": "Forum seller claims 10,000+ HSBC Taiwan private-banking client records for sale; claim unverified",
       "id": "entry-hsbc-taiwan-cabyc-20261119",
-      "known": "TechNews (Chinese, translated) reported on 19 November 2026 that forum user \"h********1\" posted on the Cabyc forum, in Chinese, offering HSBC Taiwan private-banking and wealth-management client data as a CSV file, claiming more than 10,000 records at US$288, including names, birthdates, phone numbers, addresses, emails, deposit plans, interest rates and currency details. The lead comes from an S2W (@S2W_DailyThreat) post on X dated 18 November 2026. TechNews states explicitly that authenticity, HSBC as the source and the scale are all unverified and that this cannot be taken as evidence HSBC systems were breached. The exact publication time of the TechNews article is not shown; the noon timestamp follows the wire's convention for date-only items.",
+      "known": "TechNews (Chinese, translated) reported on 19 November 2026 that forum user \"h********1\" posted on the Cabyc forum, in Chinese, offering HSBC Taiwan private-banking and wealth-management client data as a CSV file, claiming more than 10,000 records at US$288, including names, birthdates, phone numbers, addresses, emails, deposit plans, interest rates and currency details. The lead comes from an S2W (@S2W_DailyThreat) post on X dated 18 November 2026. TechNews states explicitly that authenticity, HSBC as the source and the scale are all unverified and that this cannot be taken as evidence HSBC systems were breached. HSBC Taiwan responded in the same TechNews article: after an internal investigation it found no evidence of customer data leakage, and it said it does not know the source of the lists in the social-media post and media reports. The exact publication time of the TechNews article is not shown; the noon timestamp follows the wire's convention for date-only items.",
       "severity": "watch",
-      "source_name": "TechNews, 19 November 2026 (translated from Chinese); S2W, 18 November 2026",
+      "source_name": "TechNews, 19 November 2026 (translated from Chinese); S2W, 18 November 2026; HSBC Taiwan statement via TechNews, 19 November 2026 (translated from Chinese)",
       "source_url": "https://infosecu.technews.tw/2026/11/19/hsbc-data-leak-hack/",
       "status": "reported / unconfirmed",
-      "summary": "A forum seller claims to be selling more than 10,000 HSBC Taiwan private-banking client records for US$288, including names, contact details and financial-profile data. The claim is unverified: TechNews states explicitly that authenticity, HSBC as the source and the scale are all unconfirmed, and no bank statement has been published.",
+      "summary": "A forum seller claims to be selling more than 10,000 HSBC Taiwan private-banking client records for US$288, including names, contact details and financial-profile data. The claim is unverified: TechNews states explicitly that authenticity, HSBC as the source and the scale are all unconfirmed, HSBC Taiwan has since responded that an internal investigation found no evidence of customer data leakage, and that it does not know the source of the lists.",
       "timestamp_sgt": "2026-11-19T12:00:00+08:00",
       "type": "Unverified data-sale claim — Taiwan private banking",
-      "unknown": "Whether the data is genuine, whether it actually originates from HSBC Taiwan, the true record count, and how it relates to an earlier, separate unverified HSBC Taiwan listing from 9-10 November claiming 79,000 records for US$5,700 — the two may be a new listing, a repackaged subset or a re-sale, which cannot be determined from the sources."
+      "unknown": "Whether the data is genuine, whether it actually originates from HSBC Taiwan, and the true record count — HSBC Taiwan says its internal investigation found no evidence of a leak and it does not know the list's source, so the data may be fabricated, old or repackaged. How the claim relates to an earlier, separate unverified HSBC Taiwan listing from 9-10 November claiming 79,000 records for US$5,700 also remains undetermined."
     },
     {
       "bfsi_impact": "If genuine, a ransomware listing naming a regulated Moroccan asset manager would be a significant BFSI incident; treat as unverified until the firm or a primary source confirms it. Watch for a company statement, a published data sample or corroboration, and warn staff and customers about phishing using the claimed data.",
@@ -1809,8 +1809,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-21T00:00:00+08:00",
-  "next_check_sgt": "2026-11-21T04:00:00+08:00",
-  "updated_sgt": "2026-11-21T00:00:00+08:00",
+  "last_checked_sgt": "2026-11-21T08:00:00+08:00",
+  "next_check_sgt": "2026-11-21T12:00:00+08:00",
+  "updated_sgt": "2026-11-21T08:00:00+08:00",
   "version": 1
 }
