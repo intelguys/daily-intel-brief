@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Passwords, account information and full transaction history for a payment app run by four banks were exposed, creating a direct credential-stuffing risk wherever customers reused the same password, and a strong base for targeted phishing impersonating the four banks. The four banks warn customers not to open links in emails or SMS or enter login IDs, passwords or authentication codes. Other Wallet Station clients should check their exposure, and a second contractor incident in a month underlines third-party risk in regional-bank payment services.",
+      "headline": "Japanese payment app Paydon halted after Wallet Station breach leaks 251,172 records including passwords and account data",
+      "id": "breaking-infcurion-paydon-20261120",
+      "known": "Infcurion, the contractor running the Wallet Station payment platform behind the Paydon app, confirmed unauthorised access on its platform on 19 November 2026 and notified the four operating institutions the same day. The four institutions - Kagoshima Bank, Minami Nippon Bank, Kagoshima Mutual Credit Cooperative and Kagoshima Shinkin Bank - halted every Paydon service at 06:20 JST on 20 November. The leaked data totals 251,172 records: member information (name, date of birth, phone number, sex, email address, password), payment information (account information, point balances, regional promotion point balances), transaction history (date and time, store, amount) and merchant information (store name, phone number). Infcurion said it applied an emergency vulnerability patch and blocked the access route, and that no misuse of the leaked information had been confirmed at the time of disclosure. Paydon recorded 10.5 billion yen in payments in fiscal 2025, the largest regional-bank payment app in Japan. This is the second contractor incident for Paydon in about a month: a separate mail-delivery contractor was breached in late October and customer email addresses leaked; the two incidents are unrelated. No reopening date has been set.",
+      "severity": "high",
+      "source_name": "Paydon official notice (Japanese, translated), 20 November 2026; Asahi Shimbun, 20 November 2026",
+      "source_url": "https://paydon.jp/2026/11/20/newsrelease20261120",
+      "status": "confirmed",
+      "summary": "Infcurion, the contractor running the Wallet Station payment platform behind the Paydon app, confirmed unauthorised access on 19 November 2026. Four Kagoshima financial institutions - Kagoshima Bank, Minami Nippon Bank, Kagoshima Mutual Credit Cooperative and Kagoshima Shinkin Bank - halted all Paydon services on 20 November at 06:20 JST. A total of 251,172 records leaked, including member names, dates of birth, phone numbers, email addresses and passwords, plus account information, point balances and transaction history. Infcurion applied an emergency patch and cut off the access route; no misuse of the leaked data had been confirmed at the time of disclosure. No reopening date has been set.",
+      "timestamp_sgt": "2026-11-20T13:50:00+08:00",
+      "type": "Confirmed breach - payment platform; four banks' app halted",
+      "unknown": "Who carried out the attack and how they entered the Wallet Station platform; whether any of the leaked data has since been misused; when Paydon services will resume; and whether other financial institutions using Infcurion's Wallet Station were affected."
+    },
+    {
       "bfsi_impact": "Two global card networks and the largest US bank had premium-cardmember marketing data published by the n0n extortion group after its ransom deadline expired. The leaked sets — about 16,000 JPMorgan Reserve customer emails with phone numbers in some cases, account IDs and 124 employee email addresses, and over 6,000 Visa premium customers' names, emails, mobiles and travel/dining bookings — enable highly targeted phishing against high-net-worth clients, and the exposed employee addresses enable spear-phishing and business-email-compromise attempts against staff. No card numbers, balances or transaction data are in the published sets, and neither firm's own systems were breached: both say the incident sits with third-party service providers holding marketing data. Firms should warn premium clients about impersonation using the leaked details, watch for staff-targeted phishing, and review what customer data their own marketing vendors hold.",
       "headline": "n0n publishes Visa, JPMorgan Chase and Mastercard customer data after deadline; JPMorgan and Visa confirm third-party vendor attacks",
       "id": "breaking-n0n-visa-jpmorgan-mastercard-20261119",
@@ -282,6 +296,20 @@
     }
   ],
   "entries": [
+    {
+      "bfsi_impact": "Tax codes, dates of birth, addresses and identity-document details for about 1,561 people enable targeted phishing and impersonation against Poste Italiane customers. No direct account access follows from the exposed data alone - remote signing needs the signature PIN plus a one-time code sent to the holder's phone - and no passwords, BancoPosta accounts or Postepay card data were in the files, so the immediate risk is social engineering, not account takeover. Firms should watch for PosteCert-themed phishing using the leaked contract details.",
+      "headline": "Poste Italiane confirms PosteCert breach; archive of 2,158 digital-signature contracts covering 1,561 people published on underground forum",
+      "id": "entry-poste-italiane-postecert-20261119",
+      "known": "On 17 November 2026 an actor using the name 'flex22' published a roughly 1 GB archive on an underground forum, attributed to Poste Italiane's PosteCert remote digital signature service. Poste Italiane confirmed the breach on 19 November, saying a limited number of people were affected and that the information taken did not concern sensitive data about customers' financial relationships with the company. Third-party analysis of the archive counted 2,158 remote digital signature contracts covering 1,561 identifiable people, including tax codes, dates of birth, residential addresses, email addresses, phone numbers and identity-document details; the most recent document is dated 16 November 2026. No passwords, access credentials, BancoPosta accounts or Postepay card data were in the files, and PosteID was not affected. The actor claims to have exploited a vulnerability and a token to obtain the documents; Poste has not said how the files left its systems.",
+      "severity": "watch",
+      "source_name": "Federprivacy (Italian, translated), 20 November 2026, reporting Corriere della Sera; Poste Italiane statement",
+      "source_url": "https://www.federprivacy.org/informazione/flash-news/attacco-hacker-a-poste-italiane-esposti-i-dati-personali-di-oltre-1-500-clienti",
+      "status": "confirmed",
+      "summary": "An actor using the name 'flex22' published a roughly 1 GB archive on an underground forum on 17 November 2026, attributed to Poste Italiane's PosteCert remote digital signature service. Poste Italiane confirmed the breach on 19 November, saying a limited number of people were affected and no sensitive data about customers' financial relationships was taken. Third-party analysis counted 2,158 contracts covering 1,561 identifiable people, including tax codes, dates of birth, addresses and identity-document details; no passwords, BancoPosta accounts or Postepay card data were in the files, and PosteID was not affected.",
+      "timestamp_sgt": "2026-11-20T20:49:00+08:00",
+      "type": "Confirmed breach - digital signature service; limited scope",
+      "unknown": "How the files were obtained - the actor claims a token and a vulnerability, which Poste has not confirmed; whether the third-party count of 1,561 people is complete, since Poste has not published its own figure; and whether any of the exposed data has been misused."
+    },
     {
       "bfsi_impact": "Three named Korean commercial banks have reported customer-data exposure through staff-facing mobile systems, including resident registration numbers at KB Kookmin — data that enables identity fraud. The figures are sourced, not bank-confirmed, so they should be treated as reported until the banks or the FSS confirm them. The pattern — attacks through loan-recruiter and staff mobile systems rather than customer banking apps — points to the external-facing staff channels Korean banks expanded for sales as the weak point.",
       "headline": "Korean bank hacking wave: Shinhan ~25,000 customers, KB Kookmin 1,750 customers and 460 staff, BNK Busan 11 staff",
@@ -1809,8 +1837,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-22T08:00:00+08:00",
-  "next_check_sgt": "2026-11-22T12:00:00+08:00",
-  "updated_sgt": "2026-11-22T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-22T12:00:00+08:00",
+  "next_check_sgt": "2026-11-22T16:00:00+08:00",
+  "updated_sgt": "2026-11-22T12:00:00+08:00",
   "version": 1
 }
