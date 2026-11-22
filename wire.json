@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Payment card numbers, expiry dates and CVV/CVC security codes stolen from a payment processor create direct card-fraud risk for every customer who bought through Cleverbridge, including buyers from software vendors such as Red Hat, SUSE, Tenable, Veeam, Jamf, Sony and Parallels. Stolen CVVs let attackers use the cards for online purchases, so issuing banks should watch for unauthorised transactions and consider replacing affected cards, and customers should review statements. Cleverbridge has notified the card networks, payment partners, data protection authorities and law enforcement, and is offering credit monitoring through TransUnion's Cyberscout.",
+      "headline": "Payment processor Cleverbridge breached; hackers stole card numbers, expiry dates and CVVs",
+      "id": "breaking-cleverbridge-20261122",
+      "known": "Cleverbridge, an e-commerce platform that processes payments and manages subscriptions for software and SaaS companies, disclosed on 22 November 2026 that hackers breached its systems and copied payment card data. The company detected unauthorised activity on 4 November 2026 and temporarily took systems offline the same day; all systems were back online on 4 November, but its investigation later determined a third party had copied payment card data stored on its platform. Cleverbridge began notifying affected customers on 20 November 2026. A breach notification shared with BleepingComputer states the stolen data includes the card number, expiry date and card security code (CVV/CVC) used for a purchase through Cleverbridge, and that no other personal data such as name, contact or billing details was copied. Cleverbridge lists Red Hat, SUSE, Tenable, Veeam, Jamf, Sony and Parallels among its customers, but has not disclosed which businesses' customers were affected. The company confirmed the incident was not a ransomware attack and no systems were encrypted. It says it has notified data protection authorities, law enforcement, payment card networks and payment partners, and is working with TransUnion's Cyberscout to distribute notifications and provide complimentary credit monitoring and fraud assistance. Affected customers are told to review card statements for unauthorised transactions and to contact their card issuers, as banks may decide to replace compromised cards.",
+      "severity": "high",
+      "source_name": "BleepingComputer, 22 November 2026; Cleverbridge security incident disclosure",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/",
+      "status": "confirmed",
+      "summary": "Payment processor Cleverbridge disclosed on 22 November 2026 that hackers breached its systems and stole payment card data, including card numbers, expiry dates and CVV/CVC security codes. The company detected unauthorised activity on 4 November 2026 and began notifying affected customers on 20 November. It has not disclosed how many customers were affected, how attackers gained access, or which of its client businesses' customers were hit; the incident was not ransomware, and no other personal data was copied. Card networks, payment partners, data protection authorities and law enforcement have been notified.",
+      "timestamp_sgt": "2026-11-22T23:43:00+08:00",
+      "type": "Major breach — payment processor, card data including CVVs stolen",
+      "unknown": "How many customers were affected; how the attackers gained access and how long they were in the systems; whether the stolen card data was encrypted at rest; why CVV/CVC codes were accessible; and which of Cleverbridge's client businesses' customers were affected."
+    },
+    {
       "bfsi_impact": "Passwords, account information and full transaction history for a payment app run by four banks were exposed, creating a direct credential-stuffing risk wherever customers reused the same password, and a strong base for targeted phishing impersonating the four banks. The four banks warn customers not to open links in emails or SMS or enter login IDs, passwords or authentication codes. Other Wallet Station clients should check their exposure, and a second contractor incident in a month underlines third-party risk in regional-bank payment services.",
       "headline": "Japanese payment app Paydon halted after Wallet Station breach leaks 251,172 records including passwords and account data",
       "id": "breaking-infcurion-paydon-20261120",
@@ -1837,8 +1851,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-22T20:00:00+08:00",
-  "next_check_sgt": "2026-11-23T00:00:00+08:00",
-  "updated_sgt": "2026-11-22T20:00:00+08:00",
+  "last_checked_sgt": "2026-11-23T00:00:00+08:00",
+  "next_check_sgt": "2026-11-23T04:00:00+08:00",
+  "updated_sgt": "2026-11-23T00:00:00+08:00",
   "version": 1
 }
