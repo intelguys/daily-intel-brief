@@ -328,7 +328,7 @@
       "bfsi_impact": "A prepaid payments platform in Botswana has been named on a ransomware leak site, but with no evidence published the exposure is unconfirmed. The same company was claimed by a different group days earlier, which weakens rather than strengthens either claim. No action beyond monitoring is warranted unless the victim or data is confirmed.",
       "headline": "n0n lists Botswana prepaid platform Ekwiik on its leak site; claim unverified",
       "id": "entry-ekwiik-n0n-20261120",
-      "known": "Ransomware.live recorded the n0n leak-site listing for Ekwiik (Ideal Prepaid Botswana) on 20 November 2026 at 11:29 SGT, and RedPacket Security's scrape of the n0n onion leak page confirms the listing, labelled 'NOT PAID — EXPOSED', with a post date of 20 November 2026. Ekwiik is described as a financial services provider operating a prepaid utilities and airtime platform in Botswana. The listing gives no compromise date, no data volume or types, no screenshots and no ransom amount. (Ransomware.live; RedPacket Security, 20 November 2026.)",
+      "known": "Ransomware.live recorded the n0n leak-site listing for Ekwiik (Ideal Prepaid Botswana) on 20 November 2026 at 11:29 SGT, and RedPacket Security's scrape of the n0n onion leak page confirms the listing, labelled 'NOT PAID — EXPOSED', with a post date of 20 November 2026. Ekwiik is described as a financial services provider operating a prepaid utilities and airtime platform in Botswana. The listing gives no compromise date, no data volume or types, no screenshots and no ransom amount. (Ransomware.live; RedPacket Security, 20 November 2026.) The separate PixelLeaks listing for the same platform set a publication deadline of 22 November 2026 at 06:58 UTC (14:58 SGT); that deadline passed on 22 November and, as of this check, no tracker, outlet or victim statement had confirmed the data was actually published. (GalaxyWarden tracker; ThreatCluster, 22 November 2026.)",
       "severity": "watch",
       "source_name": "Ransomware.live, 20 November 2026; RedPacket Security, 20 November 2026",
       "source_url": "https://www.redpacketsecurity.com/n0n-ransomware-victim-ekwiik-ideal-prepaid-botswana/",
@@ -336,7 +336,7 @@
       "summary": "The n0n extortion group listed Ekwiik (Ideal Prepaid Botswana), a prepaid utilities and airtime platform, on its leak site on 20 November 2026, labelled 'NOT PAID — EXPOSED'. No data volume, data types or victim statement have been published, and the claim is unverified.",
       "timestamp_sgt": "2026-11-20T11:29:00+08:00",
       "type": "Ransomware claim — n0n",
-      "unknown": "Whether Ekwiik was breached; what data, if any, was taken; whether the listing relates to the separate PixelLeaks claim against the same company on 18 November, which alleged millions of EazyPay records with a deadline of 22 November and is also unverified."
+      "unknown": "Whether Ekwiik was breached; what data, if any, was taken; whether the listing relates to the separate PixelLeaks claim against the same company on 18 November, which alleged millions of EazyPay records with a deadline of 22 November 06:58 UTC that passed on 22 November with no confirmed publication, and is also unverified."
     },
     {
       "bfsi_impact": "A Japanese regional banking group has had corporate-customer credentials — including password hashes — potentially exposed through a third-party analytics tool, which could be used for impersonation of the affected companies and their contacts, and for credential-stuffing against systems where the same passwords are reused. Core banking systems are unaffected, so the immediate risk is business-email compromise and supplier impersonation rather than direct account takeover. Firms that share data with external analytics tools should check what those tools can reach and how their credentials are managed.",
@@ -1837,8 +1837,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-22T12:00:00+08:00",
-  "next_check_sgt": "2026-11-22T16:00:00+08:00",
-  "updated_sgt": "2026-11-22T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-22T16:00:00+08:00",
+  "next_check_sgt": "2026-11-22T20:00:00+08:00",
+  "updated_sgt": "2026-11-22T16:00:00+08:00",
   "version": 1
 }
