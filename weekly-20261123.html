@@ -205,6 +205,60 @@ details.notincl li{margin-bottom:8px;font-size:.94rem}
 <div class="exec-card"><div class="exec-num">7</div><p>For BFSI, the practical read is that the perimeter is now the supplier's perimeter: the controls that matter this week are vendor key rotation, help-desk verification against cloned voices, and patching the exploited list first.</p></div>
 </div>
 </section>
+<section aria-labelledby="viz-h">
+<div class="sec-head"><h2 id="viz-h">Interactive visuals</h2><p>Seven visuals — three timelines, three charts and one regional table, every point dated and sourced. Hover over a bar, point or dot for the exact value, date and note. Caveats sit directly under each visual, not in a footnote.</p></div>
+<div class="viz-grid">
+<div>
+<h3>The week — major events, 16–23 November 2026</h3>
+<div class="chart" data-chart="week-timeline"></div>
+<p class="chart-note"><b>Caveat:</b> One or two entries per day: the most strategically significant dated events only. Times SGT unless noted.</p>
+<p class="chart-src">Sources: content-pack-v2.md sections 1-7; daily briefings 11162026.html-11232026.html</p>
+</div>
+<div>
+<h3>Korea — from the FSI breach to a sector-wide inspection</h3>
+<div class="chart" data-chart="korea-regulatory-cascade"></div>
+<p class="chart-note"><b>Caveat:</b> Samsung Securities is described as another Korean securities firm in the current wave, not numbered — the other firms are not named in the wire entry or any briefing in the window.</p>
+<p class="chart-src">Sources: content-pack-v2.md sections 1 and 2; v1 chart-data.json (verified); daily briefings</p>
+</div>
+<div>
+<h3>Plaid KARTE — published per-client totals through the week</h3>
+<div class="chart" data-chart="karte-cascade"></div>
+<p class="chart-note"><b>Caveat:</b> Totals are a TALLY of per-company disclosures with overlaps, not a count of people. JINS date corrected to 17 Nov in v2 (v1 charted it 23 Nov). Do not plot components alongside the total.</p>
+<p class="chart-src">Sources: content-pack-v2.md sections 1 and 2; daily briefings 20, 21, 23 Nov</p>
+</div>
+<div>
+<h3>MITRE techniques published this week, by tactic</h3>
+<div class="chart" data-chart="ttp-by-tactic"></div>
+<p class="chart-note"><b>Caveat:</b> Only techniques a source actually published with a MITRE ID. 43 of the 53 IDs come from one pre-window document (FBI FLASH-20261113-001 on ARTEX, published 13 Nov, first carried 16 Nov). Only T1078.004 appears in more than one edition (4 editions). Editions 18, 22, 23 Nov published no MITRE IDs; 19 and 20 Nov carried only T1078.004 as context. The thinness is itself the finding: the week&#x27;s biggest stories arrived with no published mapping.</p>
+<p class="chart-src">Sources: content-pack-v2.md section 6 (ttp-trends.md); daily briefings TTP Tracker sections 16-23 Nov</p>
+</div>
+<div>
+<h3>The twenty flaws tracked this week, by exploitation status</h3>
+<div class="chart" data-chart="vulns-by-exploitation-status"></div>
+<p class="chart-note"><b>Caveat:</b> Groups are the lens&#x27;s own four status categories. Counts are of the 20 flaws the lens tracked, not of all disclosures. Drupal is in &#x27;exploited&#x27; on an advisory update reporting live-site exploitation whose timing is unconfirmed. ScreenConnect entered KEV 11 Sept (pre-window); what changed this week is confirmation of exploitation.</p>
+<p class="chart-src">Sources: content-pack-v2.md section 3 (vulnerabilities.md); CISA KEV catalogue v2026.11.20</p>
+</div>
+<div>
+<h3>BFSI incidents this week — where the impact landed</h3>
+<div class="table-scroll"><table><thead><tr><th>Region</th><th>Incidents</th><th>Strategic note</th></tr></thead><tbody>
+<tr><td><b>Japan</b></td><td>Plaid KARTE (platform breach, ~2,200 companies); Rakuten Securities (up to ~15.7m accounts); Paydon/Infcurion (251,172 records, four banks halted); FFG Industries (vendor analytics tool, up to 1,221 corporate customers)</td><td>Centre of gravity: supplier concentration plus a direct securities leak</td></tr>
+<tr><td><b>Korea</b></td><td>FSI assessment-body breach and sector-wide inspection; Samsung Securities (8,241); KEPCO (~1.52m people); Mirae Asset Life (10,418); Coinone (via contractor MetaM); KOMSCO; KG Eduone staff records</td><td>A breach wave converted into a regulator-led sector inspection</td></tr>
+<tr><td><b>India</b></td><td>PayU payout-API theft (Rs 25.67 crore); NBFC loan-diversion fraud (figures unreconciled); digital-arrest scams reaching the Supreme Court</td><td>Fraud-led week: payment rails and loan controls, not intrusions</td></tr>
+<tr><td><b>Europe</b></td><td>Wellington IT, Ireland (~40 credit unions, payee data, six-week notification delay); Maileva, France (22m recipients; prosecutor investigation)</td><td>Supplier failures drawing governments in over notification delays</td></tr>
+<tr><td><b>Brazil</b></td><td>Banco do Brasil (misused valid credential; no count disclosed)</td><td>Credential abuse, not a technical breach — the access was valid</td></tr>
+<tr><td><b>Global / cross-border</b></td><td>n0n publishes Visa, JPMorgan Chase and Mastercard customer data (reported shared supplier); Cleverbridge (card numbers + CVVs, payment processor); BankWeaver (bank middleware backdoor); OPTIMJACK skimmer (178 organisations); Binance (laundering accelerates)</td><td>The week&#x27;s largest stories are all third-party-mediated or cross-border</td></tr>
+</tbody></table></div>
+<p class="chart-note"><b>Caveat:</b> Named incidents only — NO counts. One row per region; the Korean wave is one row covering 7+ firms. KARTE is listed once under Japan although its clients are global. This is a map of where impact landed, not a tally.</p>
+<p class="chart-src">Sources: content-pack-v2.md section 1 (bfsi-landscape.md)</p>
+</div>
+<div>
+<h3>Threat actor activity this week, by motivation</h3>
+<div class="chart" data-chart="actors-by-motivation"></div>
+<p class="chart-note"><b>Caveat:</b> Motivation as assessed from in-window reporting. ARTEX and BankWeaver operators are unnamed; their motivation is assessed from behaviour, not attribution. Counts are of the ten actor entries in the lens, not of incidents.</p>
+<p class="chart-src">Sources: content-pack-v2.md section 5 (threat-actors.md)</p>
+</div>
+</div>
+</section>
 
 <section aria-labelledby="s1-h">
 <div class="sec-head"><h2 id="s1-h">1. BFSI landscape</h2><p>Banks, insurers, payments and fintech — what the week means for the sector.</p></div>
@@ -314,60 +368,6 @@ details.notincl li{margin-bottom:8px;font-size:.94rem}
 <p><strong>What happened.</strong> Ukrainian police, working with the FBI, arrested four suspected key members of a ransomware group on 18–19 November. The group won initial access with AI-generated voice calls impersonating IT support: it built its own platform with AI-generated voice messages to automate fraudulent calls, tricking employees into disclosing credentials or installing remote-access software (TeamViewer / AnyDesk). In one incident an attacker kept an employee on the phone while another accessed the company's systems. At least 28 companies paid more than $40.5 million in ransoms. Sectors spanned oil and gas, pharmaceutical, manufacturing, logistics, financial and critical infrastructure. No group name or MITRE mapping was published. The same week, Palo Alto Networks Unit 42 reported separate "Dialing for Data" vishing waves targeting finance, defeating MFA through adversary-in-the-middle techniques.</p>
 <p><strong>Why it matters strategically.</strong> AI voice moves vishing from a fraud problem to a ransomware initial-access problem, and the control that fails is not email filtering but help-desk verification: a convincing voice, a plausible IT-support pretext, and a live human kept on the line while a second operator moves inside. For financial firms, a single help-desk interaction can hand over VPN or remote-access credentials — and firms relying on SMS-based MFA are doubly exposed, since the same social-engineering path defeats it. The arrests validate the threat model; they do not remove the tooling, which is built on publicly available voice synthesis. The practical response is procedural, not technical: no credential reset or remote-access install on the strength of a phone call alone, and a callback-and-verify step that survives a convincing voice.</p>
 <p class="src">Sources: <a href="https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/" target="_blank" rel="noopener noreferrer">BleepingComputer — Ukraine, FBI arrest ransomware gang members tied to $40m+ in ransoms (19 Nov)</a> · <a href="https://www.helpnetsecurity.com/2026/11/19/ukraine-ransomware-gang-arrests-fake-it-support-calls/" target="_blank" rel="noopener noreferrer">Help Net Security — Ukraine ransomware gang arrests, fake IT-support calls (19 Nov)</a></p>
-</div>
-</section>
-<section aria-labelledby="viz-h">
-<div class="sec-head"><h2 id="viz-h">Interactive visuals</h2><p>Seven visuals — three timelines, three charts and one regional table, every point dated and sourced. Hover over a bar, point or dot for the exact value, date and note. Caveats sit directly under each visual, not in a footnote.</p></div>
-<div class="viz-grid">
-<div>
-<h3>The week — major events, 16–23 November 2026</h3>
-<div class="chart" data-chart="week-timeline"></div>
-<p class="chart-note"><b>Caveat:</b> One or two entries per day: the most strategically significant dated events only. Times SGT unless noted.</p>
-<p class="chart-src">Sources: content-pack-v2.md sections 1-7; daily briefings 11162026.html-11232026.html</p>
-</div>
-<div>
-<h3>Korea — from the FSI breach to a sector-wide inspection</h3>
-<div class="chart" data-chart="korea-regulatory-cascade"></div>
-<p class="chart-note"><b>Caveat:</b> Samsung Securities is described as another Korean securities firm in the current wave, not numbered — the other firms are not named in the wire entry or any briefing in the window.</p>
-<p class="chart-src">Sources: content-pack-v2.md sections 1 and 2; v1 chart-data.json (verified); daily briefings</p>
-</div>
-<div>
-<h3>Plaid KARTE — published per-client totals through the week</h3>
-<div class="chart" data-chart="karte-cascade"></div>
-<p class="chart-note"><b>Caveat:</b> Totals are a TALLY of per-company disclosures with overlaps, not a count of people. JINS date corrected to 17 Nov in v2 (v1 charted it 23 Nov). Do not plot components alongside the total.</p>
-<p class="chart-src">Sources: content-pack-v2.md sections 1 and 2; daily briefings 20, 21, 23 Nov</p>
-</div>
-<div>
-<h3>MITRE techniques published this week, by tactic</h3>
-<div class="chart" data-chart="ttp-by-tactic"></div>
-<p class="chart-note"><b>Caveat:</b> Only techniques a source actually published with a MITRE ID. 43 of the 53 IDs come from one pre-window document (FBI FLASH-20261113-001 on ARTEX, published 13 Nov, first carried 16 Nov). Only T1078.004 appears in more than one edition (4 editions). Editions 18, 22, 23 Nov published no MITRE IDs; 19 and 20 Nov carried only T1078.004 as context. The thinness is itself the finding: the week&#x27;s biggest stories arrived with no published mapping.</p>
-<p class="chart-src">Sources: content-pack-v2.md section 6 (ttp-trends.md); daily briefings TTP Tracker sections 16-23 Nov</p>
-</div>
-<div>
-<h3>The twenty flaws tracked this week, by exploitation status</h3>
-<div class="chart" data-chart="vulns-by-exploitation-status"></div>
-<p class="chart-note"><b>Caveat:</b> Groups are the lens&#x27;s own four status categories. Counts are of the 20 flaws the lens tracked, not of all disclosures. Drupal is in &#x27;exploited&#x27; on an advisory update reporting live-site exploitation whose timing is unconfirmed. ScreenConnect entered KEV 11 Sept (pre-window); what changed this week is confirmation of exploitation.</p>
-<p class="chart-src">Sources: content-pack-v2.md section 3 (vulnerabilities.md); CISA KEV catalogue v2026.11.20</p>
-</div>
-<div>
-<h3>BFSI incidents this week — where the impact landed</h3>
-<div class="table-scroll"><table><thead><tr><th>Region</th><th>Incidents</th><th>Strategic note</th></tr></thead><tbody>
-<tr><td><b>Japan</b></td><td>Plaid KARTE (platform breach, ~2,200 companies); Rakuten Securities (up to ~15.7m accounts); Paydon/Infcurion (251,172 records, four banks halted); FFG Industries (vendor analytics tool, up to 1,221 corporate customers)</td><td>Centre of gravity: supplier concentration plus a direct securities leak</td></tr>
-<tr><td><b>Korea</b></td><td>FSI assessment-body breach and sector-wide inspection; Samsung Securities (8,241); KEPCO (~1.52m people); Mirae Asset Life (10,418); Coinone (via contractor MetaM); KOMSCO; KG Eduone staff records</td><td>A breach wave converted into a regulator-led sector inspection</td></tr>
-<tr><td><b>India</b></td><td>PayU payout-API theft (Rs 25.67 crore); NBFC loan-diversion fraud (figures unreconciled); digital-arrest scams reaching the Supreme Court</td><td>Fraud-led week: payment rails and loan controls, not intrusions</td></tr>
-<tr><td><b>Europe</b></td><td>Wellington IT, Ireland (~40 credit unions, payee data, six-week notification delay); Maileva, France (22m recipients; prosecutor investigation)</td><td>Supplier failures drawing governments in over notification delays</td></tr>
-<tr><td><b>Brazil</b></td><td>Banco do Brasil (misused valid credential; no count disclosed)</td><td>Credential abuse, not a technical breach — the access was valid</td></tr>
-<tr><td><b>Global / cross-border</b></td><td>n0n publishes Visa, JPMorgan Chase and Mastercard customer data (reported shared supplier); Cleverbridge (card numbers + CVVs, payment processor); BankWeaver (bank middleware backdoor); OPTIMJACK skimmer (178 organisations); Binance (laundering accelerates)</td><td>The week&#x27;s largest stories are all third-party-mediated or cross-border</td></tr>
-</tbody></table></div>
-<p class="chart-note"><b>Caveat:</b> Named incidents only — NO counts. One row per region; the Korean wave is one row covering 7+ firms. KARTE is listed once under Japan although its clients are global. This is a map of where impact landed, not a tally.</p>
-<p class="chart-src">Sources: content-pack-v2.md section 1 (bfsi-landscape.md)</p>
-</div>
-<div>
-<h3>Threat actor activity this week, by motivation</h3>
-<div class="chart" data-chart="actors-by-motivation"></div>
-<p class="chart-note"><b>Caveat:</b> Motivation as assessed from in-window reporting. ARTEX and BankWeaver operators are unnamed; their motivation is assessed from behaviour, not attribution. Counts are of the ten actor entries in the lens, not of incidents.</p>
-<p class="chart-src">Sources: content-pack-v2.md section 5 (threat-actors.md)</p>
-</div>
 </div>
 </section>
 
@@ -2104,8 +2104,9 @@ function timeline(c,mount,shorts,Hh){
     if(above){ topY= far? mid-118 : mid-64; }
     else{ topY= far? mid+66 : mid+30; }
     S(el('line',{x1:x,y1:mid,x2:x,y2: above? topY+lines.length*13+14 : topY-12},s),'stroke:'+LINE+';stroke-width:1');
-    lines.forEach(function(ln,j){txt(s,x,topY+j*13,ln,INK,11,'middle');});
-    txt(s,x, above? topY-8 : topY+lines.length*13+2, dayLabel(e.date),MUT,10,'middle','700');
+    var anchor=(i===0)?'start':(i===evs.length-1)?'end':'middle';
+    lines.forEach(function(ln,j){txt(s,x,topY+j*13,ln,INK,11,anchor);});
+    txt(s,x, above? topY-16 : topY+lines.length*13+10, dayLabel(e.date),MUT,10,anchor,'700');
     var hit=el('circle',{cx:x,cy:mid,r:14},s);S(hit,'fill:transparent;pointer-events:all');tip(hit,e.date+': '+e.event);
   });
 }
