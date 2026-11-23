@@ -239,7 +239,7 @@ details.app h3{margin-top:18px}
 /* Print */
 @page{size:A4;margin:22mm 18mm 20mm 18mm}
 @page{
-  @top-center{content:"Weekly strategic cyber intelligence report \2014 16\201323 November 2026"}
+  @top-center{content:"Weekly strategic cyber intelligence report \2014 16-23 November 2026"}
   @bottom-center{content:"Page " counter(page)}
 }
 @media print{
@@ -248,16 +248,18 @@ details.app h3{margin-top:18px}
   .bfsi-back-btn,.sidebar,.back-top,.chart-tip{display:none !important}
   .layout{display:block}
   .cover{page-break-after:always;padding-top:0}
-  .contents-page{page-break-after:always}
+  .contents-page{page-break-after:always;columns:2;column-gap:28px;font-size:.88rem}
+  .contents-page .sec-head{column-span:all}
   .contents-page a::after{content:" \2014 p. " target-counter(attr(href), page)}
   section,.story,.geo,details.app{page-break-inside:auto}
-  figure.viz,table,.xref-box,.chips-wrap{page-break-inside:avoid}
+  figure.viz,.xref-box,.chips-wrap{page-break-inside:avoid}
+  table{page-break-inside:auto}
+  thead{display:table-header-group}
+  tfoot{display:table-footer-group}
   tr{page-break-inside:avoid}
   .sec-head,h2,h3,h4{page-break-after:avoid;page-break-inside:avoid}
   details.app summary{list-style:none;cursor:default}
   details.app summary::-webkit-details-marker{display:none}
-  .print-header{display:block;position:fixed;top:0;left:0;right:0;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
-  .print-footer{display:block;position:fixed;bottom:0;left:0;right:0;font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:4px}
   a{color:var(--ink)}
 }
 </style>
@@ -267,8 +269,6 @@ details.app h3{margin-top:18px}
 <body>
 <div class="wrap">
 
-<div class="print-header">Weekly strategic cyber intelligence report — 16–23 November 2026</div>
-<div class="print-footer">BFSI cyber · Asia/Singapore · 16–23 November 2026</div>
 <header class="mast cover" id="top">
 <div class="kicker">Weekly intelligence</div>
 <h1>Weekly strategic cyber intelligence report — 16–23 November 2026</h1>
