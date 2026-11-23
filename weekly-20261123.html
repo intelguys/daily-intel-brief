@@ -178,6 +178,8 @@ details.notincl li{margin-bottom:8px;font-size:.94rem}
 .trend h3{margin:22px 0 8px}
 .trend p{margin:0 0 10px;font-size:.95rem}
 @media (max-width:820px){.viz-grid{gap:24px}}
+.chart-tip{position:fixed;display:none;z-index:60;max-width:340px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.88rem;line-height:1.45;box-shadow:var(--shadow);pointer-events:none}
+.chart-tip.show{display:block}
 </style>
 </head>
 <body>
@@ -698,7 +700,12 @@ var INK='var(--ink)',MUT='var(--muted)',LINE='var(--line)',ACC='var(--accent)',A
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a){e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
 function S(e,s){e.setAttribute('style',s);return e;}
 function txt(p,x,y,s,fill,size,anchor,weight){var t=el('text',{x:x,y:y,'font-size':size||12,'text-anchor':anchor||'start'},p);t.setAttribute('style','fill:'+(fill||INK)+(weight?';font-weight:'+weight:''));t.textContent=s;return t;}
-function tip(p,s){var t=el('title',{},p);t.textContent=s;return t;}
+var TIP=null;
+function getTip(){if(!TIP){TIP=document.createElement('div');TIP.className='chart-tip';document.body.appendChild(TIP);}return TIP;}
+function showTip(s,x,y){var t=getTip();t.textContent=s;t.style.display='block';var w=t.offsetWidth,h=t.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;var lx=Math.min(x+14,vw-w-10);if(lx<10)lx=10;var ly=Math.min(y+16,vh-h-10);if(ly<10)ly=10;t.style.left=lx+'px';t.style.top=ly+'px';}
+function hideTip(){if(TIP)TIP.style.display='none';}
+function tip(p,s){p.addEventListener('mouseenter',function(e){showTip(s,e.clientX,e.clientY);});p.addEventListener('mousemove',function(e){showTip(s,e.clientX,e.clientY);});p.addEventListener('mouseleave',hideTip);return p;}
+window.addEventListener('scroll',hideTip,true);
 function fmt(n){return n.toLocaleString('en-US');}
 function wrap(s,max){var w=s.split(' '),o=[],c='';w.forEach(function(x){if((c+' '+x).trim().length>max){if(c)o.push(c);c=x;}else{c=(c+' '+x).trim();}});if(c)o.push(c);return o;}
 function mkSvg(mount,w,h,label){return el('svg',{viewBox:'0 0 '+w+' '+h,role:'img','aria-label':label},mount);}
@@ -738,11 +745,13 @@ function j4gn(c,mount){
   var path='M'+pts.map(function(d,i){return X(i)+' '+Y(d.sessions);}).join(' L');
   S(el('path',{d:path,fill:'none'},s),'stroke:'+ACC2+';stroke-width:2.5');
   pts.forEach(function(d,i){
+    var jtip=d.date+': '+d.sessions+' sessions from '+d.ips+' IPs. '+d.note+' Successful intrusions: 0.';
     var dot=el('circle',{cx:X(i),cy:Y(d.sessions),r:5},s);S(dot,'fill:'+ACC2);
-    tip(dot,d.date+': '+d.sessions+' sessions from '+d.ips+' IPs. '+d.note+' Successful intrusions: 0.');
+    tip(dot,jtip);
     txt(s,X(i),Y(d.sessions)-10,String(d.sessions),INK,13,'middle','700');
     txt(s,X(i),T+H+20,dayLabel(d.date),MUT,11,'middle');
     txt(s,X(i),T+H+36,d.ips+' IPs',MUT,11,'middle');
+    var hit=el('circle',{cx:X(i),cy:Y(d.sessions),r:14},s);S(hit,'fill:transparent;pointer-events:all');tip(hit,jtip);
   });
   txt(s,L,T-14,'sessions',MUT,11,'start');
 }
@@ -757,10 +766,12 @@ function p2gn(c,mount){
   var path='M'+c.series.map(function(d,i){return X(i)+' '+Y(d.count);}).join(' L');
   S(el('path',{d:path,fill:'none'},s),'stroke:'+ACC2+';stroke-width:2.5');
   c.series.forEach(function(d,i){
+    var ptip=d.date+': '+fmt(d.count)+' successful exploitations. '+d.note;
     var dot=el('circle',{cx:X(i),cy:Y(d.count),r:5},s);S(dot,'fill:'+ACC2);
-    tip(dot,d.date+': '+fmt(d.count)+' successful exploitations. '+d.note);
+    tip(dot,ptip);
     txt(s,X(i),Y(d.count)-10,fmt(d.count),INK,13,'middle','700');
     txt(s,X(i),T+H+20,dayLabel(d.date),MUT,11,'middle');
+    var hit=el('circle',{cx:X(i),cy:Y(d.count),r:14},s);S(hit,'fill:transparent;pointer-events:all');tip(hit,ptip);
   });
   txt(s,L,T-14,'successful exploitations (axis starts at 1,200)',MUT,11,'start');
 }
@@ -902,6 +913,7 @@ function timeline(c,mount,shorts,Hh){
     S(el('line',{x1:x,y1:mid,x2:x,y2: above? topY+lines.length*13+14 : topY-12},s),'stroke:'+LINE+';stroke-width:1');
     lines.forEach(function(ln,j){txt(s,x,topY+j*13,ln,INK,11,'middle');});
     txt(s,x, above? topY-8 : topY+lines.length*13+2, dayLabel(e.date),MUT,10,'middle','700');
+    var hit=el('circle',{cx:x,cy:mid,r:14},s);S(hit,'fill:transparent;pointer-events:all');tip(hit,e.date+': '+e.event);
   });
 }
 
