@@ -2102,7 +2102,7 @@ function timeline(c,mount,shorts,Hh){
     var lines=wrap(shorts[i],24);
     var topY,botY;
     if(above){ topY= far? mid-118 : mid-64; }
-    else{ topY= far? mid+66 : mid+30; }
+    else{ topY= far? mid+96 : mid+30; }
     S(el('line',{x1:x,y1:mid,x2:x,y2: above? topY+lines.length*13+14 : topY-12},s),'stroke:'+LINE+';stroke-width:1');
     var anchor=(i===0)?'start':(i===evs.length-1)?'end':'middle';
     lines.forEach(function(ln,j){txt(s,x,topY+j*13,ln,INK,11,anchor);});
