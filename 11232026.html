@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Monday BFSI Cyber Threat Intelligence Briefing — 23 November 2026</title>
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#fffdf8; --surface2:#eceadf; --ink:#1c1e22; --muted:#5c6068;
+  --line:#d8d3c4; --accent:#8a3324; --accent2:#1f4e5f; --warn:#9a6a12; --ok:#2e6b4f;
+  --chip:#efe9db; --crit:#8a3324; --high:#b35c1e; --med:#9a6a12;
+  --shadow:0 1px 3px rgba(28,30,34,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14161a; --surface:#1d2025; --surface2:#262a31; --ink:#ece9e2; --muted:#a7abb3;
+    --line:#3a3e46; --accent:#e08a76; --accent2:#7fb8c9; --warn:#d9b45c; --ok:#7fc79e;
+    --chip:#2b2f36; --crit:#f0927f; --high:#eda26a; --med:#d9b45c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
+h2{font-size:1.55rem;margin:0 0 6px}
+h3{font-size:1.12rem}
+a{color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+section{margin-top:44px}
+.sec-head{border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* Masthead */
+.mast{padding:34px 0 8px}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.mast h1{font-size:2.35rem;margin:10px 0 8px;max-width:20ch}
+.mast .sub{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:.83rem;box-shadow:var(--shadow)}
+.meta b{font-weight:700}
+
+/* Follow-up tracker */
+.tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.track{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.track .t-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.track .t-status{font-family:Georgia,serif;font-size:1.15rem;margin:5px 0 4px}
+.track p{margin:0;font-size:.86rem;color:var(--muted)}
+.st-passed{color:var(--crit)} .st-due{color:var(--high)} .st-pending{color:var(--warn)} .st-done{color:var(--ok)}
+
+/* Executive summary */
+.exec{display:grid;gap:12px}
+.exec-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.exec-num{font-family:Georgia,serif;font-size:2rem;line-height:1;color:var(--accent);flex:0 0 auto}
+.exec-card p{margin:0}
+.exec-card b{font-weight:700}
+
+/* Badges */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:3px 9px;background:var(--chip);color:var(--ink);vertical-align:middle}
+.badge.red{background:var(--crit);color:#fff}
+.badge.amber{background:var(--warn);color:#fff}
+.badge.teal{background:var(--accent2);color:#fff}
+.badge.grey{background:var(--chip);color:var(--muted)}
+@media (prefers-color-scheme: dark){.badge.red,.badge.amber,.badge.teal{color:#14161a}}
+
+/* Actor cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actor{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.actor .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.actor h3{margin-bottom:4px}
+.actor .target{color:var(--accent2);font-weight:600;font-size:.92rem;margin:0 0 10px}
+.actor dl{margin:0;display:grid;gap:8px}
+.actor dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.actor dd{margin:2px 0 0;font-size:.93rem}
+.actor .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+.none-card{border:1px dashed var(--line);border-radius:8px;padding:16px 18px;color:var(--muted);background:transparent;margin-top:14px}
+.none-card b{color:var(--ink)}
+
+/* Vuln table */
+.vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
+.vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+tbody tr:last-child td{border-bottom:none}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:normal}
+.score{font-weight:700}
+.score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
+.status{font-size:.78rem;font-weight:700}
+.status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
+.count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+.table-scroll{overflow-x:auto}
+/* Two-col panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:8px}
+.panel p,.panel li{font-size:.94rem}
+.panel ul{margin:6px 0 0;padding-left:20px}
+.panel li{margin-bottom:7px}
+
+/* IOC + actions */
+.ioc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.ioc h3{margin-bottom:8px}
+.ioc ul{margin:6px 0 0;padding-left:20px}
+.ioc li{margin-bottom:8px;font-size:.94rem}
+.ioc .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+ol.actions{counter-reset:step;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.actions li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px 14px 52px;position:relative;box-shadow:var(--shadow);font-size:.95rem}
+ol.actions li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+@media (prefers-color-scheme: dark){ol.actions li::before{color:#14161a}}
+
+/* Unverified */
+.unverified{border:1px solid var(--warn);border-radius:8px;padding:18px;background:var(--surface)}
+.unverified ul{margin:8px 0 0;padding-left:20px}
+.unverified li{margin-bottom:8px;font-size:.94rem}
+
+/* Sources */
+.sources{font-size:.88rem}
+.sources li{margin-bottom:6px;overflow-wrap:anywhere}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  .tracker{grid-template-columns:1fr 1fr}
+  .actor-grid,.panels{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tbody tr{border-bottom:2px solid var(--line);padding:8px 0}
+  td{border-bottom:none;padding:5px 12px}
+  td.cve{white-space:normal;font-size:.95rem}
+  td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+}
+@media (max-width:460px){.tracker{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style></head>
+<body>
+<div class="wrap">
+<header class="mast">
+<div class="kicker">BFSI Cyber Threat Intelligence Briefing</div>
+<h1>Monday 23 November 2026</h1>
+<p class="sub">Window: approximately 20 November 09:00 SGT to 23 November 09:00 SGT (72 hours, Monday rule). New and overnight developments, deduplicated against the 21 and 22 November editions, with gaps stated plainly.</p>
+<div class="meta-row"><span class="meta"><b>Window</b> 72 hours to ~09:00 SGT</span><span class="meta"><b>KEV</b> no new additions; four due today</span><span class="meta"><b>Cleverbridge</b> card numbers and CVVs stolen</span><span class="meta"><b>KEPCO</b> ~1.52m records; bank and card data</span></div>
+<div class="tracker">
+<div class="track"><div class="t-label">Cleverbridge</div><div class="t-status st-passed">Payment processor breach; CVVs stolen</div><p>Disclosed 22 November: hackers copied card numbers, expiry dates and CVV codes. Detected 4 November; customer notifications began 20 November. No victim count, entry method or affected-merchant list disclosed. Malwarebytes is the only merchant so far to confirm impact — only a &ldquo;small subset&rdquo; of its customers.</p></div>
+<div class="track"><div class="t-label">CISA KEV</div><div class="t-status st-due">No new additions; four due today</div><p>Catalogue still version 2026.11.20, 1,790 entries, verified against the live feed in this run. The four 20 November additions — Apache Roller, VMware vCenter, Cisco Expressway and SAP NetWeaver — fall due today, 23 November.</p></div>
+<div class="track"><div class="t-label">n0n / Ekwiik</div><div class="t-status st-passed">Deadline passed; no publication confirmed</div><p>The 22 November deadline attached to the Ekwiik claims passed with no evidence found that the data was published or that a ransom was paid. The group&rsquo;s only new leak-site claims on 22 November are non-BFSI (education and healthcare).</p></div>
+<div class="track"><div class="t-label">AI-voice vishing</div><div class="t-status st-passed">Arrests confirm AI-voice entry point</div><p>Ukraine and the FBI arrested four suspected ransomware members on 18&ndash;19 November: the group won initial access with AI-generated voice calls posing as IT support. At least 28 companies paid more than $40.5 million.</p></div>
+</div>
+</header>
+
+<section aria-labelledby="exec-h">
+<div class="sec-head"><h2 id="exec-h">Executive summary</h2></div>
+<div class="exec">
+<div class="exec-card"><span class="exec-num">1</span><p><strong>Two payment-data breaches lead the weekend, and the patching queue is full again.</strong> Payment processor Cleverbridge disclosed on 22 November that hackers copied card numbers, expiry dates and CVV codes; it detected the activity on 4 November and began notifying customers on 20 November, but has not said how many were affected, how attackers got in, or which merchants&rsquo; buyers were hit. In South Korea, KEPCO confirmed on 22 November that about 1.52 million people&rsquo;s data leaked, including bank account and card numbers for about 650,000 customers of its KEPCO ON platform — its second breach in as many months. No new CISA KEV additions appeared on 21, 22 or 23 November (catalogue still v2026.11.20, 1,790 entries, verified against the live feed in this run); the four KEV items added on 20 November fall due for US federal remediation today, 23 November.</p></div>
+<div class="exec-card"><span class="exec-num">2</span><p><strong>The AI evidence hardened on three fronts at once.</strong> Ukrainian police and the FBI arrested four suspected ransomware members on 18&ndash;19 November: the group won initial access with AI-generated voice calls posing as IT support, and at least 28 companies paid more than $40.5 million. Dragos found attackers stealing prompt data from inside at least three AI inference providers — including requests marked Zero Data Retention — and OpenRouter removed three providers and stripped 125 endpoints of Zero Data Retention eligibility on 22 November. And the Cairn AI-agent zero-day from Amazon&rsquo;s 20 November report now has a CVE number (CVE-2026-133968, 9.8) with still no patched release. No new AI-scaled phishing, vishing or deepfake campaign against a named bank appeared in-window.</p></div>
+<div class="exec-card"><span class="exec-num">3</span><p><strong>Six new watchlist rows, and the vCenter exploit still has not landed.</strong> New: Apache Tomcat cluster authentication bypass CVE-2026-133325 (9.8); Splunk SOAR remote code execution CVE-2026-131253 (9.9); Ghostscript sandbox escape CVE-2026-125396 (&ldquo;Upload2Shell&rdquo;, proof of concept public); GnuPG GPGME double-free CVE-2026-129975 (vendor-critical, no CVSS yet); the MONAI Label zero-day CVE-2026-133968 (9.8); and a Microsoft Entra Connect Health API flaw that was exploited to read tenant metadata and administrator email addresses (no CVE, server-side fix already deployed). Rapid7&rsquo;s Metasploit module for the vCenter zero-day still contained no code as of 09:00 SGT today, and the six circulating proof-of-concept repositories remain unverified, at least one reported fake — do not run them.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="actors-h">
+<div class="sec-head"><h2 id="actors-h">Threat actor activity</h2><p>Confirmed, reported and unconfirmed items are labelled as such. No MITRE mapping is shown where the source published none.</p></div>
+<div class="filters"><button type="button" data-filter="all">All</button><button type="button" data-filter="confirmed">Confirmed</button><button type="button" data-filter="reported">Reported / unconfirmed</button></div>
+<div class="actor-grid" id="actorGrid">
+
+<div class="actor" data-status="reported">
+<div class="badges"><span class="badge red">Update</span><span class="badge amber">Reported</span></div>
+<h3>n0n — Ekwiik deadline passed with no confirmed publication; new claims are non-BFSI</h3>
+<p class="target">Ekwiik / Ideal Prepaid Botswana (prepaid utilities and airtime); no new BFSI victim</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published for the n0n listings.</dd>
+<dt>Impact</dt><dd><strong>Update — deadline passed, outcome unknown.</strong> The 22 November deadline attached to the Ekwiik claims (06:58 UTC / 14:58 SGT) passed with no evidence found that the data was published or that a ransom was paid; leak-site tracker Breach.house records &ldquo;publication not verified&rdquo; as of 22 November. Pixelleaks separately claimed the same victim (EKwiiK/EazyPay) on 18 November with the same deadline, also unverified, claiming 818,849 wallet transactions, 7.63 million transaction-detail records and payment/messaging credentials plus full application code — no publication evidence found for that claim either. The two competing claims weaken rather than strengthen either one. n0n&rsquo;s only new leak-site claims on 22 November are non-BFSI: Dynamic Education Services (education) and &ldquo;Company #243&rdquo; (healthcare, US). No new n0n publication, de-anonymisation or victim statement from Visa, JPMorgan Chase, Mastercard or Qubole surfaced in the window; Qubole still has not responded.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="confirmed">
+<div class="badges"><span class="badge red">Catch-up</span><span class="badge green">Confirmed</span></div>
+<h3>Unnamed ransomware organisation — Ukraine / FBI arrests; AI-generated voice calls as initial access</h3>
+<p class="target">Oil and gas, pharmaceutical, manufacturing, logistics, financial sector and critical infrastructure; at least 28 companies paid ransoms</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published.</dd>
+<dt>Impact</dt><dd><strong>Catch-up — confirmed, announced 18&ndash;19 Nov; missed by the 21 and 22 November editions.</strong> Ukrainian authorities, working with the FBI, arrested four suspected key members of an international ransomware organisation after a two-year investigation. At least 28 companies paid more than $40.5 million in ransoms. The organisation had at least 27 members from Ukraine, Kazakhstan, Russia and other countries, within a wider network of more than 60 people across eight jurisdictions. Its initial access method was AI-generated voice calls: the group built its own platform with AI-generated voice messages and called employees posing as IT support, alongside phishing pages impersonating corporate VPNs and remote-access tools (TeamViewer, AnyDesk). Named victims in court records include Warren Oil Company (August 2024, 1.4 TB copied, $5 million paid after a $10 million demand), Newpark Resources (December 2024, $1.5 million) and Quantum Health (June 2026, $5 million after a $15 million demand). Police carried out 66 simultaneous searches and seized computers, phones, bank cards, about $370,000 in cash and &euro;20,000. The four face up to 15 years. Ukrainian authorities have not identified the four as former Conti members or confirmed links to named ransomware brands — do not present that link as established.</dd>
+</dl>
+</div>
+
+<div class="actor" data-status="reported">
+<div class="badges"><span class="badge red">New</span><span class="badge amber">Reported</span></div>
+<h3>EndZone — UCA General Insurance Services claimed, 250+ GB</h3>
+<p class="target">US insurance — UCA General Insurance Services Inc., a regional insurance programme manager / managing general agency (commercial property and casualty)</p>
+<dl>
+<dt>TTPs</dt><dd>No MITRE mapping published. No intrusion detail published.</dd>
+<dt>Impact</dt><dd><strong>New in-window — reported / unconfirmed, 22 Nov.</strong> Endzone claimed UCA General Insurance Services on its leak site on 22 November (09:06 UTC / 17:06 SGT), asserting exfiltration of more than 250 GB of sensitive data plus file encryption. No victim confirmation, no data sample, no intrusion detail and no victim statement — single source (leak-site tracker CTI.FYI, echoed by QPulse). Treat as an unverified attacker claim only.</dd>
+</dl>
+</div>
+
+</div>
+<div class="panel" style="margin-top:18px"><h3>No new development</h3><p>n0n / Visa, JPMorgan Chase and Mastercard (no new publication or company statement; Sophos Counter Threat Unit&rsquo;s third-party-provider colour stands); n0n / Block claim; n0n / D.R. Johnson Financial Group; Pixelleaks 21 November claims (two unnamed financial-services firms — still unverified, no update); TraderTraitor / Binance laundering (see Supply chain); GreenJuliett; FBI Operation Winter SHIELD / Riptide (re-reporting only); PayU payout-API theft (access method still under audit); NBFC loan-diversion fraud (figures remain unreconciled, ₹65 crore / 12 NBFCs against a wider ₹105.67 crore / 14 NBFCs); Rakuten Securities; Wellington IT; BankWeaver; SBI; KPMG Canada; Bell Financial; Maileva; Storm-1175; Bank SinoPac (full report still unconfirmed as filed); Caixa Vida e Previdência; Tesouro Nacional; KB Capital; Flybit; SMBC Nikko Securities; Seven Bank; Mirae Asset Securities; Philippine SEC; Bank Rakyat; Coinone / MetaM; Deutsche Bank whistleblower files; KG Eduone; KOMSCO; KBIZ; YES Bank denial and Tamil Nadu arrests; TodoPago, Endzone and Payoutsking; Bank of Khartoum (allegations still unconfirmed); Octopus Hong Kong (still no corroboration); Hirudo; FaceStealer; Inception / Paychex; Comerica and HSBC Taiwan forum claims (unverified). Absence of reporting is not evidence of absence of activity.</p></div>
+</section>
+
+<section aria-labelledby="vuln-h">
+<div class="sec-head"><h2 id="vuln-h">Vulnerability watchlist</h2><p>No new CISA KEV additions on 21, 22 or 23 November — verified against the live feed in this run (catalogue version 2026.11.20, 1,790 entries). The four additions of 20 November (Apache Roller CVE-2026-129448, VMware vCenter CVE-2026-123890, Cisco Expressway CVE-2026-76466, SAP NetWeaver CVE-2025-42884) fall due today, 23 November — a due date alone is not a new development under the standing rule, and they are not re-tabled here. The vCenter row below is included because its Metasploit module status is a new development on that item. Six new rows follow.</p></div>
+<div class="vuln-tools"><input id="vulnSearch" type="search" placeholder="Filter vulnerabilities — CVE, product, status…" aria-label="Filter vulnerabilities" /><span id="vulnCount">Showing all 7 watchlist rows.</span></div>
+<div class="table-scroll"><table id="vulnTable"><colgroup><col style="width:24%"><col style="width:8%"><col style="width:18%"><col style="width:14%"><col style="width:36%"></colgroup>
+<thead><tr><th>CVE ID</th><th>CVSS score</th><th>Affected product</th><th>Exploitation status (PoC / in the wild)</th><th>Relevance to finance</th></tr></thead>
+<tbody>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-133325 — NEW, disclosed 19 Nov</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">Apache Tomcat 11.0.28–11.0.29, 10.1.62, 9.0.124 (clustered deployments)</td><td data-l="Exploitation status">No confirmed exploitation; no public PoC identified; Tenable lists no known exploits</td><td data-l="Relevance to finance">Key exchange without entity authentication lets an unauthenticated node join a cluster secured with TLS 1.3 and TLS-PSK, because peer authentication is not verified during the handshake. A rogue node admitted to the cluster can receive replicated session data and cluster messages. Fixed in 11.0.30, 10.1.63 and 9.0.125 (9.0.125 &ldquo;when released&rdquo;). Workaround: switch cluster communication to TLS 1.2 while keeping TLS-PSK. Exposure needs clustering with TLS 1.3 + PSK and network reachability to the cluster transport port — not every Tomcat deployment. Not remote code execution — Apache&rsquo;s advisory does not establish RCE — and not to be confused with the earlier exploited Tomcat flaw CVE-2026-34486. Researcher: Mike Read, reported 16 Nov.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-131253 — CATCH-UP, Splunk advisory 18 Nov</td><td class="score crit" data-l="CVSS score">9.9</td><td data-l="Affected product">Splunk SOAR below 8.8.0</td><td data-l="Exploitation status">No exploitation reported; no public exploit code reported</td><td data-l="Relevance to finance">Remote code execution through the App Wizard: an authenticated user holding a role with Apps edit, Containers edit and Playbooks execute permissions can use the App Wizard to execute arbitrary code as the user account that runs Splunk SOAR, because the App Wizard does not validate user-supplied identifiers before incorporating them into generated connector code (CWE-94). Upgrade to SOAR 8.8.0; Splunk lists no workaround. The same advisory (SVD-2026-1108, 59 flaws) also includes CVE-2026-131287 (9.6, REST API code execution) and CVE-2026-131297 (8.1, SSO bypass). The 22 November edition covered only the Splunk Enterprise pair from the same 18 November release (CVE-2026-76536 9.4 / CVE-2026-76535 9.1); the SOAR critical was missed. SOAR is the automation layer in many bank SOCs — treat this as a patching priority alongside the Enterprise pair.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-125396 (&ldquo;Upload2Shell&rdquo;) — NEW, research 17 Nov; wide coverage 21–22 Nov</td><td class="score crit" data-l="CVSS score">8.5</td><td data-l="Affected product">Ghostscript before 10.08.0 (bundled in webmail, CMS, print and document pipelines)</td><td data-l="Exploitation status">PoC public (pwn.ai self-contained PostScript proof); no confirmed exploitation in the wild; CISA ADP lists exploitation as none</td><td data-l="Relevance to finance">A <code>-dSAFER</code> sandbox bypass in the Type 1 font loader (<code>.putgstringcopy</code> / <code>.forceput</code>, CWE-648) lets a crafted document escape the Ghostscript sandbox and run commands as the rendering process. Demonstrated through ordinary file-upload paths in about ten products: WordPress (via Imagick/ImageMagick thumbnails and unauthenticated Forminator / Essential Addons for Elementor upload widgets), Roundcube webmail 1.7.2 (viewing a message was enough — no click, no account needed for the sender), Debian 13 CUPS (anonymous print job to a shared queue, ran as <code>lp</code>), plus MediaWiki, DokuWiki, Mayan EDMS, ResourceSpace, and Google Docs/Chat/Drive/Gmail processing. The upstream fix shipped in Ghostscript 10.08.0 on 8 September 2026, but many distributions and bundled renderers still ship vulnerable builds; the CVE only arrived on 9 November, so defenders had no name for the bug for two months. WordPress tracks its own upload side as CVE-2026-65640 (CVSS 3.0 8.8, Author-level, requires Imagick + Ghostscript), fixed in WP 6.8.8 / 6.9.7 / 7.0.4; Roundcube fixed in 1.6.20+. Mitigation where patching lags: restrict Ghostscript in the ImageMagick policy. Check Ghostscript versions bundled in webmail, CMS and print pipelines, not just the standalone binary.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-129975 — NEW, GnuPG advisory 20 Nov</td><td class="score crit" data-l="CVSS score">Critical*</td><td data-l="Affected product">GPGME before 2.3.0 (shared library, DLL or statically linked)</td><td data-l="Exploitation status">No exploitation reported; remote code execution &ldquo;can&rsquo;t be ruled out&rdquo;</td><td data-l="Relevance to finance">A crafted OpenPGP key with a very long user ID triggers a double free in GPGME, the C library programs use to talk to GnuPG, in <code>read_status()</code> and <code>read_colon_line()</code> in <code>src/engine-gpg.c</code> — a stale pointer after <code>realloc</code>. The bug has existed for 24 years (since GPGME 0.3.9, 2002). The double free can be used to exfiltrate data from applications by sending, for example, signed data. Discovered by Johan Carlsson, reported via GitLab on 12 November; coordinated disclosure was set for 25 November but was pulled forward to 20 November because GitLab had to update early for ruby2shell. Fix: GPGME 2.3.1 (2.3.0 was tagged but never publicly released); legacy branch 1.24.4; Gpg4win 5.1.2 bundles the fix; Debian shipped DSA-6646-1 (trixie) and DLA-4924-1 (bookworm) on 20 November. GPGME sits under mail clients, Gpg4win, Samba and Flatpak — any signed-data verification path in a bank&rsquo;s email or document workflow that processes attacker-supplied keys is exposed. Patching is via each distro or application, so inventory bundled GPGME rather than just the <code>gpg</code> version. *GnuPG rates the flaw critical; no CVSS score has been published.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-133968 (&ldquo;MONAI Label&rdquo; / Cairn AI-agent zero-day) — UPDATE, CVE assigned 20 Nov</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">MONAI Label 0.8.5 and earlier (open-source medical-imaging annotation server; authentication off by default)</td><td data-l="Exploitation status">In the Wild (NVD: exploited from September 2026); no patched release exists</td><td data-l="Relevance to finance"><strong>New in-window:</strong> the flaw Amazon Threat Intelligence reported on 20 November now has a CVE number and a 9.8 score. Autonomous AI agents running the open-source Cairn framework, given one instruction — get shell access — found a previously unknown path-traversal flaw, going from mapping the application&rsquo;s API to writing files outside the server&rsquo;s storage folder in about 11 minutes; in a later session they planted a Python <code>sitecustomize.py</code> reverse shell and triggered a training job to gain root on a university server. The agents also tried Log4Shell injection, SSRF against a co-located Qdrant instance, and credential sprays against PostgreSQL and SSH, without success. The fix was merged into the source tree on 19 October, but no patched release exists — 0.8.5 (November 2024) is still the newest installable package. Amazon found the operator&rsquo;s own Cairn control panel exposed on the internet without authentication, revealing task settings, prompts and run history. Attribution to a China-nexus actor with moderate confidence (Simplified Chinese prompts, China Standard Time settings); no named group. No patient scans or clinical systems were touched, per Amazon. No financial target in this campaign; the BFSI point is the precedent — the first publicly documented case of offensive AI agents finding a novel vulnerability during a live intrusion and turning it into a working exploit — and the control lesson: agent frameworks left publicly accessible without authentication expose the operator&rsquo;s own campaign, and the same exposure class applies to defenders&rsquo; AI tooling.</td></tr>
+<tr><td class="cve" data-l="CVE ID">No CVE — Microsoft Entra Connect Health API flaw — NEW, exploited (fix 19 Nov; reporting 21 Nov)</td><td class="score crit" data-l="CVSS score">No score</td><td data-l="Affected product">Microsoft Entra Connect Health API (server-side; no customer patch needed)</td><td data-l="Exploitation status">Exploited (confirmed by Microsoft)</td><td data-l="Relevance to finance">A flaw in the Entra Connect Health API — introduced 23 July 2026 and undetected for 109 days — let unauthorised callers read tenant metadata: email addresses of tenant technical contacts and administrator accounts, tenant IDs, display names, initial domains, country codes, regional scope, Entra licence tiers, directory-sync status and last-sync timestamps, Connect Health onboarding status, and an expired certificate from a service decommissioned in late 2024. The flaw could potentially also have allowed changes to monitoring configurations, but Microsoft found only read activity. No passwords, password hashes, authentication tokens, valid cryptographic keys, on-premises server or Active Directory topology details, or Azure subscription information were exposed. Microsoft has not disclosed how many organisations were affected or who exploited it. It published a PowerShell script (aka.ms/ConnectHealth/scripts) so admins can see what metadata could have been exposed. Entra Connect Health monitors hybrid identity infrastructure (Entra Connect sync, AD FS, domain controllers) used by most banks and insurers; exposed administrator email addresses and tenant profiles are direct material for targeted phishing and social engineering against identity teams. No action is needed on the flaw itself — the fix is server-side — but affected tenants should expect targeted phishing using the exposed admin contacts.</td></tr>
+<tr><td class="cve" data-l="CVE ID">CVE-2026-123890 — STATUS, KEV 20 Nov; Metasploit module still not landed</td><td class="score crit" data-l="CVSS score">9.8</td><td data-l="Affected product">VMware vCenter Server (Directory Service); vSphere / VCF</td><td data-l="Exploitation status">In the Wild (confirmed zero-day, KEV 20 Nov, due today 23 Nov); public PoC code listed (unverified)</td><td data-l="Relevance to finance"><strong>New in-window:</strong> as of 09:00 SGT today, Rapid7&rsquo;s Metasploit pull request #22173 (&ldquo;VMWare vCenter SRP Auth Bypass to Root&rdquo;, opened 20 Nov) still contains no code — 0 changed files, 0 additions, 1 commit; its body reads &ldquo;Check back in on Monday&rdquo;. The module expected around today has not landed at the time of this check; it may land later today. The six public GitHub proof-of-concept repositories listed by aggregators (earliest 19 Nov) remain unverified, and at least one circulating repository has been reported fake — its description invents an advisory number, fixed versions and Windows ports that do not match the flaw. Do not run unverified exploit code. The underlying flaw is unchanged: unauthenticated authentication bypass (SRP-6a session-key disclosure over DCE/RPC, TCP 2012). GTIG / Mandiant attribute exploitation since early September to suspected PRC-nexus ARMORY CASTLE. Fixed in vCenter 9.1.1.0200, 9.0.2.0200, 8.0 U3m and VCF 5.x 5.2.5; no workaround. Restrict TCP 2012 to trusted hosts while patching; hunt for unauthorised SSO admin accounts and forged SAML assertions.</td></tr>
+</tbody></table></div>
+<p class="small muted">Carried rows (unchanged in-window unless noted — full detail in the 19, 20, 21 and 22 November editions): the four 20 November KEV items due today — Apache Roller CVE-2026-129448 (9.8, actively exploited, fix 6.1.6+), Cisco Expressway CVE-2026-76466 (9.8, first exploitation documented 20 Nov, fix X15.5.20), SAP NetWeaver CVE-2025-42884 (6.5, SAP Note 3660969); LiteLLM CVE-2026-40217 (8.8, KEV 18 Nov, due 2 Dec); ruby2shell CVE-2026-132825 (Critical per Ruby; NVD scores it 7.4 on a local vector with high complexity — the scoring disagreement is noted, not re-rated; Veria Labs PoC due ~25 Nov; no in-the-wild exploitation reported); TYPO3 CVE-2026-125160 (6.3, actively exploited); PHP November security release — seven critical RCE flaws, 9.2 (patch 8.2.36 / 8.3.37 / 8.4.28 / 8.5.13 / 8.6.0); Splunk Enterprise CVE-2026-76536 (9.4) / CVE-2026-76535 (9.1) and CVE-2026-131188 (High, unauthenticated SPL search via crafted link); Drupal CVE-2026-132165; FortiSIEM CVE-2026-106173 (9.4); CVE-2026-123633 NGINX HTTP/2 use-after-free; CVE-2026-123007 (&ldquo;NGINX2Root&rdquo;); CVE-2024-10441 Synology 9.8, KEV 18 Nov, due 21 Nov (passed); CVE-2026-90817 REDCap 9.8, KEV 18 Nov, due 21 Nov (passed); F5 BIG-IP six critical TMM flaws plus APM SAML DoS CVE-2026-126822; CVE-2026-115731 Puppet 9.4, KEV 17 Nov, due 1 Dec; CVE-2026-119618 Apache mod_http2, reportedly exploited (CSA); CVE-2026-130796 / CVE-2026-130615 Flowise, no fix; CVE-2026-84869 ScreenConnect 9.9, exploitation confirmed; CVE-2026-116606 / CVE-2026-111560 Barracuda, in the wild (KEV); CVE-2026-99288 NoisyTCP; CVE-2026-129349 Apache Shiro 9.1; CVE-2026-126259 FortiOS 9.0; CVE-2026-90436 Apache Axis 9.8, KEV 18 Nov, due 21 Nov (passed); CVE-2026-121653 Ivanti 9.8; CVE-2026-126173 AutomatorWP 9.8; CVE-2026-19907 Shipo 9.8; CVE-2026-124969 Optimole 7.1; CVE-2026-20320 Cisco BroadWorks, KEV; CVE-2026-109618/109619 PHP2Shell 9.2, in the wild; CVE-2026-121529 Fortinet2Shell; CVE-2026-6460 PostgreSQL 8.8; CVE-2026-124194 Outlook 6.5, KEV; CVE-2026-127063 DataComm RMM+ 9.3; Able2Shell seven CVEs 9.3; CVE-2026-123864 Node.js; Node.js batch six further High; CVE-2026-126263 FortiMail 9.8; CVE-2026-126155 FortiMail 9.1; VSA-2026-062 Xen Orchestra, actively exploited; SAP November Patch Day four 10.0; Fortinet batch eight criticals 9.8–9.0; Microsoft November Patch Tuesday, up to 9.9; CVE-2026-88771 Citrix NetScaler 9.5/9.8, KEV; CVE-2026-76443 Cisco Secure Email 9.8, KEV sibling; CVE-2026-97229 GitLab 10.0, KEV; CVE-2026-119977 WordPress 8.1/Low; CVE-2026-107441 Zyxel 8.8/9.8, zero-day; CVE-2026-109593/109594 SonicWall GMS 9.1/6.8; CVE-2026-72898 Metabase 10.0, in the wild; CVE-2026-98432 Linux kernel TCP 9.8; CVE-2026-58115 Node-RED 10.0, in the wild; CVE-2026-111497 Brotli/Node2Shell 9.2, KEV; Citrix NetScaler November batch, highest 9.5; CVE-2026-114938 (&ldquo;Java4Shell&rdquo;) 8.1 / 9.2 / 9.8, no confirmed exploitation, not in CISA KEV; FastUnlock, no CVE, physical access only; PaperCut NG/MF chain CVE-2026-81578 / CVE-2026-82078 (KEV 31 Aug) — Arctic Wolf renewed its urgent warning on 20 Nov; Emergency Patch Release 3 (24.1.10 / 25.0.13 / 26.0.5) is the required remediation, as the first two emergency patches were bypassable. Total watchlist rows tracked: 66 (6 new in this edition; 60 carried).</p>
+</section>
+
+<section aria-labelledby="supply-h">
+<div class="sec-head"><h2 id="supply-h">Supply chain &amp; third-party risk</h2><p>Vendor, SaaS and service-provider exposure affecting financial organisations.</p></div>
+<div class="panels">
+<div class="panel">
+<h3>Cleverbridge — payment processor breached; card numbers and CVVs copied (NEW, confirmed, 22 Nov)</h3>
+<p>Cleverbridge, which processes checkout, payments and subscriptions for software and SaaS vendors, disclosed on 22 November that hackers breached its systems and copied payment card data stored on its platform. It detected unauthorised activity on 4 November, took systems offline the same day and restored them the same day; its investigation later determined a third party had copied the data. A breach notification shared with BleepingComputer says the stolen data includes the card number, expiry date and card security code (CVV/CVC) used for a purchase through Cleverbridge, and that no other personal data such as name, contact or billing details was copied. The company has not said how attackers got in, how long they were inside, or how many customers were affected, and has not disclosed which of its listed clients&rsquo; buyers were hit — its client list includes Red Hat, SUSE, Tenable, Veeam, Jamf, Sony and Parallels. It confirmed the incident was not ransomware and nothing was encrypted. It has notified data protection authorities, law enforcement, payment card networks and payment partners, and is working with TransUnion&rsquo;s Cyberscout on notifications and complimentary credit monitoring. Malwarebytes is the only merchant so far to confirm impact, saying only &ldquo;a small subset&rdquo; of its customers was affected. Issuing banks should watch for unauthorised transactions and consider replacing affected cards; breach-themed phishing using the Cleverbridge name is a predictable follow-on.</p>
+</div>
+<div class="panel">
+<h3>KEPCO — bank and card data of about 650,000 customers leaked in a second breach (NEW, confirmed, 22 Nov)</h3>
+<p>State-run Korea Electric Power Corp. confirmed personal data of about 1.52 million people leaked from two systems: 650,487 users of its KEPCO ON customer-service and bill-payment platform and 869,761 users of its electronic procurement system (SRM), for a combined 1,520,248 records. The KEPCO ON leak exposed 12 categories including names, resident registration numbers, phone numbers, addresses, bank names, account numbers, account-holder names, card issuers, card numbers and cardholder names, plus billing records. The SRM leak exposed corporate representatives&rsquo; and employees&rsquo; names, phone numbers and emails. KEPCO says an external attacker accessed both systems; it discovered the breach on 20 November, blocked external IP access and suspended some services, filed with the Personal Information Protection Commission on 22 November (within 72 hours), and is working with financial companies to prevent secondary damage, with a 24-hour call centre staffed. Its president issued a public apology. This is a second breach in as many months, after an October leak of employee records. The victim is an energy utility, not a bank, but the exposed data is financial data: Korean banks should expect phishing and voice-phishing using it. Per-system counts differ slightly between outlets (650,487 vs 654,487 KEPCO ON users); the totals here are Yonhap&rsquo;s and the Korea Herald&rsquo;s.</p>
+</div>
+<div class="panel">
+<h3>Paydon / Infcurion Wallet Station — staged restart under way; affected provider still suspended (UPDATE)</h3>
+<p>Infcurion&rsquo;s third report (noon JST, 21 November) confirms no new unauthorised access to Wallet Station since the system was cut off on 19 November. From 20 November it paused Wallet Station for providers that were not the target of the leak so emergency checks could be carried out; providers whose checks found no trace of intrusion and no leak of personal information began restarting &ldquo;in stages&rdquo; from 21 November, each on its own timetable. The provider whose data leaked remains suspended with no restart date. Infcurion repeated that it has not confirmed any misuse of the leaked information and warned about unexpected calls, emails and texts. JACCS said on 20 November it was suspending its SPLIE and House Pay app payment services &ldquo;for the time being&rdquo; and has not yet been able to say whether its customers&rsquo; data is among the leaked data; it published no record count. AEON Pay suspended some code payments but says no leak of its customers&rsquo; data has been confirmed. The Paydon figures stand: 251,172 records leaked (names, dates of birth, phone numbers, gender, emails, passwords, bank account information, point balances, transaction history, merchant data); all Paydon services stopped at 06:20 JST on 20 November. Watch for a regulator (FSA) statement and for confirmed misuse.</p>
+</div>
+<div class="panel">
+<h3>PLAID KARTE — the 754-company key exposure is the consequential detail; per-company data from tomorrow (UPDATE)</h3>
+<p>Plaid&rsquo;s 20 November investigation results, now corroborated by multiple outlets, put the leaked or potentially leaked data in four overlapping groups: integration credentials (secret keys and access tokens) for 754 client companies; part of the data customers linked into KARTE for 570 companies; end-user behaviour data for 487 companies; and cached data treated as potentially leaked for up to 409 companies (an estimate, because the cache is overwritten quickly and Plaid cannot tell which items were actually read). Plaid also confirmed 79,249 KARTE account email addresses and 45,816 sales/support contact records leaked. The 754-company credential figure is the most consequential for financial firms: integration keys held by a marketing vendor can reach email delivery, Salesforce and other connected services, and only the issuing service can revoke them. Plaid warned that unrevoked keys could allow unintended data writes or leaks at linked services; as of 20 November no misuse of the keys at linked services had been disclosed. The breach also reached companies whose contracts had ended — one former customer, overflow, ended its contract in November 2023 yet its data remained for about three years — the same post-contract retention problem seen with Stripe International and Kaitec. New company counts in the window: JINS, about 18.29 million member records (member IDs, email addresses, surnames, dates of birth; no passwords or card data), and the MUFG group total of about 8 million records across its five businesses. Published counts across company disclosures still top 140 million records — a tally of company disclosures, not 140 million people. KARTE stays offline with a staged restart targeted for mid-January 2027; Plaid will start giving each affected company its detailed data from 24 November.</p>
+</div>
+<div class="panel">
+<h3>Rackspace Spot — leaked credentials let intruders read customer Kubernetes Secrets (NEW, confirmed, 21 Nov)</h3>
+<p>Attackers used leaked credentials to access Rackspace Spot, a managed Kubernetes cloud platform, and could act as legitimate users inside some customer organisations — creating pods, reading Kubernetes Secrets (database passwords, API keys, tokens), and listing nodes and volumes. Any Secret in an affected user&rsquo;s clusters, plus Spot API tokens and refresh tokens, could have been read. The intrusion ran 17 November 00:20&ndash;22:00 UTC; Rackspace discovered it on 18 November after a customer report and disclosed it to affected customers on 21 November. Rackspace revoked affected tokens and sessions, removed unauthorised pods, rotated keys and hardened access controls; the Spot admin console was down for days during clean-up, delaying customer credential rotation, and new sign-ups are paused until 25 November. Rackspace has not said whose credentials leaked or how, how many customers were affected, or whether data was copied out; attribution is unknown. Affected customers must treat every secret in hit clusters as compromised. IOCs: IP 23.224.79.106; range 23.224.0.0/15; suspicious pod/object name prefixes <code>i1</code>, <code>glm-</code>, <code>probe</code>.</p>
+</div>
+<div class="panel">
+<h3>Visa Fall 2026 Biannual Threats Report — third-party incidents up 62% (CATCH-UP, confirmed primary, 17 Nov)</h3>
+<p>Visa&rsquo;s Fall 2026 Biannual Threats Report, covering January&ndash;June 2026 and released 17 November, finds AI is not creating entirely new fraud categories but is changing the economics of fraud — automating reconnaissance, phishing content, malicious code and payment-control testing. Incidents involving third-party agents rose 62% against the previous six months, with those providers linked to about 56% of compromised payment credentials identified; recovered payment credentials from data breaches rose more than 1,200%; global payment-account enumeration volume rose 35% year over year, though Visa blocked 200% more enumeration transactions and fraud losses from enumerated credentials fell 21.4%; Visa Scam Disruption identified more than $1.4 billion in potential fraud, up 40%; ransomware cases rose 19% over the prior six months and 312% since 2021, with the 10 most active groups accounting for more than 80% of incidents Visa PERC observed. This is the card scheme&rsquo;s own quantification of the third-party risk behind this month&rsquo;s incidents (n0n/Visa/JPMorgan/Mastercard, Plaid KARTE, FFG) — a primary-source anchor for the vendor-risk theme.</p>
+</div>
+<div class="panel">
+<h3>Binance — full withdrawal reopening still unconfirmed (UPDATE)</h3>
+<p>No new Binance statement or completion confirmation for the full withdrawal reopening was found in the window. The 14 November company notice (87 networks reopened) targeted full restoration &ldquo;by the end of next week&rdquo; (about 21&ndash;22 November), but no 22&ndash;23 November update confirming completion surfaced; secondary roundups dated 22&ndash;23 November still describe the target as not yet a completed outcome. Elliptic&rsquo;s laundering update (20 November) stands as covered: at least 2,310 BTC (about $149 million) into coinjoins, about 90% since 17 November, almost all coordinated by Kruw; five of the nine largest ETH wallets emptied since 17 November (about 488,000 ETH, about $860 million); about $2.35 billion remains in attacker-linked wallets and about $2.85 billion is frozen; the 18,270 BTC stolen directly has still not moved. One new detail in 22 November re-reporting of that same Elliptic update: about 210 BTC entering coinjoins on 20 November was traced to stolen XRP converted earlier in November. Attribution to North Korea&rsquo;s TraderTraitor is per the FBI (31 October). The $2.35 billion remaining-holdings figure is Elliptic&rsquo;s; Lookonchain counts 602,402 ETH at about $1.09 billion — the estimates are unreconciled.</p>
+</div>
+<div class="panel">
+<h3>No new development</h3>
+<p>n0n — Visa, JPMorgan Chase and Mastercard (no new publication or company statement; Qubole still has not responded); Rakuten Securities; Fukuoka Financial Group; Bell Canada; Wellington IT; BankWeaver / Temenos; Fireworks AI; Deutsche Bank whistleblower files; Coinone / MetaM; Arara; Optimizely / OPTIMJACK; Microsoft agent-framework PyPI hijack; ScreenConnect / N-able; SBI; Korean FSI special audit (self-assessments due 30 November); KOMSCO; KBIZ; Mirae Asset; SMBC Nikko; Seven Bank; Philippine SEC; Bank Rakyat; AXA Direct Japan; Monex; Caixa Vida; Tesouro Nacional; KB Capital; Flybit; TodoPago; Endzone; Payoutsking; PayU; NBFC loan-diversion fraud; Bank of Khartoum (allegations still unconfirmed); Octopus Hong Kong (still no corroboration); Hirudo; FaceStealer; Inception / Paychex; n0n / Block claim; n0n / D.R. Johnson Financial Group; CryptoBilis (Arkham $95.35m tally stands).</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="fraud-h">
+<div class="sec-head"><h2 id="fraud-h">Emerging fraud &amp; attack vectors</h2><p>Account takeover, mobile banking trojans, infostealers, vishing and smishing, and DDoS extortion affecting financial customers and staff.</p></div>
+<div class="panels">
+<div class="panel">
+<h3>Delhi Police fake-banking-app crackdown — 22 arrests, 22,139 victims (NEW, confirmed, reported 21 Nov)</h3>
+<p>Delhi Police&rsquo;s West District Cyber Police Station arrested 22 people, including alleged developers of malicious APKs, in a five-day operation (11&ndash;15 November) across Jharkhand, Uttar Pradesh, West Bengal and Bihar, targeting 11 cyber-fraud groups and an APK-panel development network. Police link the accused to 22,139 victims nationwide, 2,080 complaints on the National Cybercrime Reporting Portal directly connected to the arrested, and proceeds of more than ₹20 crore. Investigators examined 32 malicious APKs and 56 suspected Telegram profiles and linked WhatsApp numbers, and recovered 63 mobile phones, two laptops, two MacBooks and a tablet. The scheme: fraudsters posed as bank staff (or utility representatives), mainly targeting senior citizens, and persuaded victims over WhatsApp to install APKs on the pretext of life-certificate verification, KYC updates, credit-card services, bill payments or credit-limit enhancement. Once installed, the apps showed fake banking forms and sought banking credentials, SMS messages, OTPs, call records and gallery contents, enabling account takeover and card-limit abuse. Stolen money was moved via gift coupons (Flipkart, Amazon, Swiggy, BigBasket) resold on Telegram at about a 20% discount, plus phones and silver coins. Police say APK-fraud complaints in Delhi fell about 48% in the week after the raids, though that alone does not prove causation. This is the same sideloaded fake-bank-app pattern as the &ldquo;Party Panel&rdquo; apps already tracked.</p>
+</div>
+<div class="panel">
+<h3>AI-generated voice calls as ransomware initial access — Ukraine / FBI arrests (CATCH-UP, confirmed, 18–19 Nov)</h3>
+<p>See Threat actor activity. The group built its own platform with AI-generated voice messages and called employees posing as IT support. This is the clearest confirmed case in this window of AI voice vishing as a ransomware entry point, as distinct from the conventional Unit 42 Com vishing already covered.</p>
+</div>
+<div class="panel">
+<h3>Wells Fargo bank logs and RDP access offered for sale (NEW, reported / unconfirmed, 21 Nov)</h3>
+<p>Actor &ldquo;lukineX&rdquo; on DarkNetArmy is advertising Wells Fargo bank logs bundled with RDP access and session cookies. Single-source darknet-forum listing (via Kalir Brief); no verification of the data, no victim confirmation, no scale. Such an offer directly enables account takeover if genuine, but the listing itself is not evidence of a breach of Wells Fargo. Watch only.</p>
+</div>
+<div class="panel">
+<h3>Banco do Brasil — unconfirmed forum-sale claim of 22.7 million records (UPDATE, reported / unconfirmed)</h3>
+<p>Portuguese-language reporting says an actor using the handle &ldquo;bozzmk&rdquo; advertised 22.7 million records attributed to Banco do Brasil for sale on DarkForums in November 2026, with screenshots of a query panel showing personal data, documents and contract numbers. Banco do Brasil has neither confirmed nor denied the volume. The bank&rsquo;s own position stands: names, CPF, email, branch and in some cases account numbers were accessed; no passwords, tokens or security codes were exposed; no related financial transactions identified; the number of affected customers has not been disclosed. If the 22.7 million figure were genuine it would be far larger than anything the bank has acknowledged. Treat the figure as an unverified forum claim, not a confirmed count.</p>
+</div>
+<div class="panel">
+<h3>Phishing watches</h3>
+<p>Cleverbridge breach-themed phishing (new — card data stolen, notifications under way); KEPCO voice-phishing using leaked bank/card and resident registration data (new); Paydon (251,172 records incl. passwords; Infcurion warns of unexpected calls, emails and texts); n0n data (JPMorgan Reserve, Visa premium APAC); Rakuten (fake lawsuit-fee contacts; fake compensation screenshot circulating; no compensation announced); KARTE (over 140m records; ZOZO, Marui and EPOS customers; JINS 18.29m); FFG and SMBC Consumer Finance (Fukuoka Bank&rsquo;s 8,132 customers); Bell Canada enterprise contacts; WhatsApp ad-reply scam messages; KG Eduone staff impersonation; PayU; Bell Financial; Wellington payee data; Comerica and HSBC Taiwan claims (unverified, but will be cited as bait); Coinone; Monex; AXA; KOMSCO; KBIZ; Arara; Tesouro and Caixa; SMBC Nikko; Mirae Asset; Binance and Mercado Bitcoin, Gopax and Nubank outage messages; Microsoft 365 outage phishing (confirmed by Microsoft); Autopay Poland; Rs 1 test transactions; sideloaded bank apps (Party Panel, Delhi APK crackdown) and fake TikTok droppers (Bazuka).</p>
+</div>
+<div class="panel">
+<h3>No new DDoS-extortion item in-window</h3>
+<p><strong>No new AI-scaled phishing, vishing or deepfake campaign against a named bank in-window:</strong> the $129m AI-CEO-voice indictment (SDNY, 5 November) was re-reported on 21 November with no new development. Bank of Khartoum — no new development; allegations remain reported / unconfirmed.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="ttp-h">
+<div class="sec-head"><h2 id="ttp-h">TTP tracker — threat actors and key vulnerabilities</h2><p>Techniques actually published for this edition&rsquo;s actors and key vulnerabilities. No MITRE mapping is shown where the source published none.</p></div>
+<div class="table-scroll"><table><colgroup><col style="width:13%"><col style="width:20%"><col style="width:22%"><col style="width:33%"><col style="width:12%"></colgroup>
+<thead><tr><th>MITRE Technique ID</th><th>Technique / behaviour</th><th>Seen in this edition</th><th>BFSI relevance / detection note</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">AI-generated voice calls posing as IT support as ransomware initial access, with phishing pages impersonating corporate VPNs and remote-access tools (TeamViewer, AnyDesk)</td><td data-l="Seen in this edition">Ukraine / FBI arrests, announced 18–19 Nov (catch-up)</td><td data-l="BFSI relevance / detection note">The clearest confirmed case of AI voice vishing as a ransomware entry point. Tighten help-desk verification and move to phishing-resistant MFA.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Autonomous AI agents finding a novel zero-day and completing an intrusion (Cairn / MONAI Label)</td><td data-l="Seen in this edition">Amazon, 20 Nov; CVE-2026-133968 now assigned (update)</td><td data-l="BFSI relevance / detection note">First documented case of AI agents finding, not just reusing, a zero-day. Never run AI annotation or agent frameworks with authentication off and internet-reachable.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">AI agent doing exploit development on ruby2shell in a public lab repository, from crash reproduction to lab-only remote code execution</td><td data-l="Seen in this edition">genaforvena, 20 Nov</td><td data-l="BFSI relevance / detection note">The window between patch release and public exploit technique is compressing. Patch Ruby before the Veria Labs PoC due about 25 November. Not a verified stock-Rails PoC.</td><td data-l="Status">Confirmed repository; exploit claims lab-only</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Prompt data stolen from inside AI inference providers, including Zero Data Retention requests, with stolen cloud keys abused at scale</td><td data-l="Seen in this edition">Dragos, 19 Nov; OpenRouter action, 22 Nov</td><td data-l="BFSI relevance / detection note">A Zero Data Retention flag binds only the first hop. Rotate any key, token or password ever sent in a prompt to an affected provider.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">44,096 stolen AI API keys stockpiled and validated automatically, alongside a crypto-exchange breach</td><td data-l="Seen in this edition">SOCRadar / Operation ArgonHunt, first reported 17 Nov, re-reported 20 Nov</td><td data-l="BFSI relevance / detection note">Rotate AI provider keys that may have transited shared services; review AI API billing for anomalies. Loss figures are attempted theft, not confirmed losses.</td><td data-l="Status">Reported in vendor research</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Entra Connect Health API flaw exploited to read tenant metadata and administrator emails</td><td data-l="Seen in this edition">Microsoft, 19–20 Nov</td><td data-l="BFSI relevance / detection note">No patching needed (server-side fix). Run Microsoft&rsquo;s PowerShell script to see what could have been exposed; expect targeted phishing using admin contacts.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Leaked credentials used to read customer Kubernetes Secrets on Rackspace Spot</td><td data-l="Seen in this edition">Intrusion 17 Nov, disclosed 21 Nov</td><td data-l="BFSI relevance / detection note">IOCs: 23.224.79.106; 23.224.0.0/15; pod prefixes i1, glm-, probe. Treat every secret in hit clusters as compromised.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Unauthenticated node joining a TLS 1.3 + TLS-PSK Tomcat cluster to receive replicated session data (CVE-2026-133325)</td><td data-l="Seen in this edition">Apache, 19 Nov</td><td data-l="BFSI relevance / detection note">Upgrade clustered Tomcat to 11.0.30 / 10.1.63 / 9.0.125, or switch cluster communication to TLS 1.2 while keeping TLS-PSK.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Crafted documents escaping the Ghostscript sandbox via file-upload paths, including webmail viewing with no click (CVE-2026-125396)</td><td data-l="Seen in this edition">pwn.ai research, 17 Nov; coverage 21–22 Nov</td><td data-l="BFSI relevance / detection note">Upgrade Ghostscript to 10.08.0+ everywhere it is bundled; update WordPress and Roundcube; restrict Ghostscript in the ImageMagick policy where patching lags.</td><td data-l="Status">PoC public</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Authenticated App Wizard code execution in Splunk SOAR (CVE-2026-131253)</td><td data-l="Seen in this edition">Splunk, 18 Nov</td><td data-l="BFSI relevance / detection note">Upgrade SOAR to 8.8.0; cut App Wizard permissions to those who need them.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">Crafted OpenPGP key with a very long user ID triggering a double free in GPGME (CVE-2026-129975)</td><td data-l="Seen in this edition">GnuPG, 20 Nov</td><td data-l="BFSI relevance / detection note">Upgrade GPGME to 2.3.1 (legacy 1.24.4); inventory bundled GPGME in mail clients and document workflows.</td><td data-l="Status">Confirmed</td></tr>
+<tr><td data-l="MITRE Technique ID">— none published</td><td data-l="Technique / behaviour">vCenter zero-day Metasploit module still without code (CVE-2026-123890)</td><td data-l="Seen in this edition">Checked 23 Nov, 09:00 SGT</td><td data-l="BFSI relevance / detection note">Do not run unverified exploit code. Restrict TCP 2012 to trusted hosts; hunt for unauthorised SSO admin accounts and forged SAML assertions.</td><td data-l="Status">Reported in secondary summary</td></tr>
+</tbody></table></div>
+<p><strong>Recurring-TTP watch:</strong> the week closes with AI on both sides of the same ledger — agents finding zero-days and doing exploit development, voice calls opening ransomware intrusions, and inference providers leaking the prompts and keys defenders route through them — while the older doors stay open: marketing and analytics vendors holding customer data and integration keys, post-contract data retention, leaked credentials into cloud platforms, and unpatched internet-facing infrastructure with public exploit code circulating. No technique was published with a MITRE ATT&amp;CK ID in this edition.</p>
+</section>
+
+<section aria-labelledby="ai-h">
+<div class="sec-head"><h2 id="ai-h">AI in the current threat landscape</h2><p>AI as a target, AI as a weapon or accelerator, and AI as a risk and control problem for BFSI — kept separate, with forecasts marked as forecasts.</p></div>
+<div class="panels">
+<div class="panel">
+<h3>AI as a target</h3>
+<p><strong>Dragos canary research — prompt theft from inside AI inference providers (NEW, confirmed — Dragos, 19 Nov; OpenRouter action, 22 Nov).</strong> Dragos seeded about two million prompts with unique canary URLs and credentials between July and November 2026 and watched where they surfaced. Three findings: attackers were actively stealing data from inside at least three AI inference providers — the earliest breach began mid-July and none of the three knew until Dragos told them; marketplace resellers could view and retain customer prompts using standard logging, with no exploit needed; and providers appeared not to honour privacy settings — prompts sent to US providers were transmitted to Chinese AI organisations, and one seeded link was posted into a Feishu company chat 24 days later and opened within two minutes from three desktops and three phones in Beijing and Shanghai. In the largest breach, a couple of hundred planted AWS keys were stolen in late-October windows (every request in those windows, including requests the provider rejected before a model ran); the thief tested keys within hours, listed S3 buckets, searched Secrets Manager and Parameter Store, tried creating Bedrock API keys and adding IAM users, driving tens of thousands of AWS API calls. OpenRouter removed three providers on 22 November, removed 125 model endpoints from Zero Data Retention eligibility (some as a precaution), and notified potentially affected customers. Provider notices: Phala (10 November) — an attacker took control of an inference server; requests to DeepSeek V4 Flash 0731 routed via OpenRouter 21 October 00:00 UTC to 8 November 05:35 UTC should be treated as exposed, all secrets rotated; contained 8 November. Together AI (21 November) — prompt samples kept in a private Hugging Face repository for testing were downloaded by an unauthorised party after an AI coding agent uploaded the repository credential to a public repo; five tested credentials were Dragos canaries. Novita (22 November) — some MiniMax requests from 28 May to 11 November were forwarded to MiniMax&rsquo;s official API instead of Novita-hosted infrastructure. Whether the three providers Dragos caught are the same three OpenRouter removed is unconfirmed — neither side has named them; do not present them as identical. <strong>Operation ArgonHunt (CATCH-UP, reported — SOCRadar, first reported 17 Nov, re-reported 20 Nov):</strong> an attacker staging server serving its /tmp directory over HTTP exposed about 700 MB / 1,600+ files, including an automated pipeline harvesting AI API keys — 44,096 unique keys across Gemini (26,633), OpenAI (14,504), OpenRouter, Anthropic and xAI, of which the operator&rsquo;s own rechecks marked 2,686 as active, plus 519 Google Cloud tokens and sniffed live service-account tokens. The same operator compromised an unnamed T&uuml;rkiye-based crypto exchange (see Could not verify). The open item stays LiteLLM CVE-2026-40217 (KEV 18 Nov, due 2 December): no new development in-window.</p>
+</div>
+<div class="panel">
+<h3>AI as a weapon or accelerator</h3>
+<p><strong>Ukraine / FBI arrests (NEW, confirmed — announced 18–19 Nov, catch-up).</strong> AI-generated voice calls posing as IT support were the initial-access method for a ransomware organisation that took more than $40.5 million from at least 28 companies. <strong>Cairn / MONAI Label (UPDATE, confirmed — Amazon, 20 Nov).</strong> The zero-day the agents found autonomously now has a CVE number, CVE-2026-133968 (9.8), with still no patched release. <strong>AI-agent exploit development on ruby2shell (NEW, confirmed repository — genaforvena, 20 Nov).</strong> An autonomous AI agent (OpenCode, about &euro;500 credit budget) took the one-byte Ruby heap overflow CVE-2026-132825 from crash reproduction to tcache poisoning in a single session, then to what the repo grades as rung 5 (working remote command execution) under lab conditions — one multipart POST driving a forged CRuby T_DATA finalizer, with an independent clean-archive replay. The repo itself states the limits plainly: it needs custom grooming/GC middleware plus heap oracles, ASLR stays on, and &ldquo;stock-app oracle-free RCE/persistence are not claimed&rdquo;. The same repo grades PHP2Shell at rung 4 (demonstrated impact, no RCE). No complete stock-Rails RCE chain is published; Veria Labs&rsquo; own PoC is still due about 25 November. The defensive read is that AI agents can now do hands-on exploit development on a critical flaw in a banking-stack language within days of disclosure — the window between patch release and public exploit technique is compressing. That is not evidence of in-the-wild exploitation (none reported). <strong>No new AI-scaled phishing, vishing or deepfake campaign against a named bank was found in-window.</strong> Unit 42&rsquo;s Com vishing campaign is conventional vishing and is not labelled an AI campaign by Unit 42 — do not re-label it.</p>
+</div>
+<div class="panel">
+<h3>AI as a risk and control problem for BFSI</h3>
+<p>No new MAS, FCA/BoE/PRA, EU or US AI-in-finance governance development appeared in-window. The control problem this window sharpens is concrete and comes from the target-side findings above: third-party AI inference supply chains (routers, resellers, marketplaces) can see, retain and leak prompts and credentials despite Zero Data Retention flags — the flag binds only the first hop — and AI provider keys are being harvested and validated at scale. Banks should inventory which third-party inference providers and routers handle prompts containing customer data or credentials, verify privacy settings actually change routing, prefer direct first-party providers or self-hosting for sensitive workloads, and seed canary credentials in AI pipelines as tripwires (Dragos&rsquo; own recommendation). The other control lessons carry: exposed AI gateways concentrate provider API keys (LiteLLM, carried); agent frameworks can be left publicly accessible without authentication (Cairn lesson, carried — the operator&rsquo;s own control panel was exposed); and &ldquo;agentic&rdquo; labels from vendors are not evidence — ask what the agent did, with what tools, and what it could reach (Bell Canada, carried — the &ldquo;agentic&rdquo; claim rests on one word from Bell with no published evidence).</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="ioc-h">
+<div class="sec-head"><h2 id="ioc-h">Indicators &amp; defensive actions</h2><p>Notable indicators from this edition, and prioritised steps for SOC and vulnerability-management teams.</p></div>
+<div class="ioc">
+<h3>Cleverbridge — no IOCs; watch card statements (BleepingComputer, 22 Nov)</h3>
+<ul>
+<li>Watch card statements for unauthorised transactions; consider replacing cards used through Cleverbridge merchants; warn customers about breach-themed phishing using the Cleverbridge name</li>
+<li>Check whether your organisation buys software through Cleverbridge-processed checkouts (Red Hat, SUSE, Tenable, Veeam, Jamf, Sony, Parallels are listed clients — Cleverbridge has not said which merchants&rsquo; buyers were hit)</li>
+</ul>
+<h3>KEPCO — no IOCs; expect phishing and voice-phishing (Yonhap / Korea Times, 22 Nov)</h3>
+<ul>
+<li>Korean banks and card issuers: expect phishing and voice-phishing using leaked bank account numbers, card numbers and resident registration numbers for about 650,000 people; watch for account-takeover attempts and card-not-present fraud; coordinate with KEPCO&rsquo;s secondary-damage prevention work</li>
+</ul>
+<h3>Rackspace Spot — IPs and pod prefixes published (Rackspace, 21 Nov)</h3>
+<ul>
+<li>IP 23.224.79.106; range 23.224.0.0/15; suspicious pod/object name prefixes <code>i1</code>, <code>glm-</code>, <code>probe</code></li>
+<li>Treat every secret in hit clusters as compromised — reissue Spot API tokens, replace automation refresh tokens, download fresh kubeconfigs, rotate every stored credential, and review logs for databases, registries, Git, cloud storage and third-party services back to 17 November</li>
+</ul>
+<h3>Operation ArgonHunt — staging server published (SOCRadar, 17/20 Nov)</h3>
+<ul>
+<li>Staging server 176.65.148[.]2:8099 (exposed /tmp over HTTP)</li>
+<li>Rotate any AI provider key that may have transited a shared or third-party service; review AI API billing for anomalies; treat unsalted MD5 staff passwords and database misconfigurations as the entry point, not the AI keys</li>
+</ul>
+<h3>Dragos / OpenRouter — ARTEX user agents and CloudTrail hunting (Dragos, 19 Nov; OpenRouter, 22 Nov)</h3>
+<ul>
+<li>ARTEX user agents <code>artex-agent</code> and <code>artex-judge-r121</code> (Dragos says they appear in no public indicator list — worth adding to detections)</li>
+<li>AWS CloudTrail hunting: first use of a cloud key from a new IP, Bedrock API-key creation, IAM user creation</li>
+<li>Rotate any key, token or password ever sent in a prompt to an affected provider; check whether customer or internal data was included. Phala: treat DeepSeek V4 Flash 0731 requests via OpenRouter 21 Oct–8 Nov as exposed and rotate all secrets in them</li>
+</ul>
+<h3>Entra Connect Health — no IOCs; run Microsoft&rsquo;s script (Microsoft, 19–20 Nov)</h3>
+<ul>
+<li>Run Microsoft&rsquo;s PowerShell script (aka.ms/ConnectHealth/scripts) to see what metadata could have been exposed for your tenant; expect targeted phishing using exposed administrator email addresses; no patching needed (server-side fix deployed)</li>
+</ul>
+<h3>Apache Tomcat CVE-2026-133325 — no IOCs; upgrade clustered Tomcat (Apache, 19 Nov)</h3>
+<ul>
+<li>Upgrade clustered Tomcat to 11.0.30, 10.1.63 or 9.0.125; or switch cluster communication to TLS 1.2 while keeping TLS-PSK; restrict network reachability to the cluster transport port</li>
+</ul>
+<h3>Splunk SOAR CVE-2026-131253 — no IOCs; upgrade to 8.8.0 (Splunk, 18 Nov)</h3>
+<ul>
+<li>Upgrade SOAR to 8.8.0; cut the number of users holding Apps edit, Containers edit, Playbooks execute and System Settings edit roles to those who need them; review recently added apps</li>
+<li>Also patch Splunk Enterprise CVE-2026-131188 in the same round (10.6.1 / 10.4.5 / 10.2.9 / 10.0.12 / 9.4.17)</li>
+</ul>
+<h3>Ghostscript CVE-2026-125396 — no IOCs; upgrade everywhere it is bundled (pwn.ai, 17 Nov)</h3>
+<ul>
+<li>Upgrade Ghostscript to 10.08.0 or later everywhere it is bundled — webmail, CMS, print pipelines — not just the standalone binary; update WordPress to 6.8.8 / 6.9.7 / 7.0.4 and Roundcube to 1.6.20+; where patching lags, restrict Ghostscript in the ImageMagick policy</li>
+</ul>
+<h3>GPGME CVE-2026-129975 — no IOCs; upgrade (GnuPG, 20 Nov)</h3>
+<ul>
+<li>Upgrade GPGME to 2.3.1 (legacy branch 1.24.4; Gpg4win 5.1.2); apply Debian DSA-6646-1 / DLA-4924-1; inventory bundled GPGME in mail clients and document workflows</li>
+</ul>
+<h3>MONAI Label CVE-2026-133968 — Cairn IPs carried (Amazon, 20 Nov)</h3>
+<ul>
+<li>Cairn IPs 142.4.98.145, 142.4.107.34. No patched release exists — apply the source-tree fix or isolate MONAI Label servers; never run AI annotation or agent frameworks with authentication off and internet-reachable</li>
+</ul>
+<h3>ruby2shell CVE-2026-132825 — no IOCs; no new development (Veria Labs / Cloudflare, 19–20 Nov)</h3>
+<ul>
+<li>Upgrade Ruby to 3.3.14, 3.4.13 or 4.0.10 and restart app servers; Ruby 3.2 and older get no fix</li>
+<li>Check bundled Ruby versions in self-hosted GitLab, GitHub Enterprise Server, Mastodon, Discourse, OpenProject and Chatwoot; <code>bundle update</code> does nothing — the flaw is in the interpreter</li>
+<li>Cloudflare WAF rules block known ruby2shell patterns (compensating control only); Veria Labs&rsquo; proof of concept is due about 25 November — do not run unverified proof-of-concept code, including the genaforvena lab repo, which is AI-agent exploit research under lab conditions, not a verified stock-Rails PoC</li>
+</ul>
+<h3>VMware vCenter CVE-2026-123890 — Metasploit module still without code (Rapid7 / aggregators, 20–23 Nov)</h3>
+<ul>
+<li>Rapid7&rsquo;s Metasploit module still has no code as of 09:00 SGT today; six public GitHub proof-of-concept repositories listed (earliest 19 Nov), none verified, at least one reported fake — do not run unverified exploit code</li>
+<li>Restrict TCP 2012 to trusted hosts while patching; hunt for unauthorised SSO admin accounts and forged SAML assertions</li>
+</ul>
+<h3>n0n publication — no new technical indicators</h3>
+<ul>
+<li>~16,000 JPMorgan Reserve customer emails (+124 employee emails), &gt;6,000 Visa premium customers, ~2,000 Mastercard entries (likely test data); no card numbers, passwords or balances. Ekwiik deadline passed 22 November with no confirmed publication</li>
+</ul>
+<h3>Carried indicators</h3>
+<ul>
+<li>Cisco Expressway CVE-2026-76466 (F6, 20 Nov): IPs 66.179.31[.]32 and 18.130.47[.]116; erlang.log entry <code>nodeup '[email protected]'</code> indicates successful exploitation; Python scripts staged under /mnt/harddisk/ in folders such as i1234 / i1234a. Patch to X15.5.20; X14 and older must migrate. If unpatched, block TCP 4371–4372 except trusted cluster nodes.</li>
+<li>VMware vCenter CVE-2026-123890 (GTIG / Mandiant, 19 Nov; KEV 20 Nov): tools named BONESAW, SAWSNAKE, web shells SLIMSAVAGE and CAGEMATCH, BEARBONES (trojanised Dropbear SSH), LAZYBONES (Slack backdoor). Entry path: pivot from a BeyondTrust Remote Support zero-day (CVE-2026-102764).</li>
+<li>Unit 42 Com-affiliated vishing (20 Nov): SHA-256 930898e8b65e9cf4e2595ac4092042a707cca8922751e723ad8b86260655154a (folderextension.crx); ea8d30c42e758559e78bd1fe97f8849011beb7f24c7f092a066a5a62fa7fbe6f (folderextension.zip); oskeysetup[.]com hosted at 31.42.184[.]213; 193.149.176[.]62 accessed compromised accounts; SSO / passkey-themed domains including add-mfa[.]com, enrollmfa[.]com, mfapasskeysetup[.]com, register-mfa[.]com; MFA device names Pixel 10a, Pixel 9 Pro XL (standard phone models, not standalone indicators); User-Agents python-requests/2.34.2, kiota-dotnet/1.17.1, Microsoft.Graph.Client/6.2.0.</li>
+<li>&ldquo;Party Panel&rdquo; Android banking trojan (CloudSEK, 20 Nov): server 103.151.199[.]22:8080; domain sanaminfotech[.]online; SHA-256 66b51246f648a25aca8150d82900e37568dc67712ea4341afb7929638368acd7. Exfiltration via a Firebase project and 13 Telegram bots; the panel API answered without a login.</li>
+<li>Bazuka Android malware (ThreatFabric, reported 20 Nov): C2 subdomains of brokerok[.]org — c2ws, c2data, c2proxy, c2api; server 95.181.213[.]21; dropper SHA-256 f046b50166c8229b49839eeebcc7fd14bf3f198e4ec1bfde8a5b271e1407dec5; downloader SHA-256 4d572669d6000304a692874c1583021dfdb4f2f113ea487e470f7e4c486e503a.</li>
+<li>LiteLLM gateway scanning (SANS Internet Storm Center, 20 Nov): target endpoint /mcp-rest/test/tools/list; User-Agent Python/3.14 aiohttp/3.14.5; fake bearer &lt;redacted&gt; with a body asking the server to run <code>id</code> via the stdio transport.</li>
+<li>Qubole (reported link, unverified): AWS account 805246085872; IAM principals AIDA3W7DIFLYOLTK63SFS (attacker-only) and AIDAJYRRH5Y3A7AAJM2HW (also legitimate); IPs 45.83.220.211, 185.209.199.73, 89.37.63.175, 57.129.54.120, 2001:41d0:70d:7800::; quiam-* session names; TruffleHog user agent. Hunt CloudTrail from 1 October 2026.</li>
+<li>NGINX2Root: no IOCs; watch for unusually large HTTP/2 traffic on single connections; fake exploits circulate. Ubiquiti UniFi Cloud Gateway Ultra reportedly still ships vulnerable nginx (no advisory).</li>
+<li>Apache Roller CVE-2026-129448: no IOCs; public PoC code exists but is unverified — do not run it. Upgrade to 6.1.6+ (6.1.7 preferred); set enabledForExtensions to false in web.xml; treat exposed servers as potentially compromised.</li>
+<li>F5 BIG-IP: no IOCs; check virtual servers using the affected iRule functions or APM per-request policies; apply engineering hotfixes, including the APM SAML DoS fix (CVE-2026-126822). Shadowserver counts more than 177,000 BIG-IP instances and over 14,600 exposed APM fingerprints online.</li>
+<li>FastUnlock: no IOCs; physical access only. Mitigations: BitLocker pre-boot PIN, disable AutoPlay, restrict Narrator on unattended or travelling devices.</li>
+<li>Carried indicators from earlier editions: OPTIMJACK 1688360[.]cc / track.js (scope now 450+ domains, 3,000+ URLs); Apache Axis IOCs (Rapid7, 16 Nov); ScreenConnect update.bat / update_&lt;8 hex&gt;.bat, masterdarky[.]com/WindowsUpdate.msi; Microsoft 365 outage phishing domains; UAT-12643 41.216.188.11; ARTEX; Hirudo; Ivanti EPM; Cisco Expressway; SCKit; N-able N-central researcher IOCs; wfx-loot; PHP2Shell / Check Point; FortiGuard T-SQL; Hunt.io infostealer logs: C2 145.63.138[.]67 via 12 Cloudflare Workers domains; 603 implant IDs, 469 hostnames, 12 Oct–8 Nov; session-token reuse for Microsoft Graph access.</li>
+</ul>
+<h3>Prioritised actions</h3>
+<ol class="actions">
+<li><strong>Patch the four KEV items due today, 23 November, with forensic triage where required</strong> — Apache Roller to 6.1.6+ (6.1.7 preferred); VMware vCenter to 9.1.1.0200 / 9.0.2.0200 / 8.0 U3m; Cisco Expressway to X15.5.20; SAP NetWeaver Enterprise Portal per SAP Note 3660969. Hunt for prior compromise on Roller and Expressway (erlang.log <code>nodeup</code> entries, /mnt/harddisk/ scripts) and for unauthorised SSO admin accounts and forged SAML assertions on vCenter. Do not run the unverified vCenter proof-of-concept code now circulating; Rapid7&rsquo;s Metasploit module still has no code as of this morning.</li>
+<li><strong>Upgrade Splunk SOAR to 8.8.0</strong> (CVE-2026-131253, 9.9 RCE via App Wizard) and Splunk Enterprise to 10.6.1 / 10.4.5 / 10.2.9 / 10.0.12 / 9.4.17; cut App Wizard permissions to those who need them and review recently added apps.</li>
+<li><strong>Upgrade clustered Apache Tomcat to 11.0.30, 10.1.63 or 9.0.125</strong> (CVE-2026-133325, 9.8), or switch cluster communication to TLS 1.2 while keeping TLS-PSK; restrict the cluster transport port.</li>
+<li><strong>Upgrade Ghostscript to 10.08.0+ everywhere it is bundled</strong> (CVE-2026-125396, Upload2Shell) — webmail, CMS, print pipelines; update WordPress to 6.8.8 / 6.9.7 / 7.0.4 and Roundcube to 1.6.20+; restrict Ghostscript in the ImageMagick policy where patching lags.</li>
+<li><strong>Upgrade GPGME to 2.3.1</strong> (CVE-2026-129975, vendor-critical double-free) or legacy 1.24.4; apply Debian DSA-6646-1 / DLA-4924-1; inventory bundled GPGME in mail clients and document workflows.</li>
+<li><strong>Check Entra Connect Health exposure:</strong> run Microsoft&rsquo;s PowerShell script (aka.ms/ConnectHealth/scripts) to see what tenant metadata could have been exposed; expect targeted phishing using exposed administrator email addresses. No patching needed — the fix is server-side.</li>
+<li><strong>Rackspace Spot customers:</strong> treat every secret in hit clusters as compromised — reissue Spot API tokens, replace automation refresh tokens, download fresh kubeconfigs, rotate every stored credential, and review logs back to 17 November. Hunt 23.224.79.106 / 23.224.0.0/15 and pod prefixes <code>i1</code>, <code>glm-</code>, <code>probe</code>.</li>
+<li><strong>Cleverbridge:</strong> watch card statements for unauthorised transactions and consider replacing cards used through Cleverbridge merchants; warn customers about breach-themed phishing using the Cleverbridge name.</li>
+<li><strong>KEPCO:</strong> Korean banks and card issuers should expect phishing and voice-phishing using leaked bank account numbers, card numbers and resident registration numbers for about 650,000 people; watch for account-takeover attempts and card-not-present fraud.</li>
+<li><strong>Upgrade Ruby to 3.3.14, 3.4.13 or 4.0.10</strong> (CVE-2026-132825, ruby2shell, critical pre-auth RCE); check every Rails and Sinatra app and every self-hosted product bundling Ruby (GitLab, GitHub Enterprise Server, Mastodon, Discourse, OpenProject, Chatwoot). Ruby 3.2 and older get no fix — plan the upgrade. Do not run unverified PoCs, including the genaforvena lab repo.</li>
+<li><strong>Patch TYPO3 to 14.3.12, 13.4.40, 12.4.52, 11.5.57 or 10.4.63</strong> (CVE-2026-125160, actively exploited); apply the Content-Security-Policy to form-upload folders; check the installer flaw CVE-2026-119623 in the same release.</li>
+<li><strong>Patch PHP</strong> (8.2.36 / 8.3.37 / 8.4.28 / 8.5.13 / 8.6.0) — seven critical RCE flaws (9.2); prioritise session flaws (CVE-2026-115560, CVE-2026-126714) and FPM smuggling (CVE-2026-129289). PHP 8.1 and older get no fix.</li>
+<li><strong>Java4Shell — keep patching:</strong> Okta Access Gateway 2026.45.1+, LDAP Agent 5.26.3+, On-Premises Provisioning Agent 3.3.4+, RADIUS Agent 2.30.0+; Temurin macOS and Windows builds are out; Red Hat errata shipped 19 Nov; Keycloak 26.8 images fixed. Where patching is blocked, -XX:-UseBASE64Intrinsics. Siemens Industrial Edge Management Pro has no fix — block direct internet access.</li>
+<li><strong>LiteLLM CVE-2026-40217 due 2 December:</strong> update to 1.83.11+, lock the gateway off the internet, rotate LLM API keys. Upgrade LiteLLM to 1.83.7+ and Starlette to 1.0.1+ for the MCP test-endpoint flaws; patch Langflow (CVE-2025-3248) and RAGFlow (CVE-2026-28797).</li>
+<li><strong>Inventory third-party AI inference providers and routers</strong> handling prompts with customer data or credentials; verify privacy settings actually change routing; prefer direct first-party providers or self-hosting for sensitive workloads; seed canary credentials in AI pipelines as tripwires. Rotate any AI provider key that may have transited a shared or third-party service and review AI API billing for anomalies (Dragos / OpenRouter; ArgonHunt).</li>
+<li><strong>Warn premium clients about impersonation using the n0n-published data</strong> (JPMorgan Reserve, Visa premium APAC); watch for staff-targeted phishing using exposed employee addresses; ask every marketing, benefits and analytics vendor what customer data it holds and which cloud roles it can assume. KARTE: revoke and rotate any integration credential (secret key, access token) your organisation registered with KARTE — 754 companies are affected — and check whether your data was retained after your contract ended.</li>
+<li><strong>Defend against Com-affiliated vishing and AI-voice vishing:</strong> tighten help-desk verification processes, transition to phishing-resistant MFA (FIDO2 / passkeys), keep a browser-extension allowlist, keep visibility into identity actions, and alert on unauthorised MFA enrolments and data exports. Block oskeysetup[.]com and the published SSO / passkey-themed domains; hunt the published hashes, IPs and user-agents. Brief staff that AI-generated voice calls posing as IT support are now a confirmed ransomware entry point.</li>
+<li><strong>Check Temenos Quantum Fabric now</strong> — anonymous access off, admin/auth services off the internet; hunt for FabricShell/FabricShadow.</li>
+<li><strong>Audit payout and disbursement APIs</strong> (PayU / NBFC pattern) — real-time monitoring, destination-change detection, disable unused APIs, RBI DAKSH logging, I4C coordination for bulk freezing.</li>
+<li><strong>Warn customers about the WhatsApp ad-reply scam risk;</strong> update WhatsApp to 2.26.17.4+ on staff and customer-facing devices. Warn Indian customers against sideloaded &ldquo;bank apps&rdquo; (Party Panel, Delhi APK crackdown) and fake TikTok droppers (Bazuka); consider moving from SMS OTP towards app-based or FIDO authentication; watch for unexpected call-forwarding settings on customer devices.</li>
+<li><strong>Warn enterprise customers about Bell Canada impersonation</strong> using stolen business-contact and provisioning details; brief staff on the mail-bombing-then-Teams-vishing pattern (Fortra FIRE) — a subscription-email flood followed by an &ldquo;IT helpdesk&rdquo; call is the attack.</li>
+<li><strong>Credit unions:</strong> Wellington IT vulnerability is closed, but keep warning members — payee data remains live phishing material.</li>
+<li><strong>Patch NGINX to 1.30.7 / 1.31.9</strong> (Plus 37.0.8.1 / 37.3.0.1 and 37.0.7.1 / 37.2.0.1); disable HTTP/2 if patching must wait; do not run untrusted nginx2root code; check UniFi Cloud Gateway Ultra firmware.</li>
+<li><strong>Patch Apache Roller to 6.1.6+</strong> (CVE-2026-129448, actively exploited, now in KEV) or set enabledForExtensions to false at once; treat exposed servers as potentially compromised; do not run the unverified PoC code.</li>
+<li><strong>Apply the F5 BIG-IP engineering hotfixes</strong> for the six TMM flaws and the APM SAML denial-of-service flaw (CVE-2026-126822); test before production.</li>
+<li><strong>Patch Drupal</strong> (CVE-2026-132165) to 10.6.22 / 11.3.22 / 11.4.13; check whether install.php is reachable.</li>
+<li><strong>Confirm the FortiSIEM patch for CVE-2026-106173</strong> — PoC now verified genuine (Horizon3.ai); exploitation in the wild still contested.</li>
+<li><strong>Patch Puppet Enterprise to 2023.8.13, 2025.12.1 or 2026.0.1</strong> (CVE-2026-115731, KEV, due 1 December); check for prior compromise per BOD 26-04.</li>
+<li><strong>Patch Apache HTTP Server to 2.4.71 or disable HTTP/2</strong> (CVE-2026-119618, CSA AL-2026-164).</li>
+<li><strong>Check Optimizely snippets;</strong> treat 16 November card and wallet data as compromised; hunt 1688360[.]cc / track.js; remove poisoned project content. Scope now 450+ domains, 3,000+ URLs.</li>
+<li><strong>Isolate or retire self-hosted Flowise</strong> (CVE-2026-130796 / CVE-2026-130615) — no fix; rotate exposed MCP tokens.</li>
+<li><strong>Patch Barracuda products for CVE-2026-116606 / CVE-2026-111560</strong> (ESG 9.4.0.030); reissue XDR integration credentials if contacted directly.</li>
+<li><strong>Upgrade ScreenConnect technician clients to 26.6.5+</strong> (CVE-2026-84869) or remove TransferFiles; hunt update_&lt;8 hex&gt;.bat pushes and masterdarky[.]com.</li>
+<li><strong>Patch the Check Point November Jumbo Hotfix now</strong> (federal due date passed 16 November); treat unpatched gateways with exposed Mobile Access portals as potentially compromised.</li>
+<li><strong>Patch Ivanti Endpoint Manager Core to 2024 SU8</strong> (CVE-2026-121653) and Cloud Services Appliance to 5.0.8.1 (CVE-2026-121683).</li>
+<li><strong>Check staff endpoints for UAT-12643 and infostealer infection;</strong> hunt session-token abuse. Apply BitLocker pre-boot PINs and disable AutoPlay on unattended or travelling Windows laptops (FastUnlock).</li>
+<li><strong>Audit vendor keys and code repositories;</strong> retire finished third-party cloud keys; treat an AI-vendor breach notice as your own exposure event; audit test environments for production-like customer data (Rakuten lesson); check what happens to your data when a vendor contract ends (Stripe / KARTE lesson).</li>
+<li><strong>Lock down exposed AI gateways and inference endpoints;</strong> rotate any key ever exposed; keep AI gateways off the internet where possible. Scan downloaded/fine-tuned models before deployment. Do not leave agent frameworks publicly accessible without authentication (Cairn lesson).</li>
+<li><strong>Warn developers about device-code phishing against AI coding agents;</strong> never approve a device-code prompt not initiated by them; do not give AI agents bank login credentials (MAS warning).</li>
+<li><strong>Patch the Citrix NetScaler batch</strong> (ADC/Gateway 14.1-73.57 and 13.1-64.39; Console 14.1-74.34); restrict Console access; hunt for existing CitrixBleed 2 implants.</li>
+<li><strong>Patch PostgreSQL to the 12 Nov releases;</strong> rebuild C-language extensions; plan the PostgreSQL 14 exit.</li>
+<li><strong>Patch FortiManager / FortiAnalyzer for CVE-2026-126170;</strong> confirm the JSON-RPC API is disabled or restricted (set rpc-permit none). Check FortiOS HA pairs for CVE-2026-126259.</li>
+<li><strong>Fraud teams:</strong> check disbursement flows for loan redirection and API-hijacking signs; warn business customers about bank-impersonation scams asking them to approve a code to &ldquo;stop&rdquo; a payment; warn customers about Rakuten, Coinone, Monex, AXA, KOMSCO, KBIZ, Wellington payee-data, n0n Visa/JPMorgan/Mastercard, KARTE (ZOZO, Marui, EPOS, JINS), WhatsApp ad-reply scams, KG Eduone impersonation, Cleverbridge breach-themed phishing and KEPCO voice-phishing; warn crypto-adjacent customers about approval phishing (Operation Niagara) and about hardware wallets bought through resellers (CryptoBilis); screen MEXC-linked transfers; check credentials against Operation Endgame / Have I Been Pwned notifications; watch for Rs 1 test transactions; brief staff on Microsoft 365 outage-themed scams and the debunked &ldquo;17 November attack&rdquo; hoax; warn Polish Autopay customers; warn Indonesian mobile-banking users about sideloaded apps (Hirudo). Do not treat the n0n Block claim, the Comerica forum claim, the HSBC Taiwan forum claim, the Pixelleaks 21 November claims, the EndZone UCA claim, the Wells Fargo logs sale or the ThreatMon 20 November claims as confirmed breaches.</li>
+<li><strong>Watch for the Pixelleaks deadlines on 24 November</strong> (Aixia Group AB, 21:21 UTC; MT5 algo-trading farm, 22:22 UTC), Plaid&rsquo;s per-company KARTE data from 24 November, the Veria Labs ruby2shell PoC due about 25 November and Rapid7&rsquo;s vCenter Metasploit module (expected today, not yet landed); for Korean self-assessments due 30 November, the FSC regulation advance-notice period through 30 November, the FSA&rsquo;s next step on Rakuten, and the UK cyber-resilience consultation (closes 26 February 2027); for SinoPac&rsquo;s full report (due 12 November, filing unconfirmed); for the Korean FSI special audit (began 16 November, evaluation system still shut down); and for Binance&rsquo;s full withdrawal reopening (aimed at 22 November, completion unconfirmed).</li>
+</ol>
+</div>
+</section>
+
+<section aria-labelledby="unv-h">
+<div class="sec-head"><h2 id="unv-h">Could not verify</h2><p>Claims, figures and gaps that remain open after checking — stated plainly rather than smoothed over.</p></div>
+<ul>
+<li><strong>CISA KEV (21–23 Nov):</strong> verified against the live feed in this run — v2026.11.20, 1,790 entries, no addition on 21, 22 or 23 November. The four 20 November additions fall due today, 23 November, all with known ransomware use listed as Unknown.</li>
+<li><strong>vCenter proof-of-concept code:</strong> Rapid7&rsquo;s Metasploit pull request #22173 still contains no code as of 09:00 SGT today (0 changed files, body &ldquo;Check back in on Monday&rdquo;). Six public repositories are listed by aggregators, none verified by reading the code; at least one circulating repository has been reported fake. Public proof-of-concept code is not proof of exploitation in the wild beyond the KEV listing.</li>
+<li><strong>ruby2shell proof-of-concept code:</strong> Ruby says it is aware of proof-of-concept exploits that achieve remote code execution in some scenarios; Veria Labs will publish its own about a week after disclosure (about 25 November); six public repositories are listed by aggregators, none individually verified. The genaforvena lab repository is AI-agent exploit research under stated lab conditions, not a verified stock-Rails proof of concept. NVD scores the flaw 7.4 (local vector, high complexity) while Ruby and Veria Labs call it Critical and network-reachable without authentication on default Rails/Sinatra — the disagreement is noted, not resolved here.</li>
+<li><strong>OpenRouter / Dragos:</strong> whether the three providers OpenRouter removed are the same three Dragos found breached is unconfirmed — neither side has named them.</li>
+<li><strong>Operation ArgonHunt:</strong> the loss figures are attempted theft per SOCRadar, not confirmed on-chain settlement; the crypto exchange is unnamed and has not publicly confirmed the breach.</li>
+<li><strong>n0n / Ekwiik:</strong> whether n0n or Pixelleaks published data after the 22 November 14:58 SGT deadline, or whether any payment was made — no evidence found either way. The n0n and Pixelleaks claims describe the same victim with different data volumes.</li>
+<li><strong>n0n / Qubole:</strong> Qubole has not responded and none of the three firms has named a vendor; the 53.9 GB / 30,743-file and ~1 PB figures are n0n&rsquo;s own claims. Reuters could not independently verify the published files&rsquo; authenticity. Sophos Counter Threat Unit&rsquo;s assessment that the data came from marketing, loyalty and concierge vendors is analyst judgement, not confirmation of the entry point. Whether the datasets are complete or samples, whether the Mastercard data is genuine or test data, which vendors were hit, and whether the three share one source are all unconfirmed.</li>
+<li><strong>Banco do Brasil 22.7 million forum claim:</strong> single-source claim; the bank has not confirmed any affected-customer count.</li>
+<li><strong>EndZone / UCA General Insurance Services:</strong> single-source leak-site claim, no victim name confirmation, no sample, no intrusion detail.</li>
+<li><strong>Wells Fargo logs sale:</strong> single-source darknet-forum listing, unverified.</li>
+<li><strong>KEPCO:</strong> per-system counts differ slightly between outlets (650,487 vs 654,487 KEPCO ON users; totals 1,520,248 vs 1,522,248); the attacker, entry point and whether any of the leaked bank/card data has been misused are not stated.</li>
+<li><strong>Cleverbridge:</strong> number of affected customers, entry method, dwell time, which merchants&rsquo; buyers were hit, and any bank or card-scheme response — all undisclosed.</li>
+<li><strong>Entra Connect Health:</strong> Microsoft has not disclosed how many tenants were affected, who exploited the flaw, or when unauthorised access began. No CVE, no public advisory URL found in the sources read — the primary is Microsoft&rsquo;s customer notification as quoted by BleepingComputer.</li>
+<li><strong>Binance laundering:</strong> Elliptic blockchain analysis; remaining-holdings estimates are unreconciled — Elliptic puts about $2.35 billion in attacker-linked wallets, while Lookonchain counts 602,402 ETH at about $1.09 billion. Whether the full withdrawal reopening target for 22 November is met is unconfirmed.</li>
+<li><strong>Bell Canada &ldquo;agentic&rdquo; label:</strong> the claim that the breach was carried out by an AI agent rests on one word from Bell with no published evidence; do not treat it as a confirmed AI-agent incident.</li>
+<li><strong>GPGME CVE-2026-129975:</strong> no CVSS published and no NVD record yet (checked 23 November). Severity rests on GnuPG&rsquo;s own &ldquo;critical&rdquo; rating.</li>
+<li><strong>Splunk SOAR CVE-2026-131253:</strong> verified against Splunk&rsquo;s advisory SVD-2026-1108 in this run; no exploitation reported and no public exploit code reported.</li>
+<li><strong>Java4Shell:</strong> no confirmed exploitation; no newly verified public PoC. GreyNoise: probing only (197 sessions, 7 IPs).</li>
+<li><strong>NGINX2Root:</strong> no in-the-wild exploitation as of 19 November; Wiz and Xint withhold their exploits; Rapid7 PoC has practical limits; fake exploits circulate. Ubiquiti UniFi finding is Threatbear&rsquo;s analysis, reported, no Ubiquiti advisory.</li>
+<li><strong>Microsoft agent-framework PyPI hijack:</strong> the ESRP compromise remains Wiz&rsquo;s assessment and Microsoft has published no advisory.</li>
+<li><strong>FastUnlock:</strong> no CVE, no fix, no Microsoft advisory; the researcher did not himself run the final USB execution step; it requires physical access and does not break BitLocker.</li>
+</ul>
+</section>
+
+<section aria-labelledby="src-h" id="sources">
+<div class="sec-head"><h2 id="src-h">Sources</h2></div>
+<ol>
+<li><a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA — Known Exploited Vulnerabilities catalogue (live feed, v2026.11.20, 1,790 entries)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/" target="_blank" rel="noopener noreferrer">BleepingComputer — Cleverbridge warns hackers stole credit card numbers, CVVs in data breach (22 Nov)</a></li>
+<li><a href="https://www.koreatimes.co.kr/business/companies/20261122/kepco-reports-another-massive-data-breach" target="_blank" rel="noopener noreferrer">The Korea Times — KEPCO reports another massive data breach (22 Nov)</a></li>
+<li><a href="https://en.yna.co.kr/view/AEN20261122002700315?section=national/national" target="_blank" rel="noopener noreferrer">Yonhap News Agency — KEPCO confirms about 1.52 million people&rsquo;s data leaked (22 Nov)</a></li>
+<li><a href="https://m.koreaherald.com/article/10945222?sec=002" target="_blank" rel="noopener noreferrer">The Korea Herald — KEPCO breach, 1.52 million records (22 Nov)</a></li>
+<li><a href="https://tsnmedia.org/infcurion-wallet-station-breach/" target="_blank" rel="noopener noreferrer">TSN — Infcurion starts staged Wallet Station restart (updated 21 Nov)</a></li>
+<li><a href="https://www.breach.house/ransomware-victim/n0n-ekwiik-ideal-prepaid-botswana-dieK27froPuO" target="_blank" rel="noopener noreferrer">Breach.house — n0n / Ekwiik (Ideal Prepaid Botswana) listing, publication not verified</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/" target="_blank" rel="noopener noreferrer">BleepingComputer — Ukraine / FBI arrest ransomware gang members tied to $40m in ransoms (19 Nov)</a></li>
+<li><a href="https://www.helpnetsecurity.com/2026/11/19/ukraine-ransomware-gang-arrests-fake-it-support-calls/" target="_blank" rel="noopener noreferrer">Help Net Security — Ukraine ransomware gang arrests, fake IT-support calls (19 Nov)</a></li>
+<li><a href="https://timesofindia.indiatimes.com/city/delhi/jamtaras-cyber-fraud-net-22139-people-targeted-rs-20-crore-lost-22-arrested/articleshow/136060571.cms" target="_blank" rel="noopener noreferrer">Times of India — Delhi Police arrest 22 in cybercrime network that duped 22,000 via malware (21 Nov)</a></li>
+<li><a href="https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.22981.html" target="_blank" rel="noopener noreferrer">Visa — Fall 2026 Biannual Threats Report (17 Nov)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/microsoft-entra-connect-health-flaw-exploited-to-steal-tenant-data/" target="_blank" rel="noopener noreferrer">BleepingComputer — Microsoft Entra Connect Health flaw exploited to steal tenant data (21 Nov)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/rackspace-spot-breach-let-hackers-access-customer-kubernetes-secrets/" target="_blank" rel="noopener noreferrer">BleepingComputer — Rackspace Spot breach let hackers access customer Kubernetes Secrets (21 Nov)</a></li>
+<li><a href="https://lists.gnupg.org/pipermail/gnupg-announce/2026q4.txt" target="_blank" rel="noopener noreferrer">GnuPG — GPGME critical double-free advisory (20 Nov)</a></li>
+<li><a href="https://thehackernews.com/2026/11/gnupg-warns-critical-gpgme-flaw-could.html" target="_blank" rel="noopener noreferrer">The Hacker News — GnuPG warns critical GPGME flaw could allow data exfiltration (20 Nov)</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133325" target="_blank" rel="noopener noreferrer">NVD — CVE-2026-133325 (Apache Tomcat cluster authentication bypass)</a></li>
+<li><a href="https://advisory.splunk.com/advisories/SVD-2026-1108" target="_blank" rel="noopener noreferrer">Splunk — SVD-2026-1108, Splunk SOAR vulnerabilities incl. CVE-2026-131253 (18 Nov)</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-125396" target="_blank" rel="noopener noreferrer">NVD — CVE-2026-125396 (Ghostscript Upload2Shell)</a></li>
+<li><a href="https://cybersecuritynews.com/upload2shell-flaw/" target="_blank" rel="noopener noreferrer">CybersecurityNews — Upload2Shell flaw in Ghostscript (21 Nov)</a></li>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-133968" target="_blank" rel="noopener noreferrer">NVD — CVE-2026-133968 (MONAI Label zero-day)</a></li>
+<li><a href="https://thehackernews.com/2026/11/attackers-ai-agents-found-zero-day-in.html" target="_blank" rel="noopener noreferrer">The Hacker News — Attackers&rsquo; AI agents found zero-day in MONAI Label (20 Nov)</a></li>
+<li><a href="https://www.theregister.com/security/2026/11/20/china-attackers-deployed-ai-agents-that-autonomously-found-and-exploited-a-0-day-to-take-over-a-university-server/5311382" target="_blank" rel="noopener noreferrer">The Register — China attackers deployed AI agents that autonomously found and exploited a 0-day (20 Nov)</a></li>
+<li><a href="https://www.dragos.com/blog/ai-supply-chain-security-canary-tokens" target="_blank" rel="noopener noreferrer">Dragos — AI Supply Chain Security: What Canary Tokens Found (19 Nov)</a></li>
+<li><a href="https://thehackernews.com/2026/11/openrouter-drops-3-providers-after.html" target="_blank" rel="noopener noreferrer">The Hacker News — OpenRouter drops 3 providers after researchers catch months of prompt theft (22 Nov)</a></li>
+<li><a href="https://securityonline.info/operation-argonhunt-crypto-breach/" target="_blank" rel="noopener noreferrer">SecurityOnline.info — Operation ArgonHunt exposes crypto breach and AI key theft (20 Nov)</a></li>
+<li><a href="https://github.com/genaforvena/mishe-tauftauf2shell" target="_blank" rel="noopener noreferrer">GitHub — genaforvena / mishe-tauftauf2shell (AI-agent exploit research on ruby2shell, 20 Nov)</a></li>
+<li><a href="https://github.com/rapid7/metasploit-framework/pull/22173" target="_blank" rel="noopener noreferrer">GitHub — Rapid7 Metasploit pull request #22173, vCenter SRP auth bypass (checked 23 Nov, no code)</a></li>
+<li><a href="https://threatdefence.com/article/vmware-vcenter-cve-2026-123890-zero-day-patching-hunting" target="_blank" rel="noopener noreferrer">ThreatDefence — vCenter CVE-2026-123890 zero-day: patching and hunting (21 Nov)</a></li>
+<li><a href="https://japancyberwatch.com/articles/karte-plaid-breach-integration-keys-2026" target="_blank" rel="noopener noreferrer">Japan Cyber Watch — KARTE breach: the keys Japanese companies gave a marketing platform (20 Nov results)</a></li>
+<li><a href="https://dealroom.co/news/x-2123801908292837541-cyberattack-takes-tokyo-listed-plaids-karte-platform-offline-until-mid-j/" target="_blank" rel="noopener noreferrer">Dealroom — Cyberattack takes Tokyo-listed Plaid&rsquo;s KARTE platform offline until mid-January 2027 (20 Nov)</a></li>
+<li><a href="https://cti.fyi/victims/uca-general-insurance-services-inc.html" target="_blank" rel="noopener noreferrer">CTI.FYI — Endzone: UCA General Insurance Services Inc. (22 Nov)</a></li>
+<li><a href="https://pulse.kalir.io/en/brief/venta-de-logs-bancarios-y-acceso-1d15ff9a" target="_blank" rel="noopener noreferrer">Kalir Brief — Wells Fargo bank logs and RDP access offered for sale (21 Nov)</a></li>
+<li><a href="https://santodigital.com.br/vazamento-de-dados-banco-do-brasil/" target="_blank" rel="noopener noreferrer">Santo Digital — Banco do Brasil data-leak forum-sale claim (Portuguese, translated)</a></li>
+<li><a href="https://www.sonicwall.com/blog/papercut-ng-mf-unauthenticated-remote-code-execution" target="_blank" rel="noopener noreferrer">SonicWall Capture Labs — PaperCut NG/MF unauthenticated RCE chain (CVE-2026-81578 / CVE-2026-82078)</a></li>
+<li>Carried sources: see the 21 and 22 November editions&rsquo; Sources lists and the web pages 11212026.html and 11222026.html.</li>
+</ol>
+</section>
+
+<footer><p>BFSI Cyber Threat Intelligence Briefing — Monday 23 November 2026. Window approximately 20 November 09:00 SGT to 23 November 09:00 SGT (72 hours). Items are included only where reporting, an update or a follow-up fell in that window; gaps and conflicts are stated rather than smoothed over. Sources are hyperlinked to the original vendor, government or primary reporting; translated items link to the original-language article.</p></footer>
+
+</div>
+
+<style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#1c1e22;color:#fff !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style>
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a><script>
+(function(){
+  var actorBtns=document.querySelectorAll('.filters [data-filter]');
+  var cards=document.querySelectorAll('#actorGrid .actor');
+  actorBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      actorBtns.forEach(function(b){b.setAttribute('aria-pressed','false');});
+      btn.setAttribute('aria-pressed','true');
+      var f=btn.getAttribute('data-filter');
+      cards.forEach(function(card){
+        card.style.display=(f==='all'||card.getAttribute('data-status')===f)?'':'none';
+      });
+    });
+  });
+  if(actorBtns.length){actorBtns[0].setAttribute('aria-pressed','true');}
+  var search=document.getElementById('vulnSearch');
+  var rows=document.querySelectorAll('#vulnTable tbody tr');
+  var count=document.getElementById('vulnCount');
+  function applyVuln(){
+    var q=(search.value||'').trim().toLowerCase();
+    var shown=0;
+    rows.forEach(function(row){
+      var vis=!q||row.textContent.toLowerCase().indexOf(q)!==-1;
+      row.style.display=vis?'':'none';
+      if(vis)shown++;
+    });
+    if(count){count.textContent=shown===rows.length?'Showing all '+rows.length+' watchlist rows.':'Showing '+shown+' of '+rows.length+' watchlist rows.';}
+  }
+  if(search){search.addEventListener('input',applyVuln);applyVuln();}
+})();
+</script>
+</body>
+</html>
