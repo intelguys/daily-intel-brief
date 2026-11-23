@@ -284,139 +284,31 @@ details.app h3{margin-top:18px}
 <section class="contents-page" aria-labelledby="contents-h">
 <div class="sec-head"><h2 id="contents-h">Contents</h2><p class="toc-lede">Weekly strategic cyber intelligence report, 16–23 November 2026. BFSI cyber, Asia/Singapore.</p></div>
 <div class="toc-group"><h3><a href="#read-first">Read this first</a></h3>
+</div>
+<div class="toc-group" id="charts"><h3><a href="#charts">Charts</a></h3>
 <ul>
-<li><a href="#rf-bottom">Bottom line</a></li>
-<li><a href="#rf-actions">Top 5 actions this week</a></li>
-<li><a href="#rf-developments">The 5 key developments</a></li>
-<li><a href="#rf-watch">Watch next week</a></li>
+<li><a href="#viz-week-timeline">The week — major events</a></li>
+<li><a href="#viz-karte-cascade">Plaid KARTE — published totals</a></li>
+<li><a href="#viz-korea-regulatory-cascade">Korea — from the FSI breach to a sector-wide inspection</a></li>
+<li><a href="#viz-vulns-by-exploitation-status">Flaws by exploitation status</a></li>
+<li><a href="#viz-actors-by-motivation">Actor activity by motivation</a></li>
 </ul>
 </div>
 <div class="toc-group"><h3><a href="#s1">1 Sector impact</a></h3>
-<ul>
-<li><a href="#s1-1">1.1 — Plaid KARTE: one marketing platform, about 2,200 companies&#x27; data</a></li>
-<li><a href="#s1-2">1.2 — Rakuten Securities: up to about 15.72 million accounts</a></li>
-<li><a href="#s1-3">1.3 — Korea: the FSI audit becomes a sector-wide inspection</a></li>
-<li><a href="#s1-4">1.4 — KEPCO: a utility breach whose exposed data is financial data</a></li>
-<li><a href="#s1-5">1.5 — Paydon / Infcurion: a payments platform halted across four banks</a></li>
-<li><a href="#s1-6">1.6 — FFG Industries: a vendor-run analytics tool leaks corporate customer data</a></li>
-<li><a href="#s1-7">1.7 — Banco do Brasil: a misused valid credential, no count disclosed</a></li>
-<li><a href="#s1-8">1.8 — Wellington IT: a credit-union platform breach, disclosed weeks late</a></li>
-<li><a href="#s1-9">1.9 — Cleverbridge: card numbers and CVVs stolen from a payment processor</a></li>
-<li><a href="#s1-10">1.10 — BankWeaver: bank middleware turned into a backdoor</a></li>
-<li><a href="#s1-11">1.11 — OPTIMJACK: a trusted script becomes a skimmer on 178 organisations&#x27; sites</a></li>
-<li><a href="#s1-12">1.12 — India fraud: payout-API theft and loan-diversion fraud</a></li>
-<li><a href="#s1-13">1.13 — Binance aftermath: proof of reserves restored some confidence; laundering accelerated anyway</a></li>
-</ul>
 </div>
 <div class="toc-group"><h3><a href="#s2">2 Geopolitics and regulation</a></h3>
-<ul>
-<li><a href="#s2-1">2.1 — United Kingdom: critical third parties designated, cyber-resilience consultation opened</a></li>
-<li><a href="#s2-2">2.2 — Singapore: MAS draws a line on AI agents; national CERT warns on Apache</a></li>
-<li><a href="#s2-3">2.3 — European Commission: a confirmed AI campaign, an unconfirmed tool attribution</a></li>
-<li><a href="#s2-4">2.4 — India: the Supreme Court converts fraud into compliance duties</a></li>
-<li><a href="#s2-5">2.5 — Government responses to supplier failures: Ireland, France, Brazil</a></li>
-</ul>
 </div>
 <div class="toc-group"><h3><a href="#s3">3 Vulnerabilities that matter</a></h3>
-<ul>
-<li><a href="#s3-kev">KEV summary</a></li>
-<li><a href="#s3-1">3.1 — CVE-2026-123890 — VMware vCenter zero-day</a></li>
-<li><a href="#s3-2">3.2 — CVE-2026-123007 — NGINX2Root</a></li>
-<li><a href="#s3-3">3.3 — CVE-2026-114938 — Java4Shell</a></li>
-<li><a href="#s3-4">3.4 — CVE-2026-115560 — PHP November security release</a></li>
-<li><a href="#s3-5">3.5 — CVE-2026-132825 — ruby2shell</a></li>
-<li><a href="#s3-6">3.6 — CVE-2026-90436 — Apache Axis (Confluence and N-central)</a></li>
-<li><a href="#s3-7">3.7 — CVE-2026-129448 — Apache Roller</a></li>
-<li><a href="#s3-8">3.8 — CVE-2026-76466 — Cisco Expressway</a></li>
-<li><a href="#s3-9">3.9 — CVE-2026-115731 — Perforce Puppet</a></li>
-<li><a href="#s3-10">3.10 — CVE-2024-10441 — Synology DSM</a></li>
-<li><a href="#s3-11">3.11 — CVE-2026-40217 — BerriAI LiteLLM</a></li>
-<li><a href="#s3-12">3.12 — CVE-2026-90817 — Vanderbilt REDCap</a></li>
-<li><a href="#s3-13">3.13 — CVE-2025-42884 — SAP NetWeaver Enterprise Portal</a></li>
-<li><a href="#s3-14">3.14 — CVE-2026-119618 — Apache HTTP Server mod_http2</a></li>
-<li><a href="#s3-15">3.15 — CVE-2026-132165 — Drupal core installer</a></li>
-<li><a href="#s3-16">3.16 — CVE-2026-125160 — TYPO3 Form Framework</a></li>
-<li><a href="#s3-17">3.17 — CVE-2026-84869 — ConnectWise ScreenConnect</a></li>
-<li><a href="#s3-18">3.18 — CVE-2026-76536 and CVE-2026-76535 — Splunk Enterprise</a></li>
-<li><a href="#s3-19">3.19 — CVE-2026-125396 — Ghostscript &quot;Upload2Shell&quot;</a></li>
-<li><a href="#s3-20">3.20 — CVE-2026-133968 — MONAI Label</a></li>
-<li><a href="#s3-patch">Prioritised patching list</a></li>
-</ul>
 </div>
 <div class="toc-group"><h3><a href="#s4">4 Threats and actors</a></h3>
-<ul>
-<li><a href="#s4">4 Threats and actors</a></li>
-<li><a href="#s4-1">4.1 — n0n: claims became publications at three global financial brands</a></li>
-<li><a href="#s4-2">4.2 — Ukraine/FBI arrests: AI-voice vishing confirmed as a ransomware entry point</a></li>
-<li><a href="#s4-3">4.3 — Unit 42 &quot;Dialing for Data&quot;: the Com&#x27;s voice-first extortion waves</a></li>
-<li><a href="#s4-4">4.4 — Infostealers: weekly telemetry and the AI-profiled log shop</a></li>
-<li><a href="#s4-5">4.5 — POS malware: over a million cards stolen from unpatched shop tills</a></li>
-<li><a href="#s4-6">4.6 — RIKEN Fugaku: a status dashboard became a foothold into Japan&#x27;s flagship supercomputer</a></li>
-<li><a href="#s4-7">4.7 — Pixelleaks: a separate actor&#x27;s claim on the same Ekwiik platform</a></li>
-<li><a href="#s4-8">4.8 — ARMORY CASTLE: the VMware vCenter zero-day actor</a></li>
-</ul>
 </div>
 <div class="toc-group"><h3><a href="#s5">5 TTP trends</a></h3>
-<ul>
-<li><a href="#s5-glance">Targeting trends at a glance</a></li>
-<li><a href="#s5-headline">Headline read</a></li>
-<li><a href="#s5-table">Techniques by tactic</a></li>
-<li><a href="#s5-nomapping">Behaviours observed this week with no published MITRE mapping</a></li>
-<li><a href="#s5-corrections">Corrections and known errors</a></li>
-</ul>
 </div>
 <div class="toc-group"><h3><a href="#s6">6 AI cases</a></h3>
-<ul>
-<li><a href="#s6-1">6.1 — Dragos canary research: prompt theft from inside AI inference providers</a></li>
-<li><a href="#s6-2">6.2 — Operation ArgonHunt: an automated pipeline harvesting and validating AI API keys</a></li>
-<li><a href="#s6-3">6.3 — Microsoft agent-framework PyPI hijack: a Cairn-labelled credential stealer</a></li>
-<li><a href="#s6-4">6.4 — LiteLLM gateway in KEV</a></li>
-<li><a href="#s6-5">6.5 — Cairn / MONAI Label: autonomous AI agents find and exploit a zero-day</a></li>
-<li><a href="#s6-6">6.6 — ARTEX operators: several actors, one shared tool</a></li>
-<li><a href="#s6-7">6.7 — ruby2shell: an AI agent does lab-only exploit development</a></li>
-<li><a href="#s6-8">6.8 — Singapore CIDeX 2026: an AI-agent swarm attacks, an AI Blue Team defends</a></li>
-<li><a href="#s6-9">6.9 — Visa Fall 2026 Biannual Threats Report: AI accelerates traditional fraud</a></li>
-</ul>
 </div>
 <div class="toc-group"><h3><a href="#s7">7 Other significant news</a></h3>
-<ul>
-<li><a href="#s7-1">7.1 — Maileva / La Poste: 22 million recipients, business-client IBANs in billing data</a></li>
-<li><a href="#s7-2">7.2 — KG Eduone / South Korean savings banks: staff records as fraud infrastructure</a></li>
-<li><a href="#s7-3">7.3 — Delhi fake-banking-app crackdown: 22 arrests, 22,139 victims</a></li>
-</ul>
 </div>
 <div class="toc-group"><h3><a href="#appendix">Appendix</a></h3>
-<ul>
-<li><a href="#app-a">Appendix A — Full vulnerability entries</a></li>
-<li><a href="#app-a-kev">KEV additions in the window — 9</a></li>
-<li><a href="#app-a-1">A.1 VMware vCenter zero-day — CVE-2026-123890</a></li>
-<li><a href="#app-a-2">A.2 NGINX2Root — five critical flaws, lead CVE-2026-123007</a></li>
-<li><a href="#app-a-3">A.3 Java4Shell — CVE-2026-114938</a></li>
-<li><a href="#app-a-4">A.4 PHP November security release — CVE-2026-115560 and six other critical flaws</a></li>
-<li><a href="#app-a-5">A.5 ruby2shell — CVE-2026-132825</a></li>
-<li><a href="#app-a-6">A.6 Apache Axis — CVE-2026-90436 (Confluence and N-central)</a></li>
-<li><a href="#app-a-7">A.7 Apache Roller — CVE-2026-129448</a></li>
-<li><a href="#app-a-8">A.8 Cisco Expressway — CVE-2026-76466</a></li>
-<li><a href="#app-a-9">A.9 Perforce Puppet — CVE-2026-115731</a></li>
-<li><a href="#app-a-10">A.10 Synology DSM — CVE-2024-10441</a></li>
-<li><a href="#app-a-11">A.11 BerriAI LiteLLM — CVE-2026-40217</a></li>
-<li><a href="#app-a-12">A.12 Vanderbilt REDCap — CVE-2026-90817</a></li>
-<li><a href="#app-a-13">A.13 SAP NetWeaver Enterprise Portal — CVE-2025-42884</a></li>
-<li><a href="#app-a-14">A.14 Apache HTTP Server mod_http2 — CVE-2026-119618</a></li>
-<li><a href="#app-a-15">A.15 Drupal core installer — CVE-2026-132165</a></li>
-<li><a href="#app-a-16">A.16 TYPO3 Form Framework — CVE-2026-125160</a></li>
-<li><a href="#app-a-17">A.17 ConnectWise ScreenConnect — CVE-2026-84869</a></li>
-<li><a href="#app-a-18">A.18 Splunk Enterprise — CVE-2026-76536 and CVE-2026-76535</a></li>
-<li><a href="#app-a-19">A.19 Ghostscript &quot;Upload2Shell&quot; — CVE-2026-125396</a></li>
-<li><a href="#app-a-20">A.20 MONAI Label — CVE-2026-133968</a></li>
-<li><a href="#app-b">Appendix B — Technique (TTP) table</a></li>
-<li><a href="#s5-nomapping">Behaviours observed this week with no published MITRE mapping</a></li>
-<li><a href="#app-c">Appendix C — Complete source list</a></li>
-<li><a href="#app-d">Appendix D — Not included and why</a></li>
-<li><a href="#app-e">Appendix E — Unverified / not used</a></li>
-<li><a href="#app-e-pairs">Unreconciled figure pairs — both values kept, never summed, never picked</a></li>
-<li><a href="#app-counts">Counts</a></li>
-</ul>
 </div>
 </section>
 <div class="layout"><aside class="sidebar" aria-label="Contents">
@@ -426,6 +318,13 @@ details.app h3{margin-top:18px}
 <li><a href="#rf-actions">Top 5 actions this week</a></li>
 <li><a href="#rf-developments">The 5 key developments</a></li>
 <li><a href="#rf-watch">Watch next week</a></li>
+</ul>
+<ul><li class="side-sec"><a href="#charts">Charts</a></li>
+<li><a href="#viz-week-timeline">The week — major events</a></li>
+<li><a href="#viz-karte-cascade">Plaid KARTE — published totals</a></li>
+<li><a href="#viz-korea-regulatory-cascade">Korea — from the FSI breach to a sector-wide inspection</a></li>
+<li><a href="#viz-vulns-by-exploitation-status">Flaws by exploitation status</a></li>
+<li><a href="#viz-actors-by-motivation">Actor activity by motivation</a></li>
 </ul>
 <ul><li class="side-sec"><a href="#s1">1 Sector impact</a></li>
 <li><a href="#s1-1">Plaid KARTE: one marketing platform, about 2,200 companies&#x27; data</a></li>
