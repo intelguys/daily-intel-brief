@@ -29,6 +29,20 @@
       "unknown": "How many customers were affected; how the attackers gained access and how long they were in the systems; whether the stolen card data was encrypted at rest; why CVV/CVC codes were accessible; and which of Cleverbridge's client businesses' customers were affected."
     },
     {
+      "bfsi_impact": "CERT-In says attackers are pushing unauthorised payments through legitimate business applications and service-provider workflows, not only by attacking payment APIs directly, by altering business records or approval arrangements so the transactions look legitimate. Banks, NBFCs, fintechs and payment providers should independently verify beneficiary and payment-instruction changes against trusted records, reconcile provider-maintained records, and watch for micro-value test transfers followed by larger transfers to new beneficiaries. The advisory also flags AI-driven agentic offensive frameworks (including ARTEX, PentAGI, CAIRN and CyberStrikeAI) automating reconnaissance and intrusion across sectors, extending the Crafty Falcon campaign already tracked on the wire.",
+      "headline": "CERT-In critical advisory CIAD-2026-0062: attackers abuse business payment workflows to push unauthorised transactions; AI-driven offensive frameworks in use across sectors",
+      "id": "breaking-certin-ciad-2026-0062-20261120",
+      "known": "On 20 November 2026 CERT-In issued advisory CIAD-2026-0062, 'Abuse of Business Payment Workflows and Use of AI-Driven Agentic Offensive Frameworks across Sectors', rated Critical. It states that unauthorised financial transactions are not limited to BFSI entities: technology service providers supporting government-linked payment processes and platforms handling vendor or partner payouts were also affected. Attackers misused business applications and service-provider-operated workflows, altered business records or approval relationships that decide who gets paid, and then used legitimate payment processes, so the transactions did not raise suspicion. CERT-In also reports AI-driven agentic offensive frameworks used for automated reconnaissance, rapid exploit preparation, credential attacks and unauthorised access across enterprise, technology/service-provider, government, academic and research targets; frameworks named in the reporting include ARTEX, PentAGI, CAIRN and CyberStrikeAI (attributed by CERT-In to the 'Crafty Falcon' campaign) plus Hermes, AntiFox and exploit_agent in other actors' activity. The advisory follows CIAD-2026-0058 of 4 November 2026 on the Crafty Falcon campaign. CERT-In did not name affected organisations or disclose amounts; India's I4C describes the losses as 'multi-crore'. Press reporting of the advisory surfaced on 21-23 November 2026.",
+      "severity": "high",
+      "source_name": "CERT-In advisory CIAD-2026-0062, 20 November 2026; reported by Moneycontrol, 21 November 2026; Financial Express; WION",
+      "source_url": "https://www.moneycontrol.com/artificial-intelligence/from-fintechs-to-govt-payouts-cert-in-flags-expanding-ai-driven-cyberattacks-article-14085964.html",
+      "status": "confirmed",
+      "summary": "CERT-In issued critical advisory CIAD-2026-0062 on 20 November 2026 warning that attackers are abusing business payment workflows to push unauthorised financial transactions through legitimate systems, by altering business records or approval arrangements, and that AI-driven agentic offensive frameworks (including ARTEX, PentAGI, CAIRN and CyberStrikeAI) are being used for automated reconnaissance and intrusion across sectors. The abuse extends beyond BFSI to technology service providers supporting government-linked payment processes and vendor payout platforms. CERT-In did not name affected organisations or disclose amounts.",
+      "timestamp_sgt": "2026-11-21T12:59:00+08:00",
+      "type": "Sector alert - national CERT advisory on active payment-workflow abuse (BFSI)",
+      "unknown": "Which organisations were affected and how much was stolen - CERT-In disclosed neither; whether every reported payment fraud involved AI, which CERT-In cautions against assuming; and whether the AI frameworks were used in the payment-workflow abuse itself or in separate intrusion activity."
+    },
+    {
       "bfsi_impact": "Passwords, account information and full transaction history for a payment app run by four banks were exposed, creating a direct credential-stuffing risk wherever customers reused the same password, and a strong base for targeted phishing impersonating the four banks. The four banks warn customers not to open links in emails or SMS or enter login IDs, passwords or authentication codes. Other Wallet Station clients should check their exposure, and a second contractor incident in a month underlines third-party risk in regional-bank payment services.",
       "headline": "Japanese payment app Paydon halted after Wallet Station breach leaks 251,172 records including passwords and account data",
       "id": "breaking-infcurion-paydon-20261120",
@@ -1865,8 +1879,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-23T20:00:00+08:00",
-  "next_check_sgt": "2026-11-24T00:00:00+08:00",
-  "updated_sgt": "2026-11-23T20:00:00+08:00",
+  "last_checked_sgt": "2026-11-24T00:00:00+08:00",
+  "next_check_sgt": "2026-11-24T04:00:00+08:00",
+  "updated_sgt": "2026-11-24T00:00:00+08:00",
   "version": 1
 }
