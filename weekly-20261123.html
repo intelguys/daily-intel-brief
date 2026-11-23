@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Weekly strategic cyber intelligence report — 16–23 November 2026</title>
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#fffdf8; --surface2:#eceadf; --ink:#1c1e22; --muted:#5c6068;
+  --line:#d8d3c4; --accent:#8a3324; --accent2:#1f4e5f; --warn:#9a6a12; --ok:#2e6b4f;
+  --chip:#efe9db; --crit:#8a3324; --high:#b35c1e; --med:#9a6a12;
+  --shadow:0 1px 3px rgba(28,30,34,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14161a; --surface:#1d2025; --surface2:#262a31; --ink:#ece9e2; --muted:#a7abb3;
+    --line:#3a3e46; --accent:#e08a76; --accent2:#7fb8c9; --warn:#d9b45c; --ok:#7fc79e;
+    --chip:#2b2f36; --crit:#f0927f; --high:#eda26a; --med:#d9b45c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
+h2{font-size:1.55rem;margin:0 0 6px}
+h3{font-size:1.12rem}
+a{color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+section{margin-top:44px}
+.sec-head{border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* Masthead */
+.mast{padding:34px 0 8px}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.mast h1{font-size:2.35rem;margin:10px 0 8px;max-width:20ch}
+.mast .sub{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:.83rem;box-shadow:var(--shadow)}
+.meta b{font-weight:700}
+
+/* Follow-up tracker */
+.tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.track{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.track .t-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.track .t-status{font-family:Georgia,serif;font-size:1.15rem;margin:5px 0 4px}
+.track p{margin:0;font-size:.86rem;color:var(--muted)}
+.st-passed{color:var(--crit)} .st-due{color:var(--high)} .st-pending{color:var(--warn)} .st-done{color:var(--ok)}
+
+/* Executive summary */
+.exec{display:grid;gap:12px}
+.exec-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.exec-num{font-family:Georgia,serif;font-size:2rem;line-height:1;color:var(--accent);flex:0 0 auto}
+.exec-card p{margin:0}
+.exec-card b{font-weight:700}
+
+/* Badges */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:3px 9px;background:var(--chip);color:var(--ink);vertical-align:middle}
+.badge.red{background:var(--crit);color:#fff}
+.badge.amber{background:var(--warn);color:#fff}
+.badge.teal{background:var(--accent2);color:#fff}
+.badge.grey{background:var(--chip);color:var(--muted)}
+@media (prefers-color-scheme: dark){.badge.red,.badge.amber,.badge.teal{color:#14161a}}
+
+/* Actor cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actor{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.actor .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.actor h3{margin-bottom:4px}
+.actor .target{color:var(--accent2);font-weight:600;font-size:.92rem;margin:0 0 10px}
+.actor dl{margin:0;display:grid;gap:8px}
+.actor dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.actor dd{margin:2px 0 0;font-size:.93rem}
+.actor .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+.none-card{border:1px dashed var(--line);border-radius:8px;padding:16px 18px;color:var(--muted);background:transparent;margin-top:14px}
+.none-card b{color:var(--ink)}
+
+/* Vuln table */
+.vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
+.vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+tbody tr:last-child td{border-bottom:none}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:normal}
+.score{font-weight:700}
+.score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
+.status{font-size:.78rem;font-weight:700}
+.status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
+.count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+.table-scroll{overflow-x:auto}
+/* Two-col panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:8px}
+.panel p,.panel li{font-size:.94rem}
+.panel ul{margin:6px 0 0;padding-left:20px}
+.panel li{margin-bottom:7px}
+
+/* IOC + actions */
+.ioc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.ioc h3{margin-bottom:8px}
+.ioc ul{margin:6px 0 0;padding-left:20px}
+.ioc li{margin-bottom:8px;font-size:.94rem}
+.ioc .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+ol.actions{counter-reset:step;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.actions li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px 14px 52px;position:relative;box-shadow:var(--shadow);font-size:.95rem}
+ol.actions li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+@media (prefers-color-scheme: dark){ol.actions li::before{color:#14161a}}
+
+/* Unverified */
+.unverified{border:1px solid var(--warn);border-radius:8px;padding:18px;background:var(--surface)}
+.unverified ul{margin:8px 0 0;padding-left:20px}
+.unverified li{margin-bottom:8px;font-size:.94rem}
+
+/* Sources */
+.sources{font-size:.88rem}
+.sources li{margin-bottom:6px;overflow-wrap:anywhere}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  .tracker{grid-template-columns:1fr 1fr}
+  .actor-grid,.panels{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tbody tr{border-bottom:2px solid var(--line);padding:8px 0}
+  td{border-bottom:none;padding:5px 12px}
+  td.cve{white-space:normal;font-size:.95rem}
+  td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+}
+@media (max-width:460px){.tracker{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+<style>
+/* Weekly report additions — chart, timeline and story components; theme variables only */
+.chart{margin:0 0 8px}
+.chart svg{width:100%;height:auto;display:block}
+.chart-note{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+.chart-note b{color:var(--ink)}
+.chart-src{font-size:.82rem;color:var(--muted);margin:4px 0 0}
+.viz-grid{display:grid;gap:30px}
+.story{margin-bottom:14px}
+.story h3{margin-bottom:6px}
+.story .status{font-size:.82rem;font-weight:700;margin:0 0 8px}
+.status.confirmed{color:var(--ok)} .status.reported{color:var(--warn)} .status.unconfirmed{color:var(--crit)}
+.story p{margin:0 0 10px;font-size:.95rem}
+.story .src{font-size:.86rem;color:var(--muted)}
+.story .src a{overflow-wrap:anywhere}
+.geo{margin-bottom:14px}
+.geo h3{margin-bottom:6px}
+.geo h4{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px;font-family:inherit}
+.geo p{margin:0 0 10px;font-size:.95rem}
+.geo .src{font-size:.86rem;color:var(--muted)}
+.geo .src a{overflow-wrap:anywhere}
+details.notincl{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:16px 18px;box-shadow:var(--shadow)}
+details.notincl summary{cursor:pointer;font-weight:700;font-size:1.05rem}
+details.notincl ul{margin:10px 0 0;padding-left:20px}
+details.notincl li{margin-bottom:8px;font-size:.94rem}
+.watch li{margin-bottom:8px}
+.trend h3{margin:22px 0 8px}
+.trend p{margin:0 0 10px;font-size:.95rem}
+@media (max-width:820px){.viz-grid{gap:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast">
+<div class="kicker">Weekly intelligence</div>
+<h1>Weekly strategic cyber intelligence report — 16–23 November 2026</h1>
+<p class="sub">The strategic roll-up of the week's daily briefings: Monday 16 November to Monday 23 November 2026, Singapore time. Third-party risk, offensive AI tooling and regulators as amplifier — the three cascades that defined the week.</p>
+<div class="meta-row"><span class="meta"><b>Window</b> Mon 16 – Mon 23 Nov 2026 (SGT)</span><span class="meta"><b>Coverage</b> 8 daily briefings + live wire</span><span class="meta"><b>KEV</b> 9 additions; catalogue 1,790</span><span class="meta"><b>Wire</b> 23 breaking / 110 entries</span></div>
+</header>
+
+<section aria-labelledby="exec-h">
+<div class="sec-head"><h2 id="exec-h">Executive assessment</h2><p>Seven sentences. The week in one paragraph.</p></div>
+<div class="exec">
+<div class="exec-card"><div class="exec-num">1</div><p>This was the week third-party risk stopped being a theme and became the week's spine: Plaid's KARTE cascade passed 140 million disclosed records, n0n published customer data from a suspected shared vendor, and a bank's digital-banking middleware was turned into a backdoor.</p></div>
+<div class="exec-card"><div class="exec-num">2</div><p>Japan was the centre of gravity — Rakuten's leak was confirmed at up to about 15.7 million accounts, KARTE clients stacked disclosures daily, and Paydon's 251,172-record breach was missed by three daily briefings before the wire caught it.</p></div>
+<div class="exec-card"><div class="exec-num">3</div><p>Ransomware behaviour shifted from claims to publications, while several high-profile deadlines passed with nothing published, so a deadline expiry no longer predicts a leak.</p></div>
+<div class="exec-card"><div class="exec-num">4</div><p>Offensive AI tooling produced named victims and a confirmed zero-day, and AI-voice vishing was confirmed as a ransomware entry point by the Ukraine/FBI arrests.</p></div>
+<div class="exec-card"><div class="exec-num">5</div><p>Vulnerability pace was brutal: nine KEV additions, a vCenter zero-day exploited since September with no workaround, and five critical NGINX flaws — while patching kept pace only on Java4Shell.</p></div>
+<div class="exec-card"><div class="exec-num">6</div><p>Regulators turned incidents into deadlines: Korea's FSS called in 274 firms with self-assessments due 30 November, Japan's FSA moved on Rakuten, and India's Supreme Court set KYC and platform duties.</p></div>
+<div class="exec-card"><div class="exec-num">7</div><p>What stays unresolved matters most for next week: whether the 754 leaked KARTE integration keys were misused, whether Binance's full reopening happened, and what the 24 November Plaid handovers reveal.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="glance-h">
+<div class="sec-head"><h2 id="glance-h">At a glance</h2><p>The week's numbers, each with its source.</p></div>
+<div class="tracker">
+<div class="track"><div class="t-label">KEV additions</div><div class="t-status st-due">9</div><p>CISA KEV feed: catalogue 1,781 entries (v2026.11.13) → 1,790 (v2026.11.20). No additions on 19, 21, 22 or 23 Nov.</p></div>
+<div class="track"><div class="t-label">Live wire breaking items</div><div class="t-status st-passed">12 → 23</div><p>wire.json, 15 Nov 20:00 → 23 Nov 12:00. Total entries 58 → 110. Eleven new breaking items; none expired.</p></div>
+<div class="track"><div class="t-label">KARTE published tally</div><div class="t-status st-passed">Past 140m records</div><p>Tally of per-client disclosures, not people. Largest single client: ZOZO, about 29.18m records.</p></div>
+<div class="track"><div class="t-label">Rakuten Securities accounts</div><div class="t-status st-passed">Up to ~15.72m</div><p>Confirmed 18 Nov: up to ~11.25m login IDs plus a non-overlapping ~4.47m with richer data. No passwords or PINs confirmed leaked.</p></div>
+<div class="track"><div class="t-label">Confirmed Java4Shell intrusions</div><div class="t-status st-done">0</div><p>GreyNoise: 261 probing sessions from 7 IPs at the close of the window, zero successful intrusions. Flaw not in CISA KEV.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="viz-h">
+<div class="sec-head"><h2 id="viz-h">Interactive visuals</h2><p>Nine charts and two timelines, every point dated and sourced. Hover over a bar, point or dot for the exact value, date and note. Caveats sit directly under each chart, not in a footnote. All figures also appear in the tables in §2.</p></div>
+<div class="viz-grid">
+
+<div>
+<h3>CISA KEV additions by day, 16–23 Nov 2026</h3>
+<div class="chart" data-chart="kev-additions-per-day"></div>
+<p class="chart-note"><b>Caveat:</b> 9 additions in the week (1 + 4 + 4). Catalogue size 1,781 entries (v2026.11.13) → 1,782 (17 Nov) → 1,786 (18 Nov) → 1,790 (20 Nov); the arithmetic checks (1,781 + 1 + 4 + 4 = 1,790). The four 20 Nov additions all fell due 23 Nov; the 18 Nov batch fell due 21 Nov (LiteLLM excepted, due 2 Dec); Puppet due 1 Dec.</p>
+<p class="chart-src">Sources: daily briefings 16–23 Nov; trends §2.3.</p>
+</div>
+
+<div>
+<h3>Java4Shell (CVE-2026-114938) — GreyNoise probing sessions and IPs</h3>
+<div class="chart" data-chart="java4shell-greynoise"></div>
+<p class="chart-note"><b>Caveat:</b> probing rose 19–21 Nov, then plateaued; zero successful intrusions throughout; still not in CISA KEV at the close of the window. The early-19-Nov figure (“&gt;150 matching requests”, SecurityWeek) is a floor, not an exact count — shown as a dashed line, not a point. 197 sessions was the 20 Nov figure; 261 is the 21 Nov figure.</p>
+<p class="chart-src">Sources: deep-research check logs, 20–23 Nov; briefings 21–23 Nov.</p>
+</div>
+
+<div>
+<h3>PHP2Shell — GreyNoise successful exploitations (tag count)</h3>
+<div class="chart" data-chart="php2shell-greynoise"></div>
+<p class="chart-note"><b>Caveat:</b> do not present 1,304 as 1,304 distinct newly exploited hosts. Inside the window, the +32 rise on 17 Nov was xmrig miner commands on already-established shells, not new exploit sessions; the +7 rise on 18 Nov was seven real attributed exploit sessions (17 Nov 22:52–23:01 UTC, fresh POST exploit traffic). The +36 rise (1,229 → 1,265) happened on 15 Nov, before this window. The Delft telemetry feed has been frozen since 15 Nov.</p>
+<p class="chart-src">Sources: deep-research check logs, 16–18 Nov.</p>
+</div>
+
+<div>
+<h3>Java4Shell PoCs — aggregator count vs verified by reading code</h3>
+<div class="chart" data-chart="java4shell-poc-verified-vs-aggregator"></div>
+<p class="chart-note"><b>Caveat:</b> aggregator counts are unverified repositories; at least one vCenter PoC repository was reported fake in the same week. The verified set stayed at 2 all week: arkrwn's crash/leak reproducer and ikow/java4shell-poc (heap corruption confirmed on three products, not RCE). Verified PoCs are named on the <a href="https://intelguys.github.io/daily-intel-brief/java4shell.html" target="_blank" rel="noopener noreferrer">Java4Shell tracker page</a>, which links them after verification; no PoC repository is linked from this report.</p>
+<p class="chart-src">Sources: trends §2.6; deep-research check, 23 Nov 09:00.</p>
+</div>
+
+<div>
+<h3>Confirmed large breaches this week (log scale) — records, not people</h3>
+<div class="chart" data-chart="confirmed-breach-sizes"></div>
+<p class="chart-note"><b>Caveat:</b> log scale is essential (140m vs 6,000). The Plaid KARTE bar is a tally of company disclosures with overlaps, not 140m people — its components (ZOZO ~29.18m, Marui ~17.33m, JINS ~18.29m, SMBC up to ~14m, MUFG ~6.5m, DHC ~19.11m, Sharp up to 3.26m) are not plotted alongside the total, which would double-count. Unverified claims (Comerica 30m, HSBC Taiwan 10k+, ERBANK 40GB, Banco Carrefour 70GB / 11m+ lines, Novo Banco ~55k, n0n / Block, GRAIL, CarNow) are excluded from this chart and listed separately in §5.</p>
+<p class="chart-src">Sources: trends §2.1; top stories §§1.1, 1.6–1.9.</p>
+</div>
+
+<div>
+<h3>Live wire — breaking items and total entries</h3>
+<div class="chart" data-chart="wire-growth"></div>
+<p class="chart-note"><b>Caveat:</b> only two endpoints are verified — shown as two bars, no daily series interpolated. Eleven new breaking items were added in the window: OPTIMJACK, the CSA Apache mod_http2 alert and Rakuten (17 Nov); Plaid/KARTE (18 Nov); Banco do Brasil and Wellington IT (19 Nov); the n0n Visa/JPMorgan/Mastercard publication and BankWeaver (20 Nov); Infcurion/Paydon (22 Nov); Cleverbridge and Samsung Securities (23 Nov). No breaking item expired.</p>
+<p class="chart-src">Sources: trends §2.2; wire check 23 Nov 12:00 (commit bfb72077, live file byte-identical to staged); 15 Nov 20:00 verified snapshot (blob 3403eb77).</p>
+</div>
+
+<div>
+<h3>Offensive-AI exposure censuses — ARTEX hosts by census (not like-for-like)</h3>
+<div class="chart" data-chart="artex-exposure-censuses"></div>
+<p class="chart-note"><b>Caveat:</b> separate dots with method and date labels, never summed or averaged — different methods, dates and definitions of a console. The point of the chart is the order of magnitude (roughly 1,000–3,500 exposed ARTEX hosts) and the AS54600 / PEG TECH concentration appearing in both SOCRadar and Spectrum. Cato Networks (18 Nov) also counted 2,383 CyberStrikeAI, 775 PentAGI and 23 Cairn publicly visible servers. Canadian Cyber Centre advisory (21 Nov): ARTEX ~46%, CyberStrikeAI 28%, PentAGI 14% shares of observed AI-tool infrastructure. ScanMalware (19 Nov): finance 17% of mapped targets vs 4% baseline.</p>
+<p class="chart-src">Sources: trends §2.8; deep-research check, 22 Nov morning (Canadian advisory).</p>
+</div>
+
+<div>
+<h3>Korea — from the FSI breach to a sector-wide inspection</h3>
+<div class="chart" data-chart="korea-regulatory-cascade"></div>
+<p class="chart-note"><b>Caveat:</b> the 9 Nov FSI breach predates the window and is shown as the cascade's origin, not a window event. Samsung Securities is the fourth Korean securities firm in the wave; no link between its incident and the wider wave has been established.</p>
+<p class="chart-src">Source: geopolitical §3.1; top stories §§1.6, 1.8.</p>
+</div>
+
+<div>
+<h3>Plaid KARTE — published per-client totals through the week</h3>
+<div class="chart" data-chart="karte-cascade"></div>
+<p class="chart-note"><b>Caveat:</b> 84m (19 Nov) and 140m (20 Nov) are the two dated tally milestones in the briefs; earlier totals were not pinned to a date, so no intermediate points are invented. Totals are a tally of company disclosures, not people. Per-company data handovers begin 24 Nov; staged restart targeted mid-January 2027.</p>
+<p class="chart-src">Sources: briefings 20, 21, 23 Nov; top stories §1.1.</p>
+</div>
+
+</div>
+<noscript><p class="chart-note">Charts are drawn by a small inline script. With scripting off, the same figures appear in the tables in §2 and in the text.</p></noscript>
+</section>
+
+<section aria-labelledby="stories-h">
+<div class="sec-head"><h2 id="stories-h">Top stories</h2><p>Thirteen stories, each with its status label and its primary sources.</p></div>
+
+<article class="panel story">
+<h3>1.1 Plaid KARTE cascade — supplier breach keeps growing</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>Plaid's KARTE customer-experience platform was attacked on 13 November: a vulnerability behind a public data-retrieval route was exploited, then stolen credentials were used to reach the KARTE admin console. Plaid's investigation was completed on 19 November and published on 20 November; it found data from about 2,200 companies leaked or potentially leaked, including integration credentials (secret keys and access tokens) for 754 client companies. Company disclosures stacked up all week: JINS disclosed about 18.29 million member accounts on 17 November; MUFG Bank about 6.5 million records on 18 November; SMBC up to about 14 million on 20 November — the largest single-bank figure; ZOZO about 29.18 million and Marui Group about 17.33 million (including about 8.5 million EPOS card holders) on 20 November, pushing published counts past 140 million records — a tally of company disclosures with overlaps, not 140 million people. KARTE stays offline with a staged restart targeted for mid-January 2027, per-company data handovers begin 24 November, and Plaid forecasts a ¥2 billion loss. No attribution has been published.</p>
+<p class="src">Sources: <a href="https://www.reuters.com/jp/markets/global-markets/HRST2GDHF5NP7JYFXV3BY5NWYY-2026-11-20/" target="_blank" rel="noopener noreferrer">Reuters Japan — SMBC / MUFG KARTE disclosures (20 Nov, translated from Japanese)</a> · <a href="https://www.watch.impress.co.jp/docs/news/2158411.html" target="_blank" rel="noopener noreferrer">Impress Watch — Plaid investigation complete, restart targeted mid-January 2027 (20 Nov, translated from Japanese)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.2 n0n publishes Visa, JPMorgan Chase and Mastercard customer data</h3>
+<p class="status confirmed">Status: confirmed (publication and company confirmations); the Qubole link is reported, not confirmed.</p>
+<p>After its 48-hour deadline set on 16 November expired, the n0n group published customer marketing data attributed to all three firms on 19 November. JPMorgan confirmed third-party service providers were targeted and marketing data that may include customer names and email addresses was accessed; Visa confirmed an incident at an Asia-Pacific third-party provider with its own systems unaffected; Mastercard confirmed a limited exposure from one benefit programme. The published sets hold about 16,000 JPMorgan Reserve customer email addresses (plus 124 employee emails), over 6,000 Visa premium customers' details in Asia-Pacific, and about 2,000 alleged Mastercard entries that researchers say look like test data rather than genuine customer records. No card numbers, passwords or balances are in the published sets. BleepingComputer reported on 20 November that n0n claims it attacked data-platform provider Qubole on 11 November and used compromised Qubole credentials to reach customers' AWS environments; Qubole has not responded and none of the three firms has named a vendor, so that link stays reported.</p>
+<p class="src">Sources: <a href="https://www.reuters.com/legal/government/jpmorgan-says-third-party-vendors-targeted-cyberattack-2026-11-19/" target="_blank" rel="noopener noreferrer">Reuters — JPMorgan says third-party vendors targeted in cyberattack (19 Nov)</a> · <a href="https://cybernews.com/security/visa-jpmorgan-data-breach/" target="_blank" rel="noopener noreferrer">Cybernews — Visa confirms cyberattack as hackers claim JPMorgan was hit too (19–20 Nov)</a> · <a href="https://www.bleepingcomputer.com/news/security/vendor-data-breach-exposes-chase-visa-mastercard-customer-info/" target="_blank" rel="noopener noreferrer">BleepingComputer — n0n claims Qubole attack behind Chase, Visa and Mastercard leaks (20 Nov)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.3 VMware vCenter zero-day CVE-2026-123890 — exploited since September, now in KEV</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>Google Threat Intelligence Group disclosed on 19 November that suspected PRC-nexus actor ARMORY CASTLE exploited CVE-2026-123890, an unauthenticated authentication bypass in vCenter Server's Directory Service (9.8), as a zero-day in early September, using a custom Go tool (BONESAW) to create a vSphere single-sign-on administrator account, exfiltrate the directory database and steal the STS SAML signing key. Broadcom patched it the same day in VMSA-2026-0009 (fixed in vCenter 9.1.1.0200, 9.0.2.0200 and 8.0 U3m); there is no workaround. CISA added the flaw to its Known Exploited Vulnerabilities catalogue on 20 November, with US federal remediation due 23 November. By 23 November, aggregators listed six public proof-of-concept repositories, none verified and at least one reported fake, and Rapid7's Metasploit pull request #22173 still contained no code as of 09:00 SGT on 23 November — do not run unverified exploit code.</p>
+<p class="src">Sources: <a href="https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-vsphere" target="_blank" rel="noopener noreferrer">Google Threat Intelligence Group — ARMORY CASTLE exploits VMware vCenter zero-day (19 Nov)</a> · <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV feed (catalogue v2026.11.20, 1,790 entries)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.4 NGINX2Root — five critical flaws, fixes shipped, PoC public</h3>
+<p class="status confirmed">Status: confirmed (flaws and fixes); no in-the-wild exploitation reported.</p>
+<p>F5 shipped fixes on 18 November for five unauthenticated remote-code-execution flaws in NGINX, led by CVE-2026-123007 (9.2 CVSS 4.0), an integer underflow in HTTP/2 flow-control accounting present since NGINX 1.9.5 (2015). The other four are CVE-2026-123633, CVE-2026-123634, CVE-2026-121810 and CVE-2026-113425, covering HTTP/2, HTTP/3, resolver and mail-proxy paths. Rapid7 published a working proof of concept for the lead flaw on disclosure day; fake nginx2root exploits are also circulating on GitHub and should not be run. Fixed in NGINX Open Source 1.30.7 (stable) / 1.31.9 (mainline) and NGINX Plus 37.0.8.1 / 37.3.0.1 (for CVE-2026-123007; CVE-2026-123633 is fixed in Plus 37.0.7.1 / 37.2.0.1); disabling HTTP/2 is the workaround where patching must wait. The flaws were not in CISA KEV as of 23 November. NGINX sits in front of banking web, API and payment-gateway services, so this is a patch-now item despite the absence of reported exploitation.</p>
+<p class="src">Sources: <a href="https://my.f5.com/manage/s/article/K000163926" target="_blank" rel="noopener noreferrer">F5 advisory K000163926 — CVE-2026-123007</a> · <a href="https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities" target="_blank" rel="noopener noreferrer">Wiz — NGINX HTTP/2 RCE vulnerabilities (“NGINX2Root”, 18 Nov)</a> · <a href="https://www.rapid7.com/blog/post/ve-cve-2026-123007-critical-nginx-http-2-integer-underflow-leads-to-rce-fixed/" target="_blank" rel="noopener noreferrer">Rapid7 — CVE-2026-123007 critical NGINX HTTP/2 integer underflow (18 Nov)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.5 Cleverbridge breach — card numbers and CVVs stolen from a payment processor</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>Payment processor Cleverbridge disclosed on 22 November that hackers breached its systems and copied payment card data: card number, expiry date and card security code (CVV/CVC) used for a purchase through Cleverbridge. It detected unauthorised activity on 4 November, took systems offline the same day and restored them the same day; its investigation later determined a third party had copied the data. The company has not said how many customers were affected, how attackers got in, how long they were inside, or which merchants' buyers were hit — its listed clients include Red Hat, SUSE, Tenable, Veeam, Jamf, Sony and Parallels. It confirmed the incident was not ransomware and nothing was encrypted, and says it has notified data protection authorities, law enforcement, payment card networks and payment partners, and is working with TransUnion's Cyberscout on notifications and complimentary credit monitoring. Malwarebytes is the only merchant so far to confirm impact, saying only “a small subset” of its customers was affected. Issuing banks should watch for unauthorised transactions and consider replacing affected cards. No standalone Cleverbridge incident-page URL was found; the company's notification is carried via BleepingComputer.</p>
+<p class="src">Source: <a href="https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/" target="_blank" rel="noopener noreferrer">BleepingComputer — Cleverbridge warns hackers stole credit card numbers, CVVs in data breach (22 Nov; carries the company's breach notification)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.6 Samsung Securities breach — complaints-system data of 8,241 customers leaked</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>Samsung Securities disclosed on 23 November (about 09:29 SGT, after that morning's briefing window, so this item comes from the wire, not a daily briefing) that an unauthorised outsider accessed its website's Voice of Customer complaints system and exfiltrated attachments customers had uploaded with complaints. The firm found traces of the intrusion on the afternoon of 21 November. Attachments belonging to 8,241 customers leaked, across 13 fields varying by person, including name, account number, address, contact details and driver's licence number. Only customers who had filed through the complaints system are affected. The firm blocked the IP address used, suspended the service, reported to the Financial Supervisory Service and the Korea Internet &amp; Security Agency, and will notify affected customers individually; its chief executive, Park Jong-moon, posted a public apology, and the firm says it will compensate customers if actual loss is confirmed. Trading and payment systems are not reported breached, so the immediate risk is identity fraud and targeted phishing. It is another Korean securities firm in the current breach wave. Attacker, entry route, any misuse, and any link to the wider wave are still unknown.</p>
+<p class="src">Source: <a href="https://www.ytn.co.kr/_ln/0102_202611231029292963" target="_blank" rel="noopener noreferrer">YTN — Samsung Securities disclosure (23 Nov, translated from Korean)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.7 Paydon breach — 251,172 records, services halted, staged restart under way</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>Infcurion, the contractor running the Wallet Station payment platform behind Japan's Paydon app, confirmed unauthorised access on 19 November. A total of 251,172 records leaked, including member names, dates of birth, phone numbers, sex, email addresses and passwords, plus bank account information, point balances and regional promotion voucher point balances, transaction history and merchant information. Four Kagoshima financial institutions — Kagoshima Bank, Minami Nippon Bank, Kagoshima Mutual Credit Cooperative and Kagoshima Shinkin Bank — halted all Paydon services at 06:20 JST on 20 November. Infcurion's third report (noon JST, 21 November) confirms no new unauthorised access since the system was cut off on 19 November; from 20 November it paused Wallet Station for providers that were not the target of the leak so emergency checks could be carried out, and providers whose checks found no intrusion and no leak began restarting in stages from 21 November. The provider whose data leaked remains suspended with no restart date, and no misuse of the leaked information had been confirmed. The item was missed by the 20, 21 and 22 November briefs and caught as a wire catch-up on 22 November.</p>
+<p class="src">Source: <a href="https://paydon.jp/2026/11/20/newsrelease20261120" target="_blank" rel="noopener noreferrer">Paydon / Infcurion official notice (20 Nov, translated from Japanese)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.8 KEPCO breach — about 1.52 million people's data, including bank and card numbers</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>State-run Korea Electric Power Corp. confirmed on 22 November that personal data of about 1.52 million people leaked from two systems: 650,487 users of its KEPCO ON customer-service and bill-payment platform and 869,761 users of its electronic procurement system (SRM), for a combined 1,520,248 records. The KEPCO ON leak exposed 12 categories including names, resident registration numbers, phone numbers, addresses, bank names, account numbers, account-holder names, card issuers, card numbers and cardholder names, plus billing records; the SRM leak exposed corporate representatives' and employees' names, phone numbers and emails. KEPCO says an external attacker accessed both systems; it discovered the breach on 20 November, blocked external IP access and suspended some services, filed with the Personal Information Protection Commission on 22 November, and is working with financial companies to prevent secondary damage. Its president issued a public apology. This is a second breach in as many months, after an October leak of employee records. KEPCO is an energy utility, not a bank, but the exposed data is financial data, and Korean banks should expect phishing and voice-phishing using it. Per-system counts differ slightly between outlets (650,487 vs 654,487 KEPCO ON users).</p>
+<p class="src">Sources: <a href="https://en.yna.co.kr/view/AEN20261122002700315?section=national/national" target="_blank" rel="noopener noreferrer">Yonhap News Agency — KEPCO confirms about 1.52 million people's data leaked (22 Nov)</a> · <a href="https://www.koreatimes.co.kr/business/companies/20261122/kepco-reports-another-massive-data-breach" target="_blank" rel="noopener noreferrer">The Korea Times — KEPCO reports another massive data breach (22 Nov)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.9 Rakuten Securities leak — up to about 15.7 million accounts, FSA action pending</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>Rakuten Securities disclosed on 17 November that customer data held in a test-environment system may have leaked; the leak was confirmed on 18 November. Up to about 11.25 million accounts' login IDs were exposed, and up to about 4.47 million accounts had names, dates of birth, addresses, phone numbers, email addresses, employers, withdrawal bank accounts, declared income and financial-asset data exposed — the two groups do not overlap, so the maximum is about 15.72 million accounts. The company detected possible unauthorised access on 16 November and found the test-environment data may have leaked on 11 November; the cause is under investigation. No passwords or PINs are confirmed leaked and no unauthorised transactions attributable to the incident have been confirmed. Japan's Financial Services Agency issued a reporting order on 19 November; Financial Services Minister Satsuki Katayama addressed the leak on 20 November and the FSA will consider a business improvement order if information-management flaws are found. A lawyer-led class-action recruitment site passed 20,000 registrants by 14:00 JST on 20 November. A fake “compensation policy” screenshot is circulating; Rakuten has announced no compensation, and contacts asking for lawsuit fees are fake.</p>
+<p class="src">Sources: <a href="https://www.reuters.com/jp/business/OEOFCPRLSBO2DK22A6F6MB4VY4-2026-11-17/" target="_blank" rel="noopener noreferrer">Reuters Japan — Rakuten Securities announcement (17 Nov, translated from Japanese)</a> · <a href="https://www3.nhk.or.jp/nhkworld/news/20261117de77429/" target="_blank" rel="noopener noreferrer">NHK WORLD-JAPAN — Rakuten Securities possible leak (17 Nov)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.10 BankWeaver — bank digital-banking middleware turned into a backdoor</h3>
+<p class="status confirmed">Status: confirmed (campaign and one victim, per vendor research); the six further banks' compromise is unconfirmed.</p>
+<p>Forescout Research (Vedere Labs) disclosed “BankWeaver” on 19 November: attackers abused a Temenos Quantum Fabric authentication service configured for anonymous access and reachable from the internet, exchanged an anonymous token for an administrator token without credentials, and deployed two malicious Java components — FabricShell for command execution and database queries, and FabricShadow for host reconnaissance and data exfiltration. One unnamed financial services institution was confirmed compromised in a breach running from early September 2026. Six further banks appear to share the same exposure, but compromise has not been confirmed for them, and Temenos confirmed the cause is a misconfiguration. No MITRE IDs were published. Banks should check whether their Quantum Fabric authentication service accepts anonymous access and is internet-reachable, and hunt for FabricShell and FabricShadow components. (This item rests on the 20 Nov briefing record; the Forescout primary was not re-fetched for this pack.)</p>
+<p class="src">Source: <a href="https://www.forescout.com/blog/bankweaver/" target="_blank" rel="noopener noreferrer">Forescout Research — BankWeaver (19 Nov)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.11 Java4Shell patching progress — fixes now broadly available, still no confirmed exploitation</h3>
+<p class="status confirmed">Status: confirmed (flaw and patch status); exploitation unconfirmed.</p>
+<p>CISA issued an urgent alert on 17 November for CVE-2026-114938 (“Java4Shell”), a memory-corruption flaw in the HotSpot JVM's AVX-512 Base64 decoder that can allow unauthenticated remote code execution on x86-64 systems with AVX-512 VBMI (OpenJDK 17.0.6 and later, also 21, 25 and 27); Oracle released fixed builds on 17 November as part of its November CPU. Patching progressed through the week: Eclipse Temurin published fixed binaries for all four lines on x64 Linux on 18 November, with Windows and macOS builds landing by 20 November; Microsoft shipped fixed builds on 18 November; Red Hat's Build of OpenJDK fixed builds shipped on 18 November and all six RHEL errata followed on 19 November; Keycloak 26.8 container images now ship the fixed runtime; and Okta published fixed versions on 19 November. Cisco's advisory (rev 1.3, 20 Nov) lists the affected products with fixes still to be determined; Catalyst Center was corrected to not affected in rev 1.3. Elastic's fix is slated for bundled JDK 27.0.1.1+4, and Siemens Industrial Edge Management Pro (V1, V2 and Virtual) is affected in all versions with no fix — block direct internet access. GreyNoise reports 261 Java4Shell-shaped sessions from 7 IPs as of 21 November, with zero successful intrusions, and the flaw was not in CISA KEV as of 23 November. Two proof-of-concept repositories were verified by reading code and are linked on the <a href="https://intelguys.github.io/daily-intel-brief/java4shell.html" target="_blank" rel="noopener noreferrer">Java4Shell tracker</a> — arkrwn's crash/leak reproducer and ikow/java4shell-poc (heap corruption confirmed on three products, not RCE). Aggregator counts reached 55 on 19 November, 70 by 20 November and 78 by 23 November (unverified); none of the additional repositories was verified or linked.</p>
+<p class="src">Sources: <a href="https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching" target="_blank" rel="noopener noreferrer">CISA — Critical Java Vulnerability Requires Immediate Patching (17 Nov)</a> · <a href="https://www.wiz.io/blog/cve-2026-114938-rce-java4shell-openjdk" target="_blank" rel="noopener noreferrer">Wiz — CVE-2026-114938 RCE Java4Shell OpenJDK (17 Nov)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.12 ruby2shell — critical pre-auth RCE in Ruby, reachable in default Rails apps</h3>
+<p class="status confirmed">Status: confirmed.</p>
+<p>Ruby's advisory was posted 18 November and published 19 November 00:00 UTC: CVE-2026-132825 (“ruby2shell”), a one-byte heap overflow in string case conversion, present since Ruby 2.4.0, which Ruby rates Critical (NVD scores it 7.4 on a local vector with high complexity — the scoring disagreement is noted, not re-rated). It is reachable without authentication in default Ruby on Rails and classic-style Sinatra applications, because Rack's MethodOverride middleware upper-cases the <code>_method</code> field of a crafted form submission before any application code runs. Fixed in Ruby 3.3.14, 3.4.13 and 4.0.10, released 18 November; Ruby 3.2 and older are end of life and receive no fix. There is no workaround — upgrade the interpreter and restart app servers; upgrading gems does nothing. Cloudflare WAF rules block known patterns as a compensating control only. Self-hosted software bundling affected Ruby includes GitLab, GitHub Enterprise Server, Mastodon, OpenProject, Discourse and Chatwoot. Ruby is aware of proof-of-concept code showing remote code execution in some scenarios; Veria Labs, which published the research on 19 November, plans to publish its proof of concept about 25 November. No in-the-wild exploitation has been reported. The flaw was missed by the 20 and 21 November editions and caught on 22 November.</p>
+<p class="src">Sources: <a href="https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/" target="_blank" rel="noopener noreferrer">Ruby — Multiple vulnerabilities in Regexp and String (advisory posted 18 Nov, published 19 Nov 00:00 UTC)</a> · <a href="https://blog.cloudflare.com/ruby2shell-waf-protection/" target="_blank" rel="noopener noreferrer">Cloudflare — How Cloudflare WAF protects against ruby2shell (CVE-2026-132825) (20 Nov)</a> · <a href="https://censys.com/advisory/cve-2026-132825/" target="_blank" rel="noopener noreferrer">Censys — Advisory: Ruby heap buffer overflow in string case conversion, CVE-2026-132825 (19 Nov)</a></p>
+</article>
+
+<article class="panel story">
+<h3>1.13 Binance aftermath — laundering accelerates while full reopening stays unconfirmed</h3>
+<p class="status confirmed">Status: confirmed (Elliptic blockchain analysis; holdings estimates unreconciled).</p>
+<p>Elliptic's 20 November update says at least 2,310 BTC (about $149 million) of the stolen Binance funds has gone into coinjoin mixers, about 90% of it since 17 November — 480 BTC on 17 November alone, more than the previous two weeks combined — almost all coordinated by Kruw, a Wasabi Wallet coordinator. Five of the nine largest ETH wallets have been emptied since 17 November, moving about 488,000 ETH (about $860 million). About $2.35 billion remains in addresses linked to the theft, mostly ETH and BTC, and about $2.85 billion is frozen; very little has been cashed out, and the 18,270 BTC stolen directly from Binance has still not moved. The laundering spans more than 27,000 wallets on at least 16 blockchains, about 55 services and about 90,000 transactions. Binance obtained a $6.5 billion worldwide freezing order from the Abu Dhabi Global Market Courts on 18 November (per the 22 Nov briefing record, not the Elliptic article). Full withdrawal reopening was aimed at about 22 November, but no confirmation of completion was found by 23 November; withdrawals had reopened on 87 networks and a new zero-knowledge proof of reserves covering 198 tokens (snapshot 12 Nov 00:00 UTC, block height 975,493, BTC at 100.05%) was announced on 14 November. Attribution to North Korea's TraderTraitor is per the FBI (31 October). The $2.35 billion remaining-holdings figure is Elliptic's; Lookonchain counts 602,402 ETH at about $1.09 billion — the estimates are unreconciled, so they are not added together.</p>
+<p class="src">Source: <a href="https://www.elliptic.co/insights/how-north-korea-is-laundering-the-6-4-billion-stolen-from-binance/" target="_blank" rel="noopener noreferrer">Elliptic — How North Korea is laundering the $6.4 billion stolen from Binance (updated 20 Nov)</a></p>
+</article>
+</section>
+
+<section aria-labelledby="trends-h" class="trend">
+<div class="sec-head"><h2 id="trends-h">Trends and shifts</h2><p>Nine shifts that defined the week. Tables 1–3 sit with the trend they belong to; the charts are in §2 above.</p></div>
+
+<h3>2.1 The centre of gravity moved to Japan</h3>
+<p>The two largest confirmed breach stories were Japanese: Rakuten Securities, confirmed at up to about 15.72 million accounts, and the Plaid KARTE incident, whose published per-client totals passed 140 million records — a tally of disclosures, not a count of people. The prior week's largest confirmed items were smaller: Monex Securities (up to 1.13 million email addresses) and AXA Direct Japan (about 597,000 accounts), both in the 15 November edition. The Korean wave that dominated the prior week (37 firms / about 473,000 records) continued this week mainly as follow-ups, corrections and regulatory action, not as new breaches — until Samsung Securities and KEPCO landed at the weekend.</p>
+
+<h3>Table 2 — Breach sizes this week (confirmed unless marked otherwise)</h3>
+<div class="table-scroll"><table>
+<thead><tr><th style="width:20%">Victim</th><th style="width:22%">Records / amount</th><th style="width:28%">Data types</th><th style="width:30%">Status</th></tr></thead>
+<tbody>
+<tr><td data-l="Victim">Plaid KARTE (Japan, via Plaid)</td><td data-l="Records / amount">Published per-client totals past 140m records; largest single clients: ZOZO ~29.18m, Marui ~17.33m (incl. ~8.5m EPOS card holders), SMBC up to ~14m, MUFG Bank ~6.5m, Bank of Yokohama ~116,500</td><td data-l="Data types">Varies by client; SMBC: date of birth, age band, sex — no names, contacts or account numbers</td><td data-l="Status">Confirmed; investigation completed 19 Nov, published 20 Nov; staged restart targeted mid-Jan 2027; 754-company integration-credential exposure confirmed. The &gt;140m total is a tally of per-client disclosures, not a count of people.</td></tr>
+<tr><td data-l="Victim">Rakuten Securities (Japan)</td><td data-l="Records / amount">Up to ~15.72m accounts — 11.25m login IDs plus a non-overlapping ~4.47m with richer data</td><td data-l="Data types">Login IDs; richer group: names, withdrawal bank accounts, income, financial-asset data. No passwords/PINs confirmed leaked.</td><td data-l="Status">Confirmed leak; FSA reporting order 19 Nov; Rakuten Bank shares fell ~15% on 18 Nov.</td></tr>
+<tr><td data-l="Victim">Maileva / La Poste (France)</td><td data-l="Records / amount">22m recipients</td><td data-l="Data types">Names and postal addresses; no bank details for recipients (business-client IBANs were in billing data)</td><td data-l="Status">Confirmed to AFP 14 Nov; Paris prosecutor opened a criminal investigation 15 Nov. Disclosed before the window; added as a catch-up to the 18 Nov edition.</td></tr>
+<tr><td data-l="Victim">KEPCO (South Korea, utility, non-BFSI)</td><td data-l="Records / amount">~1.52m people; bank/card data of ~650,487 KEPCO ON users</td><td data-l="Data types">Bank and card data among other personal data</td><td data-l="Status">Disclosed 22 Nov; second breach in as many months.</td></tr>
+<tr><td data-l="Victim">Infcurion / Paydon (Japan)</td><td data-l="Records / amount">251,172 records</td><td data-l="Data types">Passwords, account info, transaction history, merchant data</td><td data-l="Status">Confirmed; all services halted 20 Nov; disclosed 19–20 Nov but missed by the 20, 21 and 22 Nov briefs and every wire check until the 22 Nov 12:00 catch-up.</td></tr>
+<tr><td data-l="Victim">Mirae Asset Life (South Korea)</td><td data-l="Records / amount">10,418 people (corrected up from ~6,800)</td><td data-l="Data types">Not stated in the wire entry</td><td data-l="Status">Confirmed (FSS material via National Assembly); crosses the 10,000-person 72-hour reporting duty.</td></tr>
+<tr><td data-l="Victim">KG Eduone / South Korean savings banks</td><td data-l="Records / amount">~10,000 staff records</td><td data-l="Data types">Names, titles, bank, phones, emails</td><td data-l="Status">Confirmed; impersonation-fraud warning issued.</td></tr>
+<tr><td data-l="Victim">Samsung Securities (South Korea)</td><td data-l="Records / amount">8,241 customers</td><td data-l="Data types">Name, account number, address, contact details, driver's licence number (13 fields)</td><td data-l="Status">Confirmed by company disclosure; Voice of Customer complaints system only.</td></tr>
+<tr><td data-l="Victim">n0n publications — Visa</td><td data-l="Records / amount">&gt;6,000 premium Asia-Pacific customers</td><td data-l="Data types">Names, emails, mobiles, travel/dining bookings</td><td data-l="Status">Published 19 Nov after the 48-hour deadline; Visa confirmed a third-party provider incident in APAC, no Visa systems or payment data affected.</td></tr>
+<tr><td data-l="Victim">n0n publications — JPMorgan Chase</td><td data-l="Records / amount">~16,000 Reserve programme customer emails, plus 124 employee emails</td><td data-l="Data types">Names, emails, phone numbers in some cases, account IDs</td><td data-l="Status">Published 19 Nov; JPMorgan confirmed third-party vendors targeted, marketing data accessed, no sensitive financial or payment data affected.</td></tr>
+<tr><td data-l="Victim">n0n publications — Mastercard</td><td data-l="Records / amount">~2,000 entries</td><td data-l="Data types">Poorly formatted; likely test data</td><td data-l="Status">Published 19 Nov; origin/authenticity unverified at publication; Mastercard later confirmed a limited exposure from one benefit programme.</td></tr>
+<tr><td data-l="Victim">FFG Industries (Japan)</td><td data-l="Records / amount">Up to 1,221 corporate customers</td><td data-l="Data types">Login IDs and password hashes; core banking unaffected</td><td data-l="Status">Confirmed (company statement 19 Nov).</td></tr>
+<tr><td data-l="Victim">Wellington IT (Ireland, supplier)</td><td data-l="Records / amount">~40 Irish credit unions' payee records</td><td data-l="Data types">IBANs, account numbers, sort codes</td><td data-l="Status">Confirmed by Minister of State Robert Troy and at least six credit unions; vulnerability closed, no evidence of funds accessed (Irish Department of Finance, 19 Nov).</td></tr>
+<tr><td data-l="Victim">Banco do Brasil (Brazil)</td><td data-l="Records / amount">No victim count disclosed</td><td data-l="Data types">Names, CPF tax IDs, emails, branch numbers, sometimes account numbers; no passwords, tokens or security codes</td><td data-l="Status">Confirmed unauthorised access via a misused valid credential (identified 12 Nov, disclosed 18 Nov). The 22.7m-record forum-sale figure is unverified and was not used.</td></tr>
+<tr><td data-l="Victim">PayU Payments (India)</td><td data-l="Records / amount">₹25.67 crore (~US$2.9m) in 265 unauthorised transactions to 156 accounts</td><td data-l="Data types">Payout-API manipulation</td><td data-l="Status">Confirmed; two arrested 15 Nov.</td></tr>
+<tr><td data-l="Victim">Delhi NBFC loan-diversion fraud (India)</td><td data-l="Records / amount">₹65 crore across 12 NBFCs in three months; 150+ NBFC complaints nationwide totalling over ₹300 crore</td><td data-l="Data types">Loan-disbursement fraud; CyberStrikeAI used in at least one October case</td><td data-l="Status">Confirmed (Delhi Police via The Indian Express, 16 Nov). The wider ~₹105.67 crore figure in the 20 Nov edition is unreconciled with the ₹65 crore figure — flagged, not reconciled.</td></tr>
+<tr><td data-l="Victim">Cleverbridge (payment processor)</td><td data-l="Records / amount">No victim count disclosed</td><td data-l="Data types">Card numbers, expiry dates, CVV/CVC codes</td><td data-l="Status">Confirmed breach; detected 4 Nov; customer notifications began 20 Nov; reported 22 Nov. Malwarebytes is the only merchant so far to confirm impact — only a “small subset” of its customers.</td></tr>
+<tr><td data-l="Victim">Optimizely / OPTIMJACK (supply chain)</td><td data-l="Records / amount">178 organisations, 32 in banking/finance; crypto taken $7,040 vs $2,300, unreconciled; card-loss count unknown</td><td data-l="Data types">Card skimmer + crypto clipper + cookie/screenshot stealer on customer sites</td><td data-l="Status">Confirmed by Optimizely; largely cleaned by 05:52 SGT 17 Nov; no confirmed core-banking breach.</td></tr>
+<tr><td data-l="Victim">Korean financial wave (retrospective)</td><td data-l="Records / amount">37 firms / ~473,000 records in one month</td><td data-l="Data types">Varies</td><td data-l="Status">Confirmed; replaces the stale 14 Oct framing of 16 firms / ~100,000 records.</td></tr>
+</tbody>
+</table></div>
+
+<h3>2.2 The live wire nearly doubled</h3>
+<p>It went from 12 breaking items / 58 entries (15 Nov 20:00 check) to 23 breaking / 110 entries (23 Nov 12:00 check), verified against the live <code>wire.json</code>. Eleven new breaking items were added in the window: OPTIMJACK, the CSA Apache mod_http2 alert and Rakuten (17 Nov); Plaid/KARTE (18 Nov); Banco do Brasil and Wellington IT (19 Nov); the n0n Visa/JPMorgan/Mastercard publication and BankWeaver (20 Nov); Infcurion/Paydon (22 Nov); Cleverbridge and Samsung Securities (23 Nov). No breaking item expired in the window.</p>
+
+<h3>Table 1 — Breaking items per day, 16–23 November 2026</h3>
+<p class="small muted">New breaking items and end-of-day breaking totals from the wire-check logs; totals cross-checked against four checkpoints (21 Nov 08:00: 20 breaking / 109 entries; 22 Nov 16:00: 21 / 110; 23 Nov 00:00: 22 / 110; 23 Nov 12:00: 23 / 110, verified against live <code>wire.json</code>). Entries counts are shown only where a check recorded them; blank means not recorded that day, not zero.</p>
+<div class="table-scroll"><table>
+<thead><tr><th style="width:22%">Date (SGT)</th><th style="width:38%">New breaking items</th><th style="width:22%">Breaking total (end of day)</th><th style="width:18%">Wire entries</th></tr></thead>
+<tbody>
+<tr><td data-l="Date (SGT)">Mon 16 Nov</td><td data-l="New breaking items">0</td><td data-l="Breaking total (end of day)">12</td><td data-l="Wire entries">—</td></tr>
+<tr><td data-l="Date (SGT)">Tue 17 Nov</td><td data-l="New breaking items">3 — OPTIMJACK, CSA Apache mod_http2 alert, Rakuten</td><td data-l="Breaking total (end of day)">15</td><td data-l="Wire entries">—</td></tr>
+<tr><td data-l="Date (SGT)">Wed 18 Nov</td><td data-l="New breaking items">1 — Plaid/KARTE</td><td data-l="Breaking total (end of day)">16</td><td data-l="Wire entries">—</td></tr>
+<tr><td data-l="Date (SGT)">Thu 19 Nov</td><td data-l="New breaking items">2 — Banco do Brasil, Wellington IT</td><td data-l="Breaking total (end of day)">18</td><td data-l="Wire entries">—</td></tr>
+<tr><td data-l="Date (SGT)">Fri 20 Nov</td><td data-l="New breaking items">2 — n0n Visa/JPMorgan/Mastercard publication, BankWeaver</td><td data-l="Breaking total (end of day)">20</td><td data-l="Wire entries">—</td></tr>
+<tr><td data-l="Date (SGT)">Sat 21 Nov</td><td data-l="New breaking items">0</td><td data-l="Breaking total (end of day)">20</td><td data-l="Wire entries">109</td></tr>
+<tr><td data-l="Date (SGT)">Sun 22 Nov</td><td data-l="New breaking items">1 — Infcurion/Paydon</td><td data-l="Breaking total (end of day)">21</td><td data-l="Wire entries">110</td></tr>
+<tr><td data-l="Date (SGT)">Mon 23 Nov (to 12:00)</td><td data-l="New breaking items">2 — Cleverbridge, Samsung Securities</td><td data-l="Breaking total (end of day)">23</td><td data-l="Wire entries">110</td></tr>
+</tbody>
+</table></div>
+<p class="count-note">Baseline: 12 breaking / 58 entries at 15 Nov 20:00. No breaking item expired in the window.</p>
+
+<h3>2.3 KEV pace picked up, then stopped</h3>
+<p>Nine additions this week (1 on 17 Nov, 4 on 18 Nov, 4 on 20 Nov) against two in the comparable prior stretch (13 Nov: Check Point CVE-2026-123039 and UnrealIRCd CVE-2026-114713; none 14–16 Nov). No additions on 19, 21, 22 or 23 Nov. Catalogue: 1,781 entries (v2026.11.13) → 1,782 (v2026.11.17) → 1,786 (v2026.11.18) → 1,790 (v2026.11.20), verified against the live CISA KEV feed. Repeated aggregator claims of further additions on 19–20 Nov were checked and dismissed as re-reporting of older batches. A claim that CISA added CVE-2026-114938 (Java4Shell) to KEV on 19 Nov under an invented “CISA-2026-040” advisory is false — the catalogue was still v2026.11.20 with the CVE absent on 23 Nov.</p>
+
+<h3>Table 3 — KEV additions by day, 16–23 November 2026</h3>
+<div class="table-scroll"><table>
+<thead><tr><th style="width:12%">Date added</th><th style="width:20%">CVE</th><th style="width:34%">Product</th><th style="width:12%">Federal due date</th><th style="width:22%">Public PoC known</th></tr></thead>
+<tbody>
+<tr><td data-l="Date added">17 Nov</td><td data-l="CVE" class="cve">CVE-2026-115731</td><td data-l="Product">Perforce Puppet Enterprise / Puppet Server (deserialisation RCE, 9.4)</td><td data-l="Federal due date">1 Dec</td><td data-l="Public PoC known">Yes — public PoC. Note: the 18 Nov 04:00 wire check reported a working PoC published 3 Nov, though the 08:00 check could not confirm it; the 19 Nov edition records it as a working PoC from the fix authors (Neodyme / OpenVox). Conflict shown, neither side picked.</td></tr>
+<tr><td data-l="Date added">18 Nov</td><td data-l="CVE" class="cve">CVE-2024-10441</td><td data-l="Product">Synology DSM / BeeStation OS (9.8)</td><td data-l="Federal due date">21 Nov</td><td data-l="Public PoC known">No — “no PoC identified” (19 Nov edition)</td></tr>
+<tr><td data-l="Date added">18 Nov</td><td data-l="CVE" class="cve">CVE-2026-40217</td><td data-l="Product">LiteLLM (8.8)</td><td data-l="Federal due date">2 Dec</td><td data-l="Public PoC known">Yes — public Nuclei-template PoC (19 Nov edition)</td></tr>
+<tr><td data-l="Date added">18 Nov</td><td data-l="CVE" class="cve">CVE-2026-90436</td><td data-l="Product">Apache Axis (9.8 CISA / 9.3 Atlassian)</td><td data-l="Federal due date">21 Nov</td><td data-l="Public PoC known">Yes, unverified — public PoC repo MSPNightmare/CVEs (Sean Bales), genuine researcher disclosure per the 19 Nov briefing, with Previdian's caveat that it is unverified and may contain malware; no repository linked. Exploitation confirmed by Rapid7 against Confluence Data Center and N-central on 13 Nov.</td></tr>
+<tr><td data-l="Date added">18 Nov</td><td data-l="CVE" class="cve">CVE-2026-90817</td><td data-l="Product">REDCap (9.8)</td><td data-l="Federal due date">21 Nov</td><td data-l="Public PoC known">Yes — public Nuclei-template PoC (19 Nov edition)</td></tr>
+<tr><td data-l="Date added">20 Nov</td><td data-l="CVE" class="cve">CVE-2026-129448</td><td data-l="Product">Apache Roller (9.8)</td><td data-l="Federal due date">23 Nov</td><td data-l="Public PoC known">Yes, unverified — public PoC repositories exist but none was verified by reading code, and aggregators warn some may be incorrect or malicious; no repository linked (21 Nov edition)</td></tr>
+<tr><td data-l="Date added">20 Nov</td><td data-l="CVE" class="cve">CVE-2026-123890</td><td data-l="Product">VMware vCenter Server (9.8)</td><td data-l="Federal due date">23 Nov</td><td data-l="Public PoC known">Yes, unverified — six aggregator-listed PoC repositories, none verified, at least one reported fake; Metasploit PR #22173 still had no code as of 23 Nov 09:00 (22 and 23 Nov editions)</td></tr>
+<tr><td data-l="Date added">20 Nov</td><td data-l="CVE" class="cve">CVE-2025-42884</td><td data-l="Product">SAP NetWeaver Enterprise Portal (6.5)</td><td data-l="Federal due date">23 Nov</td><td data-l="Public PoC known">No — no public PoC identified (21 Nov edition)</td></tr>
+<tr><td data-l="Date added">20 Nov</td><td data-l="CVE" class="cve">CVE-2026-76466</td><td data-l="Product">Cisco Expressway (9.8)</td><td data-l="Federal due date">23 Nov</td><td data-l="Public PoC known">Yes, verified — PoC repository dinosn/cve-2026-76466 verified genuine (16 Nov edition); F6 documented first in-the-wild exploitation (21 Nov edition)</td></tr>
+</tbody>
+</table></div>
+<p class="count-note">No additions on 16, 19, 21, 22 or 23 Nov. The 13 Nov additions (CVE-2026-123039 Check Point, CVE-2026-114713 UnrealIRCd) fell due 16 Nov and were not carried as new rows, per the standing KEV rule. CVE-2026-114938 (Java4Shell) is absent from the KEV feed — the claimed 19 Nov addition under an invented “CISA-2026-040” advisory is false. Primary sources: <a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV feed (catalogue v2026.11.20, 1,790 entries)</a> · <a href="https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA alert — four KEV additions (20 Nov)</a></p>
+
+<h3>2.4 Ransomware moved from claims to publications</h3>
+<p>n0n's 16 Nov batch of leak-site listings turned into actual publications on 19 Nov (Visa, JPMorgan, Mastercard), the week's clearest actor-behaviour shift. At the same time, several high-profile deadlines passed with nothing published — the n0n retail batch, the Vortex/Carrington claim and the Pixelleaks/Ekwiik claim — so deadline expiry stopped being a reliable predictor of publication. Bitdefender's controlling caveat stands: 100+ listings against just over 20 real targets — n0n inflates victim counts.</p>
+
+<h3>2.5 Offensive AI tooling stopped being only a vendor-research story</h3>
+<p>It produced named victims and a confirmed zero-day this week: Barracuda (ARTEX-pattern intrusion), the European Commission (reported ARTEX link, unconfirmed by the Commission; campaign first detected 22 Oct), Bitrise (25-day ARTEX intrusion), and the Amazon/Cairn MONAI Label zero-day CVE-2026-133968, found and exploited by AI agents (disclosed 20 Nov). The prior week's ARTEX story was dominated by the FBI FLASH of 13 Nov and vendor syntheses. Netskope reported (18 Nov) that the maintained ARTEX successor BaaRai/ARTEX ships a PHP2Shell exploit skill, and BaaRai/ARTEX v0.7.0 was released 21 Nov. Cloudforce One reported on X (18 Nov) the first instance of ARTEX and Java4Shell used from the same IP — carried on both pages as a watch note only: it does not establish that ARTEX sent the Chrome-disguised request, that either attempt succeeded, or a common operator, and no IP was named.</p>
+
+<h3>2.6 PoC verification became the discipline of the week</h3>
+<p>Aggregator PoC counts rose fast while the verified set stayed tiny. Java4Shell: aggregator count 13 → 24 (18 Nov) → 55 (19 Nov) → 70 (20 Nov) → 78 (23 Nov, unverified); only arkrwn's crash/leak reproducer and ikow/java4shell-poc were verified by reading code and linked. vCenter: six aggregator-listed repositories by 22 Nov, none verified, at least one reported fake; Rapid7's Metasploit pull request #22173 still had no code as of 23 Nov 09:00. NGINX2Root: Rapid7 published a working PoC on disclosure day, while fake exploits circulated the same day. Cisco Expressway: PoC repository dinosn/cve-2026-76466 verified genuine, and F6 documented first in-the-wild exploitation. Apache Axis CVE-2026-90436: a public PoC repo exists (MSPNightmare/CVEs, Sean Bales), a genuine researcher disclosure per the 19 Nov briefing, with Previdian's caveat that it is unverified and may contain malware — no repository linked. Apache mod_http2 CVE-2026-119618: public PoC available; CSA Singapore AL-2026-164 (17 Nov) says reportedly actively exploited. PHP CVE-2026-115560: lab PoCs public since October, lab-only. ScreenConnect CVE-2026-84869: exploitation confirmed by Huntress — about a 9-second compromise, 688,000+ sprayed run-file requests across 42 servers. ruby2shell: an AI agent did lab-only exploit development (genaforvena repository, verified genuine, not a stock-Rails PoC); a Veria Labs PoC was expected around 25 Nov. Ghostscript CVE-2026-125396 (“Upload2Shell”): PoC public.</p>
+
+<h3>2.7 Probing rose, then plateaued; no confirmed intrusions</h3>
+<p>Java4Shell GreyNoise counts: 192 sessions from 6 IPs on 19 Nov, 197 from 7 IPs on 20 Nov (seventh: 185.184.192.254, WorldStream, Netherlands, probing Jenkins endpoints), 261 sessions from the same 7 IPs on 21 Nov, still 261 / 7 / 0 intrusions on 22–23 Nov. PHP2Shell: GreyNoise count 1,265 (16 Nov) → 1,297 (17 Nov) → 1,304 (18 Nov), then flat. Inside the window, the +32 rise on 17 November was xmrig miner commands on already-established shells, not new exploit sessions; the +7 rise on 18 November was seven real attributed exploit sessions (17 Nov 22:52–23:01 UTC, fresh POST exploit traffic). The +36 rise (1,229 → 1,265) happened on 15 November, before this window. The Delft telemetry feed has been frozen since 15 November. Neither campaign produced a confirmed intrusion in the window.</p>
+
+<h3>2.8 Exposure censuses agree on scale, not on method</h3>
+<p>All figures are exposure indicators from different methodologies, not confirmed infrastructure, and are not like-for-like across censuses. Check Point (13 Nov): 1,608 ARTEX hosts. ExtraHop (reported 17 Nov): 3,447 ARTEX hosts; 9.5% also carry another agentic framework, CyberStrikeAI most frequent. SOCRadar US census (snapshot 11 Nov): 916 confirmed live ARTEX-family consoles; 512 in 19 /24 blocks, mostly AS54600 (PEG TECH); 231 hosts also serving Sub2API. Cato Networks (18 Nov): 2,753 ARTEX, 2,383 CyberStrikeAI, 775 PentAGI and 23 Cairn publicly visible servers. Spectrum (18 Nov): 2,335 exposed consoles on 2,022 IPs; 47 distinct ARTEX variants; 436 consoles in one hosting network (AS54600); trojanised Docker images at 7,946 pulls. ReversingLabs (18 Nov): 11 ARTEX fork-families; favicon pivot confirms 969 live consoles. ScanMalware (19 Nov): 832 agent hosts mapped 39,460 targets; finance 17% of mapped targets vs 4% baseline. Canadian Cyber Centre advisory (21 Nov): ARTEX ~46%, CyberStrikeAI 28%, PentAGI 14% shares. The week moved from single-vendor counts to a cluster of independent censuses that agree on the order of magnitude (roughly 1,000–3,500 exposed ARTEX hosts) and on concentration in one hosting network (AS54600 / PEG TECH). CyberStrikeAI is consistently the second-largest family, and finance is over-represented among scanned targets.</p>
+
+<h3>2.9 Patching kept pace with Java4Shell but lagged the new zero-days</h3>
+<p>Java4Shell vendor fixes landed within two to four days of the 17 Nov CISA alert; by contrast the vCenter zero-day (exploited since September) had no workaround, and Cisco still had fixes to determine for its affected Java4Shell products at the end of the window. PHP's 19 Nov release (8.5.13 / 8.4.28 / 8.3.37 / 8.2.36) fixed 17 CVEs including seven critical RCE flaws (9.2 CVSS 4.0), closing CVE-2026-115560; servers patched only in October remain exposed until they take the 19 Nov builds, PHP 8.1 and older get no fix, and PHP 8.2 security support ends 31 Dec 2026. New critical disclosures outpaced KEV and patching: NGINX2Root (fixes shipped 18 Nov, the same day as disclosure); Splunk CVE-2026-76536 (9.4) / CVE-2026-76535 (9.1); Drupal CVE-2026-132165 (installer RCE); ruby2shell (disclosed 19 Nov); TYPO3 CVE-2026-125160 (vendor-confirmed actively exploited, disclosed 17 Nov); Apache Roller CVE-2026-129448 (actively exploited per Apache). None of these was in CISA KEV at disclosure; Roller and vCenter entered KEV on 20 Nov. N-able Hotfix 3 shipped 16 Nov (Legacy API permanently blocked) after Rapid7 confirmed Apache Axis exploitation and Huntress confirmed ScreenConnect exploitation against MSP technicians.</p>
+</section>
+
+<section aria-labelledby="geo-h">
+<div class="sec-head"><h2 id="geo-h">Geopolitical cascades</h2><p>The week's pattern is not seven separate incidents. It is the same three cascades repeating: a supplier or shared platform fails and the damage spreads to firms that never dealt with the attacker; AI tooling lowers the cost of entry (voice, agents, loan-fraud automation); and regulators, once they act, convert one incident into sector-wide deadlines.</p></div>
+
+<article class="panel geo">
+<h3>3.1 Korea — the FSI audit becomes a sector-wide inspection, then another securities firm is breached</h3>
+<h4>What happened</h4>
+<p>The Financial Security Institute (FSI) breach set the sequence in motion before this window: a webshell attack at 13:54 on 9 November failed, and an SMS-authentication bypass was then used to create a fake FSS-level account. The Financial Services Commission (FSC) gave that timeline to the National Assembly on 13 November, and its special audit of the FSI began on 16 November. The FSI's evaluation system was still shut down at the end of the window, with no restoration date, and 2,912 firms form the assessment population whose appeals are blocked. Reporting put the wider Korean wave at 37 firms and about 473,000 records in one month. On 17 November the Financial Supervisory Service (FSS) called in CISOs and security officers from 227 electronic-finance and 47 online investment-linked firms — 274 firms in total — for an intensive external-attack-surface inspection, with first-round self-assessments due 30 November. The same day it disclosed new incidents at Spoon (Giftiell, about 18,000 people's data) and Zoomfund (about KRW 300 million in customer deposits), and began surprise on-site inspections of high-risk branches at four banks, the first in about ten years. The FSC will require large firms to run vulnerability assessments twice a year instead of once, and to identify and classify all IT assets.</p>
+<p>The wave kept producing victims through the week: Coinone's breach via its customer-support contractor MetaM (disclosed 15 November; passwords, resident registration numbers, bank account numbers and wallet addresses may have leaked; victim count unconfirmed; disclosure took about 70 hours 40 minutes), KOMSCO's chak gift-certificate platform breach (3,083 customers confirmed), and Mirae Asset Life Insurance (10,418 victims as of 5 November, up from about 6,800 — crossing the 10,000-person 72-hour reporting duty). The KB Kookmin count was revised from 119 to 2,210 after FSS inspection. Then, on 23 November, Samsung Securities disclosed the Voice of Customer breach (8,241 customers; see §1.6).</p>
+<p class="src">Sources: <a href="https://en.nocutnews.co.kr/news/6607910" target="_blank" rel="noopener noreferrer">NoCutNews (17 Nov, translated from Korean)</a> · <a href="https://en.nocutnews.co.kr/news/6608411" target="_blank" rel="noopener noreferrer">NoCutNews (18 Nov, translated from Korean)</a></p>
+<h4>Cascade mechanism</h4>
+<p>One shared assessment body (the FSI) fails, so the regulator cannot trust the sector's own evaluation system — and responds by inspecting the sector itself, on a deadline. Each new disclosure (a contractor, a gift-certificate platform, a complaints portal) then widens the lesson: the entry point is rarely the core banking system. It is a support contractor, a staff-facing mobile or loan system, or a customer-facing web form.</p>
+<h4>Who is exposed next</h4>
+<p>The 274 summoned firms, above all small and mid-sized operators — the FSS says intrusion attempts via external contact points continue there. Firms whose 30 November self-assessments surface unpatched external exposure, and the 8,241 Samsung Securities complainants, who now hold a verified customer list for impersonation calls and phishing citing the incident. Korean banks should also expect phishing and voice-phishing using data from the separate KEPCO breach (about 1.52 million people, disclosed 22 November), which is a utility breach whose exposed data is financial data.</p>
+<h4>Still unknown</h4>
+<p>Who attacked Samsung Securities and how they entered the Voice of Customer system; whether any of the leaked data has been misused or any customer has suffered a loss; whether the Samsung incident is linked to the wider wave or stands alone — no link has been established; and the FSI audit's findings and the evaluation system's restoration date.</p>
+</article>
+
+<article class="panel geo">
+<h3>3.2 EU Commission / ARTEX — a confirmed AI campaign, an unconfirmed tool attribution</h3>
+<h4>What happened</h4>
+<p>On 19 November the European Commission confirmed it had responded to an AI-generated cyber campaign detected on 22 October and confirmed after initial investigation on 26 October. At the midday Brussels briefing, spokesperson Thomas Regnier confirmed the campaign was a misuse of a publicly available AI tool. Several applications were taken down temporarily as a precaution; most have been restored. The Commission named no attribution, no ransom demand, and no tool, entry point or affected application, and said there is no evidence of a data breach affecting Commission staff “as a whole”. What the Commission did <b>not</b> say is as important as what it did. POLITICO, first reporting on the morning of 19 November, said the attack lasted at least ten days and hit HR payslip / time-management and medical-reimbursement systems; the spokesperson declined to confirm duration or systems. The Record relayed POLITICO's account that CERT-EU identified ARTEX use — that link is <b>unconfirmed by the Commission</b>. Whether ARTEX helped break in or was used only for reconnaissance, and whether data was accessed or stolen, is not established. AP called it the first time the EU has publicly reported a cyberattack using an AI tool.</p>
+<p class="src">Source: <a href="https://www.europesays.com/europe/185924/" target="_blank" rel="noopener noreferrer">Euronews / Europe Says (19 Nov)</a></p>
+<h4>Exposure-census context</h4>
+<p>The disclosure landed amid large, fast-moving counts of exposed offensive-AI consoles: Spectrum's 18 November census counted 2,335 exposed consoles (436 ARTEX hosts in one hosting network, AS54600); ExtraHop counted 3,447 ARTEX hosts; SOCRadar counted 916 confirmed live ARTEX-family consoles in the US. These are exposure indicators, not confirmed infrastructure, and the counts are not like-for-like — different methods, different dates, different definitions of a console. They show how widely the tooling is reachable; they do not prove who used it against the Commission, or that any counted host was involved.</p>
+<h4>Cascade mechanism</h4>
+<p>A high-profile public institution confirms an AI-tool campaign while declining to name the tool, and press reporting names it anyway. That gap is the cascade: other EU institutions and CERT-EU constituents must now check exposure against a tool their own regulator has not confirmed, while vendors rush out detection content (the tracker added Netskope's report on a maintained ARTEX successor shipping a PHP2Shell skill, and MalwareMustDie's ARTEX detection pack). The risk runs both ways — under-reaction if institutions wait for confirmation, over-reaction if the press attribution is treated as settled.</p>
+<h4>Who is exposed next</h4>
+<p>Other EU institutions and agencies running similar publicly available AI tooling, organisations whose exposed consoles appear in the censuses, and financial firms whose staff or vendors use the same class of agentic tooling.</p>
+<h4>Still unknown</h4>
+<p>Whether ARTEX was used at all in the Commission incident; how it was used; whether data was stolen; the duration and the systems affected; and attribution.</p>
+</article>
+
+<article class="panel geo">
+<h3>3.3 Ukraine / FBI — AI-voice vishing confirmed as a ransomware entry point</h3>
+<h4>What happened</h4>
+<p>Ukrainian police, working with the FBI, arrested four suspected key members of a ransomware group on 18–19 November. The group won initial access with AI-generated voice calls impersonating IT support: it built its own platform with AI-generated voice messages to automate fraudulent calls, tricking employees into disclosing credentials or installing remote-access software (TeamViewer / AnyDesk). In one incident an attacker kept an employee on the phone while another accessed the company's systems. At least 28 companies paid more than $40.5 million in ransoms. Sectors spanned oil and gas, pharmaceutical, manufacturing, logistics, financial and critical infrastructure. No MITRE mapping was published for the group, and no group name was published in the briefings.</p>
+<p class="src">Sources: <a href="https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/" target="_blank" rel="noopener noreferrer">BleepingComputer (19 Nov)</a> · <a href="https://www.helpnetsecurity.com/2026/11/19/ukraine-ransomware-gang-arrests-fake-it-support-calls/" target="_blank" rel="noopener noreferrer">Help Net Security (19 Nov)</a></p>
+<h4>Cascade mechanism</h4>
+<p>AI voice moves vishing from a fraud problem to a ransomware initial-access problem. The control that fails is not email filtering but help-desk verification: a convincing voice, a plausible IT-support pretext, and a live human kept on the line while a second operator moves inside. That is the same human-verification weakness behind the separate Unit 42 “Dialing for Data” vishing waves reported the same week, which target finance and defeat MFA through adversary-in-the-middle techniques. The arrests validate the threat model; they do not remove the tooling, which is built on publicly available voice synthesis.</p>
+<h4>Who is exposed next</h4>
+<p>Any firm whose IT support resets credentials or installs remote-access software on the strength of a phone call — especially financial firms, where a single help-desk interaction can hand over VPN or remote-access credentials. Firms relying on SMS-based MFA are doubly exposed, since the same social-engineering path defeats it.</p>
+<h4>Still unknown</h4>
+<p>The group's name; whether the arrests disrupt its operations or only remove four members; the full victim list; and whether the voice platform was shared with or sold to other groups.</p>
+</article>
+
+<article class="panel geo">
+<h3>3.4 India — a court converts fraud into compliance duties; NBFC losses stay unreconciled</h3>
+<p><b>Digital-arrest hearing, Supreme Court, 23 November — scheduled; outcome not verified.</b> The Supreme Court of India is hearing a suo motu case, <i>In Re: Victims of Digital Arrest Related to Forged Documents</i>, on “digital arrest” scams — video calls from someone impersonating police, CBI or customs, threatening the victim and demanding money transfers. In an order dated 29 October, uploaded on 10 November, the Court directed WhatsApp and other intermediaries to tell the Court what measures they propose to prevent such scams and to submit those proposals to the Indian Cybercrime Coordination Centre (I4C); asked the Reserve Bank of India (RBI) for a list of authorised financial institutions; and directed state law-enforcement agencies to report the FIRs registered in digital-arrest cases. The Court will first examine the RBI's proposed Know Your Customer (KYC) Amendment Directions, to be notified by 30 November 2026 and operationalised by 31 December 2026. The matter was listed for further consideration on 23 November 2026. The hearing's outcome was not covered in any daily briefing, wire entry or log in this window — treat any claim about what the Court decided on 23 November as unverified until a primary report appears.</p>
+<p class="src">Source: <a href="https://news.tulsian.ai/news/regulation-legal/supreme-court-directs-rbi-kyc-amendments.html" target="_blank" rel="noopener noreferrer">Tulsian AI summary of the Court's directions (19 Nov)</a></p>
+<p><b>NBFC loan-diversion fraud — two figures, unreconciled.</b> Delhi Police reported that 12 non-banking financial companies (NBFCs) in Delhi-NCR lost over ₹65 crore in three months to loan-disbursement fraud, with more than 150 NBFC complaints nationwide totalling over ₹300 crore; CyberStrikeAI was used in one October case. The fraud diverted approved-but-undisbursed loans: one lender lost ₹41.27 crore in about 90 minutes on 16 November, and Delhi Police report “traces of AI” in the frauds. A wider figure of about ₹105.67 crore across 14 NBFCs is also in circulation. The two figures remain unreconciled — they may cover different periods, geographies or counting methods — so neither is used here as the loss total. A separate, confirmed case sits alongside it: PayU Payments' cloud-server breach, in which a manipulated payout API siphoned ₹25.67 crore through 265 unauthorised transactions to 156 accounts; two men were arrested on 15 November. The access method is still under audit, and the case follows a CERT-In / CSIRT-Fin payment-API advisory of 9 October.</p>
+<p class="src">Sources: <a href="https://www.medianama.com/2026/11/223-ai-hackers-approved-loans-nbfc/" target="_blank" rel="noopener noreferrer">MediaNama (18 Nov)</a> · <a href="https://www.medianama.com/2026/11/223-payu-cloud-server-breach/" target="_blank" rel="noopener noreferrer">MediaNama (19 Nov)</a></p>
+<h4>Cascade mechanism</h4>
+<p>The Court is turning a fraud pattern into duties for three parties at once: platforms must show how they will stop the scams, banks face compensation liability where due diligence fails, and the RBI must produce new KYC rules on a fixed timetable. That is the same regulatory-amplifier pattern as Korea's 30 November self-assessment deadline — the same date, a separate regime, and a coincidence worth noting rather than a connection. The NBFC fraud does not breach a perimeter; it abuses a legitimate business flow — approved loans that have not yet been disbursed. That makes it a disbursement-control failure, and it travels: the same AI-assisted pattern (and, in PayU's case, the same payout-API abuse) can be replayed at any lender with similar approval-to-disbursement gaps. Enforcement is moving in parallel — Delhi Police arrested 22 people in a fake-banking-app crackdown linked to 22,139 victims and proceeds of more than ₹20 crore — but arrests after the fact do not close the disbursement gap.</p>
+<h4>Who is exposed next</h4>
+<p>NBFCs and fintech lenders with approved-but-undisbursed loan pipelines, and any firm operating a payout API without tight controls on who can redirect a disbursement. Banks whose customers are targeted by digital-arrest calls, above all where transfers do not match usual patterns. Elderly and first-time digital-banking users, the typical targets.</p>
+<h4>Still unknown</h4>
+<p>The true NBFC victim count and loss (₹65 crore / 12 NBFCs against about ₹105.67 crore / 14 NBFCs); how far AI tooling went beyond “traces of AI”; the PayU access method; and the outcome of the 23 November Supreme Court hearing.</p>
+</article>
+
+<article class="panel geo">
+<h3>3.5 Japan — Plaid KARTE: a marketing platform becomes a sector-wide data incident</h3>
+<h4>What happened</h4>
+<p>Plaid's KARTE platform was attacked on 13 November: a vulnerability behind a public data-retrieval route was exploited, then stolen credentials were used to reach the KARTE admin console. Plaid's investigation, completed on 19 November and published on 20 November, put the leaked or potentially leaked data in four overlapping groups: integration credentials (secret keys and access tokens) for 754 client companies; part of the data customers linked into KARTE for 570 companies; end-user behaviour data for 487 companies; and cached data treated as potentially leaked for up to 409 companies — an estimate, because the cache is overwritten quickly and Plaid cannot tell which items were actually read. Data from about 2,200 companies leaked or may have leaked. Plaid forecasts a ¥2 billion loss.</p>
+<p>Company disclosures then stacked up through the week (see §1.1 for figures). Published counts across company disclosures top 140 million records. That is a tally of company disclosures, not 140 million people: the same person can appear in several companies' counts, the groups overlap, and no deduplicated count of affected people has been published. (Separately, the SMBC Consumer Finance incident, up to 320,118 people, is a different incident and is not part of the KARTE total.) The breach also reached companies whose contracts had ended: Stripe International's data remained after it ended KARTE in May 2026, and one former customer, overflow, ended its contract in November 2023 yet its data remained for about three years — the same post-contract retention problem seen with Kaitec.</p>
+<p class="src">Sources: <a href="https://www.watch.impress.co.jp/docs/news/2158411.html" target="_blank" rel="noopener noreferrer">Impress Watch (20 Nov, translated from Japanese)</a> · <a href="https://japancyberwatch.com/articles/karte-plaid-breach-integration-keys-2026" target="_blank" rel="noopener noreferrer">Japan Cyber Watch (20 Nov)</a></p>
+<h4>Cascade mechanism</h4>
+<p>A marketing analytics platform held integration keys into 754 companies' systems, so one compromise becomes a credential incident for hundreds of firms at once — and the 754-company key exposure, not the record counts, is the consequential detail. The cascade has a second stage built in: Plaid will start giving each affected company its detailed data from 24 November, which will produce a further wave of company disclosures, and KARTE stays offline with a staged restart targeted for mid-January 2027, prolonging the disruption.</p>
+<h4>Who is exposed next</h4>
+<p>The 754 companies whose integration credentials leaked — each must check whether its keys were misused at linked services (none disclosed as of 20 November) and rotate them; former KARTE clients, who must check whether their data was retained after contract end; and customers of all disclosing firms, who face phishing using the leaked fields. Japan's FSA has already issued a reporting order to Rakuten Securities over its separate leak, and its minister has spoken of a possible business improvement order — a sign that regulator attention is widening from the incident to the sector's vendor management.</p>
+<h4>Still unknown</h4>
+<p>Whether the leaked keys were misused at any linked service; the true number of affected people; and each company's full scope, which will only emerge from the per-company data handovers starting 24 November.</p>
+</article>
+
+<article class="panel geo">
+<h3>3.6 United States — CISA KEV: four due dates land on one day</h3>
+<h4>What happened</h4>
+<p>CISA added four exploited flaws to its Known Exploited Vulnerabilities (KEV) catalogue on 20 November — Apache Roller (CVE-2026-129448), VMware vCenter (CVE-2026-123890), SAP NetWeaver (CVE-2025-42884) and Cisco Expressway (CVE-2026-76466) — taking the catalogue to version 2026.11.20 with 1,790 entries. All four fell due on Monday 23 November. No new additions were made on 21, 22 or 23 November. The 18 November additions (Synology, LiteLLM, Apache Axis, REDCap) fell due on 21 November, and the 13 November additions fell due on 16 November.</p>
+<p class="src">Sources: <a href="https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA alert (20 Nov)</a> · <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV catalogue (live feed)</a></p>
+<h4>What a due date does and does not mean</h4>
+<p>A KEV due date is the remediation deadline for US federal civilian agencies under CISA's process. It does not mean the vulnerability is fixed everywhere, that exploitation has stopped, or that the deadline binds private-sector firms — it is not an expiry date for the risk. Its power is as a forcing function: vendors, auditors and customers treat the date as a patching deadline even where it does not legally apply, and four flaws sharing one due date concentrates that pressure into a single change window.</p>
+<h4>Cascade mechanism</h4>
+<p>The four flaws differ in ways that matter for the cascade. vCenter (CVE-2026-123890, 9.8) was exploited as a zero-day since September, attributed by Google Threat Intelligence to PRC-nexus group ARMORY CASTLE; proof-of-concept code is circulating in unverified repositories, at least one reported fake, and Rapid7's Metasploit pull request still had no code as of 23 November 09:00. Expressway (CVE-2026-76466) saw its first in-the-wild exploitation documented by F6 on 20 November (SGT), days after the public proof of concept — two internet-facing boxes breached, then a pivot to internal cluster nodes and root access. Roller was already actively exploited when added; NetWeaver is the oldest flaw of the four (a 2025 CVE). One due date therefore covers four different exploitation timelines, and the weakest-patched of the four sets the sector's exposure.</p>
+<h4>Who is exposed next</h4>
+<p>Organisations running any of the four products unpatched, above all internet-facing vCenter and Expressway deployments, and firms whose vendors or MSPs run them. The due date passing does not reduce that exposure.</p>
+<h4>Still unknown</h4>
+<p>Patch uptake across the four products; whether the due date passing changes attacker behaviour; and which circulating vCenter proof-of-concept repositories, if any, are genuine.</p>
+</article>
+
+<article class="panel geo">
+<h3>3.7 Binance — proof of reserves restores some confidence; laundering accelerates anyway</h3>
+<h4>What happened</h4>
+<p>Binance's 198-token zero-knowledge proof of reserves went live, formally announced on 14 November (snapshot 12 November 00:00 UTC, block height 975,493; BTC at 100.05%). Withdrawals had reopened on 87 networks, with full reopening aimed at about 22 November — but no completion confirmation had appeared by the 23 November briefing, and no final root-cause report had appeared in the window's briefings. Meanwhile the stolen funds kept moving. Elliptic's 20 November update says at least 2,310 BTC (about $149 million) of the stolen funds has gone into coinjoin mixers, about 90% of it since 17 November — almost all coordinated by Kruw, a Wasabi Wallet coordinator — and five of the nine largest ETH wallets were emptied since 17 November (about 488,000 ETH, about $860 million). About $2.35 billion remains in attacker-linked wallets and about $2.85 billion is frozen; very little has been cashed out. The 18,270 BTC stolen directly from Binance has still not moved. The laundering spans more than 27,000 wallets on at least 16 blockchains, about 55 services and about 90,000 transactions. Binance obtained a $6.5 billion worldwide freezing order from the Abu Dhabi Global Market Courts on 18 November (per the 22 Nov briefing record). Attribution to North Korea's TraderTraitor is per the FBI (31 October).</p>
+<p>Two earlier movements set the pace: on 17 November, 74,881 ETH (about $137 million) was dispersed within about an hour, and 34,279.66 ETH (about $63 million) moved from a wallet dormant since 30 October to three new addresses.</p>
+<p class="src">Source: <a href="https://www.elliptic.co/insights/how-north-korea-is-laundering-the-6-4-billion-stolen-from-binance/" target="_blank" rel="noopener noreferrer">Elliptic (updated 20 Nov)</a></p>
+<h4>Cascade mechanism</h4>
+<p>Proof of reserves and withdrawal reopening address customer confidence; they do not touch the laundering. The freezing order, the mixers and the dispersed wallets form a second, slower cascade through the crypto ecosystem: over-the-counter brokers, mixers and receiving exchanges must now decide what to do with funds that are publicly traced but still moving, and the acceleration after 17 November — 90% of the coinjoin volume in a few days — suggests the operators moved faster once the proof and reopening timetable were public.</p>
+<h4>Who is exposed next</h4>
+<p>OTC brokers, mixers and exchanges receiving the flows; Binance customers still waiting for full withdrawal reopening; and regulators watching whether a freezing order of this size can actually be enforced across 16 blockchains and 55 services.</p>
+<h4>Still unknown</h4>
+<p>Whether full withdrawal reopening was completed, and when; the final root cause; how much of the frozen $2.85 billion is recoverable and returns to customers; and the remaining-holdings total — Elliptic puts about $2.35 billion in attacker-linked wallets, while Lookonchain counts 602,402 ETH at about $1.09 billion. Those estimates are unreconciled and count different things; they must not be added together.</p>
+</article>
+
+<article class="panel geo">
+<h3>3.8 Cross-cutting read</h3>
+<p>Three patterns run through all seven topics:</p>
+<p><b>1. Supplier concentration is the main cascade.</b> The FSI, MetaM, KARTE's 754 keys, Wellington IT's credit-union platform and the suspected shared vendor behind the n0n Visa / JPMorgan / Mastercard publications (Qubole — reported, not confirmed; Qubole has not responded) all show the same shape: one provider's failure becomes dozens of firms' incidents. The question to ask of every vendor is now the one the n0n case forces: what customer data does it hold, which of your cloud roles can it assume, and are those roles still needed?</p>
+<p><b>2. AI is the entry point, not only the payload.</b> ARTEX (reported, unconfirmed at the Commission), AI-voice vishing (confirmed, Ukraine / FBI), CyberStrikeAI in the NBFC fraud (reported in one case), and agentic tooling elsewhere in the week all lower the cost of the first step — a call, a scan, a diverted loan — rather than the last one.</p>
+<p><b>3. Regulators are the amplifier.</b> The FSS's 274-firm call-in and 30 November deadline, Japan's FSA reporting order to Rakuten, India's Supreme Court directions and the RBI's 30 November KYC timetable, and the UK Bank of England / FCA / PRA cyber-resilience consultation (closing 26 February 2027) all convert single incidents into sector-wide work. Singapore's MAS warning against giving AI agents bank login credentials belongs in the same pattern. The 30 November convergence — Korean self-assessments and RBI KYC notification due the same day — is a coincidence of two separate regimes, not a coordinated deadline, but firms operating in both will feel it as one.</p>
+</article>
+</section>
+
+<section aria-labelledby="watch-h">
+<div class="sec-head"><h2 id="watch-h">What to watch next week</h2><p>Deadlines ahead, then watch items with no fixed date.</p></div>
+
+<h3>Table 4 — Deadlines ahead</h3>
+<div class="table-scroll"><table>
+<thead><tr><th style="width:24%">Date</th><th style="width:36%">Item</th><th style="width:40%">Why it matters</th></tr></thead>
+<tbody>
+<tr><td data-l="Date">Mon 24 Nov</td><td data-l="Item">Plaid KARTE per-company data handovers begin</td><td data-l="Why it matters">Expect a further wave of company disclosures as each firm learns its scope; watch for any key-misuse disclosure</td></tr>
+<tr><td data-l="Date">Mon 24 Nov 21:21 UTC (Tue 25 Nov 05:21 SGT)</td><td data-l="Item">Pixelleaks / Aixia Group AB publication deadline</td><td data-l="Why it matters">Watch for a publication; the Ekwiik deadline passed 22 Nov with nothing published</td></tr>
+<tr><td data-l="Date">Mon 24 Nov 22:22 UTC (Tue 25 Nov 06:22 SGT)</td><td data-l="Item">Pixelleaks / MT5 farm publication deadline</td><td data-l="Why it matters">Same watch as above</td></tr>
+<tr><td data-l="Date">~Wed 25 Nov</td><td data-l="Item">Veria Labs ruby2shell proof of concept expected</td><td data-l="Why it matters">Verify the repository before running anything; a genuine PoC raises exploitation risk for unpatched Ruby</td></tr>
+<tr><td data-l="Date">Week of 23 Nov</td><td data-l="Item">PaperCut 26.0.7 fix due</td><td data-l="Why it matters">Java4Shell fix for PaperCut users; confirm it ships and patch</td></tr>
+<tr><td data-l="Date">Mon 30 Nov</td><td data-l="Item">Korean FSI self-assessments due (274 firms)</td><td data-l="Why it matters">First-round results will show how much external exposure the FSS inspection surfaced</td></tr>
+<tr><td data-l="Date">Mon 30 Nov</td><td data-l="Item">RBI KYC Amendment Directions to be notified (India)</td><td data-l="Why it matters">Operationalised by 31 Dec 2026; banks' digital-arrest duties take shape</td></tr>
+<tr><td data-l="Date">Mon 1 Dec</td><td data-l="Item">Perforce Puppet CVE-2026-115731 federal remediation due (KEV)</td><td data-l="Why it matters">Watch patch uptake; PoC status is contested (see Table 3)</td></tr>
+<tr><td data-l="Date">Tue 2 Dec</td><td data-l="Item">LiteLLM CVE-2026-40217 federal remediation due (KEV)</td><td data-l="Why it matters">Public Nuclei-template PoC exists</td></tr>
+<tr><td data-l="Date">Wed 31 Dec</td><td data-l="Item">PHP 8.2 security support ends</td><td data-l="Why it matters">No further fixes for PHP 8.2 after this date; PHP 8.1 and older already unfixed</td></tr>
+<tr><td data-l="Date">Wed 31 Dec</td><td data-l="Item">RBI KYC Amendment Directions to be operationalised (India)</td><td data-l="Why it matters">Digital-arrest compliance duties land</td></tr>
+<tr><td data-l="Date">Thu 26 Feb 2027</td><td data-l="Item">UK Bank of England / FCA / PRA cyber-resilience consultation closes</td><td data-l="Why it matters">Sector-wide resilience rules in the making</td></tr>
+</tbody>
+</table></div>
+
+<h3>Watch items (no fixed date)</h3>
+<ul class="watch">
+<li><b>Plaid KARTE:</b> any disclosure that the 754 leaked integration keys were misused at a linked service; the staged restart in mid-January 2027.</li>
+<li><b>Binance:</b> confirmation (or not) of full withdrawal reopening; the final root-cause report; how much of the frozen $2.85 billion returns to customers.</li>
+<li><b>n0n:</b> any de-anonymisation of leak-site listings #242 / #243 (recorded only on naming); any Ekwiik/Pixelleaks publication; any retail-batch publication; any Qubole/Idera statement.</li>
+<li><b>Java4Shell:</b> AWS Lambda phase 2 confirmation (due date 22 Nov passed with no bulletin update); Temurin Java 27 Windows x64 build; Elastic fix-version releases; any KEV addition; any confirmed exploitation report; GreyNoise count (261 sessions / 7 IPs / 0 intrusions at the end of the window).</li>
+<li><b>vCenter:</b> patch uptake for CVE-2026-123890; Rapid7's Metasploit module (still no code as of 23 Nov 09:00); whether any circulating PoC repository is verified genuine.</li>
+<li><b>Rakuten:</b> whether the FSA issues a business improvement order; the class-action recruitment.</li>
+<li><b>Samsung Securities / KEPCO:</b> investigation findings, entry routes, any misuse of leaked data, and any customer-loss confirmations.</li>
+<li><b>ARTEX:</b> any new census or vendor post; a Commission follow-up (data-exposure confirmation, attribution); Korean FSI audit findings; BaaRai/ARTEX releases beyond v0.7.0 (verify the version from GitHub before reporting — v0.7.1 does not exist as of this check). The Bell Canada “agentic” breach stays out unless a tracked tool is named.</li>
+<li><b>India Supreme Court digital-arrest case:</b> the outcome of the 23 November hearing, once a primary report appears.</li>
+<li><b>Ukraine/FBI vishing group:</b> whether the arrests disrupt operations; the full victim list; whether the voice platform was shared or sold on.</li>
+</ul>
+</section>
+
+<section aria-labelledby="notin-h">
+<div class="sec-head"><h2 id="notin-h">Not included and why</h2><p>Items checked in the window and deliberately left out.</p></div>
+<details class="notincl">
+<summary>Show the items left out and why</summary>
+<ul>
+<li><b>Comerica Bank, 30m-record database allegedly for sale</b> — single-source claim, still uncorroborated on 20 Nov.</li>
+<li><b>HSBC Taiwan private banking, 10,000+ client records allegedly for sale</b> — the bank told TechNews (19 Nov) its investigation found no evidence of a leak; claim confirmed disputed.</li>
+<li><b>ERBANK Brazil, alleged 40GB leak; Banco Carrefour Brazil, alleged 70GB / 11m+ lines</b> — single-source claims; Carrefour said on 17 Nov it is investigating.</li>
+<li><b>Novo Banco, ~55,000 records allegedly offered for $4,500</b> — single-source claim, unverified.</li>
+<li><b>Vortex / Mycorpass (Carrington Mortgage Services), 134.55GB claimed</b> — deadline 19 Nov passed with nothing published.</li>
+<li><b>n0n / Block, n0n / GRAIL (56,684 provider records claimed), n0n / CarNow (33bn+ visitor records claimed)</b> — all unverified actor claims.</li>
+<li><b>EndZone / UCA General Insurance, 250GB claimed</b> — single-source ThreatMon claim (23 Nov 08:00 wire check).</li>
+<li><b>HYFLOCK / Samsung 1 TB claim</b> — single-source, unverified, non-BFSI.</li>
+<li><b>ThreatMon claims from 19 Nov (Block, Servier, Chiesi, HappyFresh, Nielsen)</b> — single-source, unverified.</li>
+<li><b>Cybernews POS card-theft research, 1m+ cards across 782 terminals, mostly Brazil</b> — a research finding, not a single victim breach; noted in the trends work, not carried as a breach.</li>
+<li><b>Aggregator PoC counts as facts (Java4Shell 70, vCenter 6 repos)</b> — unverified repository counts, not verified exploits; only verified PoCs are named and linked.</li>
+<li><b>livethreat.ai claim that CISA added CVE-2026-114938 (Java4Shell) to KEV on 19 Nov</b> — false; the catalogue was still v2026.11.20 with the CVE absent on 23 Nov.</li>
+<li><b>Bell Canada “agentic” breach</b> — Bell confirmed an “agentic threat actor” accessed systems 17 Nov, but no tracked tool is named; the AI-tool link is the reporter's inference, not an established link to ARTEX/Cairn/PentAGI/CyberStrikeAI/HexStrike AI.</li>
+<li><b>Elliptic “16 Nov update” figure (~$2.55bn still in theft-linked addresses)</b> — appears in no daily briefing 16–23 Nov and not in the Elliptic article text fetched; dropped rather than carried unsourced.</li>
+<li><b>SMBC Consumer Finance incident (up to 320,118 people)</b> — a different incident from the Plaid KARTE SMBC disclosure; not part of the KARTE total.</li>
+</ul>
+</details>
+</section>
+
+<section aria-labelledby="src-h" id="sources">
+<div class="sec-head"><h2 id="src-h">Sources</h2><p>Every primary hyperlink used in this report. Link text is the publication and date; translated sources are marked as translated from their language.</p></div>
+<ol class="sources">
+<li><a href="https://www.reuters.com/jp/markets/global-markets/HRST2GDHF5NP7JYFXV3BY5NWYY-2026-11-20/" target="_blank" rel="noopener noreferrer">Reuters Japan — SMBC / MUFG KARTE disclosures (20 Nov, translated from Japanese)</a></li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2158411.html" target="_blank" rel="noopener noreferrer">Impress Watch — Plaid investigation complete, restart targeted mid-January 2027 (20 Nov, translated from Japanese)</a></li>
+<li><a href="https://www.reuters.com/legal/government/jpmorgan-says-third-party-vendors-targeted-cyberattack-2026-11-19/" target="_blank" rel="noopener noreferrer">Reuters — JPMorgan says third-party vendors targeted in cyberattack (19 Nov)</a></li>
+<li><a href="https://cybernews.com/security/visa-jpmorgan-data-breach/" target="_blank" rel="noopener noreferrer">Cybernews — Visa confirms cyberattack as hackers claim JPMorgan was hit too (19–20 Nov)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/vendor-data-breach-exposes-chase-visa-mastercard-customer-info/" target="_blank" rel="noopener noreferrer">BleepingComputer — n0n claims Qubole attack behind Chase, Visa and Mastercard leaks (20 Nov)</a></li>
+<li><a href="https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-vsphere" target="_blank" rel="noopener noreferrer">Google Threat Intelligence Group — ARMORY CASTLE exploits VMware vCenter zero-day (19 Nov)</a></li>
+<li><a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV feed (catalogue v2026.11.20, 1,790 entries)</a></li>
+<li><a href="https://my.f5.com/manage/s/article/K000163926" target="_blank" rel="noopener noreferrer">F5 advisory K000163926 — CVE-2026-123007</a></li>
+<li><a href="https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities" target="_blank" rel="noopener noreferrer">Wiz — NGINX HTTP/2 RCE vulnerabilities (“NGINX2Root”, 18 Nov)</a></li>
+<li><a href="https://www.rapid7.com/blog/post/ve-cve-2026-123007-critical-nginx-http-2-integer-underflow-leads-to-rce-fixed/" target="_blank" rel="noopener noreferrer">Rapid7 — CVE-2026-123007 critical NGINX HTTP/2 integer underflow (18 Nov)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/" target="_blank" rel="noopener noreferrer">BleepingComputer — Cleverbridge warns hackers stole credit card numbers, CVVs in data breach (22 Nov)</a></li>
+<li><a href="https://www.ytn.co.kr/_ln/0102_202611231029292963" target="_blank" rel="noopener noreferrer">YTN — Samsung Securities disclosure (23 Nov, translated from Korean)</a></li>
+<li><a href="https://paydon.jp/2026/11/20/newsrelease20261120" target="_blank" rel="noopener noreferrer">Paydon / Infcurion official notice (20 Nov, translated from Japanese)</a></li>
+<li><a href="https://en.yna.co.kr/view/AEN20261122002700315?section=national/national" target="_blank" rel="noopener noreferrer">Yonhap News Agency — KEPCO confirms about 1.52 million people's data leaked (22 Nov)</a></li>
+<li><a href="https://www.koreatimes.co.kr/business/companies/20261122/kepco-reports-another-massive-data-breach" target="_blank" rel="noopener noreferrer">The Korea Times — KEPCO reports another massive data breach (22 Nov)</a></li>
+<li><a href="https://www.reuters.com/jp/business/OEOFCPRLSBO2DK22A6F6MB4VY4-2026-11-17/" target="_blank" rel="noopener noreferrer">Reuters Japan — Rakuten Securities announcement (17 Nov, translated from Japanese)</a></li>
+<li><a href="https://www3.nhk.or.jp/nhkworld/news/20261117de77429/" target="_blank" rel="noopener noreferrer">NHK WORLD-JAPAN — Rakuten Securities possible leak (17 Nov)</a></li>
+<li><a href="https://www.forescout.com/blog/bankweaver/" target="_blank" rel="noopener noreferrer">Forescout Research — BankWeaver (19 Nov)</a></li>
+<li><a href="https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching" target="_blank" rel="noopener noreferrer">CISA — Critical Java Vulnerability Requires Immediate Patching (17 Nov)</a></li>
+<li><a href="https://www.wiz.io/blog/cve-2026-114938-rce-java4shell-openjdk" target="_blank" rel="noopener noreferrer">Wiz — CVE-2026-114938 RCE Java4Shell OpenJDK (17 Nov)</a></li>
+<li><a href="https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/" target="_blank" rel="noopener noreferrer">Ruby — Multiple vulnerabilities in Regexp and String (advisory posted 18 Nov, published 19 Nov 00:00 UTC)</a></li>
+<li><a href="https://blog.cloudflare.com/ruby2shell-waf-protection/" target="_blank" rel="noopener noreferrer">Cloudflare — How Cloudflare WAF protects against ruby2shell (CVE-2026-132825) (20 Nov)</a></li>
+<li><a href="https://censys.com/advisory/cve-2026-132825/" target="_blank" rel="noopener noreferrer">Censys — Advisory: Ruby heap buffer overflow in string case conversion, CVE-2026-132825 (19 Nov)</a></li>
+<li><a href="https://www.elliptic.co/insights/how-north-korea-is-laundering-the-6-4-billion-stolen-from-binance/" target="_blank" rel="noopener noreferrer">Elliptic — How North Korea is laundering the $6.4 billion stolen from Binance (updated 20 Nov)</a></li>
+<li><a href="https://en.nocutnews.co.kr/news/6607910" target="_blank" rel="noopener noreferrer">NoCutNews (17 Nov, translated from Korean)</a></li>
+<li><a href="https://en.nocutnews.co.kr/news/6608411" target="_blank" rel="noopener noreferrer">NoCutNews (18 Nov, translated from Korean)</a></li>
+<li><a href="https://www.europesays.com/europe/185924/" target="_blank" rel="noopener noreferrer">Euronews / Europe Says — European Commission AI campaign (19 Nov)</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/" target="_blank" rel="noopener noreferrer">BleepingComputer — Ukraine/FBI arrest ransomware gang members tied to $40m in ransoms (19 Nov)</a></li>
+<li><a href="https://www.helpnetsecurity.com/2026/11/19/ukraine-ransomware-gang-arrests-fake-it-support-calls/" target="_blank" rel="noopener noreferrer">Help Net Security — Ukraine ransomware gang arrests, fake IT support calls (19 Nov)</a></li>
+<li><a href="https://news.tulsian.ai/news/regulation-legal/supreme-court-directs-rbi-kyc-amendments.html" target="_blank" rel="noopener noreferrer">Tulsian AI summary — Supreme Court directs RBI KYC amendments (19 Nov)</a></li>
+<li><a href="https://www.medianama.com/2026/11/223-ai-hackers-approved-loans-nbfc/" target="_blank" rel="noopener noreferrer">MediaNama — AI hackers approved loans NBFC (18 Nov)</a></li>
+<li><a href="https://www.medianama.com/2026/11/223-payu-cloud-server-breach/" target="_blank" rel="noopener noreferrer">MediaNama — PayU cloud server breach (19 Nov)</a></li>
+<li><a href="https://japancyberwatch.com/articles/karte-plaid-breach-integration-keys-2026" target="_blank" rel="noopener noreferrer">Japan Cyber Watch — KARTE Plaid breach integration keys (20 Nov)</a></li>
+<li><a href="https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA alert — CISA adds four known exploited vulnerabilities to catalog (20 Nov)</a></li>
+<li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV catalogue (live feed)</a></li>
+</ol>
+</section>
+
+<footer><p>Weekly strategic cyber intelligence report — 16–23 November 2026. Window: Monday 16 November to Monday 23 November 2026, Singapore time. Built from the daily BFSI briefings 11162026.html–11232026.html, the live wire (23 breaking / 110 entries, last checked 23 Nov 12:00 SGT) and the deep-research pages. Items are included only where reporting, an update or a follow-up fell in that window; gaps and conflicts are stated rather than smoothed over. Sources are hyperlinked to the original vendor, government or primary reporting; translated items link to the original-language article. Figures are flagged with their source; unreconciled figures are stated, not added together.</p></footer>
+</div>
+
+<style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:#1c1e22;color:#fff !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style>
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a>
+<script type="application/json" id="chart-data">{"charts":[{"catalogue_size":[{"date":"2026-11-13","entries":1781,"version":"v2026.11.13"},{"date":"2026-11-17","entries":1782,"version":"v2026.11.17"},{"date":"2026-11-18","entries":1786,"version":"v2026.11.18"},{"date":"2026-11-20","entries":1790,"version":"v2026.11.20"}],"chart_note":"9 additions in the week (1+4+4). Arithmetic checks: 1781+1+4+4=1790. The four 20 Nov additions all fell due 23 Nov; the 18 Nov batch fell due 21 Nov (LiteLLM excepted, 2 Dec); Puppet due 1 Dec.","id":"kev-additions-per-day","series":[{"additions":0,"date":"2026-11-16"},{"additions":1,"cve":"CVE-2026-115731 (Perforce Puppet Enterprise)","date":"2026-11-17"},{"additions":4,"cves":"CVE-2024-10441 (Synology), CVE-2026-40217 (LiteLLM), CVE-2026-90436 (Apache Axis), CVE-2026-90817 (REDCap)","date":"2026-11-18"},{"additions":0,"date":"2026-11-19"},{"additions":4,"cves":"CVE-2026-129448 (Apache Roller), CVE-2026-123890 (VMware vCenter), CVE-2025-42884 (SAP NetWeaver), CVE-2026-76466 (Cisco Expressway)","date":"2026-11-20"},{"additions":0,"date":"2026-11-21"},{"additions":0,"date":"2026-11-22"},{"additions":0,"date":"2026-11-23"}],"source":"briefs/2026-11-16-briefing.md through 2026-11-23-briefing.md; trends.md section 2","title":"CISA KEV additions by day, 16–23 Nov 2026","type":"bar"},{"chart_note":"Probing rose 19–21 Nov then plateaued; zero successful intrusions throughout; still not in CISA KEV at close of window. CORRECTS top-stories.md section 11, which says '197 sessions from 7 IPs as of 21 November' — 197 was the 20 Nov figure; 261 is the 21 Nov figure. See factcheck-and-build-notes.md.","id":"java4shell-greynoise","in_kev":false,"series":[{"date":"2026-11-19","ips":5,"label":"early 19 Nov","note":"'>150 matching requests' (SecurityWeek, 19 Nov) — a floor, not an exact count; plot as an annotated floor, not a point","sessions":null,"sessions_floor":150},{"date":"2026-11-19T15:00:00Z","ips":6,"note":"new IP 13.212.144.112 (Amazon EC2 Singapore)","sessions":192},{"date":"2026-11-20T08:58:00Z","ips":7,"note":"per-IP 70+64+25+22+6+5+5=197; seventh IP 185.184.192.254 (WorldStream, Netherlands), probing Jenkins endpoints","sessions":197},{"date":"2026-11-21T01:04:00Z","ips":7,"note":"per-IP 128+70+25+22+6+5+5=261; a 20 Nov 20:18 UTC snapshot already showed 261","sessions":261},{"date":"2026-11-22","ips":7,"note":"flat; confirmed by 22 Nov 03:37 UTC revisit","sessions":261},{"date":"2026-11-23T01:03:00Z","ips":7,"note":"flat; verified against live tracker 23 Nov 01:03 UTC","sessions":261}],"source":"hidden_files/deepcheck-20261120-afternoon.md, deepcheck-20261120-morning.md, deepcheck-20261121-morning.md, deepcheck-20261122-afternoon.md, deepcheck-20261123-morning.md; briefs 2026-11-21/22/23","successful_intrusions":0,"title":"Java4Shell (CVE-2026-114938) — GreyNoise probing sessions and IPs","type":"line"},{"chart_note":"Do NOT present 1,304 as 1,304 distinct newly exploited hosts. The +32 step is miner activity; the +7 step is real sessions. CORRECTS trends.md section 5, which attributes the +36 to xmrig — the +36 was the pre-window 15 Nov rise (see factcheck note).","id":"php2shell-greynoise","series":[{"count":1265,"date":"2026-11-16T01:04:00Z","note":"1,229 -> 1,265 (+36) happened 15 Nov, before this window"},{"count":1297,"date":"2026-11-17T09:01:00Z","note":"+32 — unattributed xmrig miner commands on already-established shells, NOT new exploit sessions"},{"count":1304,"date":"2026-11-18T00:58:00Z","note":"+7 — seven attributed exploit sessions, 17 Nov 22:52-23:01 UTC, fresh POST exploit traffic; new sessions"},{"count":1304,"date":"2026-11-20","note":"flat; BSI 17 Nov: broad exploitation still had not happened; Delft feed frozen since 15 Nov"}],"source":"hidden_files/deepcheck-20261116-morning.md, deepcheck-20261117-afternoon.md, deepcheck-20261118-morning.md","title":"PHP2Shell — GreyNoise successful exploitations (tag count)","type":"line"},{"chart_note":"Aggregator counts are unverified repositories; at least one vCenter PoC repo was reported fake in the same week. The verified set stayed at 2 all week. CORRECTS top-stories.md section 11 ('aggregator counts rose to 55') — 55 was the 19 Nov figure; 70 by 20 Nov.","do_not_plot":[{"reason":"trends.md section 4 gives '13' as the start of the 13 -> 24 -> 55 -> 70 rise but pins no date to it; do not plot without a date","value":13}],"id":"java4shell-poc-verified-vs-aggregator","series":[{"aggregator_cve_now":24,"date":"2026-11-18","verified":2},{"aggregator_cve_now":55,"date":"2026-11-19","verified":2},{"aggregator_cve_now":70,"date":"2026-11-20","verified":2},{"aggregator_cve_now":78,"date":"2026-11-23","note":"78 per 23 Nov 09:00 deep-research check; unverified, deliberately not used on the Java4Shell page","verified":2}],"source":"trends.md section 4; hidden_files/deepcheck-20261123-morning.md","title":"Java4Shell PoCs — aggregator count vs verified by reading code","type":"grouped-bar","verified_pocs":["arkrwn crash/leak reproducer (18 Nov)","ikow/java4shell-poc, Qi Deng — heap corruption confirmed on three products, not RCE (18 Nov)"]},{"chart_note":"Log scale is essential (140m vs 6k). Keep unverified claims (Comerica 30m, HSBC Taiwan 10k+, ERBANK 40GB, Banco Carrefour 70GB/11m+ lines, Novo Banco ~55k, n0n/Block, GRAIL, CarNow) OUT of this chart — list them separately as reported/unconfirmed, as trends.md section 3 does.","id":"confirmed-breach-sizes","series":[{"note":"Tally of company disclosures with overlaps; NOT 140m people. Components (ZOZO ~29.18m, Marui ~17.33m, JINS ~18.29m, SMBC up to ~14m, MUFG ~6.5m, DHC ~19.11m, Sharp up to 3.26m) must NOT be plotted alongside the total — double counting.","records":140000000,"tally_not_people":true,"victim":"Plaid KARTE — published per-client tally"},{"note":"Names and postal addresses; confirmed to AFP 14 Nov; missed by 16-17 Nov editions, catch-up 18 Nov","records":22000000,"victim":"Maileva / La Poste (France)"},{"note":"Upper bound across two non-overlapping groups: 11.25m login IDs + ~4.47m richer data; no passwords/PINs confirmed leaked","records":15720000,"victim":"Rakuten Securities (Japan)"},{"note":"650,487 KEPCO ON users (bank/card data) + 869,761 SRM users; per-system counts differ slightly between outlets (650,487 vs 654,487)","records":1520248,"victim":"KEPCO (South Korea)"},{"note":"Passwords, account info, transaction history; missed by 20-22 Nov briefs, wire catch-up 22 Nov","records":251172,"victim":"Paydon / Infcurion (Japan)"},{"note":"Reserve programme customer emails; marketing data, no financial/payment data","records":16000,"victim":"JPMorgan Chase (n0n publication)"},{"note":"Corrected up from ~6,800; crosses the 10,000-person 72-hour reporting duty","records":10418,"victim":"Mirae Asset Life (South Korea)"},{"note":"Voice of Customer complaints-system attachments; disclosed 23 Nov 09:29 SGT, after the morning briefing window","records":8241,"victim":"Samsung Securities (South Korea)"},{"note":"'>6,000' premium Asia-Pacific customers; marketing/travel data","records":6000,"victim":"Visa (n0n publication)"}],"source":"trends.md section 3; top-stories.md sections 1, 6, 7, 8, 9","title":"Confirmed large breaches this week (log scale) — records, not people","type":"bar-log"},{"chart_note":"Only two endpoints are verified here — show as two bars/points, do NOT interpolate a daily series. Eleven new breaking items in the window are listed in trends.md section 1 (OPTIMJACK, CSA mod_http2 alert, Rakuten; Banco do Brasil, Wellington IT; n0n Visa/JPMorgan/Mastercard publication, BankWeaver, SMBC/KARTE; Infcurion/Paydon; Cleverbridge, Samsung Securities).","id":"wire-growth","series":[{"breaking":12,"date":"2026-11-15T20:00:00+08:00","entries":58,"note":"Per trends.md section 1; NOT re-verified in this run — confirm against hidden_files/wire-check-20261115-2000.md before charting"},{"breaking":23,"date":"2026-11-23T12:00:00+08:00","entries":110,"note":"Verified: wire-check-20261123-1200.md, commit bfb72077, live file byte-identical to staged"}],"source":"trends.md section 1; hidden_files/wire-check-20261123-1200.md","title":"Live wire — breaking items and total entries","type":"two-point"},{"chart_note":"Show as separate dots with method/date labels, NEVER summed or averaged — different methods, dates and definitions of a console. The point of the chart is the order of magnitude (roughly 1,000-3,500) and the AS54600/PEG TECH concentration appearing in both SOCRadar and Spectrum. Canadian Cyber Centre advisory (21 Nov): ARTEX ~46%, CyberStrikeAI 28%, PentAGI 14% shares of observed AI-tool infrastructure. ScanMalware (19 Nov): finance 17% of mapped targets vs 4% baseline.","id":"artex-exposure-censuses","series":[{"artex_hosts":1608,"census":"Check Point","date":"2026-11-13","note":"Standing count cited when PenTestIT's 1,558 Shodan IPs were not added (16 Nov 17:00 check)"},{"artex_hosts":916,"census":"SOCRadar (US, snapshot 11 Nov)","date":"reported 2026-11-12","note":"Confirmed live ARTEX-family consoles; 512 in 19 /24 blocks, mostly AS54600 (PEG TECH)"},{"artex_hosts":969,"census":"ReversingLabs","date":"2026-11-18","note":"Favicon pivot confirms 969 live consoles; 11 ARTEX fork-families sharing the norma core"},{"artex_hosts":2335,"census":"Spectrum","date":"2026-11-18","note":"2,335 exposed offensive-AI consoles on 2,022 IPs; 47 ARTEX variants; 436 consoles in AS54600; trojanised Docker images at 7,946 pulls"},{"artex_hosts":2753,"cairn":23,"census":"Cato Networks","cyberstrikeai":2383,"date":"2026-11-18","note":"Publicly visible servers","pentagi":775},{"artex_hosts":3447,"census":"ExtraHop","date":"reported 2026-11-17","note":"9.5% also carry another agentic framework, CyberStrikeAI most frequent"}],"source":"trends.md section 6; hidden_files/deepcheck-20261122-morning.md (Canadian advisory)","title":"Offensive-AI exposure censuses — ARTEX hosts by census (not like-for-like)","type":"dot-range"}],"dates_to_watch_after_the_window":[{"date":"2026-11-24","item":"Plaid per-company KARTE data handovers begin — expect a further wave of company disclosures"},{"date":"2026-11-24","item":"Pixelleaks deadlines: Aixia Group AB 21:21 UTC; MT5 algo-trading farm 22:22 UTC"},{"date":"2026-11-25","item":"Veria Labs ruby2shell PoC expected (~25 Nov)"},{"date":"2026-11-23","item":"Rapid7 vCenter Metasploit module expected today, not yet landed at 09:00 SGT (23 Nov briefing)"},{"date":"week of 2026-11-23","item":"PaperCut 26.0.7 due (Java4Shell fix)"},{"date":"2026-11-30","item":"Korean FSS self-assessments due (274 firms); FSC regulation advance-notice period ends; RBI KYC Amendment Directions to be notified"},{"date":"2026-12-01","item":"KEV due date: Puppet CVE-2026-115731"},{"date":"2026-12-02","item":"KEV due date: LiteLLM CVE-2026-40217"},{"date":"2026-12-31","item":"PHP 8.2 security support ends; RBI KYC directions operationalised"},{"date":"2027-01","item":"KARTE staged restart targeted mid-January 2027"},{"date":"2027-02-26","item":"UK BoE/FCA/PRA cyber-resilience consultation closes"}],"how_to_use":"Each chart lists only dated, verified points with its source file. Points marked 'do_not_plot' must not appear on the chart. Caveats in 'chart_note' must travel with the chart on the page, not sit in a footnote the reader never sees. All counts are as reported in the daily briefs / deep-research logs cited; no figure was re-fetched live in this run.","prepared":"2026-11-23T05:45:00Z","prepared_by":"proactivity research run — additive to weekly-report-20261123/top-stories.md, trends.md, geopolitical.md (do not edit those files from here; the main build is in flight)","timelines_for_visuals":[{"events":[{"date":"2026-11-09","event":"FSI breach: webshell attack 13:54 fails; SMS-auth bypass creates fake FSS-level account"},{"date":"2026-11-13","event":"FSC gives timeline to National Assembly"},{"date":"2026-11-15","event":"Coinone breach disclosed (via support contractor MetaM); ~70h40m to disclose"},{"date":"2026-11-16","event":"FSC special audit of FSI begins; FSI evaluation system shut down (2,912 firms' appeals blocked)"},{"date":"2026-11-17","event":"FSS summons CISOs/security officers of 227 e-finance + 47 investment-linked firms (274 total); self-assessments due 30 Nov; Spoon (~18,000) and Zoomfund (~KRW 300m) disclosed; surprise branch inspections at four banks begin"},{"date":"2026-11-21","event":"Traces of Samsung Securities intrusion found (afternoon)"},{"date":"2026-11-22","event":"KEPCO breach disclosed (~1.52m people, incl. bank/card data of ~650,487 KEPCO ON users)"},{"date":"2026-11-23T09:29:00+08:00","event":"Samsung Securities discloses breach of Voice of Customer system — 8,241 customers; fourth Korean securities firm in the wave"}],"id":"korea-regulatory-cascade","source":"geopolitical.md section 1; top-stories.md sections 6, 8","title":"Korea — from the FSI breach to a sector-wide inspection","type":"timeline"},{"chart_note":"84m (19 Nov) and 140m (20 Nov) are the two dated tally milestones in the briefs; earlier totals were not pinned to a date in the extracted text — do not invent intermediate points.","id":"karte-cascade","series":[{"date":"2026-11-13","event":"Attack on KARTE platform"},{"date":"2026-11-18","event":"MUFG Bank ~6.5m disclosed"},{"date":"2026-11-19","event":"Published totals pass 84m (DHC ~19.11m, Sharp up to 3.26m)"},{"date":"2026-11-20","event":"Investigation complete; ZOZO ~29.1m, Marui ~17.3m — totals pass 140m; SMBC up to ~14m (largest single-bank figure)"},{"date":"2026-11-23","event":"JINS ~18.29m; totals still >140m (tally, not people); per-company data handovers begin 24 Nov; staged restart targeted mid-Jan 2027"}],"source":"briefs/2026-11-20-briefing.md, 2026-11-21-briefing.md, 2026-11-23-briefing.md; top-stories.md section 1","title":"Plaid KARTE — published per-client totals through the week","type":"stepped-total"}],"unreconciled_figures_never_chart_as_single_values":["NBFC loan-diversion fraud: ₹65 crore / 12 NBFCs vs ~₹105.67 crore / 14 NBFCs","OPTIMJACK crypto taken: $7,040 vs $2,300","Binance remaining holdings: Elliptic ~$2.35bn vs Lookonchain 602,402 ETH ~$1.09bn","KEPCO ON users: 650,487 (Yonhap/Korea Herald) vs 654,487 (another outlet)"],"window":"Monday 16 November to Monday 23 November 2026 (Singapore time)"}</script>
+<script>
+(function(){
+"use strict";
+var DATA=JSON.parse(document.getElementById('chart-data').textContent);
+var NS='http://www.w3.org/2000/svg';
+var INK='var(--ink)',MUT='var(--muted)',LINE='var(--line)',ACC='var(--accent)',ACC2='var(--accent2)',OK='var(--ok)',WARN='var(--warn)';
+function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a){e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
+function S(e,s){e.setAttribute('style',s);return e;}
+function txt(p,x,y,s,fill,size,anchor,weight){var t=el('text',{x:x,y:y,'font-size':size||12,'text-anchor':anchor||'start'},p);t.setAttribute('style','fill:'+(fill||INK)+(weight?';font-weight:'+weight:''));t.textContent=s;return t;}
+function tip(p,s){var t=el('title',{},p);t.textContent=s;return t;}
+function fmt(n){return n.toLocaleString('en-US');}
+function wrap(s,max){var w=s.split(' '),o=[],c='';w.forEach(function(x){if((c+' '+x).trim().length>max){if(c)o.push(c);c=x;}else{c=(c+' '+x).trim();}});if(c)o.push(c);return o;}
+function mkSvg(mount,w,h,label){return el('svg',{viewBox:'0 0 '+w+' '+h,role:'img','aria-label':label},mount);}
+function hgrid(s,x0,x1,y,lab){S(el('line',{x1:x0,y1:y,x2:x1,y2:y},s),'stroke:'+LINE+';stroke-width:1');if(lab!==undefined){txt(s,x0-6,y+4,lab,MUT,11,'end');}}
+function xaxis(s,x0,x1,y){S(el('line',{x1:x0,y1:y,x2:x1,y2:y},s),'stroke:'+LINE+';stroke-width:1.5');}
+function legend(s,items,x,y){items.forEach(function(it,i){var r=el('rect',{x:x,y:y+i*20,width:12,height:12},s);S(r,'fill:'+it[1]);txt(s,x+18,y+i*20+11,it[0],MUT,11,'start');});}
+function dayLabel(d){return d.slice(8,10).replace(/^0/,'')+' Nov';}
+
+function kev(c,mount){
+  var s=mkSvg(mount,760,340,c.title);
+  var L=46,R=14,T=26,B=46,W=760-L-R,H=340-T-B,max=5;
+  function Y(v){return T+H-(v/max)*H;}
+  [0,1,2,3,4,5].forEach(function(v){hgrid(s,L,L+W,Y(v),String(v));});
+  xaxis(s,L,L+W,T+H);
+  var bw=W/8*0.58;
+  c.series.forEach(function(d,i){
+    var x=L+W/8*i+W/8/2-bw/2;
+    var bar=el('rect',{x:x,y:Y(d.additions),width:bw,height:T+H-Y(d.additions)},s);
+    S(bar,'fill:'+ACC2);
+    tip(bar,d.date+': '+d.additions+' KEV addition'+(d.additions===1?'':'s')+(d.cves?'. '+d.cves:(d.cve?'. '+d.cve:'')));
+    txt(s,x+bw/2,Y(d.additions)-6,String(d.additions),INK,13,'middle','700');
+    txt(s,L+W/8*i+W/8/2,T+H+20,dayLabel(d.date),MUT,11,'middle');
+  });
+  legend(s,[['Additions per day',ACC2]],L+W-150,T-14);
+}
+
+function j4gn(c,mount){
+  var pts=c.series.filter(function(d){return d.sessions!==null;});
+  var s=mkSvg(mount,760,350,c.title);
+  var L=52,R=16,T=34,B=54,W=760-L-R,H=350-T-B,max=300;
+  function Y(v){return T+H-(v/max)*H;}
+  function X(i){return L+W/(pts.length-1)*i;}
+  [0,100,200,300].forEach(function(v){hgrid(s,L,L+W,Y(v),String(v));});
+  xaxis(s,L,L+W,T+H);
+  S(el('line',{x1:L,y1:Y(150),x2:L+W,y2:Y(150)},s),'stroke:'+WARN+';stroke-width:1.5;stroke-dasharray:5 4');
+  txt(s,L+W-4,Y(150)-6,'floor >150 (early 19 Nov) — not a point',WARN,11,'end');
+  var path='M'+pts.map(function(d,i){return X(i)+' '+Y(d.sessions);}).join(' L');
+  S(el('path',{d:path,fill:'none'},s),'stroke:'+ACC2+';stroke-width:2.5');
+  pts.forEach(function(d,i){
+    var dot=el('circle',{cx:X(i),cy:Y(d.sessions),r:5},s);S(dot,'fill:'+ACC2);
+    tip(dot,d.date+': '+d.sessions+' sessions from '+d.ips+' IPs. '+d.note+' Successful intrusions: 0.');
+    txt(s,X(i),Y(d.sessions)-10,String(d.sessions),INK,13,'middle','700');
+    txt(s,X(i),T+H+20,dayLabel(d.date),MUT,11,'middle');
+    txt(s,X(i),T+H+36,d.ips+' IPs',MUT,11,'middle');
+  });
+  txt(s,L,T-14,'sessions',MUT,11,'start');
+}
+
+function p2gn(c,mount){
+  var s=mkSvg(mount,760,350,c.title);
+  var L=58,R=16,T=34,B=54,W=760-L-R,H=350-T-B,lo=1200,hi=1320;
+  function Y(v){return T+H-((v-lo)/(hi-lo))*H;}
+  function X(i){return L+W/(c.series.length-1)*i;}
+  [1200,1250,1300].forEach(function(v){hgrid(s,L,L+W,Y(v),fmt(v));});
+  xaxis(s,L,L+W,T+H);
+  var path='M'+c.series.map(function(d,i){return X(i)+' '+Y(d.count);}).join(' L');
+  S(el('path',{d:path,fill:'none'},s),'stroke:'+ACC2+';stroke-width:2.5');
+  c.series.forEach(function(d,i){
+    var dot=el('circle',{cx:X(i),cy:Y(d.count),r:5},s);S(dot,'fill:'+ACC2);
+    tip(dot,d.date+': '+fmt(d.count)+' successful exploitations. '+d.note);
+    txt(s,X(i),Y(d.count)-10,fmt(d.count),INK,13,'middle','700');
+    txt(s,X(i),T+H+20,dayLabel(d.date),MUT,11,'middle');
+  });
+  txt(s,L,T-14,'successful exploitations (axis starts at 1,200)',MUT,11,'start');
+}
+
+function poc(c,mount){
+  var s=mkSvg(mount,760,340,c.title);
+  var L=46,R=14,T=30,B=46,W=760-L-R,H=340-T-B,max=80;
+  function Y(v){return T+H-(v/max)*H;}
+  [0,20,40,60,80].forEach(function(v){hgrid(s,L,L+W,Y(v),String(v));});
+  xaxis(s,L,L+W,T+H);
+  var gw=W/4,bw=gw*0.28;
+  c.series.forEach(function(d,i){
+    var cx=L+gw*i+gw/2;
+    var b1=el('rect',{x:cx-bw-3,y:Y(d.aggregator_cve_now),width:bw,height:T+H-Y(d.aggregator_cve_now)},s);
+    S(b1,'fill:'+ACC);
+    tip(b1,d.date+': aggregator count '+d.aggregator_cve_now+' (unverified repositories).'+(d.note?' '+d.note:''));
+    var b2=el('rect',{x:cx+3,y:Y(d.verified),width:bw,height:T+H-Y(d.verified)},s);
+    S(b2,'fill:'+OK);
+    tip(b2,d.date+': '+d.verified+' verified by reading code (arkrwn crash/leak reproducer; ikow/java4shell-poc).');
+    txt(s,cx-bw/2-3,Y(d.aggregator_cve_now)-6,String(d.aggregator_cve_now),INK,12,'middle','700');
+    txt(s,cx+bw/2+3,Y(d.verified)-6,String(d.verified),INK,12,'middle','700');
+    txt(s,cx,T+H+20,dayLabel(d.date),MUT,11,'middle');
+  });
+  legend(s,[['Aggregator count (unverified)',ACC],['Verified by reading code',OK]],L+4,T-18);
+}
+
+function breach(c,mount){
+  var rows=c.series,rowH=42,top=34,bottom=14;
+  var H=top+rows.length*rowH+bottom;
+  var s=mkSvg(mount,760,H,c.title);
+  var labW=205,L=labW+10,R=110,W=760-L-R,lo=3.5,hi=8.3;
+  function X(v){return L+((Math.log10(v)-lo)/(hi-lo))*W;}
+  var defs=el('defs',{},s);
+  var pat=el('pattern',{id:'hatch',width:9,height:9,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},defs);
+  S(el('rect',{width:9,height:9},pat),'fill:'+ACC2);
+  S(el('line',{x1:0,y1:0,x2:0,y2:9},pat),'stroke:var(--surface);stroke-width:2.5');
+  [4,5,6,7,8].forEach(function(p){
+    var v=Math.pow(10,p);
+    S(el('line',{x1:X(v),y1:top-8,x2:X(v),y2:top+rows.length*rowH},s),'stroke:'+LINE+';stroke-width:1');
+    txt(s,X(v),top-14,['10k','100k','1m','10m','100m'][p-4],MUT,11,'middle');
+  });
+  rows.forEach(function(d,i){
+    var y=top+i*rowH;
+    var bw=Math.max(2,X(d.records)-L);
+    var bar=el('rect',{x:L,y:y+6,width:bw,height:22},s);
+    if(d.tally_not_people){bar.setAttribute('fill','url(#hatch)');}else{S(bar,'fill:'+ACC2);}
+    tip(bar,d.victim+': '+fmt(d.records)+' records. '+d.note);
+    var val=(d.records/1e6).toFixed(2).replace(/0+$/,'').replace(/\.$/,'')+'m';
+    if(d.records<1e6){val=fmt(d.records);}
+    if(d.tally_not_people){val=val+' (tally, not people)';}
+    if(bw>150){ txt(s,L+bw-8,y+22,val,'var(--surface)',12,'end','700'); }
+    else{ txt(s,L+bw+6,y+22,val,INK,12,'start','700'); }
+  });
+  txt(s,L,H-2,'records (log scale)',MUT,11,'start');
+}
+
+function wire(c,mount){
+  var s=mkSvg(mount,760,350,c.title);
+  var L=46,R=14,T=30,B=54,W=760-L-R,H=350-T-B,max=120;
+  function Y(v){return T+H-(v/max)*H;}
+  [0,30,60,90,120].forEach(function(v){hgrid(s,L,L+W,Y(v),String(v));});
+  xaxis(s,L,L+W,T+H);
+  var gw=W/2,bw=gw*0.26;
+  c.series.forEach(function(d,i){
+    var cx=L+gw*i+gw/2;
+    var b1=el('rect',{x:cx-bw-4,y:Y(d.breaking),width:bw,height:T+H-Y(d.breaking)},s);
+    S(b1,'fill:'+ACC);
+    tip(b1,d.date+': '+d.breaking+' breaking items. '+d.note);
+    var b2=el('rect',{x:cx+4,y:Y(d.entries),width:bw,height:T+H-Y(d.entries)},s);
+    S(b2,'fill:'+ACC2);
+    tip(b2,d.date+': '+d.entries+' total wire entries. '+d.note);
+    txt(s,cx-bw/2-4,Y(d.breaking)-6,String(d.breaking),INK,13,'middle','700');
+    txt(s,cx+bw/2+4,Y(d.entries)-6,String(d.entries),INK,13,'middle','700');
+    txt(s,cx,T+H+20,dayLabel(d.date)+' '+d.date.slice(11,16)+' SGT',MUT,11,'middle');
+  });
+  legend(s,[['Breaking items',ACC],['Total wire entries',ACC2]],L+W-210,T-18);
+}
+
+function artex(c,mount){
+  var pts=c.series.slice().sort(function(a,b){
+    var da=/(\d{4}-\d{2}-\d{2})/.exec(a.date)[1],db=/(\d{4}-\d{2}-\d{2})/.exec(b.date)[1];
+    return da<db?-1:(da>db?1:0);
+  });
+  var s=mkSvg(mount,760,380,c.title);
+  var L=52,R=16,T=30,B=72,W=760-L-R,H=380-T-B,max=3600;
+  function Y(v){return T+H-(v/max)*H;}
+  function X(i){return L+W/(pts.length-1)*i;}
+  [0,1000,2000,3000].forEach(function(v){hgrid(s,L,L+W,Y(v),fmt(v));});
+  xaxis(s,L,L+W,T+H);
+  pts.forEach(function(d,i){
+    var dot=el('circle',{cx:X(i),cy:Y(d.artex_hosts),r:7},s);S(dot,'fill:'+ACC);
+    tip(dot,d.census+' ('+d.date+'): '+fmt(d.artex_hosts)+' ARTEX hosts. '+d.note);
+    txt(s,X(i),Y(d.artex_hosts)-12,fmt(d.artex_hosts),INK,12,'middle','700');
+    var dl=d.date.indexOf('reported')===0?'reported '+dayLabel(d.date.slice(9)):dayLabel(d.date);
+    var lines=wrap(d.census,15);
+    lines.forEach(function(ln,j){txt(s,X(i),T+H+20+j*13,ln,MUT,11,'middle');});
+    txt(s,X(i),T+H+20+lines.length*13+2,dl,MUT,10,'middle','700');
+  });
+  txt(s,L,T-14,'ARTEX hosts',MUT,11,'start');
+}
+
+var KOREA_SHORT=[
+  'FSI breach — fake FSS account created',
+  'FSC gives timeline to National Assembly',
+  'Coinone breach disclosed',
+  'FSI special audit begins; evaluation system shut',
+  'FSS summons 274 firms; self-assessments due 30 Nov',
+  'Traces of Samsung Securities intrusion found',
+  'KEPCO breach disclosed (~1.52m people)',
+  'Samsung Securities discloses breach — 8,241 customers'
+];
+var KARTE_SHORT=[
+  'Attack on KARTE platform',
+  'MUFG Bank ~6.5m disclosed',
+  'Published totals pass 84m',
+  'Investigation complete; totals pass 140m; SMBC up to ~14m',
+  'JINS ~18.29m; totals still >140m (tally)'
+];
+function timeline(c,mount,shorts,Hh){
+  var evs=c.events||c.series;
+  var s=mkSvg(mount,760,Hh,c.title);
+  var L=30,R=30,T=20,W=760-L-R;
+  var times=evs.map(function(e){return new Date(e.date).getTime();});
+  var t0=Math.min.apply(null,times),t1=Math.max.apply(null,times);
+  function X(t){return L+((t-t0)/(t1-t0))*W;}
+  var mid=Math.round(Hh/2);
+  S(el('line',{x1:L,y1:mid,x2:L+W,y2:mid},s),'stroke:'+LINE+';stroke-width:2');
+  txt(s,L,Hh-6,dayLabel(evs[0].date),MUT,11,'start');
+  txt(s,L+W,Hh-6,dayLabel(evs[evs.length-1].date),MUT,11,'end');
+  evs.forEach(function(e,i){
+    var x=X(new Date(e.date).getTime());
+    var dot=el('circle',{cx:x,cy:mid,r:6},s);S(dot,'fill:'+ACC);
+    tip(dot,e.date+': '+e.event);
+    var tier=i%4,above=(tier===0||tier===2),far=(tier===2||tier===3);
+    var lines=wrap(shorts[i],24);
+    var topY,botY;
+    if(above){ topY= far? mid-118 : mid-64; }
+    else{ topY= far? mid+66 : mid+30; }
+    S(el('line',{x1:x,y1:mid,x2:x,y2: above? topY+lines.length*13+14 : topY-12},s),'stroke:'+LINE+';stroke-width:1');
+    lines.forEach(function(ln,j){txt(s,x,topY+j*13,ln,INK,11,'middle');});
+    txt(s,x, above? topY-8 : topY+lines.length*13+2, dayLabel(e.date),MUT,10,'middle','700');
+  });
+}
+
+var RENDER={
+  'kev-additions-per-day':kev,
+  'java4shell-greynoise':j4gn,
+  'php2shell-greynoise':p2gn,
+  'java4shell-poc-verified-vs-aggregator':poc,
+  'confirmed-breach-sizes':breach,
+  'wire-growth':wire,
+  'artex-exposure-censuses':artex,
+  'korea-regulatory-cascade':function(c,m){timeline(c,m,KOREA_SHORT,330);},
+  'karte-cascade':function(c,m){timeline(c,m,KARTE_SHORT,300);}
+};
+function byId(id){
+  for(var i=0;i<DATA.charts.length;i++){if(DATA.charts[i].id===id)return DATA.charts[i];}
+  for(var j=0;j<DATA.timelines_for_visuals.length;j++){if(DATA.timelines_for_visuals[j].id===id)return DATA.timelines_for_visuals[j];}
+  return null;
+}
+document.querySelectorAll('.chart[data-chart]').forEach(function(m){
+  var c=byId(m.getAttribute('data-chart'));
+  if(c&&RENDER[c.id]){RENDER[c.id](c,m);}
+});
+})();
+</script>
+</body>
+</html>
