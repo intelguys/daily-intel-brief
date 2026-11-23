@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Name, account number and driver's licence number for 8,241 Samsung Securities customers enables identity fraud and highly targeted phishing against those customers, and gives attackers a verified customer list for impersonation calls and messages citing the incident. Only customers who filed through the Voice of Customer complaints system are affected; the firm's trading and payment systems are not reported breached, so the immediate risk is social engineering and identity fraud rather than direct account takeover. The disclosure adds a fourth Korean securities firm to the current breach wave and comes days after the Financial Supervisory Service summoned 227 e-finance and 47 investment-linked firms over the sector's security failures.",
+      "headline": "Samsung Securities discloses breach of customer-complaints system; account numbers and driver's licence numbers of 8,241 customers leaked",
+      "id": "breaking-samsung-securities-20261123",
+      "known": "Samsung Securities disclosed on 23 November 2026 that an unauthorised outsider accessed its website's Voice of Customer (VOC) complaints system and exfiltrated attachments customers had uploaded with complaints. The firm found traces of the intrusion on the afternoon of 21 November. Attachments belonging to 8,241 customers leaked; the leaked fields total 13 items, varying by person, including name, account number, address, contact details and driver's licence number. Only customers who had filed via the VOC system are affected; other customers are not. Chief executive Park Jong-moon posted an apology on the company website on 23 November. The firm blocked the IP address used, suspended the VOC service, applied firewall blocking, reported to the Financial Supervisory Service and the Korea Internet & Security Agency, and will notify affected customers individually; it says it will compensate customers if actual loss is confirmed.",
+      "severity": "high",
+      "source_name": "YTN, 23 November 2026 (translated from Korean); Yonhap; Donga Ilbo; SBS; CNA",
+      "source_url": "https://www.ytn.co.kr/_ln/0102_202611231029292963",
+      "status": "confirmed",
+      "summary": "Samsung Securities disclosed on 23 November 2026 that an unauthorised outsider accessed its Voice of Customer complaints system on 21 November and exfiltrated attachments from 8,241 customers, including names, account numbers, addresses, contact details and driver's licence numbers across 13 fields. Only customers who filed via the complaints system are affected. The firm blocked the IP, suspended the service, reported to the Financial Supervisory Service and the Korea Internet & Security Agency, and will notify affected customers individually.",
+      "timestamp_sgt": "2026-11-23T09:29:00+08:00",
+      "type": "Major breach — Korean securities firm, customer data",
+      "unknown": "Who carried out the attack and how they entered the Voice of Customer system; whether any of the leaked data has been misused for fraud; and whether any affected customer has suffered a loss."
+    },
+    {
       "bfsi_impact": "Payment card numbers, expiry dates and CVV/CVC security codes stolen from a payment processor create direct card-fraud risk for every customer who bought through Cleverbridge, including buyers from software vendors such as Red Hat, SUSE, Tenable, Veeam, Jamf, Sony and Parallels. Stolen CVVs let attackers use the cards for online purchases, so issuing banks should watch for unauthorised transactions and consider replacing affected cards, and customers should review statements. Cleverbridge has notified the card networks, payment partners, data protection authorities and law enforcement, and is offering credit monitoring through TransUnion's Cyberscout.",
       "headline": "Payment processor Cleverbridge breached; hackers stole card numbers, expiry dates and CVVs",
       "id": "breaking-cleverbridge-20261122",
@@ -1851,8 +1865,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-23T08:00:00+08:00",
-  "next_check_sgt": "2026-11-23T12:00:00+08:00",
-  "updated_sgt": "2026-11-23T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-23T12:00:00+08:00",
+  "next_check_sgt": "2026-11-23T16:00:00+08:00",
+  "updated_sgt": "2026-11-23T12:00:00+08:00",
   "version": 1
 }
