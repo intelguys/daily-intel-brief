@@ -514,7 +514,7 @@ details.app h3{margin-top:18px}
 <div class="story">
 <p class="story-eyebrow">vCenter zero-day</p>
 <h3 class="takeaway-head"><a href="https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-vsphere" target="_blank" rel="noopener noreferrer">9.8 vCenter zero-day exploited since early September</a>.</h3>
-<p>Scored 9.8 by Broadcom, exploited since early September 2026 by ARMORY CASTLE (suspected PRC-nexus, formerly UNC5221) via a BeyondTrust Remote Support zero-day, CVE-2026-102764. The actor created a vSphere SSO admin account, exfiltrated the directory database and stole the STS SAML signing key ("Golden SAML"). Patched 19 November, listed in KEV 20 November, federal due date 23 November. No verified public proof of concept; at least one reported fake.</p>
+<p>Scored 9.8 by Broadcom, exploited since early September 2026 by ARMORY CASTLE (suspected PRC-nexus, formerly UNC5221) via a BeyondTrust Remote Support zero-day, CVE-2026-102764. The actor created a vSphere SSO admin account, exfiltrated the directory database and stole the STS SAML signing key ("Golden SAML"). Patched 19 November, listed in KEV 20 November, federal due date 23 November. No verified public proof of concept as of 23 November 09:00 SGT; at least one reported fake.</p>
 </div>
 <div class="story">
 <p class="story-eyebrow">NGINX2Root</p>
@@ -688,6 +688,7 @@ details.app h3{margin-top:18px}
 </section>
 <section aria-labelledby="s10">
 <div class="sec-head"><h2 id="s10"><span class="sec-num">10</span> Outlook and intelligence gaps</h2><p>Global judgments for the next 6–12 months, labelled as judgments, not facts. Each carries a falsifying signpost; first check for all five is the 30 November edition (Outlook 4 interim; quarterly thereafter).</p></div>
+<h3>What to expect</h3>
 <p>From 24 November, per-company handovers begin for the <a href="https://www.watch.impress.co.jp/docs/news/2158411.html" target="_blank" rel="noopener noreferrer">Plaid KARTE</a> breach, in which integration credentials were exposed for 754 client companies and no key misuse had been disclosed as of 20 November; further disclosures are likely as handovers proceed. In Korea, self-assessments from 274 firms fall due on 30 November, and intrusion attempts through external contact points continued, above all at smaller operators, so further peripheral-system breaches by then remain likely.</p>
 <p>For vCenter, the picture has already moved: a first public proof of concept with real code was reported on 23 November, after this report's 23 November 09:00 snapshot — the <a href="https://github.com/dinosn/CVE-2026-123890" target="_blank" rel="noopener noreferrer">dinosn repository</a>, whose contents were checked but not run. If that code proves usable, wider exploitation is likely to follow sooner than Outlook 2 anticipates. Deadlines are unlikely to become a reliable predictor: three n0n deadline sets passed quietly, and publication followed a different deadline's expiry a day late, so the two Pixelleaks deadlines on 24 November — Aixia Group AB at 21:21 UTC and an MT5 algo-trading farm at 22:22 UTC — are a test of whether that actor publishes on time.</p>
 <p>AI-voice fraud is likely to keep spreading. The Ukraine and FBI arrests confirmed AI-voice calls as a ransomware entry point, while <a href="https://unit42.paloaltonetworks.com/com-affiliate-vishing-attacks/" target="_blank" rel="noopener noreferrer">Unit 42</a> reported Com-affiliate vishing waves accelerating sharply around August 2026. Visa frames AI as accelerating existing fraud rather than creating new categories, so the expectation is more of the same, faster and at greater scale — and a further confirmed bank-adjacent case within the quarter.</p>
@@ -703,7 +704,7 @@ details.app h3{margin-top:18px}
 <h3 class="takeaway-head">It is likely that vCenter exploitation will widen once public exploit code lands.</h3>
 <p><span class="mchip conf-medium">Medium confidence</span></p>
 <p>No verified public proof of concept as of 23 November 09:00 SGT (Rapid7's Metasploit module still had no code then; at least one public repo reported fake). ARMORY CASTLE exploited it silently since early September, so other actors may already hold access.</p>
-<p><strong>Falsified if:</strong> no verified public proof of concept and no new victim or hunt finding by 30 November.</p>
+<p><strong>Falsified if:</strong> the dinosn code proves unusable and no confirmed exploitation, new victim or hunt finding appears by 30 November.</p>
 </div>
 <div class="story">
 <p class="story-eyebrow">Outlook 3</p>
