@@ -120,6 +120,28 @@
 .brief-toggle[aria-expanded="true"] { color: var(--mint); }
 .card-brief-hidden { display: none; }
 
+.brief-search { margin: 0 0 18px; }
+.brief-search label { display: block; margin-bottom: 8px; color: var(--text); font-size: 13px; font-weight: 650; letter-spacing: .04em; }
+.brief-search-row { display: flex; gap: 8px; }
+.brief-search input[type="search"] { flex: 1 1 auto; min-width: 0; min-height: 46px; padding: 0 14px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel); color: var(--text); font: inherit; font-size: 14px; -webkit-appearance: none; appearance: none; }
+.brief-search input[type="search"]:focus { outline: none; border-color: rgba(168,237,196,.45); }
+.brief-search input[type="search"]::placeholder { color: var(--muted); }
+.brief-search-clear { flex: 0 0 auto; min-height: 46px; padding: 0 16px; border: 1px solid var(--line); border-radius: 5px; background: transparent; color: #d3dddf; font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; }
+.brief-search-clear:hover { border-color: rgba(168,237,196,.45); color: var(--mint); }
+.brief-search-status { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.brief-search-results { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px; }
+.brief-search-results[hidden] { display: none; }
+.search-result { display: block; padding: 18px 20px; background: linear-gradient(145deg, rgba(17,34,45,.92), rgba(10,23,33,.88)); border: 1px solid var(--line); border-radius: 7px; overflow-wrap: anywhere; }
+.search-result:hover { border-color: rgba(168,237,196,.45); }
+.search-result-date { display: block; color: var(--mint); font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; }
+.search-result-title { display: block; margin: 8px 0 6px; font: 400 20px Georgia, "Times New Roman", serif; }
+.search-result-snippet { display: block; color: var(--muted); font-size: 13px; line-height: 1.65; }
+.search-result-snippet mark { background: var(--gold); color: #10251c; border-radius: 2px; padding: 0 1px; }
+@media (max-width: 760px) {
+  .brief-search-row { flex-direction: column; }
+  .brief-search-clear { width: 100%; }
+}
+
 </style>
 </head>
 <body>
@@ -182,6 +204,15 @@
 			<div class="section-heading">
 				<div><div class="eyebrow">Daily intelligence</div><h2 id="briefs-title">The latest, then the backstory.</h2></div>
 				<p>Regional threat briefings, incident reviews, and deep research—organized to help you move from the latest developments to the evidence and context.</p>
+			</div>
+			<div class="brief-search" role="search">
+				<label for="brief-search-input">Search the daily briefings</label>
+				<div class="brief-search-row">
+					<input type="search" id="brief-search-input" placeholder="Try KARTE, n0n, vCenter&hellip;" autocomplete="off" aria-describedby="brief-search-status">
+					<button type="button" class="brief-search-clear" id="brief-search-clear" hidden>Clear</button>
+				</div>
+				<p class="brief-search-status" id="brief-search-status" aria-live="polite"></p>
+				<div class="brief-search-results" id="brief-search-results" hidden></div>
 			</div>
 			<div class="grid">
 												<a class="card" href="11242026.html">
@@ -433,6 +464,149 @@
   }
   btn.addEventListener('click', function () { expanded = !expanded; render(); });
   render();
+})();
+</script>
+<script>
+(function () {
+  var input = document.getElementById('brief-search-input');
+  var clearBtn = document.getElementById('brief-search-clear');
+  var statusEl = document.getElementById('brief-search-status');
+  var resultsEl = document.getElementById('brief-search-results');
+  var grid = document.querySelector('#briefs .grid');
+  var toggleWrap = document.querySelector('.brief-toggle-wrap');
+  if (!input || !statusEl || !resultsEl || !grid) return;
+
+  var indexPromise = null; /* fetch('search-index.json') starts lazily, at most once */
+  var entries = null;
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function escRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function wordsOf(q) { return q.toLowerCase().split(/\s+/).filter(Boolean); }
+
+  /* Lazy load: first focus or first keystroke only; never on page load. */
+  function loadIndex() {
+    if (!indexPromise) {
+      indexPromise = fetch('search-index.json', { cache: 'no-store' })
+        .then(function (res) { if (!res.ok) throw new Error('search index fetch failed'); return res.json(); })
+        .then(function (data) { entries = (data && data.entries) || []; return entries; })
+        .catch(function () { entries = null; indexPromise = null; throw new Error('search unavailable'); });
+    }
+    return indexPromise;
+  }
+
+  /* Case-insensitive match against title + text + label; rank by match count, then newest date. */
+  function searchEntries(q) {
+    var words = wordsOf(q);
+    var scored = [];
+    entries.forEach(function (entry) {
+      var hay = ((entry.title || '') + ' ' + (entry.text || '') + ' ' + (entry.label || '')).toLowerCase();
+      var count = 0;
+      words.forEach(function (w) {
+        var idx = 0;
+        while ((idx = hay.indexOf(w, idx)) !== -1) { count++; idx += w.length; }
+      });
+      if (count > 0) scored.push({ entry: entry, count: count });
+    });
+    scored.sort(function (a, b) {
+      if (b.count !== a.count) return b.count - a.count;
+      return (b.entry.date || '').localeCompare(a.entry.date || '');
+    });
+    return scored;
+  }
+
+  /* Snippet: up to 12 words before and 18 words after the first match in entry.text,
+     with every query word highlighted. Falls back to the start of the text when the
+     match is only in the title or label. */
+  function snippetFor(entry, words) {
+    var text = entry.text || '';
+    var lower = text.toLowerCase();
+    var at = -1, wordLen = 0;
+    words.forEach(function (w) {
+      var i = lower.indexOf(w);
+      if (i !== -1 && (at === -1 || i < at)) { at = i; wordLen = w.length; }
+    });
+    if (at === -1) { at = 0; wordLen = 0; }
+    var before = text.slice(0, at).replace(/\s+$/, '');
+    var bw = before ? before.split(/\s+/) : [];
+    var start = 0;
+    if (bw.length > 12) start = before.length - bw.slice(-12).join(' ').length;
+    var rest = text.slice(at + wordLen);
+    var afterMatch = rest.match(/^\s*((?:\S+\s*){0,18})/);
+    var end = at + wordLen + (afterMatch ? afterMatch[0].length : 0);
+    var raw = text.slice(start, end).replace(/\s+$/, '');
+    var prefix = start > 0 ? '\u2026 ' : '';
+    var suffix = end < text.length ? ' \u2026' : '';
+    var out = esc(prefix + raw + suffix);
+    words.forEach(function (w) {
+      var re = new RegExp(escRegExp(esc(w)), 'gi');
+      out = out.replace(re, function (m) { return '<mark>' + m + '</mark>'; });
+    });
+    return out;
+  }
+
+  function renderResults(q, scored) {
+    if (scored.length === 0) {
+      statusEl.textContent = 'No dailies mention ' + q;
+      resultsEl.innerHTML = '';
+      resultsEl.hidden = true;
+      return;
+    }
+    statusEl.textContent = scored.length === 1
+      ? '1 daily mentions ' + q
+      : scored.length + ' dailies mention ' + q;
+    var words = wordsOf(q);
+    resultsEl.innerHTML = scored.map(function (s) {
+      var e = s.entry;
+      return '<a class="search-result" href="' + esc(e.url || '#') + '">' +
+        '<span class="search-result-date">' + esc(e.label || e.date || '') + '</span>' +
+        '<span class="search-result-title">' + esc(e.title || 'Financial threat brief') + '</span>' +
+        '<span class="search-result-snippet">' + snippetFor(e, words) + '</span>' +
+        '</a>';
+    }).join('');
+    resultsEl.hidden = false;
+  }
+
+  /* Restoring the grid restores the toggle's own state untouched: the toggle script
+     counts #briefs .grid > a.card at page load and owns the card-brief-hidden
+     classes; search never adds, removes or counts cards. */
+  function restoreGrid() {
+    grid.style.display = '';
+    if (toggleWrap) toggleWrap.style.display = '';
+    resultsEl.innerHTML = '';
+    resultsEl.hidden = true;
+    statusEl.textContent = '';
+    clearBtn.hidden = true;
+  }
+
+  function runSearch(q) {
+    if (!q) { restoreGrid(); return; }
+    clearBtn.hidden = false;
+    grid.style.display = 'none';
+    if (toggleWrap) toggleWrap.style.display = 'none';
+    resultsEl.hidden = true;
+    if (entries) { renderResults(q, searchEntries(q)); return; }
+    statusEl.textContent = 'Searching\u2026';
+    loadIndex().then(function () {
+      if (input.value.trim() !== q) return; /* a newer query took over */
+      renderResults(q, searchEntries(q));
+    }).catch(function () {
+      if (input.value.trim() !== q) return;
+      statusEl.textContent = 'Search is unavailable right now \u2014 please try again.';
+    });
+  }
+
+  var debounce = null;
+  input.addEventListener('input', function () {
+    var q = input.value.trim();
+    clearTimeout(debounce);
+    debounce = setTimeout(function () { runSearch(q); }, 120);
+  });
+  input.addEventListener('focus', function () { loadIndex().catch(function () {}); });
+  clearBtn.addEventListener('click', function () {
+    input.value = '';
+    restoreGrid();
+    input.focus();
+  });
 })();
 </script>
 
