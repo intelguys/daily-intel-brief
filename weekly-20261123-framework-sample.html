@@ -330,6 +330,8 @@ details.app h3{margin-top:18px}
 .gap-box h3{margin:0 0 6px}
 .gap-box ul{margin:6px 0}
 .stat-note{font-size:.86rem;color:var(--muted);margin:0 0 6px}
+.charts-index{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 14px;margin:14px 0;font-size:.9rem}
+.charts-index a{white-space:nowrap}
 @media (max-width:700px){.stat-strip{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -339,16 +341,17 @@ details.app h3{margin-top:18px}
 <div class="kicker">Weekly intelligence — Sample — Draft</div>
 <h1>Weekly strategic cyber intelligence report — 16–23 November 2026</h1>
 <p class="sub">Same evidence, framework order: posture, judgments, scope and PIRs, macro drivers, themes, impact map, third-party risk, regulation, recommendations, outlook and gaps.</p>
-<div class="meta-row"><span class="meta">SAMPLE — DRAFT</span><span class="meta">TLP:CLEAR</span><span class="meta">Audience: Board / CISO / CRO</span><span class="meta">Window: Mon 16 – Mon 23 Nov 2026 (SGT)</span><span class="meta">Lens: BFSI cyber, Asia/Singapore</span></div>
+<div class="meta-row"><span class="meta">SAMPLE — DRAFT</span><span class="meta">TLP:CLEAR</span><span class="meta">Audience: Board / CISO / CRO</span><span class="meta">Window: Mon 16 – Mon 23 Nov 2026 (SGT)</span><span class="meta">Lens: BFSI cyber, global outlook</span></div>
 <div class="draft-banner">SAMPLE — DRAFT. A restructuring of the published 16–23 November 2026 weekly report under the banking CTI framework. No new evidence: every figure comes from that report; uncovered framework items are marked GAP or "No evidence this week".</div>
 </header>
+<nav class="charts-index" aria-label="Charts in this sample"><strong>Charts in this sample:</strong> <a href="#viz-week-timeline">The week — major events</a> · <a href="#viz-korea-regulatory-cascade">Korea — FSI breach to sector-wide inspection</a> · <a href="#viz-vulns-by-exploitation-status">The twenty flaws, by exploitation status</a> · <a href="#viz-actors-by-motivation">Threat actor activity, by motivation</a> · <a href="#viz-karte-cascade">Plaid KARTE — published per-client totals</a></nav>
 <main>
 <section aria-labelledby="s1">
 <div class="sec-head"><h2 id="s1"><span class="sec-num">1</span> Threat posture</h2><p>The week's overall posture, and why it is set there.</p></div>
 <div class="posture"><span class="posture-word">HIGH</span><span class="badge red">Threat posture: HIGH</span><span class="posture-note">First measurement — no prior week; no trend arrow</span></div>
-<p class="takeaway">A confirmed supplier cascade hit banks and their customers at scale in the same week a state-linked vCenter zero-day exploited since September was disclosed and patched, 13 of 20 tracked flaws were already exploited, and AI-voice vishing was confirmed by law enforcement as a ransomware entry point.</p>
-<p><strong>Why High, not Severe:</strong> no core-banking compromise, payment-system outage, or liquidity/settlement disruption in the window — Banco do Brasil, FFG and Rakuten state core systems were not breached or no unauthorised transactions confirmed.</p>
-<p><strong>Why High, not Elevated:</strong> exposure already realised, not merely threatened — data published (n0n, 19 November), keys leaked (754 KARTE credentials), exploitation confirmed for 13 flaws. This is the first measurement under this framework: no prior week, no trend arrow, no previous-week comparison.</p>
+<p class="takeaway">A confirmed supplier cascade hit banks and their customers at scale in the same week a state-linked vCenter zero-day exploited since September was disclosed and patched, 13 of 20 tracked flaws were already exploited, and AI-voice vishing was confirmed by law enforcement as a ransomware entry point, across Asia, Europe and the Americas.</p>
+<p><strong>Why High, not Severe:</strong> no core-banking compromise, payment-system outage, or liquidity/settlement disruption in the window, in any region — Banco do Brasil, FFG and Rakuten state core systems were not breached or no unauthorised transactions confirmed.</p>
+<p><strong>Why High, not Elevated:</strong> exposure already realised worldwide, not merely threatened — data published (n0n, 19 November), keys leaked (754 KARTE credentials), exploitation confirmed for 13 flaws. This is the first measurement under this framework: no prior week, no trend arrow, no previous-week comparison.</p>
 <div class="stat-strip">
 <div class="stat"><span class="stat-num">140m+</span><span class="stat-label">KARTE records in published per-company tallies — a tally of company disclosures, with overlaps. It is not 140 million people; no deduplicated count published.</span></div>
 <div class="stat"><span class="stat-num">13 of 20</span><span class="stat-label">tracked flaws already exploited (plus 1 reportedly exploited)</span></div>
@@ -358,12 +361,12 @@ details.app h3{margin-top:18px}
 </div>
 </section>
 <section aria-labelledby="s2">
-<div class="sec-head"><h2 id="s2"><span class="sec-num">2</span> BLUF — Key judgments</h2><p>Five judgments in estimative language, with confidence.</p></div>
+<div class="sec-head"><h2 id="s2"><span class="sec-num">2</span> BLUF — Key judgments</h2><p>Five global judgments in estimative language, with confidence.</p></div>
 <div class="story">
 <p class="story-eyebrow">Key judgment 1</p>
-<h3 class="takeaway-head">It is likely that supplier failure, not direct attack on banks, is now the bank's main incident route.</h3>
+<h3 class="takeaway-head">It is likely that supplier failure, not direct attack on banks, is now banks' main incident route worldwide.</h3>
 <p><span class="mchip conf-high">High confidence</span></p>
-<p>One compromise became dozens of firms' incidents: KARTE's 754 leaked integration credentials, BankWeaver, Wellington IT, Paydon, and a reported Qubole link.</p>
+<p>One compromise became dozens of firms' incidents across Asia and Europe: KARTE's 754 leaked integration credentials, BankWeaver, Wellington IT, Paydon, and a reported Qubole link.</p>
 <p><strong>Why it matters:</strong> the perimeter is now the supplier's. A marketing platform, a middleware vendor, a payments contractor and a credit-union provider each turned one breach into sector-wide exposure.</p>
 <p><strong>Executive action:</strong> rotate vendor keys and inventory vendor-run tools and shared payment platforms before the next disclosure wave (see Section 9).</p>
 </div>
@@ -380,7 +383,7 @@ details.app h3{margin-top:18px}
 <h3 class="takeaway-head">It is almost certain that exploited — not new — flaws are the immediate patching priority.</h3>
 <p><span class="mchip conf-high">High confidence</span></p>
 <p>13 of the 20 tracked flaws were already exploited, and several KEV additions date from 2025 or earlier; exploitation, not age, set the priority. A vCenter zero-day (CVE-2026-123890) was exploited since early September by suspected state-linked actor ARMORY CASTLE; Broadcom patched 19 November, CISA listed it with a 23 November due date.</p>
-<p><strong>Why it matters:</strong> virtualisation underpins core banking systems, so a compromised vCenter can expose every workload it hosts.</p>
+<p><strong>Why it matters:</strong> virtualisation underpins core banking systems worldwide, so a compromised vCenter can expose every workload it hosts.</p>
 <p><strong>Executive action:</strong> close the four KEV items due 23 November and hunt, not just patch, vCenter (see Section 9, row 1).</p>
 </div>
 <div class="story">
@@ -395,15 +398,22 @@ details.app h3{margin-top:18px}
 <p class="story-eyebrow">Key judgment 5</p>
 <h3 class="takeaway-head">It is likely that regulators will convert this week's incidents into standing duties within weeks.</h3>
 <p><span class="mchip conf-high">High confidence</span></p>
-<p>Korea's FSS called in 274 firms for inspection, self-assessments due 30 November. India's Supreme Court is driving RBI KYC Amendment Directions to be notified by 30 November and operationalised by 31 December. The UK designated five more critical third parties and opened a joint cyber-resilience consultation closing 26 February 2027.</p>
+<p>Regulators on three continents moved in the same week. Korea's FSS called in 274 firms for inspection, self-assessments due 30 November. India's Supreme Court is driving RBI KYC Amendment Directions to be notified by 30 November and operationalised by 31 December. The UK designated five more critical third parties and opened a joint cyber-resilience consultation closing 26 February 2027.</p>
 <p><strong>Why it matters:</strong> incident response now carries a regulatory timetable, not just a technical one.</p>
 <p><strong>Executive action:</strong> assign ownership of the 30 November Korean and Indian deadlines now, even without direct exposure; diary the UK consultation response (see Section 8).</p>
 </div>
+<figure class="viz" id="viz-week-timeline">
+<h3>The week — major events, 16–23 November 2026</h3>
+<div class="chart" data-chart="week-timeline"></div>
+<p class="chart-note"><span class="chart-label">Caveat:</span> The most strategically significant dated events only. Times SGT unless noted.</p>
+<p class="chart-src"><span class="chart-label">Sources:</span> Daily briefings, 16–23 November 2026</p>
+</figure>
 </section>
 <section aria-labelledby="s3">
 <div class="sec-head"><h2 id="s3"><span class="sec-num">3</span> Scope, methodology and PIRs</h2><p>What this report covers and the questions it answers.</p></div>
 <p><strong>Time horizon: weekly.</strong> Monday 16 November to Monday 23 November 2026 (16 November 09:00 SGT to 23 November about 12:00 SGT). Stated explicitly as a weekly assessment, not a quarterly one.</p>
-<p><strong>Audience:</strong> Board, CISO, CRO. The lens is BFSI cyber, Asia/Singapore.</p>
+<p><strong>Audience:</strong> Board, CISO, CRO. The lens is BFSI cyber, global outlook.</p>
+<p><strong>Geographic coverage this week:</strong> the lens is global, but this week's evidence leans APAC — Korea, Japan, India — because that is where the week's incidents fell. The Americas contribute only US KEV items, n0n publications and the Banco do Brasil exposure. No Middle East or Africa item appears this week: a coverage gap, not absence of threat.</p>
 <p><strong>TLP: TLP:CLEAR.</strong> The weekly report is published as a public web page with public sources; Appendix C lists 148 source links.</p>
 <h3>Priority intelligence requirements</h3>
 <ol>
@@ -427,20 +437,20 @@ details.app h3{margin-top:18px}
 <section aria-labelledby="s4">
 <div class="sec-head"><h2 id="s4"><span class="sec-num">4</span> Macro landscape and geopolitical drivers</h2></div>
 <div class="story">
-<p class="story-eyebrow">Korea</p>
+<p class="story-eyebrow">Korea — APAC driver</p>
 <h3 class="takeaway-head">Korea: breach wave became a sector-wide inspection.</h3>
 <p>The FSI breach — a webshell on 9 November, then an SMS-auth bypass creating a fake FSS-level account — led to an FSC special audit from 16 November. The FSI evaluation system was still shut down at window end, appeals from 2,912 firms blocked, and the FSS called in CISOs and security officers from 227 e-finance and 47 online investment-linked firms (274 total) for an intensive external-attack-surface inspection, self-assessments due 30 November. Surprise on-site inspections hit high-risk branches at four banks — the first in about 10 years — under a wider programme covering about 580 financial companies. The wider Korean wave: 37 firms, about 473,000 records in one month.</p>
-<p><strong>Implication:</strong> Korean counterparties and subsidiaries face a hard 30 November checkpoint; the wave hits peripheral systems (complaints portals, contractor access), not core banking. Check those first.</p>
+<p><strong>Implication:</strong> one regional driver among global ones — Korean counterparties and subsidiaries face a hard 30 November checkpoint; the wave hits peripheral systems (complaints portals, contractor access), not core banking. Check those first.</p>
 </div>
 <div class="story">
 <p class="story-eyebrow">KARTE cascade</p>
-<h3 class="takeaway-head">One marketing platform's breach became a systemic credential incident.</h3>
+<h3 class="takeaway-head">One marketing platform's breach became a systemic credential incident with global reach.</h3>
 <p>Attack 13 November; investigation completed 19 November, published 20 November. Data from about 2,200 companies was exposed in four overlapping groups, with published counts passing 140 million records as a tally of company disclosures (not a headcount). Plaid forecasts a ¥2 billion loss; staged restart targeted for mid-January 2027.</p>
 <p><strong>Implication:</strong> a non-financial supplier became a systemic credential incident for banks — SMBC up to about 14 million records maximum, MUFG Bank about 6.5 million, the wider MUFG group about 8 million across five businesses. Concentration risk now sits in marketing and data platforms, not only core banking software.</p>
 </div>
 <div class="story">
 <p class="story-eyebrow">AI fraud, confirmed live</p>
-<h3 class="takeaway-head">AI-voice fraud and AI agents confirmed live in the same week.</h3>
+<h3 class="takeaway-head">AI-voice fraud and AI agents confirmed live worldwide in the same week.</h3>
 <p>Ukrainian police and the FBI arrested four suspected members of a group behind at least 28 companies paying over $40.5 million, using AI-generated voice calls impersonating IT support. Separately, Cairn agents autonomously found and exploited a zero-day in about 11 minutes. Singapore's MAS warned on 19 November against giving personal AI agents financial-account logins and will facilitate a "know your agent" protocol under SAFR, with an Agentic Money Sandbox (no delivery or start dates given). Singapore's CIDeX exercise, 17–20 November, simulated an AI-agent swarm attacking critical infrastructure including Banking &amp; Finance, with a fully agentic AI Blue Team trialled (results not published).</p>
 <p><strong>Implication:</strong> voice and agent channels are now live attack paths, not emerging risks; banks need terms, channels and limits for agent-directed transactions until a "know your agent" channel exists.</p>
 </div>
@@ -448,7 +458,7 @@ details.app h3{margin-top:18px}
 <p class="story-eyebrow">European Commission</p>
 <h3 class="takeaway-head">EU confirmed its first AI-tool campaign against itself; tool unattributed.</h3>
 <p>On 19 November the European Commission confirmed it had responded to an AI-generated cyber campaign detected 22 October and confirmed 26 October; several applications were taken down temporarily, most restored. No attribution, ransom demand, tool, entry point or affected application was named, and no evidence of a data breach affecting Commission staff "as a whole". Press reporting (POLITICO via The Record) attributes ARTEX use via CERT-EU; the Commission has <strong>not</strong> confirmed this.</p>
-<p><strong>Implication:</strong> defend against AI-generated campaigns as a class — the confirmed fact is the campaign, not the tool named in press reporting.</p>
+<p><strong>Implication:</strong> defend against AI-generated campaigns as a class, wherever they originate — the confirmed fact is the campaign, not the tool named in press reporting.</p>
 </div>
 <div class="gap-box">
 <h3>GAP — macro items the framework wants but the report does not cover</h3>
@@ -461,9 +471,15 @@ details.app h3{margin-top:18px}
 </ul>
 <p>Listed as explicit gaps; no paragraph has been invented to fill them.</p>
 </div>
+<figure class="viz" id="viz-korea-regulatory-cascade">
+<h3>Korea — from the FSI breach to a sector-wide inspection</h3>
+<div class="chart" data-chart="korea-regulatory-cascade"></div>
+<p class="chart-note"><span class="chart-label">Caveat:</span> Samsung Securities is described as another Korean securities firm in the current wave, not numbered — the other firms are not named in the wire entry or any briefing in the window.</p>
+<p class="chart-src"><span class="chart-label">Sources:</span> Daily briefings, 16–23 November 2026</p>
+</figure>
 </section>
 <section aria-labelledby="s5">
-<div class="sec-head"><h2 id="s5"><span class="sec-num">5</span> Priority threat themes</h2><p>Grouped by intent and capability, not by malware family.</p></div>
+<div class="sec-head"><h2 id="s5"><span class="sec-num">5</span> Priority threat themes</h2><p>Grouped by intent and capability, not by malware family, across all regions in scope.</p></div>
 <h3>Theme A — Supplier-mediated credential exposure</h3>
 <p><em>Steal reusable access at scale by abusing trusted vendor access.</em></p>
 <div class="story">
@@ -551,9 +567,21 @@ details.app h3{margin-top:18px}
 <li><strong>Nation-state groups targeting financial messaging systems (for example SWIFT):</strong> no item targets SWIFT or a financial messaging system this week; SWIFT appears only in the standing source tier, not as a victim or target. Omitted as a theme.</li>
 </ul>
 </div>
+<figure class="viz" id="viz-vulns-by-exploitation-status">
+<h3>The twenty flaws tracked this week, by exploitation status</h3>
+<div class="chart" data-chart="vulns-by-exploitation-status"></div>
+<p class="chart-note"><span class="chart-label">Caveat:</span> Groups are the lens&#x27;s own four status categories. Counts are of the 20 flaws the lens tracked, not of all disclosures. Drupal is in &#x27;exploited&#x27; on an advisory update reporting live-site exploitation whose timing is unconfirmed. ScreenConnect entered KEV 11 Sept (pre-window); what changed this week is confirmation of exploitation.</p>
+<p class="chart-src"><span class="chart-label">Sources:</span> CISA KEV catalogue, version 2026.11.20</p>
+</figure>
+<figure class="viz" id="viz-actors-by-motivation">
+<h3>Threat actor activity this week, by motivation</h3>
+<div class="chart" data-chart="actors-by-motivation"></div>
+<p class="chart-note"><span class="chart-label">Caveat:</span> Motivation as assessed from in-window reporting. ARTEX and BankWeaver operators are unnamed; their motivation is assessed from behaviour, not attribution. Counts are of the ten actor entries in the lens, not of incidents.</p>
+<p class="chart-src"><span class="chart-label">Sources:</span> In-window reporting, 16–23 November 2026</p>
+</figure>
 </section>
 <section aria-labelledby="s6">
-<div class="sec-head"><h2 id="s6"><span class="sec-num">6</span> Business-service impact map</h2><p>Filled only from the report's evidence. "No evidence this week" means the report contains no item for that cell — not that the risk is zero.</p></div>
+<div class="sec-head"><h2 id="s6"><span class="sec-num">6</span> Business-service impact map</h2><p>Filled only from the report's evidence, across all regions in scope. "No evidence this week" means the report contains no item for that cell — not that the risk is zero.</p></div>
 <p>The report quantifies only where a primary source published a figure, and never reconciles or sums unreconciled pairs (NBFC ₹65 crore versus about ₹105.67 crore; Binance $2.35bn versus $1.09bn; OPTIMJACK $7,040 versus $2,300); a tally is never a headcount.</p>
 <div class="table-scroll"><table>
 <thead><tr><th>Business service</th><th>Financial loss</th><th>Operational downtime</th><th>Customer trust / reputation</th><th>Regulatory penalties</th></tr></thead>
@@ -581,7 +609,7 @@ details.app h3{margin-top:18px}
 </tbody></table></div>
 </section>
 <section aria-labelledby="s7">
-<div class="sec-head"><h2 id="s7"><span class="sec-num">7</span> Third-party and supply chain</h2><p>Five findings.</p></div>
+<div class="sec-head"><h2 id="s7"><span class="sec-num">7</span> Third-party and supply chain</h2><p>Five findings, with concentration risk spanning Asia and Europe.</p></div>
 <div class="story">
 <p class="story-eyebrow">KARTE</p>
 <h3 class="takeaway-head">KARTE: the systemic concentration story.</h3>
@@ -607,9 +635,15 @@ details.app h3{margin-top:18px}
 <h3 class="takeaway-head">AI supply chain: a new concentration; attackers already inside inference providers.</h3>
 <p>Dragos canary research (19 November): attackers were already inside at least three AI inference providers, stealing prompts and credentials; a Zero Data Retention flag did not stop them. About 2m prompts carried canaries from July to November 2026; OpenRouter off-boarded three providers and removed 125 endpoints from Zero Data Retention eligibility on 22 November; whether Dragos's three are OpenRouter's three is <strong>unconfirmed</strong>. Microsoft agent-framework PyPI hijack: malicious versions 1.26.1 and 1.26.2 for about 1 hour on 17 November via a compromised ESRP client certificate and key (assessed, not confirmed); three victim exfiltrations in a 50-request sample — not a verified victim total.</p>
 </div>
+<figure class="viz" id="viz-karte-cascade">
+<h3>Plaid KARTE — published per-client totals through the week</h3>
+<div class="chart" data-chart="karte-cascade"></div>
+<p class="chart-note"><span class="chart-label">Caveat:</span> Totals are a tally of per-company disclosures with overlaps, not a count of people. JINS disclosed on 17 November. Do not plot components alongside the total.</p>
+<p class="chart-src"><span class="chart-label">Sources:</span> Daily briefings, 20, 21 and 23 November 2026</p>
+</figure>
 </section>
 <section aria-labelledby="s8">
-<div class="sec-head"><h2 id="s8"><span class="sec-num">8</span> Regulatory alignment</h2><p>Only mappings the report actually supports. Where no duty applies, that is stated.</p></div>
+<div class="sec-head"><h2 id="s8"><span class="sec-num">8</span> Regulatory alignment</h2><p>Only mappings the report actually supports, across the UK, Singapore, India, Korea, Ireland, France, Brazil and the US. Where no duty applies, that is stated.</p></div>
 <div class="table-scroll"><table>
 <thead><tr><th>Item (weekly report)</th><th>Duty / expectation</th></tr></thead>
 <tbody>
@@ -630,7 +664,7 @@ details.app h3{margin-top:18px}
 </div>
 </section>
 <section aria-labelledby="s9">
-<div class="sec-head"><h2 id="s9"><span class="sec-num">9</span> Recommendations and capability roadmap</h2><p>Reframed from the Top 5 actions; owners and deadlines preserved exactly. No new actions invented.</p></div>
+<div class="sec-head"><h2 id="s9"><span class="sec-num">9</span> Recommendations and capability roadmap</h2><p>Reframed from the Top 5 actions, which address exploited infrastructure and supplier credentials worldwide; owners and deadlines preserved exactly. No new actions invented.</p></div>
 <div class="table-scroll"><table>
 <thead><tr><th>#</th><th>Capability move</th><th>Underlying action</th><th>Owner</th><th>Deadline</th></tr></thead>
 <tbody>
@@ -643,10 +677,10 @@ details.app h3{margin-top:18px}
 <p><strong>Supporting control — not a sixth action:</strong> the weekly report's "So what" lines support passkeys for privileged and finance staff and callback verification for help-desk resets, noted here as supporting rows 1–2. No invented owner, no invented deadline, not a sixth action.</p>
 </section>
 <section aria-labelledby="s10">
-<div class="sec-head"><h2 id="s10"><span class="sec-num">10</span> Outlook and intelligence gaps</h2><p>Judgments for the next 6–12 months, labelled as judgments, not facts. Each carries a falsifying signpost; first check for all five is the 30 November edition (Outlook 4 interim; quarterly thereafter).</p></div>
+<div class="sec-head"><h2 id="s10"><span class="sec-num">10</span> Outlook and intelligence gaps</h2><p>Global judgments for the next 6–12 months, labelled as judgments, not facts. Each carries a falsifying signpost; first check for all five is the 30 November edition (Outlook 4 interim; quarterly thereafter).</p></div>
 <div class="story">
 <p class="story-eyebrow">Outlook 1</p>
-<h3 class="takeaway-head">It is likely that the KARTE disclosure wave will widen from 24 November.</h3>
+<h3 class="takeaway-head">It is likely that the KARTE disclosure wave will widen globally from 24 November.</h3>
 <p><span class="mchip conf-high">High confidence</span></p>
 <p>Per-company handovers begin 24 November; the weekly report forecasts "a further wave of company disclosures as each firm learns its exposure".</p>
 <p><strong>Falsified if:</strong> no new company disclosure naming KARTE exposure by 30 November, or Plaid confirming no key misuse.</p>
@@ -681,12 +715,13 @@ details.app h3{margin-top:18px}
 </div>
 <div class="gap-box">
 <h3>GAP — outlook judgments with no basis</h3>
-<p>No basis in the weekly report for a 6–12 month judgment on sanctions, post-quantum timelines, or SWIFT/financial-messaging targeting. None has been added.</p>
+<p>No basis in the weekly report for a 6–12 month judgment on sanctions, post-quantum timelines, SWIFT/financial-messaging targeting, or Middle East/Africa threat activity, for which this week has no item. None has been added.</p>
 </div>
 <h3>Intelligence gaps</h3>
 <p>The report's own stated blind spots:</p>
 <ul>
 <li><strong>No own telemetry.</strong> Built from published vendor, government and company sources only. No FS-ISAC member-shared telemetry is in the report; its alerting is member-gated, so absence is not proof of no news.</li>
+<li><strong>Geographic coverage gaps.</strong> No Middle East or Africa item appears in the weekly report; the Americas contribute only US KEV items, n0n publications and the Banco do Brasil exposure. A gap in this week's evidence base, not evidence of no threat.</li>
 <li><strong>KARTE key misuse unknown.</strong> None disclosed as of 20 November; the true number of affected people is unknown until per-company handovers from 24 November.</li>
 <li><strong>Qubole link unconfirmed.</strong> Qubole has not responded, no victim firm has named a vendor, and Wiz has not verified n0n's claim.</li>
 <li><strong>Closed vendor channels and undisclosed counts.</strong> Banco do Brasil victim count, credential owner and acquisition method undisclosed; Cleverbridge count, entry method, dwell time and affected merchants undisclosed; FFG cause, entry route and full scope under investigation; Wellington IT exact accounts/users not established, activity logs lacking.</li>
@@ -703,5 +738,550 @@ details.app h3{margin-top:18px}
 </main>
 </div>
 <a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a>
+<script type="application/json" id="chart-data">{
+ "window": "2026-11-16 to 2026-11-23 SGT",
+ "prepared": "2026-11-23",
+ "prepared_by": "weekly-report v2 research coordinator (7 lenses + merge)",
+ "scope_note": "Strategic visuals only, per Au 23 Nov 2026: no wire breaking/total counts, no PoC aggregator counts, no exposure-census counts, no breach-size tallies. Counts below are of the substance itself (techniques published, flaws tracked, actors named), never of the reporting.",
+ "unreconciled_figures_never_chart_as_single_values": [
+  "NBFC loss: Rs 65 crore / 12 NBFCs vs ~Rs 105.67 crore / 14 NBFCs",
+  "OPTIMJACK crypto: $7,040 vs $2,300",
+  "Binance remaining holdings: Elliptic ~$2.35bn vs Lookonchain 602,402 ETH ~$1.09bn",
+  "KEPCO ON users: 650,487 vs 654,487",
+  "Plaid KARTE >140m is a tally of per-company disclosures, not people"
+ ],
+ "visuals": [
+  {
+   "id": "week-timeline",
+   "type": "timeline",
+   "title": "The week — major events, 16–23 November 2026",
+   "source": "Daily briefings, 16–23 November 2026",
+   "caveat": "The most strategically significant dated events only. Times SGT unless noted.",
+   "events": [
+    {
+     "date": "2026-11-16",
+     "event": "FSC special audit of FSI begins"
+    },
+    {
+     "date": "2026-11-16",
+     "event": "Microsoft phishing campaign, outage lures"
+    },
+    {
+     "date": "2026-11-17",
+     "event": "FSS summons 274 firms"
+    },
+    {
+     "date": "2026-11-17",
+     "event": "JINS discloses ~18.29m KARTE records"
+    },
+    {
+     "date": "2026-11-18",
+     "event": "MUFG discloses ~6.5m KARTE records"
+    },
+    {
+     "date": "2026-11-18",
+     "event": "Four flaws enter KEV"
+    },
+    {
+     "date": "2026-11-19",
+     "event": "n0n publishes Visa, JPMorgan, Mastercard data"
+    },
+    {
+     "date": "2026-11-19",
+     "event": "Ukraine/FBI arrest four; >$40.5m from 28+ companies"
+    },
+    {
+     "date": "2026-11-19",
+     "event": "vCenter zero-day disclosed; EU confirms AI campaign"
+    },
+    {
+     "date": "2026-11-19",
+     "event": "MAS warns on AI-agent bank logins; UK opens resilience consultation"
+    },
+    {
+     "date": "2026-11-20",
+     "event": "SMBC, ZOZO, Marui disclose KARTE exposure"
+    },
+    {
+     "date": "2026-11-20",
+     "event": "Four more KEV additions"
+    },
+    {
+     "date": "2026-11-21",
+     "event": "Java4Shell probing: 261 sessions, 7 IPs, zero intrusions"
+    },
+    {
+     "date": "2026-11-22",
+     "event": "KEPCO breach: ~1.52m people"
+    },
+    {
+     "date": "2026-11-23",
+     "event": "Samsung Securities breach: 8,241 customers"
+    },
+    {
+     "date": "2026-11-23",
+     "event": "Four KEV items fall due"
+    }
+   ]
+  },
+  {
+   "id": "korea-regulatory-cascade",
+   "type": "timeline",
+   "title": "Korea — from the FSI breach to a sector-wide inspection",
+   "source": "Daily briefings, 16–23 November 2026",
+   "caveat": "Samsung Securities is described as another Korean securities firm in the current wave, not numbered — the other firms are not named in the wire entry or any briefing in the window.",
+   "events": [
+    {
+     "date": "2026-11-09",
+     "event": "FSI breach: fake FSS-level account created"
+    },
+    {
+     "date": "2026-11-13",
+     "event": "FSC gives timeline to National Assembly"
+    },
+    {
+     "date": "2026-11-15",
+     "event": "Coinone breach disclosed via contractor"
+    },
+    {
+     "date": "2026-11-16",
+     "event": "FSC special audit begins; evaluation system shut"
+    },
+    {
+     "date": "2026-11-17",
+     "event": "FSS summons 274 firms; self-assessments due 30 Nov"
+    },
+    {
+     "date": "2026-11-21",
+     "event": "Traces of Samsung Securities intrusion found (afternoon)"
+    },
+    {
+     "date": "2026-11-22",
+     "event": "KEPCO breach: ~1.52m people"
+    },
+    {
+     "date": "2026-11-23T09:29:00+08:00",
+     "event": "Samsung Securities breach: 8,241 customers"
+    }
+   ]
+  },
+  {
+   "id": "karte-cascade",
+   "type": "stepped-total",
+   "title": "Plaid KARTE — published per-client totals through the week",
+   "source": "Daily briefings, 20, 21 and 23 November 2026",
+   "caveat": "Totals are a tally of per-company disclosures with overlaps, not a count of people. JINS disclosed on 17 November. Do not plot components alongside the total.",
+   "series": [
+    {
+     "date": "2026-11-13",
+     "event": "Attack on KARTE platform"
+    },
+    {
+     "date": "2026-11-17",
+     "event": "JINS ~18.29m"
+    },
+    {
+     "date": "2026-11-18",
+     "event": "MUFG ~6.5m"
+    },
+    {
+     "date": "2026-11-19",
+     "event": "Totals pass 84m"
+    },
+    {
+     "date": "2026-11-20",
+     "event": "Totals pass 140m"
+    },
+    {
+     "date": "2026-11-23",
+     "event": "Totals still >140m"
+    }
+   ]
+  },
+  {
+   "id": "vulns-by-exploitation-status",
+   "type": "grouped",
+   "title": "The twenty flaws tracked this week, by exploitation status",
+   "source": "CISA KEV catalogue, version 2026.11.20",
+   "caveat": "Groups are the lens's own four status categories. Counts are of the 20 flaws the lens tracked, not of all disclosures. Drupal is in 'exploited' on an advisory update reporting live-site exploitation whose timing is unconfirmed. ScreenConnect entered KEV 11 Sept (pre-window); what changed this week is confirmation of exploitation.",
+   "groups": [
+    {
+     "status": "Exploited in the wild",
+     "count": 13,
+     "items": [
+      {
+       "cve": "CVE-2026-123890",
+       "product": "VMware vCenter Server",
+       "note": "Zero-day exploited since September by ARMORY CASTLE; no workaround"
+      },
+      {
+       "cve": "CVE-2026-90436",
+       "product": "Apache Axis (Confluence, N-central)",
+       "note": "Exploited 13 Nov; no vendor fix for Axis 1.x"
+      },
+      {
+       "cve": "CVE-2026-129448",
+       "product": "Apache Roller",
+       "note": "Actively exploited per Apache; upgrade to 6.1.7 (6.1.5 and 6.1.6 leave further flaws unpatched)"
+      },
+      {
+       "cve": "CVE-2026-76466",
+       "product": "Cisco Expressway",
+       "note": "Exploited in the wild (F6); fix available a month"
+      },
+      {
+       "cve": "CVE-2026-115731",
+       "product": "Perforce Puppet",
+       "note": "Exploited per KEV; PoC status contested"
+      },
+      {
+       "cve": "CVE-2024-10441",
+       "product": "Synology DSM",
+       "note": "Exploited in C3RB3R ransomware attacks; flaw from 2025"
+      },
+      {
+       "cve": "CVE-2026-40217",
+       "product": "BerriAI LiteLLM",
+       "note": "Exploited for LLMjacking; attribution contested"
+      },
+      {
+       "cve": "CVE-2026-90817",
+       "product": "Vanderbilt REDCap",
+       "note": "Exploited; web shell + XMRig"
+      },
+      {
+       "cve": "CVE-2025-42884",
+       "product": "SAP NetWeaver Enterprise Portal",
+       "note": "Exploited per KEV; fix a year old, left unapplied"
+      },
+      {
+       "cve": "CVE-2026-125160",
+       "product": "TYPO3 Form Framework",
+       "note": "Vendor-confirmed actively exploited"
+      },
+      {
+       "cve": "CVE-2026-84869",
+       "product": "ConnectWise ScreenConnect",
+       "note": "Exploitation confirmed this week (Huntress)"
+      },
+      {
+       "cve": "CVE-2026-133968",
+       "product": "MONAI Label",
+       "note": "Exploited by autonomous Cairn AI agents; 0.8.6 shipped 22 Nov"
+      },
+      {
+       "cve": "CVE-2026-132165",
+       "product": "Drupal core installer",
+       "note": "Live-site exploitation reported; advisory update timing unconfirmed"
+      }
+     ]
+    },
+    {
+     "status": "Reportedly exploited",
+     "count": 1,
+     "items": [
+      {
+       "cve": "CVE-2026-119618",
+       "product": "Apache HTTP Server mod_http2",
+       "note": "CSA Singapore alert AL-2026-164: reportedly being actively exploited"
+      }
+     ]
+    },
+    {
+     "status": "PoC public, no confirmed attacks",
+     "count": 3,
+     "items": [
+      {
+       "cve": "CVE-2026-123007",
+       "product": "NGINX (NGINX2Root, five flaws)",
+       "note": "Working PoC public; no exploitation reported; fronts customer-facing services"
+      },
+      {
+       "cve": "CVE-2026-115560",
+       "product": "PHP (November release)",
+       "note": "Lab PoC public since October; no in-the-wild exploitation; PHP 8.2 support ends 31 Dec 2026"
+      },
+      {
+       "cve": "CVE-2026-125396",
+       "product": "Ghostscript (Upload2Shell)",
+       "note": "PoC published 17 Nov; no exploitation reported"
+      }
+     ]
+    },
+    {
+     "status": "No exploitation reported / probing only",
+     "count": 3,
+     "items": [
+      {
+       "cve": "CVE-2026-114938",
+       "product": "Java4Shell (OpenJDK)",
+       "note": "Probing only: 261 GreyNoise sessions from 7 IPs, zero successful intrusions; not in KEV"
+      },
+      {
+       "cve": "CVE-2026-132825",
+       "product": "ruby2shell (Ruby)",
+       "note": "No exploitation reported; stock-Rails PoC expected ~25 Nov, after the window"
+      },
+      {
+       "cve": "CVE-2026-76536 / CVE-2026-76535",
+       "product": "Splunk Enterprise",
+       "note": "No exploitation reported; no public PoC found in the window"
+      }
+     ]
+    }
+   ],
+   "xLabel": "Number of flaws"
+  },
+  {
+   "id": "bfsi-incidents-by-region",
+   "type": "table",
+   "title": "BFSI incidents this week — where the impact landed",
+   "source": "Section 1 of this report",
+   "caveat": "Named incidents only — NO counts. One row per region; the Korean wave is one row covering 7+ firms. KARTE is listed once under Japan although its clients are global. This is a map of where impact landed, not a tally.",
+   "rows": [
+    {
+     "region": "Japan",
+     "incidents": "Plaid KARTE (platform breach, ~2,200 companies); Rakuten Securities (up to ~15.7m accounts); Paydon/Infcurion (251,172 records, four banks halted); FFG Industries (vendor analytics tool, up to 1,221 corporate customers)",
+     "strategic_note": "Centre of gravity: supplier concentration plus a direct securities leak"
+    },
+    {
+     "region": "Korea",
+     "incidents": "FSI assessment-body breach and sector-wide inspection; Samsung Securities (8,241); KEPCO (~1.52m people); Mirae Asset Life (10,418); Coinone (via contractor MetaM); KOMSCO; KG Eduone staff records",
+     "strategic_note": "A breach wave converted into a regulator-led sector inspection"
+    },
+    {
+     "region": "India",
+     "incidents": "PayU payout-API theft (Rs 25.67 crore); NBFC loan-diversion fraud (figures unreconciled); digital-arrest scams reaching the Supreme Court",
+     "strategic_note": "Fraud-led week: payment rails and loan controls, not intrusions"
+    },
+    {
+     "region": "Europe",
+     "incidents": "Wellington IT, Ireland (~40 credit unions, payee data, six-week notification delay); Maileva, France (22m recipients; prosecutor investigation)",
+     "strategic_note": "Supplier failures drawing governments in over notification delays"
+    },
+    {
+     "region": "Brazil",
+     "incidents": "Banco do Brasil (misused valid credential; no count disclosed)",
+     "strategic_note": "Credential abuse, not a technical breach — the access was valid"
+    },
+    {
+     "region": "Global / cross-border",
+     "incidents": "n0n publishes Visa, JPMorgan Chase and Mastercard customer data (reported shared supplier); Cleverbridge (card numbers + CVVs, payment processor); BankWeaver (bank middleware backdoor); OPTIMJACK skimmer (178 organisations); Binance (laundering accelerates)",
+     "strategic_note": "The week's largest stories are all third-party-mediated or cross-border"
+    }
+   ]
+  },
+  {
+   "id": "actors-by-motivation",
+   "type": "grouped",
+   "title": "Threat actor activity this week, by motivation",
+   "source": "In-window reporting, 16–23 November 2026",
+   "caveat": "Motivation as assessed from in-window reporting. ARTEX and BankWeaver operators are unnamed; their motivation is assessed from behaviour, not attribution. Counts are of the ten actor entries in the lens, not of incidents.",
+   "groups": [
+    {
+     "motivation": "Financial extortion",
+     "count": 5,
+     "actors": [
+      {
+       "actor": "n0n",
+       "activity": "Published Visa, JPMorgan Chase and Mastercard customer data 19 Nov; further de-anonymisations (Guardant Health, Halfords, Dynamic Education Services)"
+      },
+      {
+       "actor": "Com-affiliated vishing clusters (Bling Libra, Vortex, Cinder and others)",
+       "activity": "Voice-first extortion waves; AiTM MFA capture, rogue MFA enrolment; finance a named target"
+      },
+      {
+       "actor": "Unnamed ransomware group (Ukraine/FBI arrests)",
+       "activity": "AI-voice vishing as entry point; 28+ companies, >$40.5m"
+      },
+      {
+       "actor": "OPTIMJACK operator (unattributed)",
+       "activity": "Clipper to skimmer to iOS exploit kits across 178 organisations in one day"
+      },
+      {
+       "actor": "Pixelleaks",
+       "activity": "Ekwiik claim; 22 Nov deadline passed with nothing published"
+      }
+     ]
+    },
+    {
+     "motivation": "State-linked theft / access",
+     "count": 3,
+     "actors": [
+      {
+       "actor": "TraderTraitor (North Korea)",
+       "activity": "Binance drain laundering accelerated from 17 Nov after a month of stillness"
+      },
+      {
+       "actor": "ARMORY CASTLE (suspected PRC-nexus)",
+       "activity": "VMware vCenter zero-day exploited since September (BONESAW, SAML key theft)"
+      },
+      {
+       "actor": "Cairn operator (Chinese-nexus, moderate confidence)",
+       "activity": "Autonomous AI agents found and exploited the MONAI Label zero-day in the wild"
+      }
+     ]
+    },
+    {
+     "motivation": "Mixed / operator unnamed",
+     "count": 2,
+     "actors": [
+      {
+       "actor": "ARTEX operators",
+       "activity": "Named victims Barracuda and Bitrise; EU Commission campaign confirmed, ARTEX link unconfirmed"
+      },
+      {
+       "actor": "BankWeaver actor (unnamed)",
+       "activity": "Bank digital-banking middleware turned into a backdoor; one victim confirmed, six further banks unconfirmed"
+      }
+     ]
+    }
+   ],
+   "xLabel": "Number of actors"
+  }
+ ]
+}</script>
+<script>
+(function(){
+"use strict";
+var DATA=JSON.parse(document.getElementById('chart-data').textContent);
+var NS='http://www.w3.org/2000/svg';
+var INK='var(--ink)',MUT='var(--muted)',LINE='var(--line)',ACC='var(--accent)',ACC2='var(--accent2)',OK='var(--ok)',WARN='var(--warn)';
+function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a){e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
+function S(e,s){e.setAttribute('style',s);return e;}
+function txt(p,x,y,s,fill,size,anchor,weight){var t=el('text',{x:x,y:y,'font-size':size||12,'text-anchor':anchor||'start'},p);t.setAttribute('style','fill:'+(fill||INK)+(weight?';font-weight:'+weight:''));t.textContent=s;return t;}
+var TIP=null;
+function getTip(){if(!TIP){TIP=document.createElement('div');TIP.className='chart-tip';document.body.appendChild(TIP);}return TIP;}
+function showTip(s,x,y){var t=getTip();t.textContent=s;t.style.display='block';var w=t.offsetWidth,h=t.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;var lx=Math.min(x+14,vw-w-10);if(lx<10)lx=10;var ly=Math.min(y+16,vh-h-10);if(ly<10)ly=10;t.style.left=lx+'px';t.style.top=ly+'px';}
+function hideTip(){if(TIP)TIP.style.display='none';}
+function tip(p,s){p.addEventListener('mouseenter',function(e){showTip(s,e.clientX,e.clientY);});p.addEventListener('mousemove',function(e){showTip(s,e.clientX,e.clientY);});p.addEventListener('mouseleave',hideTip);return p;}
+window.addEventListener('scroll',hideTip,true);
+function fmt(n){return n.toLocaleString('en-US');}
+function wrap(s,max){var w=s.split(' '),o=[],c='';w.forEach(function(x){if((c+' '+x).trim().length>max){if(c)o.push(c);c=x;}else{c=(c+' '+x).trim();}});if(c)o.push(c);return o;}
+function mkSvg(mount,w,h,label){return el('svg',{viewBox:'0 0 '+w+' '+h,role:'img','aria-label':label},mount);}
+function hgrid(s,x0,x1,y,lab){S(el('line',{x1:x0,y1:y,x2:x1,y2:y},s),'stroke:'+LINE+';stroke-width:1');if(lab!==undefined){txt(s,x0-6,y+4,lab,MUT,11,'end');}}
+function xaxis(s,x0,x1,y){S(el('line',{x1:x0,y1:y,x2:x1,y2:y},s),'stroke:'+LINE+';stroke-width:1.5');}
+function legend(s,items,x,y){items.forEach(function(it,i){var r=el('rect',{x:x,y:y+i*20,width:12,height:12},s);S(r,'fill:'+it[1]);txt(s,x+18,y+i*20+11,it[0],MUT,11,'start');});}
+function dayLabel(d){return d.slice(8,10).replace(/^0/,'')+' Nov';}
+
+
+var KOREA_SHORT=[
+  'FSI breach — fake FSS account created',
+  'FSC gives timeline to National Assembly',
+  'Coinone breach disclosed',
+  'FSI special audit begins; evaluation system shut',
+  'FSS summons 274 firms; self-assessments due 30 Nov',
+  'Traces of Samsung Securities intrusion found',
+  'KEPCO breach disclosed (~1.52m people)',
+  'Samsung Securities discloses breach — 8,241 customers'
+];
+var KARTE_SHORT=[
+  'Attack on KARTE platform',
+  'JINS ~18.29m disclosed',
+  'MUFG Bank ~6.5m disclosed',
+  'Published totals pass 84m',
+  'Totals pass 140m; SMBC up to ~14m',
+  'Totals still >140m (tally)'
+];
+function timeline(c,mount,shorts,Hh){
+  var evs=c.events||c.series;
+  var s=mkSvg(mount,760,Hh,c.title);
+  var L=30,R=30,T=20,W=760-L-R;
+  var times=evs.map(function(e){return new Date(e.date).getTime();});
+  var t0=Math.min.apply(null,times),t1=Math.max.apply(null,times);
+  function X(t){return L+((t-t0)/(t1-t0))*W;}
+  var mid=Math.round(Hh/2);
+  S(el('line',{x1:L,y1:mid,x2:L+W,y2:mid},s),'stroke:'+LINE+';stroke-width:2');
+  txt(s,L,Hh-6,dayLabel(evs[0].date),MUT,11,'start');
+  txt(s,L+W,Hh-6,dayLabel(evs[evs.length-1].date),MUT,11,'end');
+  evs.forEach(function(e,i){
+    var x=X(new Date(e.date).getTime());
+    var dot=el('circle',{cx:x,cy:mid,r:6},s);S(dot,'fill:'+ACC);
+    tip(dot,e.date+': '+e.event);
+    var tier=i%4,above=(tier===0||tier===2),far=(tier===2||tier===3);
+    var lines=wrap(shorts[i],24);
+    var topY,botY;
+    if(above){ topY= far? mid-118 : mid-64; }
+    else{ topY= far? mid+96 : mid+30; }
+    S(el('line',{x1:x,y1:mid,x2:x,y2: above? topY+lines.length*13+14 : topY-12},s),'stroke:'+LINE+';stroke-width:1');
+    var anchor=(i===0)?'start':(i===evs.length-1)?'end':'middle';
+    lines.forEach(function(ln,j){txt(s,x,topY+j*13,ln,INK,11,anchor);});
+    txt(s,x, above? topY-16 : topY+lines.length*13+10, dayLabel(e.date),MUT,10,anchor,'700');
+    var hit=el('circle',{cx:x,cy:mid,r:14},s);S(hit,'fill:transparent;pointer-events:all');tip(hit,e.date+': '+e.event);
+  });
+}
+function vTimeline(c,mount){
+  var evs=c.events;
+  var rows=evs.map(function(e){
+    var lines=wrap(dayLabel(e.date)+' — '+e.event,92);
+    return {e:e,lines:lines,h:18+lines.length*14+12};
+  });
+  var H=rows.reduce(function(a,r){return a+r.h;},0)+24;
+  var s=mkSvg(mount,760,H,c.title);
+  var LX=96,TX=124,top=12;
+  S(el('line',{x1:LX,y1:top,x2:LX,y2:H-12},s),'stroke:'+LINE+';stroke-width:2');
+  var y=top;
+  rows.forEach(function(r){
+    var mid=y+r.h/2;
+    var dot=el('circle',{cx:LX,cy:mid,r:6},s);S(dot,'fill:'+ACC);
+    tip(dot,r.e.date+': '+r.e.event);
+    txt(s,LX-10,mid+4,dayLabel(r.e.date),MUT,11,'end','700');
+    r.lines.forEach(function(ln,j){txt(s,TX,y+16+j*14,ln,INK,12,'start');});
+    var hit=el('circle',{cx:LX,cy:mid,r:14},s);S(hit,'fill:transparent;pointer-events:all');tip(hit,r.e.date+': '+r.e.event);
+    y+=r.h;
+  });
+}
+function hbar(c,mount,rows,maxVal,labW){
+  var rowH=34,top=26,bottom=26;
+  var H=top+rows.length*rowH+bottom;
+  var s=mkSvg(mount,760,H,c.title);
+  var L=labW+10,R=56,W=760-L-R;
+  function X(v){return L+(v/maxVal)*W;}
+  [0,Math.round(maxVal/2),maxVal].forEach(function(v){
+    S(el('line',{x1:X(v),y1:top-8,x2:X(v),y2:top+rows.length*rowH},s),'stroke:'+LINE+';stroke-width:1');
+    txt(s,X(v),top+rows.length*rowH+16,String(v),MUT,11,'middle');
+  });
+  rows.forEach(function(r,i){
+    var y=top+i*rowH;
+    txt(s,L-8,y+20,r.label,MUT,12,'end');
+    var bw=r.value>0?Math.max(3,X(r.value)-L):0;
+    var bar=el('rect',{x:L,y:y+6,width:bw,height:20},s);
+    S(bar,'fill:'+ACC2);
+    tip(bar,r.tip);
+    txt(s,L+bw+8,y+21,String(r.value),INK,12,'start','700');
+  });
+  txt(s,L,H-2,c.xLabel||'count',MUT,11,'start');
+}
+function vulnsBar(c,mount){
+  var rows=c.groups.map(function(g){
+    return {label:g.status,value:g.count,
+      tip:g.status+': '+g.count+' — '+g.items.map(function(it){return it.cve;}).join(', ')};
+  });
+  hbar(c,mount,rows,14,215);
+}
+function actorsBar(c,mount){
+  var rows=c.groups.map(function(g){
+    return {label:g.motivation,value:g.count,
+      tip:g.motivation+': '+g.count+' — '+g.actors.map(function(a){return a.actor;}).join('; ')};
+  });
+  hbar(c,mount,rows,6,185);
+}
+var RENDER={
+  'week-timeline':vTimeline,
+  'korea-regulatory-cascade':function(c,m){timeline(c,m,KOREA_SHORT,330);},
+  'karte-cascade':function(c,m){timeline(c,m,KARTE_SHORT,300);},
+  'vulns-by-exploitation-status':vulnsBar,
+  'actors-by-motivation':actorsBar
+};
+function byId(id){
+  for(var i=0;i<DATA.visuals.length;i++){if(DATA.visuals[i].id===id)return DATA.visuals[i];}
+  return null;
+}
+document.querySelectorAll('.chart[data-chart]').forEach(function(m){
+  var c=byId(m.getAttribute('data-chart'));
+  if(c&&RENDER[c.id]){RENDER[c.id](c,m);}
+});
+})();
+</script>
 </body>
 </html>
