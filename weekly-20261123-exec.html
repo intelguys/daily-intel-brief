@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Weekly strategic cyber intelligence report — Executive edition, 16–23 November 2026</title>
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#fffdf8; --surface2:#eceadf; --ink:#1c1e22; --muted:#5c6068;
+  --line:#d8d3c4; --accent:#8a3324; --accent2:#1f4e5f; --warn:#9a6a12; --ok:#2e6b4f;
+  --chip:#efe9db; --crit:#8a3324; --high:#b35c1e; --med:#9a6a12;
+  --shadow:0 1px 3px rgba(28,30,34,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14161a; --surface:#1d2025; --surface2:#262a31; --ink:#ece9e2; --muted:#a7abb3;
+    --line:#3a3e46; --accent:#e08a76; --accent2:#7fb8c9; --warn:#d9b45c; --ok:#7fc79e;
+    --chip:#2b2f36; --crit:#f0927f; --high:#eda26a; --med:#d9b45c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
+h2{font-size:1.55rem;margin:0 0 6px}
+h3{font-size:1.12rem}
+a{color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+section{margin-top:44px}
+.sec-head{border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* Masthead */
+.mast{padding:34px 0 8px}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.mast h1{font-size:2.35rem;margin:10px 0 8px;max-width:20ch}
+.mast .sub{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:.83rem;box-shadow:var(--shadow)}
+.meta b{font-weight:700}
+
+/* Follow-up tracker */
+.tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.track{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.track .t-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.track .t-status{font-family:Georgia,serif;font-size:1.15rem;margin:5px 0 4px}
+.track p{margin:0;font-size:.86rem;color:var(--muted)}
+.st-passed{color:var(--crit)} .st-due{color:var(--high)} .st-pending{color:var(--warn)} .st-done{color:var(--ok)}
+
+/* Executive summary */
+.exec{display:grid;gap:12px}
+.exec-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.exec-num{font-family:Georgia,serif;font-size:2rem;line-height:1;color:var(--accent);flex:0 0 auto}
+.exec-card p{margin:0}
+.exec-card b{font-weight:700}
+
+/* Badges */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:3px 9px;background:var(--chip);color:var(--ink);vertical-align:middle}
+.badge.red{background:var(--crit);color:#fff}
+.badge.amber{background:var(--warn);color:#fff}
+.badge.teal{background:var(--accent2);color:#fff}
+.badge.grey{background:var(--chip);color:var(--muted)}
+@media (prefers-color-scheme: dark){.badge.red,.badge.amber,.badge.teal{color:#14161a}}
+
+/* Actor cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actor{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.actor .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.actor h3{margin-bottom:4px}
+.actor .target{color:var(--accent2);font-weight:600;font-size:.92rem;margin:0 0 10px}
+.actor dl{margin:0;display:grid;gap:8px}
+.actor dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.actor dd{margin:2px 0 0;font-size:.93rem}
+.actor .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+.none-card{border:1px dashed var(--line);border-radius:8px;padding:16px 18px;color:var(--muted);background:transparent;margin-top:14px}
+.none-card b{color:var(--ink)}
+
+/* Vuln table */
+.vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
+.vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+tbody tr:last-child td{border-bottom:none}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:normal}
+.score{font-weight:700}
+.score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
+.status{font-size:.78rem;font-weight:700}
+.status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
+.count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+.table-scroll{overflow-x:auto}
+/* Two-col panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:8px}
+.panel p,.panel li{font-size:.94rem}
+.panel ul{margin:6px 0 0;padding-left:20px}
+.panel li{margin-bottom:7px}
+
+/* IOC + actions */
+.ioc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.ioc h3{margin-bottom:8px}
+.ioc ul{margin:6px 0 0;padding-left:20px}
+.ioc li{margin-bottom:8px;font-size:.94rem}
+.ioc .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+ol.actions{counter-reset:step;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.actions li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px 14px 52px;position:relative;box-shadow:var(--shadow);font-size:.95rem}
+ol.actions li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+@media (prefers-color-scheme: dark){ol.actions li::before{color:#14161a}}
+
+/* Unverified */
+.unverified{border:1px solid var(--warn);border-radius:8px;padding:18px;background:var(--surface)}
+.unverified ul{margin:8px 0 0;padding-left:20px}
+.unverified li{margin-bottom:8px;font-size:.94rem}
+
+/* Sources */
+.sources{font-size:.88rem}
+.sources li{margin-bottom:6px;overflow-wrap:anywhere}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  .tracker{grid-template-columns:1fr 1fr}
+  .actor-grid,.panels{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tbody tr{border-bottom:2px solid var(--line);padding:8px 0}
+  td{border-bottom:none;padding:5px 12px}
+  td.cve{white-space:normal;font-size:.95rem}
+  td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+}
+@media (max-width:460px){.tracker{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+<style>
+/* Weekly report additions — chart, timeline and story components; theme variables only */
+.chart{margin:0 0 8px}
+.chart svg{width:100%;height:auto;display:block}
+.chart-note{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+.chart-note b{color:var(--ink)}
+.chart-src{font-size:.82rem;color:var(--muted);margin:4px 0 0}
+.viz-grid{display:grid;gap:30px}
+.story{margin-bottom:14px}
+.story h3{margin-bottom:6px}
+.story .status{font-size:.82rem;font-weight:700;margin:0 0 8px}
+.status.confirmed{color:var(--ok)} .status.reported{color:var(--warn)} .status.unconfirmed{color:var(--crit)}
+.story p{margin:0 0 10px;font-size:.95rem}
+.story .src{font-size:.86rem;color:var(--muted)}
+.story .src a{overflow-wrap:anywhere}
+.geo{margin-bottom:14px}
+.geo h3{margin-bottom:6px}
+.geo h4{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px;font-family:inherit}
+.geo p{margin:0 0 10px;font-size:.95rem}
+.geo .src{font-size:.86rem;color:var(--muted)}
+.geo .src a{overflow-wrap:anywhere}
+details.notincl{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:16px 18px;box-shadow:var(--shadow)}
+details.notincl summary{cursor:pointer;font-weight:700;font-size:1.05rem}
+details.notincl ul{margin:10px 0 0;padding-left:20px}
+details.notincl li{margin-bottom:8px;font-size:.94rem}
+.watch li{margin-bottom:8px}
+.trend h3{margin:22px 0 8px}
+.trend p{margin:0 0 10px;font-size:.95rem}
+@media (max-width:820px){.viz-grid{gap:24px}}
+.chart-tip{position:fixed;display:none;z-index:60;max-width:340px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.88rem;line-height:1.45;box-shadow:var(--shadow);pointer-events:none}
+.chart-tip.show{display:block}
+
+
+/* v3 treatment — restrained: only the takeaway line is bold, with an
+   accent left border; key figures inside it take the accent colour. */
+.takeaway{font-weight:700;border-left:4px solid var(--accent);padding:6px 0 6px 12px;margin:10px 0}
+.kfig{color:var(--accent);font-weight:700}
+.chips-wrap{margin:4px 0 18px}
+.chips-wrap h3{margin:0 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--surface);border-radius:8px;padding:8px 12px;font-size:.88rem;line-height:1.45;box-shadow:var(--shadow)}
+.meta-line{font-size:.95rem}
+.meta-label{color:var(--muted)}
+.src{font-size:.86rem;color:var(--muted)}
+.src a{overflow-wrap:anywhere}
+.xref{color:var(--muted);font-size:.92rem}
+.xref-box{border:1px solid var(--line);border-left:4px solid var(--accent2);background:var(--surface);border-radius:8px;padding:12px 16px;margin:18px 0;box-shadow:var(--shadow)}
+.xref-box h3{margin:0 0 8px}
+.xref-box ul{margin:0;padding-left:20px}
+.xref-box li{margin-bottom:6px;font-size:.94rem}
+.lede{color:var(--muted);font-size:1.02rem}
+/* Cover and contents page */
+.cover{padding:48px 0 24px}
+.cover h1{font-size:2.6rem;max-width:22ch}
+.contents-page{margin-top:8px}
+.contents-page h2{margin-bottom:4px}
+.contents-page .toc-lede{color:var(--muted);margin:0 0 16px}
+.toc-group{margin:0 0 14px}
+.toc-group h3{font-size:.95rem;margin:0 0 4px}
+.toc-group ul{list-style:none;margin:0;padding:0}
+.toc-group li{margin:2px 0;font-size:.93rem}
+.toc-group a{text-decoration:none}
+.toc-group a:hover{text-decoration:underline}
+.contents-page a::after{content:""}
+/* Sticky contents sidebar (web only) */
+.layout{display:grid;grid-template-columns:232px minmax(0,1fr);gap:30px;align-items:start}
+.sidebar{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow);font-size:.86rem}
+.sidebar h2{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.sidebar ul{list-style:none;margin:0 0 10px;padding:0}
+.sidebar li{margin:3px 0}
+.sidebar a{text-decoration:none;color:var(--ink)}
+.sidebar a:hover{color:var(--accent2);text-decoration:underline}
+.sidebar .side-sec{font-weight:700;margin-top:8px}
+.back-top{margin:28px 0 0;text-align:right;font-size:.9rem}
+figure.viz{border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:20px 0;background:var(--surface);box-shadow:var(--shadow)}
+figure.viz h3{margin:0 0 10px}
+figure.viz .chart-note,figure.viz .chart-src{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+figure.viz .chart-label{color:var(--ink)}
+details.app{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:14px 18px;margin:0 0 16px;box-shadow:var(--shadow)}
+details.app summary{cursor:pointer;font-size:1.25rem;font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15}
+details.app summary:hover{color:var(--accent2)}
+details.app h3{margin-top:18px}
+.print-header,.print-footer{display:none}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;max-height:none}
+}
+/* Print */
+@page{size:A4;margin:22mm 18mm 20mm 18mm}
+@page{
+  @top-center{content:"Weekly strategic cyber intelligence report \2014 16-23 November 2026"}
+  @bottom-center{content:"Page " counter(page)}
+}
+@media print{
+  body{background:var(--surface)}
+  .wrap{max-width:none;padding:0}
+  .bfsi-back-btn,.sidebar,.back-top,.chart-tip{display:none !important}
+  .layout{display:block}
+  .cover{page-break-after:always;padding-top:0}
+  .contents-page{page-break-after:always;columns:2;column-gap:28px;font-size:.88rem}
+  .contents-page .sec-head{column-span:all}
+  .contents-page a::after{content:" \2014 p. " target-counter(attr(href), page)}
+  section,.story,.geo,details.app{page-break-inside:auto}
+  figure.viz,.xref-box,.chips-wrap{page-break-inside:avoid}
+  table{page-break-inside:auto}
+  thead{display:table-header-group}
+  tfoot{display:table-footer-group}
+  table{display:table}
+  tbody{display:table-row-group}
+  tr{display:table-row}
+  td,th{display:table-cell}
+  td::before{display:none}
+  .table-scroll{overflow:visible}
+  tr{page-break-inside:avoid}
+  .sec-head,h2,h3,h4{page-break-after:avoid;page-break-inside:avoid}
+  details.app summary{list-style:none;cursor:default}
+  details.app summary::-webkit-details-marker{display:none}
+  a{color:var(--ink)}
+}
+</style>
+<style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--surface) !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style>
+<style>
+/* Executive edition only: stat strip, board box, compact spacing, 1-page print. */
+.wrap{max-width:min(960px,94vw);padding-bottom:32px}
+h2{margin-top:20px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0 4px}
+.stat{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--surface);border-radius:8px;padding:10px 12px;box-shadow:var(--shadow)}
+.stat-num{display:block;font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:1.45rem;font-weight:700;color:var(--accent);line-height:1.1}
+.stat-label{display:block;font-size:.85rem;color:var(--muted);line-height:1.4;margin-top:4px}
+.stat-note{font-size:.86rem;color:var(--muted);margin:0 0 6px}
+.board-box{border:1px solid var(--line);border-left:4px solid var(--accent2);background:var(--surface);border-radius:8px;padding:12px 16px;margin:18px 0;box-shadow:var(--shadow)}
+.board-box h2{margin-top:0}
+.board-box ol{margin:0;padding-left:20px}
+.board-box li{margin-bottom:6px}
+.full-link{margin-top:20px}
+@media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+@page{size:A4;margin:13mm 15mm}
+@media print{
+  body{font-size:11.5px;line-height:1.45}
+  .wrap{max-width:none;padding:0}
+  .bfsi-back-btn{display:none !important}
+  h1{font-size:1.5rem}
+  h2{font-size:1.15rem;margin-top:12px}
+  .stats{grid-template-columns:repeat(5,1fr);gap:8px}
+  .stat{padding:8px 10px}
+  .stat-num{font-size:1.2rem}
+  section,.board-box,.stats,.table-scroll{page-break-inside:avoid}
+  a{color:var(--ink)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast" id="top">
+<div class="kicker">Weekly intelligence — Executive edition</div>
+<h1>Weekly strategic cyber intelligence report — Executive edition, 16–23 November 2026</h1>
+<p class="sub">One page from the full report: bottom line, five actions, five developments, big numbers.</p>
+<div class="meta-row"><span class="meta">Window: Mon 16 &ndash; Mon 23 Nov 2026 (SGT)</span><span class="meta">Lens: BFSI cyber, Asia/Singapore</span><span class="meta">Source: the full new-format report</span></div>
+</header>
+<main>
+<section aria-labelledby="bottom-line">
+<div class="sec-head"><h2 id="bottom-line">Bottom line</h2></div>
+<p class="takeaway">Supplier failure defined the week: one compromise at a marketing platform, a middleware vendor, or a credit-union provider became dozens of firms' incidents. AI moved from research into confirmed operations: agents exploited a zero-day alone, cloned voices opened a ransomware gang's way in, and agentic tooling produced named victims. The most dangerous vulnerability news was old: a vCenter zero-day exploited since September, and 13 of the 20 tracked flaws were already exploited. Regulators turned incidents into duties, so for BFSI the perimeter is now the supplier's: rotate vendor keys, verify help-desk calls, and patch exploited flaws first.</p>
+</section>
+<section aria-labelledby="big-numbers">
+<div class="sec-head"><h2 id="big-numbers">The week in numbers</h2></div>
+<div class="stats">
+<div class="stat"><span class="stat-num">140m+</span><span class="stat-label">KARTE records in published per-company tallies</span></div>
+<div class="stat"><span class="stat-num">13 of 20</span><span class="stat-label">tracked flaws already exploited</span></div>
+<div class="stat"><span class="stat-num">53</span><span class="stat-label">published MITRE technique IDs</span></div>
+<div class="stat"><span class="stat-num">754</span><span class="stat-label">leaked KARTE integration credentials</span></div>
+<div class="stat"><span class="stat-num">over $40.5m</span><span class="stat-label">paid by at least 28 companies in the AI-voice vishing cases</span></div>
+</div>
+<p class="stat-note">The KARTE figure tallies per-company disclosures, not a headcount. 43 of the 53 technique IDs come from one FBI document.</p>
+</section>
+<section aria-labelledby="actions">
+<div class="sec-head"><h2 id="actions">Top 5 actions</h2></div>
+<div class="table-scroll"><table><thead><tr><th>Action</th><th>Owner</th><th>Deadline</th></tr></thead><tbody>
+<tr><td>Close the four KEV items due today. Patch VMware vCenter, Apache Roller, SAP NetWeaver and Cisco Expressway. CVE-2026-123890 (vCenter) · CVE-2026-129448 (Roller) · CVE-2026-76466 (Expressway) · CVE-2025-42884 (NetWeaver). For vCenter, hunt as well as patch: rogue vSphere SSO admin accounts, a stolen STS SAML signing key, and unauthorised ESXi SSH keys. No workaround exists for vCenter.</td><td>Vulnerability management + SOC</td><td>23 November 2026 (today)</td></tr>
+<tr><td>Rotate the 754 leaked KARTE integration credentials and check for misuse. Treat any key that touched KARTE as exposed until checked. Former clients count too: Stripe International and overflow data was retained after their contracts ended.</td><td>Third-party risk + SOC</td><td>before 24 November 2026, when per-company handovers begin</td></tr>
+<tr><td>Finish ruby2shell patching, internet-facing systems first. Upgrade to the fixed Ruby releases, then check bundled-Ruby products such as GitLab, Mastodon and Discourse. There is no workaround. Fixed releases: 3.3.14 / 3.4.13 / 4.0.10.</td><td>Vulnerability management + application owners</td><td>about 25 November 2026, when the Veria Labs proof of concept is expected</td></tr>
+<tr><td>Patch the next two KEV items before their due dates. Patch Perforce Puppet first, then check the CA signing key and the auto-signing policy. Patch LiteLLM to 1.83.11 or later, rotate inference keys and admin credentials, and watch LLM spend for unexplained growth.</td><td>Vulnerability management (+ IAM for the Puppet CA check)</td><td>1 December 2026 (Puppet, CVE-2026-115731); 2 December 2026 (LiteLLM, CVE-2026-40217)</td></tr>
+<tr><td>Patch PHP and start the exit from PHP 8.2 now. Upgrade to the 19 November release, which fixes 17 flaws, seven of them critical. Version 8.2.36 is one of the last fixes that branch will get, and PHP 8.1 and older get nothing at all. Fixed builds: 8.5.13 / 8.4.28 / 8.3.37 / 8.2.36.</td><td>Vulnerability management + application owners</td><td>patch now; 31 December 2026 (PHP 8.2 security support ends)</td></tr>
+</tbody></table></div>
+</section>
+<section aria-labelledby="developments">
+<div class="sec-head"><h2 id="developments">5 key developments</h2></div>
+<ol>
+<li>Supplier failure was the week's spine. One compromise became dozens of firms' incidents: KARTE's 754 leaked keys, BankWeaver, Wellington IT, Paydon, and a reported Qubole link. <span class="meta-label">Confidence:</span> High</li>
+<li>AI agents found and exploited a zero-day on their own. Cairn agents mapped a MONAI Label flaw to arbitrary file write in about 11 minutes, then reached root. <span class="meta-label">Confidence:</span> High</li>
+<li>AI-voice vishing is now a confirmed ransomware entry point. Police and the FBI arrested four suspected members of a group behind at least 28 companies paying over $40.5 million. <span class="meta-label">Confidence:</span> High</li>
+<li>A vCenter zero-day was exploited since early September. A suspected state-linked actor, ARMORY CASTLE, used it; Broadcom patched on 19 November and CISA listed it with a 23 November due date. <span class="meta-label">Confidence:</span> High</li>
+<li>Ransomware moved from claims to publications. n0n published Visa, JPMorgan Chase and Mastercard customer data on 19 November after its deadline expired. Deadlines stopped predicting publication: the retail batch, Vortex/Carrington and Pixelleaks/Ekwiik deadlines all passed quietly. <span class="meta-label">Confidence:</span> High</li>
+</ol>
+</section>
+<section aria-labelledby="board">
+<div class="board-box"><h2 id="board">For the board</h2>
+<ol>
+<li>Which of our suppliers could turn one compromise into our incident — and have we rotated every KARTE credential and checked for misuse?</li>
+<li>Are exploited flaws patched first — are the four KEV items due 23 November closed, and was vCenter hunted as well as patched?</li>
+<li>Could a cloned voice pass our help-desk or finance checks — what stops AI-voice vishing, now a confirmed ransomware entry point, from opening our way in?</li>
+</ol></div>
+</section>
+<p class="full-link">Full detail, sources and the appendix: <a href="weekly-20261123-v3.html">Weekly strategic cyber intelligence report — 16–23 November 2026 (full report)</a>.</p>
+</main>
+</div>
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a>
+</body>
+</html>
