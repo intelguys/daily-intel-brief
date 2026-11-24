@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Client data leaked from a French private bank enables targeted phishing and impersonation against Delubac customers, including fake bank-adviser calls citing the incident; the bank warns its staff never ask for codes or passwords by phone, email or text. The fraud attempt failed and no client or bank funds moved, so the immediate risk is social engineering using the leaked data rather than direct account takeover. Delubac is the second French bank hit this month after Crédit Mutuel Arkéa, where attackers did move about €100 million, so French banks should treat vendor and payment-workflow intrusion attempts as an active pattern, not isolated events.",
+      "headline": "Banque Delubac discloses intrusion and client data leak; attempted fraudulent transfers failed",
+      "id": "breaking-banque-delubac-20261123",
+      "known": "Banque Delubac & Cie, a French private bank founded in 1924, disclosed in a press release on Monday 23 November 2026 that it detected an intrusion into its information systems on Friday 20 November, accompanied by an attempt at fraudulent financial operations which failed. The bank says its teams contained the attack as soon as it was detected and a full check over the weekend found the attackers had not been able to carry out any financial operation: neither clients' assets nor the bank's own are affected. The intrusion nevertheless led to a leak of data on part of its clientele; the bank has not said what data leaked, how many clients are affected, or how the attackers got in, and investigations continue to establish the extent. As a precaution the bank temporarily suspended access to its portals and online banking and fund movements; fund movements resumed on the morning of Monday 23 November and other services are being restored gradually. The bank has informed the banking supervisor ACPR and the data protection regulator CNIL and has filed a criminal complaint. Les Echos reported the transfer attempts targeted money and cryptocurrencies, a detail the bank's own statement did not specify. On 20 November the bank had also warned customers about fraudulent SMS messages circulating in its name.",
+      "severity": "high",
+      "source_name": "Banque Delubac & Cie press release, 23 November 2026 (translated from French); Le Monde Informatique, 23 November 2026; AFP via BFMTV; Les Echos",
+      "source_url": "https://cybersixt.com/originals/banque-delubac-cyberattack",
+      "status": "confirmed",
+      "summary": "Banque Delubac & Cie disclosed on 23 November 2026 that intruders entered its systems on 20 November and attempted fraudulent transfers, which failed, but the break-in leaked data on some clients. The bank has not said what data or how many clients are affected. It suspended portals, online banking and fund movements as a precaution; fund movements resumed on 23 November. It has notified the ACPR and CNIL and filed a criminal complaint.",
+      "timestamp_sgt": "2026-11-23T19:16:00+08:00",
+      "type": "Major breach — French private bank, client data leak and attempted fraud",
+      "unknown": "What client data leaked, how many clients are affected, and how the attackers entered the bank's systems; whether any of the leaked data has been misused for fraud."
+    },
+    {
       "bfsi_impact": "Name, account number and driver's licence number for 8,241 Samsung Securities customers enables identity fraud and highly targeted phishing against those customers, and gives attackers a verified customer list for impersonation calls and messages citing the incident. Only customers who filed through the Voice of Customer complaints system are affected; the firm's trading and payment systems are not reported breached, so the immediate risk is social engineering and identity fraud rather than direct account takeover. The disclosure adds a fourth Korean securities firm to the current breach wave and comes days after the Financial Supervisory Service summoned 227 e-finance and 47 investment-linked firms over the sector's security failures.",
       "headline": "Samsung Securities discloses breach of customer-complaints system; account numbers and driver's licence numbers of 8,241 customers leaked",
       "id": "breaking-samsung-securities-20261123",
@@ -1879,8 +1893,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-24T00:00:00+08:00",
-  "next_check_sgt": "2026-11-24T04:00:00+08:00",
-  "updated_sgt": "2026-11-24T00:00:00+08:00",
+  "last_checked_sgt": "2026-11-24T08:00:00+08:00",
+  "next_check_sgt": "2026-11-24T12:00:00+08:00",
+  "updated_sgt": "2026-11-24T08:00:00+08:00",
   "version": 1
 }
