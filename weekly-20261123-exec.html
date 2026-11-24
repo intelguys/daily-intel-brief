@@ -183,8 +183,58 @@ details.notincl li{margin-bottom:8px;font-size:.94rem}
 
 
 /* v3 treatment — restrained: only the takeaway line is bold, with an
-   accent left border; key figures inside it take the accent colour. */
+   accent left border; key figures inside it take the accent colour.
+   Design pass: the takeaway is now the story headline (h3); the old
+   label heading becomes a small eyebrow above it. */
 .takeaway{font-weight:700;border-left:4px solid var(--accent);padding:6px 0 6px 12px;margin:10px 0}
+.takeaway-head{font-size:1.28rem;line-height:1.32;margin:0 0 8px}
+.story-eyebrow{font-size:.82rem;font-weight:700;color:var(--muted);margin:0 0 5px}
+.meta-chips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px}
+.mchip{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.03em;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--surface)}
+/* Colour-coded by value: filled pills, following the site's .badge pattern
+   (filled background, high-contrast text). An outline alone was too subtle:
+   at 1px the warm tones read as one red-brown. Text uses var(--surface),
+   which is near-white in light mode and near-black in dark mode, so the
+   same rule stays legible in both schemes with no extra media query. */
+.mchip.conf-high,.mchip.pri-act{background:var(--crit);border-color:var(--crit);color:var(--surface)}
+.mchip.conf-medium{background:var(--warn);border-color:var(--warn);color:var(--surface)}
+.mchip.pri-monitor{background:var(--accent2);border-color:var(--accent2);color:var(--surface)}
+.mchip.conf-low,.mchip.pri-context{background:var(--chip);border-color:var(--line);color:var(--muted)}
+/* Type scale + measure: 17px body, prose capped near 70 characters,
+   hairline rules between stories, larger section numerals. */
+body{font-size:17px;line-height:1.62}
+.main p,.main li{max-width:70ch}
+.story p,.story li{font-size:1rem;line-height:1.62}
+.story{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:20px}
+.story:last-child{border-bottom:none}
+.sec-head h2{font-size:2rem}
+.sec-num{font-size:1.35em;color:var(--accent);font-weight:700;margin-right:.3em;font-family:Georgia,"Iowan Old Style","Times New Roman",serif}
+/* Tables: light horizontal rules only, short cells. */
+.table-scroll table{border:none;border-radius:0;box-shadow:none}
+.table-scroll th,.table-scroll td{border:none;border-bottom:1px solid var(--line);padding:8px 10px;font-size:.9rem;line-height:1.45}
+.table-scroll th{background:transparent}
+.table-scroll tbody tr:last-child td{border-bottom:none}
+/* Stat strip at the top of Read this first. */
+.stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:18px 0 20px}
+.stat{border:1px solid var(--line);border-top:3px solid var(--accent);background:var(--surface);border-radius:8px;padding:12px 14px;box-shadow:var(--shadow)}
+.stat-num{display:block;font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:1.7rem;font-weight:700;color:var(--accent);line-height:1.1}
+.stat-label{display:block;font-size:.85rem;color:var(--muted);line-height:1.4;margin-top:4px}
+/* Top 5 actions as cards. */
+.action-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:12px 0 20px}
+.action-card{border:1px solid var(--line);border-top:4px solid var(--accent);background:var(--surface);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow)}
+.action-num{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:1.9rem;line-height:1;color:var(--accent);font-weight:700}
+.action-card h4{margin:8px 0;font-size:1.02rem;line-height:1.35}
+.action-card p{font-size:.92rem;margin:0 0 10px}
+.action-meta{display:flex;flex-wrap:wrap;gap:6px}
+.owner-chip,.due-chip{display:inline-block;font-size:.78rem;font-weight:700;line-height:1.4;border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.owner-chip{color:var(--muted)}
+.due-chip{border-color:var(--accent);color:var(--accent)}
+/* Executive-edition link, after the cover. */
+.exec-link{margin:20px 0 4px}
+.exec-link a{display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 16px;text-decoration:none;box-shadow:var(--shadow)}
+@media (max-width:900px){
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+}
 .kfig{color:var(--accent);font-weight:700}
 .chips-wrap{margin:4px 0 18px}
 .chips-wrap h3{margin:0 0 10px}
@@ -284,18 +334,57 @@ h2{margin-top:20px}
 .board-box ol{margin:0;padding-left:20px}
 .board-box li{margin-bottom:6px}
 .full-link{margin-top:20px}
+/* Print-only condensed action cells: hidden on screen, shown in print. */
+.short{display:none}
 @media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
-@page{size:A4;margin:13mm 15mm}
+@page{size:A4;margin:10mm 12mm}
+@page{ @top-center{content:none} @bottom-center{content:none} }
 @media print{
-  body{font-size:11.5px;line-height:1.45}
+  /* 1-page fit: 10px body, tight margins, no page-break-inside:avoid on
+     any section-level element (the old avoid on section/.table-scroll
+     forced whole sections onto new pages).
+     Specificity traps in the inherited v3 CSS — bare element selectors
+     LOSE to these in print, so the print rules repeat their selectors:
+       .table-scroll th,.table-scroll td (0,1,1) sets .9rem/1.45 — the old
+         th,td print rule never applied and cells printed at 14.4px;
+       .sec-head h2 (0,1,1) sets 2rem — the old h2 print rule never
+         applied and section headings printed at 32px;
+       .mast h1 (0,1,1) sets max-width:20ch — the h1 wrapped to 4 lines
+         in print until max-width:none was added.
+     All three are verified fixed by the WeasyPrint probe (see report). */
+  body{font-size:10px;line-height:1.35}
   .wrap{max-width:none;padding:0}
   .bfsi-back-btn{display:none !important}
-  h1{font-size:1.5rem}
-  h2{font-size:1.15rem;margin-top:12px}
-  .stats{grid-template-columns:repeat(5,1fr);gap:8px}
-  .stat{padding:8px 10px}
-  .stat-num{font-size:1.2rem}
-  section,.board-box,.stats,.table-scroll{page-break-inside:avoid}
+  .mast{padding:0 0 2px}
+  .kicker{font-size:9px}
+  .mast h1{font-size:19px;margin:5px 0;max-width:none}
+  .mast .sub{font-size:10px;margin:2px 0;max-width:none}
+  .meta-row{margin-top:6px;gap:6px}
+  .meta{font-size:9px;padding:4px 8px}
+  section{margin-top:8px}
+  .sec-head{padding-bottom:4px;margin-bottom:5px}
+  .sec-head h2{font-size:13px;margin:0 0 4px}
+  h2{font-size:13px;margin-top:0}
+  .takeaway{padding:4px 0 4px 10px;margin:6px 0}
+  .stats{grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0 2px}
+  .stat{padding:5px 8px}
+  .stat-num{font-size:13px}
+  .stat-label{font-size:9px;line-height:1.3;margin-top:2px}
+  .stat-note{font-size:9px;margin:2px 0 0}
+  .table-scroll{overflow:visible}
+  .table-scroll th,.table-scroll td{font-size:10px;line-height:1.35;padding:5px 8px}
+  .table-scroll th{font-size:8.5px;padding:4px 8px}
+  th:nth-child(1),td:nth-child(1){width:56%}
+  th:nth-child(2),td:nth-child(2){width:20%}
+  th:nth-child(3),td:nth-child(3){width:24%}
+  .board-box{padding:6px 12px;margin:8px 0}
+  .board-box li{margin-bottom:3px}
+  ol{margin:4px 0}
+  li{margin-bottom:3px}
+  .full-link{margin-top:6px}
+  /* Swap action/deadline cells: full text on screen, condensed in print. */
+  .full{display:none}
+  .short{display:inline}
   a{color:var(--ink)}
 }
 </style>
@@ -327,11 +416,11 @@ h2{margin-top:20px}
 <section aria-labelledby="actions">
 <div class="sec-head"><h2 id="actions">Top 5 actions</h2></div>
 <div class="table-scroll"><table><thead><tr><th>Action</th><th>Owner</th><th>Deadline</th></tr></thead><tbody>
-<tr><td>Close the four KEV items due today. Patch VMware vCenter, Apache Roller, SAP NetWeaver and Cisco Expressway. CVE-2026-123890 (vCenter) · CVE-2026-129448 (Roller) · CVE-2026-76466 (Expressway) · CVE-2025-42884 (NetWeaver). For vCenter, hunt as well as patch: rogue vSphere SSO admin accounts, a stolen STS SAML signing key, and unauthorised ESXi SSH keys. No workaround exists for vCenter.</td><td>Vulnerability management + SOC</td><td>23 November 2026 (today)</td></tr>
-<tr><td>Rotate the 754 leaked KARTE integration credentials and check for misuse. Treat any key that touched KARTE as exposed until checked. Former clients count too: Stripe International and overflow data was retained after their contracts ended.</td><td>Third-party risk + SOC</td><td>before 24 November 2026, when per-company handovers begin</td></tr>
-<tr><td>Finish ruby2shell patching, internet-facing systems first. Upgrade to the fixed Ruby releases, then check bundled-Ruby products such as GitLab, Mastodon and Discourse. There is no workaround. Fixed releases: 3.3.14 / 3.4.13 / 4.0.10.</td><td>Vulnerability management + application owners</td><td>about 25 November 2026, when the Veria Labs proof of concept is expected</td></tr>
-<tr><td>Patch the next two KEV items before their due dates. Patch Perforce Puppet first, then check the CA signing key and the auto-signing policy. Patch LiteLLM to 1.83.11 or later, rotate inference keys and admin credentials, and watch LLM spend for unexplained growth.</td><td>Vulnerability management (+ IAM for the Puppet CA check)</td><td>1 December 2026 (Puppet, CVE-2026-115731); 2 December 2026 (LiteLLM, CVE-2026-40217)</td></tr>
-<tr><td>Patch PHP and start the exit from PHP 8.2 now. Upgrade to the 19 November release, which fixes 17 flaws, seven of them critical. Version 8.2.36 is one of the last fixes that branch will get, and PHP 8.1 and older get nothing at all. Fixed builds: 8.5.13 / 8.4.28 / 8.3.37 / 8.2.36.</td><td>Vulnerability management + application owners</td><td>patch now; 31 December 2026 (PHP 8.2 security support ends)</td></tr>
+<tr><td><span class="full">Close the four KEV items due today. Patch VMware vCenter, Apache Roller, SAP NetWeaver and Cisco Expressway. CVE-2026-123890 (vCenter) · CVE-2026-129448 (Roller) · CVE-2026-76466 (Expressway) · CVE-2025-42884 (NetWeaver). For vCenter, hunt as well as patch: rogue vSphere SSO admin accounts, a stolen STS SAML signing key, and unauthorised ESXi SSH keys. No workaround exists for vCenter.</span><span class="short">Patch the four KEV items due today — vCenter, Roller, Expressway, NetWeaver (CVE-2026-123890 / -129448 / -76466; CVE-2025-42884). For vCenter also hunt rogue SSO admins, a stolen STS SAML key and unauthorised ESXi SSH keys; no workaround.</span></td><td>Vulnerability management + SOC</td><td>23 November 2026 (today)</td></tr>
+<tr><td><span class="full">Rotate the 754 leaked KARTE integration credentials and check for misuse. Treat any key that touched KARTE as exposed until checked. Former clients count too: Stripe International and overflow data was retained after their contracts ended.</span><span class="short">Rotate the 754 leaked KARTE integration credentials and check for misuse — treat any key that touched KARTE as exposed, including former clients' keys.</span></td><td>Third-party risk + SOC</td><td><span class="full">before 24 November 2026, when per-company handovers begin</span><span class="short">Before 24 Nov 2026</span></td></tr>
+<tr><td><span class="full">Finish ruby2shell patching, internet-facing systems first. Upgrade to the fixed Ruby releases, then check bundled-Ruby products such as GitLab, Mastodon and Discourse. There is no workaround. Fixed releases: 3.3.14 / 3.4.13 / 4.0.10.</span><span class="short">Finish ruby2shell patching, internet-facing first — upgrade to Ruby 3.3.14 / 3.4.13 / 4.0.10, then check GitLab, Mastodon and Discourse. No workaround.</span></td><td>Vulnerability management + application owners</td><td><span class="full">about 25 November 2026, when the Veria Labs proof of concept is expected</span><span class="short">About 25 Nov 2026</span></td></tr>
+<tr><td><span class="full">Patch the next two KEV items before their due dates. Patch Perforce Puppet first, then check the CA signing key and the auto-signing policy. Patch LiteLLM to 1.83.11 or later, rotate inference keys and admin credentials, and watch LLM spend for unexplained growth.</span><span class="short">Patch Puppet first (due 1 Dec), checking the CA key and auto-signing; then LiteLLM 1.83.11+ (due 2 Dec), rotating inference keys and watching LLM spend.</span></td><td>Vulnerability management (+ IAM for the Puppet CA check)</td><td>1 December 2026 (Puppet, CVE-2026-115731); 2 December 2026 (LiteLLM, CVE-2026-40217)</td></tr>
+<tr><td><span class="full">Patch PHP and start the exit from PHP 8.2 now. Upgrade to the 19 November release, which fixes 17 flaws, seven of them critical. Version 8.2.36 is one of the last fixes that branch will get, and PHP 8.1 and older get nothing at all. Fixed builds: 8.5.13 / 8.4.28 / 8.3.37 / 8.2.36.</span><span class="short">Upgrade to the 19 Nov PHP release (8.5.13 / 8.4.28 / 8.3.37 / 8.2.36; 17 flaws, seven critical) and start the PHP 8.2 exit now — 8.1 and older get no fixes.</span></td><td>Vulnerability management + application owners</td><td><span class="full">patch now; 31 December 2026 (PHP 8.2 security support ends)</span><span class="short">Now; 31 Dec 2026</span></td></tr>
 </tbody></table></div>
 </section>
 <section aria-labelledby="developments">

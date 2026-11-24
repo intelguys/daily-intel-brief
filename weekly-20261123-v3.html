@@ -191,10 +191,15 @@ details.notincl li{margin-bottom:8px;font-size:.94rem}
 .story-eyebrow{font-size:.82rem;font-weight:700;color:var(--muted);margin:0 0 5px}
 .meta-chips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px}
 .mchip{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.03em;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--surface)}
-.mchip.conf-high,.mchip.pri-act{border-color:var(--accent);color:var(--accent)}
-.mchip.conf-medium{border-color:var(--warn);color:var(--warn)}
-.mchip.pri-monitor{border-color:var(--accent2);color:var(--accent2)}
-.mchip.conf-low,.mchip.pri-context{color:var(--muted)}
+/* Colour-coded by value: filled pills, following the site's .badge pattern
+   (filled background, high-contrast text). An outline alone was too subtle:
+   at 1px the warm tones read as one red-brown. Text uses var(--surface),
+   which is near-white in light mode and near-black in dark mode, so the
+   same rule stays legible in both schemes with no extra media query. */
+.mchip.conf-high,.mchip.pri-act{background:var(--crit);border-color:var(--crit);color:var(--surface)}
+.mchip.conf-medium{background:var(--warn);border-color:var(--warn);color:var(--surface)}
+.mchip.pri-monitor{background:var(--accent2);border-color:var(--accent2);color:var(--surface)}
+.mchip.conf-low,.mchip.pri-context{background:var(--chip);border-color:var(--line);color:var(--muted)}
 /* Type scale + measure: 17px body, prose capped near 70 characters,
    hairline rules between stories, larger section numerals. */
 body{font-size:17px;line-height:1.62}
@@ -221,7 +226,7 @@ body{font-size:17px;line-height:1.62}
 .action-card h4{margin:8px 0;font-size:1.02rem;line-height:1.35}
 .action-card p{font-size:.92rem;margin:0 0 10px}
 .action-meta{display:flex;flex-wrap:wrap;gap:6px}
-.owner-chip,.due-chip{font-size:.78rem;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.owner-chip,.due-chip{display:inline-block;font-size:.78rem;font-weight:700;line-height:1.4;border:1px solid var(--line);border-radius:999px;padding:5px 12px}
 .owner-chip{color:var(--muted)}
 .due-chip{border-color:var(--accent);color:var(--accent)}
 /* Executive-edition link, after the cover. */
@@ -331,7 +336,7 @@ details.app h3{margin-top:18px}
 <div class="sec-head"><h2 id="contents-h">Contents</h2><p class="toc-lede">Weekly strategic cyber intelligence report, 16–23 November 2026. BFSI cyber, Asia/Singapore.</p></div>
 <div class="toc-group"><h3><a href="#read-first">Read this first</a></h3>
 </div>
-<div class="toc-group" id="charts"><h3><a href="#charts">Charts</a></h3>
+<div class="toc-group" id="charts"><h3><a href="#viz-week-timeline">Charts</a></h3>
 <ul>
 <li><a href="#viz-week-timeline">The week — major events</a></li>
 <li><a href="#viz-karte-cascade">Plaid KARTE — published totals</a></li>
@@ -365,7 +370,7 @@ details.app h3{margin-top:18px}
 <li><a href="#rf-developments">The 5 key developments</a></li>
 <li><a href="#rf-watch">Watch next week</a></li>
 </ul>
-<ul><li class="side-sec"><a href="#charts">Charts</a></li>
+<ul><li class="side-sec"><a href="#viz-week-timeline">Charts</a></li>
 <li><a href="#viz-week-timeline">The week — major events</a></li>
 <li><a href="#viz-karte-cascade">Plaid KARTE — published totals</a></li>
 <li><a href="#viz-korea-regulatory-cascade">Korea — from the FSI breach to a sector-wide inspection</a></li>
@@ -517,11 +522,11 @@ details.app h3{margin-top:18px}
 </div>
 <h3 id="rf-developments">The 5 key developments</h3>
 <ol>
-<li>Supplier failure was the week's spine. One compromise became dozens of firms' incidents: KARTE's 754 leaked keys, BankWeaver, Wellington IT, Paydon, and a reported Qubole link. Confidence: High — multiple confirmed vendor and company disclosures, plus regulator confirmations. The Qubole link stays reported, not confirmed: Qubole has not responded and no firm has named a vendor.</li>
-<li>AI agents found and exploited a zero-day on their own. Cairn agents mapped a MONAI Label flaw to arbitrary file write in about 11 minutes, then reached root. Confidence: High — Amazon Threat Intelligence primary, 20 November; the zero-day assessment is high-confidence. China-nexus attribution is moderate-confidence, and the second university network is inferred, not confirmed.</li>
-<li>AI-voice vishing is now a confirmed ransomware entry point. Police and the FBI arrested four suspected members of a group behind at least 28 companies paying over $40.5 million. Confidence: High — law-enforcement confirmation, not a vendor warning.</li>
-<li>A vCenter zero-day was exploited since early September. A suspected state-linked actor, ARMORY CASTLE, used it; Broadcom patched on 19 November and CISA listed it with a 23 November due date. Confidence: High — Google Threat Intelligence Group disclosure, plus the patch and the KEV listing. "Suspected PRC-nexus" is the researcher's wording; attribution is suspected, not confirmed.</li>
-<li>Ransomware moved from claims to publications. n0n published Visa, JPMorgan Chase and Mastercard customer data on 19 November after its deadline expired. Deadlines stopped predicting publication: the retail batch, Vortex/Carrington and Pixelleaks/Ekwiik deadlines all passed quietly. Confidence: High — all three firms confirmed within a day, and the quiet deadlines are documented in the n0n record.</li>
+<li>Supplier failure was the week's spine. One compromise became dozens of firms' incidents: KARTE's 754 leaked keys, BankWeaver, Wellington IT, Paydon, and a reported Qubole link. <span class="mchip conf-high">Confidence: High</span> — multiple confirmed vendor and company disclosures, plus regulator confirmations. The Qubole link stays reported, not confirmed: Qubole has not responded and no firm has named a vendor.</li>
+<li>AI agents found and exploited a zero-day on their own. Cairn agents mapped a MONAI Label flaw to arbitrary file write in about 11 minutes, then reached root. <span class="mchip conf-high">Confidence: High</span> — Amazon Threat Intelligence primary, 20 November; the zero-day assessment is high-confidence. China-nexus attribution is moderate-confidence, and the second university network is inferred, not confirmed.</li>
+<li>AI-voice vishing is now a confirmed ransomware entry point. Police and the FBI arrested four suspected members of a group behind at least 28 companies paying over $40.5 million. <span class="mchip conf-high">Confidence: High</span> — law-enforcement confirmation, not a vendor warning.</li>
+<li>A vCenter zero-day was exploited since early September. A suspected state-linked actor, ARMORY CASTLE, used it; Broadcom patched on 19 November and CISA listed it with a 23 November due date. <span class="mchip conf-high">Confidence: High</span> — Google Threat Intelligence Group disclosure, plus the patch and the KEV listing. "Suspected PRC-nexus" is the researcher's wording; attribution is suspected, not confirmed.</li>
+<li>Ransomware moved from claims to publications. n0n published Visa, JPMorgan Chase and Mastercard customer data on 19 November after its deadline expired. Deadlines stopped predicting publication: the retail batch, Vortex/Carrington and Pixelleaks/Ekwiik deadlines all passed quietly. <span class="mchip conf-high">Confidence: High</span> — all three firms confirmed within a day, and the quiet deadlines are documented in the n0n record.</li>
 </ol>
 <h3 id="rf-watch">Watch next week</h3>
 <div class="table-scroll"><table><thead><tr>
@@ -2806,7 +2811,8 @@ details.app h3{margin-top:18px}
       }
      ]
     }
-   ]
+   ],
+   "xLabel": "Number of flaws"
   },
   {
    "id": "bfsi-incidents-by-region",
@@ -2912,7 +2918,8 @@ details.app h3{margin-top:18px}
       }
      ]
     }
-   ]
+   ],
+   "xLabel": "Number of actors"
   }
  ]
 }</script>
@@ -3025,7 +3032,7 @@ function hbar(c,mount,rows,maxVal,labW){
     tip(bar,r.tip);
     txt(s,L+bw+8,y+21,String(r.value),INK,12,'start','700');
   });
-  txt(s,L,H-2,'count',MUT,11,'start');
+  txt(s,L,H-2,c.xLabel||'count',MUT,11,'start');
 }
 function vulnsBar(c,mount){
   var rows=c.groups.map(function(g){
