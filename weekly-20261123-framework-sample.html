@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Weekly strategic cyber intelligence report — 16–23 November 2026 — Framework sample (SAMPLE — DRAFT)</title>
+<style>
+:root{
+  --bg:#f4f2ec; --surface:#fffdf8; --surface2:#eceadf; --ink:#1c1e22; --muted:#5c6068;
+  --line:#d8d3c4; --accent:#8a3324; --accent2:#1f4e5f; --warn:#9a6a12; --ok:#2e6b4f;
+  --chip:#efe9db; --crit:#8a3324; --high:#b35c1e; --med:#9a6a12;
+  --shadow:0 1px 3px rgba(28,30,34,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14161a; --surface:#1d2025; --surface2:#262a31; --ink:#ece9e2; --muted:#a7abb3;
+    --line:#3a3e46; --accent:#e08a76; --accent2:#7fb8c9; --warn:#d9b45c; --ok:#7fc79e;
+    --chip:#2b2f36; --crit:#f0927f; --high:#eda26a; --med:#d9b45c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;}
+.wrap{max-width:min(1180px,94vw);margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15;margin:0}
+h2{font-size:1.55rem;margin:0 0 6px}
+h3{font-size:1.12rem}
+a{color:var(--accent2);text-decoration:underline;text-underline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+section{margin-top:44px}
+.sec-head{border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.sec-head p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* Masthead */
+.mast{padding:34px 0 8px}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.mast h1{font-size:2.35rem;margin:10px 0 8px;max-width:20ch}
+.mast .sub{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;font-size:.83rem;box-shadow:var(--shadow)}
+.meta b{font-weight:700}
+
+/* Follow-up tracker */
+.tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.track{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
+.track .t-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.track .t-status{font-family:Georgia,serif;font-size:1.15rem;margin:5px 0 4px}
+.track p{margin:0;font-size:.86rem;color:var(--muted)}
+.st-passed{color:var(--crit)} .st-due{color:var(--high)} .st-pending{color:var(--warn)} .st-done{color:var(--ok)}
+
+/* Executive summary */
+.exec{display:grid;gap:12px}
+.exec-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.exec-num{font-family:Georgia,serif;font-size:2rem;line-height:1;color:var(--accent);flex:0 0 auto}
+.exec-card p{margin:0}
+.exec-card b{font-weight:700}
+
+/* Badges */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:3px 9px;background:var(--chip);color:var(--ink);vertical-align:middle}
+.badge.red{background:var(--crit);color:#fff}
+.badge.amber{background:var(--warn);color:#fff}
+.badge.teal{background:var(--accent2);color:#fff}
+.badge.grey{background:var(--chip);color:var(--muted)}
+@media (prefers-color-scheme: dark){.badge.red,.badge.amber,.badge.teal{color:#14161a}}
+
+/* Actor cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.filters button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.actor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actor{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.actor .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.actor h3{margin-bottom:4px}
+.actor .target{color:var(--accent2);font-weight:600;font-size:.92rem;margin:0 0 10px}
+.actor dl{margin:0;display:grid;gap:8px}
+.actor dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.actor dd{margin:2px 0 0;font-size:.93rem}
+.actor .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+.none-card{border:1px dashed var(--line);border-radius:8px;padding:16px 18px;color:var(--muted);background:transparent;margin-top:14px}
+.none-card b{color:var(--ink)}
+
+/* Vuln table */
+.vuln-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.vuln-tools input{font:inherit;font-size:.9rem;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:220px;flex:1}
+.vuln-tools input:focus-visible{outline:3px solid var(--accent2);outline-offset:1px}
+table{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 12px;vertical-align:top;font-size:.9rem;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+th{background:var(--surface2);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
+tbody tr:last-child td{border-bottom:none}
+td.cve{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;font-weight:700;white-space:normal}
+.score{font-weight:700}
+.score.crit{color:var(--crit)} .score.high{color:var(--high)} .score.med{color:var(--med)}
+.status{font-size:.78rem;font-weight:700}
+.status.wild{color:var(--crit)} .status.none{color:var(--ok)} .status.verify{color:var(--warn)}
+.count-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+.table-scroll{overflow-x:auto}
+/* Two-col panels */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:8px}
+.panel p,.panel li{font-size:.94rem}
+.panel ul{margin:6px 0 0;padding-left:20px}
+.panel li{margin-bottom:7px}
+
+/* IOC + actions */
+.ioc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.ioc h3{margin-bottom:8px}
+.ioc ul{margin:6px 0 0;padding-left:20px}
+.ioc li{margin-bottom:8px;font-size:.94rem}
+.ioc .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84rem;background:var(--surface2);border-radius:4px;padding:1px 5px}
+ol.actions{counter-reset:step;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.actions li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px 14px 52px;position:relative;box-shadow:var(--shadow);font-size:.95rem}
+ol.actions li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:13px;
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+@media (prefers-color-scheme: dark){ol.actions li::before{color:#14161a}}
+
+/* Unverified */
+.unverified{border:1px solid var(--warn);border-radius:8px;padding:18px;background:var(--surface)}
+.unverified ul{margin:8px 0 0;padding-left:20px}
+.unverified li{margin-bottom:8px;font-size:.94rem}
+
+/* Sources */
+.sources{font-size:.88rem}
+.sources li{margin-bottom:6px;overflow-wrap:anywhere}
+footer{margin-top:52px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:820px){
+  .tracker{grid-template-columns:1fr 1fr}
+  .actor-grid,.panels{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tbody tr{border-bottom:2px solid var(--line);padding:8px 0}
+  td{border-bottom:none;padding:5px 12px}
+  td.cve{white-space:normal;font-size:.95rem}
+  td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1px}
+}
+@media (max-width:460px){.tracker{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+<style>
+/* Weekly report additions — chart, timeline and story components; theme variables only */
+.chart{margin:0 0 8px}
+.chart svg{width:100%;height:auto;display:block}
+.chart-note{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+.chart-note b{color:var(--ink)}
+.chart-src{font-size:.82rem;color:var(--muted);margin:4px 0 0}
+.viz-grid{display:grid;gap:30px}
+.story{margin-bottom:14px}
+.story h3{margin-bottom:6px}
+.story .status{font-size:.82rem;font-weight:700;margin:0 0 8px}
+.status.confirmed{color:var(--ok)} .status.reported{color:var(--warn)} .status.unconfirmed{color:var(--crit)}
+.story p{margin:0 0 10px;font-size:.95rem}
+.story .src{font-size:.86rem;color:var(--muted)}
+.story .src a{overflow-wrap:anywhere}
+.geo{margin-bottom:14px}
+.geo h3{margin-bottom:6px}
+.geo h4{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px;font-family:inherit}
+.geo p{margin:0 0 10px;font-size:.95rem}
+.geo .src{font-size:.86rem;color:var(--muted)}
+.geo .src a{overflow-wrap:anywhere}
+details.notincl{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:16px 18px;box-shadow:var(--shadow)}
+details.notincl summary{cursor:pointer;font-weight:700;font-size:1.05rem}
+details.notincl ul{margin:10px 0 0;padding-left:20px}
+details.notincl li{margin-bottom:8px;font-size:.94rem}
+.watch li{margin-bottom:8px}
+.trend h3{margin:22px 0 8px}
+.trend p{margin:0 0 10px;font-size:.95rem}
+@media (max-width:820px){.viz-grid{gap:24px}}
+.chart-tip{position:fixed;display:none;z-index:60;max-width:340px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.88rem;line-height:1.45;box-shadow:var(--shadow);pointer-events:none}
+.chart-tip.show{display:block}
+
+
+/* v3 treatment — restrained: only the takeaway line is bold, with an
+   accent left border; key figures inside it take the accent colour.
+   Design pass: the takeaway is now the story headline (h3); the old
+   label heading becomes a small eyebrow above it. */
+.takeaway{font-weight:700;border-left:4px solid var(--accent);padding:6px 0 6px 12px;margin:10px 0}
+.takeaway-head{font-size:1.28rem;line-height:1.32;margin:0 0 8px}
+.story-eyebrow{font-size:.82rem;font-weight:700;color:var(--muted);margin:0 0 5px}
+.meta-chips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px}
+.mchip{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.03em;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--surface)}
+/* Colour-coded by value: filled pills, following the site's .badge pattern
+   (filled background, high-contrast text). An outline alone was too subtle:
+   at 1px the warm tones read as one red-brown. Text uses var(--surface),
+   which is near-white in light mode and near-black in dark mode, so the
+   same rule stays legible in both schemes with no extra media query. */
+.mchip.conf-high,.mchip.pri-act{background:var(--crit);border-color:var(--crit);color:var(--surface)}
+.mchip.conf-medium{background:var(--warn);border-color:var(--warn);color:var(--surface)}
+.mchip.pri-monitor{background:var(--accent2);border-color:var(--accent2);color:var(--surface)}
+.mchip.conf-low,.mchip.pri-context{background:var(--chip);border-color:var(--line);color:var(--muted)}
+/* Type scale + measure: 17px body, prose capped near 70 characters,
+   hairline rules between stories, larger section numerals. */
+body{font-size:17px;line-height:1.62}
+.main p,.main li{max-width:70ch}
+.story p,.story li{font-size:1rem;line-height:1.62}
+.story{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:20px}
+.story:last-child{border-bottom:none}
+.sec-head h2{font-size:2rem}
+.sec-num{font-size:1.35em;color:var(--accent);font-weight:700;margin-right:.3em;font-family:Georgia,"Iowan Old Style","Times New Roman",serif}
+/* Tables: light horizontal rules only, short cells. */
+.table-scroll table{border:none;border-radius:0;box-shadow:none}
+.table-scroll th,.table-scroll td{border:none;border-bottom:1px solid var(--line);padding:8px 10px;font-size:.9rem;line-height:1.45}
+.table-scroll th{background:transparent}
+.table-scroll tbody tr:last-child td{border-bottom:none}
+/* Stat strip at the top of Read this first. */
+.stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:18px 0 20px}
+.stat{border:1px solid var(--line);border-top:3px solid var(--accent);background:var(--surface);border-radius:8px;padding:12px 14px;box-shadow:var(--shadow)}
+.stat-num{display:block;font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:1.7rem;font-weight:700;color:var(--accent);line-height:1.1}
+.stat-label{display:block;font-size:.85rem;color:var(--muted);line-height:1.4;margin-top:4px}
+/* Top 5 actions as cards. */
+.action-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:12px 0 20px}
+.action-card{border:1px solid var(--line);border-top:4px solid var(--accent);background:var(--surface);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow)}
+.action-num{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:1.9rem;line-height:1;color:var(--accent);font-weight:700}
+.action-card h4{margin:8px 0;font-size:1.02rem;line-height:1.35}
+.action-card p{font-size:.92rem;margin:0 0 10px}
+.action-meta{display:flex;flex-wrap:wrap;gap:6px}
+.owner-chip,.due-chip{display:inline-block;font-size:.78rem;font-weight:700;line-height:1.4;border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.owner-chip{color:var(--muted)}
+.due-chip{border-color:var(--accent);color:var(--accent)}
+/* Executive-edition link, after the cover. */
+.exec-link{margin:20px 0 4px}
+.exec-link a{display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 16px;text-decoration:none;box-shadow:var(--shadow)}
+@media (max-width:900px){
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+}
+.kfig{color:var(--accent);font-weight:700}
+.chips-wrap{margin:4px 0 18px}
+.chips-wrap h3{margin:0 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--surface);border-radius:8px;padding:8px 12px;font-size:.88rem;line-height:1.45;box-shadow:var(--shadow)}
+.meta-line{font-size:.95rem}
+.meta-label{color:var(--muted)}
+.src{font-size:.86rem;color:var(--muted)}
+.src a{overflow-wrap:anywhere}
+.xref{color:var(--muted);font-size:.92rem}
+.xref-box{border:1px solid var(--line);border-left:4px solid var(--accent2);background:var(--surface);border-radius:8px;padding:12px 16px;margin:18px 0;box-shadow:var(--shadow)}
+.xref-box h3{margin:0 0 8px}
+.xref-box ul{margin:0;padding-left:20px}
+.xref-box li{margin-bottom:6px;font-size:.94rem}
+.lede{color:var(--muted);font-size:1.02rem}
+/* Cover and contents page */
+.cover{padding:48px 0 24px}
+.cover h1{font-size:2.6rem;max-width:22ch}
+.contents-page{margin-top:8px}
+.contents-page h2{margin-bottom:4px}
+.contents-page .toc-lede{color:var(--muted);margin:0 0 16px}
+.toc-group{margin:0 0 14px}
+.toc-group h3{font-size:.95rem;margin:0 0 4px}
+.toc-group ul{list-style:none;margin:0;padding:0}
+.toc-group li{margin:2px 0;font-size:.93rem}
+.toc-group a{text-decoration:none}
+.toc-group a:hover{text-decoration:underline}
+.contents-page a::after{content:""}
+/* Sticky contents sidebar (web only) */
+.layout{display:grid;grid-template-columns:232px minmax(0,1fr);gap:30px;align-items:start}
+.sidebar{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow);font-size:.86rem}
+.sidebar h2{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.sidebar ul{list-style:none;margin:0 0 10px;padding:0}
+.sidebar li{margin:3px 0}
+.sidebar a{text-decoration:none;color:var(--ink)}
+.sidebar a:hover{color:var(--accent2);text-decoration:underline}
+.sidebar .side-sec{font-weight:700;margin-top:8px}
+.back-top{margin:28px 0 0;text-align:right;font-size:.9rem}
+figure.viz{border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:20px 0;background:var(--surface);box-shadow:var(--shadow)}
+figure.viz h3{margin:0 0 10px}
+figure.viz .chart-note,figure.viz .chart-src{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+figure.viz .chart-label{color:var(--ink)}
+details.app{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:14px 18px;margin:0 0 16px;box-shadow:var(--shadow)}
+details.app summary{cursor:pointer;font-size:1.25rem;font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.15}
+details.app summary:hover{color:var(--accent2)}
+details.app h3{margin-top:18px}
+.print-header,.print-footer{display:none}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;max-height:none}
+}
+/* Print */
+@page{size:A4;margin:22mm 18mm 20mm 18mm}
+@page{
+  @top-center{content:"Weekly strategic cyber intelligence report \2014 16-23 November 2026"}
+  @bottom-center{content:"Page " counter(page)}
+}
+@media print{
+  body{background:var(--surface)}
+  .wrap{max-width:none;padding:0}
+  .bfsi-back-btn,.sidebar,.back-top,.chart-tip{display:none !important}
+  .layout{display:block}
+  .cover{page-break-after:always;padding-top:0}
+  .contents-page{page-break-after:always;columns:2;column-gap:28px;font-size:.88rem}
+  .contents-page .sec-head{column-span:all}
+  .contents-page a::after{content:" \2014 p. " target-counter(attr(href), page)}
+  section,.story,.geo,details.app{page-break-inside:auto}
+  figure.viz,.xref-box,.chips-wrap{page-break-inside:avoid}
+  table{page-break-inside:auto}
+  thead{display:table-header-group}
+  tfoot{display:table-footer-group}
+  table{display:table}
+  tbody{display:table-row-group}
+  tr{display:table-row}
+  td,th{display:table-cell}
+  td::before{display:none}
+  .table-scroll{overflow:visible}
+  tr{page-break-inside:avoid}
+  .sec-head,h2,h3,h4{page-break-after:avoid;page-break-inside:avoid}
+  details.app summary{list-style:none;cursor:default}
+  details.app summary::-webkit-details-marker{display:none}
+  a{color:var(--ink)}
+}
+</style>
+<style>.bfsi-back-btn{position:fixed;left:18px;bottom:18px;z-index:9999;display:inline-block;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--surface) !important;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25)} .bfsi-back-btn:hover,.bfsi-back-btn:focus{opacity:.9}</style>
+<style>
+/* Framework-sample only: posture indicator, gap boxes, draft banner. */
+.draft-banner{border:2px solid var(--crit);background:var(--surface);border-radius:8px;padding:10px 14px;margin:14px 0;font-weight:700}
+.posture{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;border:1px solid var(--line);border-left:4px solid var(--crit);background:var(--surface);border-radius:8px;padding:14px 16px;margin:16px 0;box-shadow:var(--shadow)}
+.posture-word{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-size:2rem;font-weight:700;color:var(--crit);line-height:1}
+.posture-note{font-size:.9rem;color:var(--muted)}
+.gap-box{border:1px dashed var(--line);background:var(--surface);border-radius:8px;padding:12px 16px;margin:16px 0}
+.gap-box h3{margin:0 0 6px}
+.gap-box ul{margin:6px 0}
+.stat-note{font-size:.86rem;color:var(--muted);margin:0 0 6px}
+@media (max-width:700px){.stat-strip{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast cover" id="top">
+<div class="kicker">Weekly intelligence — Sample — Draft</div>
+<h1>Weekly strategic cyber intelligence report — 16–23 November 2026</h1>
+<p class="sub">Same evidence, framework order: posture, judgments, scope and PIRs, macro drivers, themes, impact map, third-party risk, regulation, recommendations, outlook and gaps.</p>
+<div class="meta-row"><span class="meta">SAMPLE — DRAFT</span><span class="meta">TLP:CLEAR</span><span class="meta">Audience: Board / CISO / CRO</span><span class="meta">Window: Mon 16 – Mon 23 Nov 2026 (SGT)</span><span class="meta">Lens: BFSI cyber, Asia/Singapore</span></div>
+<div class="draft-banner">SAMPLE — DRAFT. A restructuring of the published 16–23 November 2026 weekly report under the banking CTI framework. No new evidence: every figure comes from that report; uncovered framework items are marked GAP or "No evidence this week".</div>
+</header>
+<main>
+<section aria-labelledby="s1">
+<div class="sec-head"><h2 id="s1"><span class="sec-num">1</span> Threat posture</h2><p>The week's overall posture, and why it is set there.</p></div>
+<div class="posture"><span class="posture-word">HIGH</span><span class="badge red">Threat posture: HIGH</span><span class="posture-note">First measurement — no prior week; no trend arrow</span></div>
+<p class="takeaway">A confirmed supplier cascade hit banks and their customers at scale in the same week a state-linked vCenter zero-day exploited since September was disclosed and patched, 13 of 20 tracked flaws were already exploited, and AI-voice vishing was confirmed by law enforcement as a ransomware entry point.</p>
+<p><strong>Why High, not Severe:</strong> no core-banking compromise, payment-system outage, or liquidity/settlement disruption in the window — Banco do Brasil, FFG and Rakuten state core systems were not breached or no unauthorised transactions confirmed.</p>
+<p><strong>Why High, not Elevated:</strong> exposure already realised, not merely threatened — data published (n0n, 19 November), keys leaked (754 KARTE credentials), exploitation confirmed for 13 flaws. This is the first measurement under this framework: no prior week, no trend arrow, no previous-week comparison.</p>
+<div class="stat-strip">
+<div class="stat"><span class="stat-num">140m+</span><span class="stat-label">KARTE records in published per-company tallies — a tally of company disclosures, with overlaps. It is not 140 million people; no deduplicated count published.</span></div>
+<div class="stat"><span class="stat-num">13 of 20</span><span class="stat-label">tracked flaws already exploited (plus 1 reportedly exploited)</span></div>
+<div class="stat"><span class="stat-num">53</span><span class="stat-label">published MITRE technique IDs — 43 of 53 from a single FBI document (FLASH-20261113-001, 13 November)</span></div>
+<div class="stat"><span class="stat-num">754</span><span class="stat-label">client companies' KARTE integration credentials exposed. No misuse disclosed as of 20 November.</span></div>
+<div class="stat"><span class="stat-num">over $40.5m</span><span class="stat-label">paid by at least 28 companies in AI-voice vishing cases (law-enforcement confirmed). No group name was published.</span></div>
+</div>
+</section>
+<section aria-labelledby="s2">
+<div class="sec-head"><h2 id="s2"><span class="sec-num">2</span> BLUF — Key judgments</h2><p>Five judgments in estimative language, with confidence.</p></div>
+<div class="story">
+<p class="story-eyebrow">Key judgment 1</p>
+<h3 class="takeaway-head">It is likely that supplier failure, not direct attack on banks, is now the bank's main incident route.</h3>
+<p><span class="mchip conf-high">High confidence</span></p>
+<p>One compromise became dozens of firms' incidents: KARTE's 754 leaked integration credentials, BankWeaver, Wellington IT, Paydon, and a reported Qubole link.</p>
+<p><strong>Why it matters:</strong> the perimeter is now the supplier's. A marketing platform, a middleware vendor, a payments contractor and a credit-union provider each turned one breach into sector-wide exposure.</p>
+<p><strong>Executive action:</strong> rotate vendor keys and inventory vendor-run tools and shared payment platforms before the next disclosure wave (see Section 9).</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Key judgment 2</p>
+<h3 class="takeaway-head">It is likely that AI has moved from research into confirmed operations against financial targets.</h3>
+<p><span class="mchip conf-high">High confidence</span></p>
+<p>Cairn agents mapped a MONAI Label flaw to arbitrary file write in about 11 minutes and reached root; AI-voice calls impersonating IT support opened the way into at least 28 companies that paid over $40.5 million.</p>
+<p><strong>Why it matters:</strong> voice cloning defeats the help-desk channel, and autonomous agents compress the patch window to minutes.</p>
+<p><strong>Executive action:</strong> mandate callback verification and phishing-resistant MFA for help-desk resets, and treat any internet-reachable agent or automation framework as a critical exposure.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Key judgment 3</p>
+<h3 class="takeaway-head">It is almost certain that exploited — not new — flaws are the immediate patching priority.</h3>
+<p><span class="mchip conf-high">High confidence</span></p>
+<p>13 of the 20 tracked flaws were already exploited, and several KEV additions date from 2025 or earlier; exploitation, not age, set the priority. A vCenter zero-day (CVE-2026-123890) was exploited since early September by suspected state-linked actor ARMORY CASTLE; Broadcom patched 19 November, CISA listed it with a 23 November due date.</p>
+<p><strong>Why it matters:</strong> virtualisation underpins core banking systems, so a compromised vCenter can expose every workload it hosts.</p>
+<p><strong>Executive action:</strong> close the four KEV items due 23 November and hunt, not just patch, vCenter (see Section 9, row 1).</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Key judgment 4</p>
+<h3 class="takeaway-head">It is likely that ransomware's leverage has shifted from encryption to publication, and that deadlines no longer predict publication.</h3>
+<p><span class="mchip conf-high">High confidence</span></p>
+<p>n0n published Visa, JPMorgan Chase and Mastercard customer data on 19 November, after its deadline expired; the retail batch, Vortex/Carrington and Pixelleaks/Ekwiik deadlines all passed quietly.</p>
+<p><strong>Why it matters:</strong> firms cannot timetable their response around an actor's deadline; published customer names and emails become targeted-phishing feedstock.</p>
+<p><strong>Executive action:</strong> treat any shared data-platform vendor with cross-account cloud access as a concentration risk and pre-stage customer-notification and phishing-watch plans.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Key judgment 5</p>
+<h3 class="takeaway-head">It is likely that regulators will convert this week's incidents into standing duties within weeks.</h3>
+<p><span class="mchip conf-high">High confidence</span></p>
+<p>Korea's FSS called in 274 firms for inspection, self-assessments due 30 November. India's Supreme Court is driving RBI KYC Amendment Directions to be notified by 30 November and operationalised by 31 December. The UK designated five more critical third parties and opened a joint cyber-resilience consultation closing 26 February 2027.</p>
+<p><strong>Why it matters:</strong> incident response now carries a regulatory timetable, not just a technical one.</p>
+<p><strong>Executive action:</strong> assign ownership of the 30 November Korean and Indian deadlines now, even without direct exposure; diary the UK consultation response (see Section 8).</p>
+</div>
+</section>
+<section aria-labelledby="s3">
+<div class="sec-head"><h2 id="s3"><span class="sec-num">3</span> Scope, methodology and PIRs</h2><p>What this report covers and the questions it answers.</p></div>
+<p><strong>Time horizon: weekly.</strong> Monday 16 November to Monday 23 November 2026 (16 November 09:00 SGT to 23 November about 12:00 SGT). Stated explicitly as a weekly assessment, not a quarterly one.</p>
+<p><strong>Audience:</strong> Board, CISO, CRO. The lens is BFSI cyber, Asia/Singapore.</p>
+<p><strong>TLP: TLP:CLEAR.</strong> The weekly report is published as a public web page with public sources; Appendix C lists 148 source links.</p>
+<h3>Priority intelligence requirements</h3>
+<ol>
+<li><strong>Which supplier concentrations could cascade into the bank this week?</strong> KARTE, Qubole, Temenos/BankWeaver, Wellington IT, Optimizely.</li>
+<li><strong>Which exploited flaws affect bank infrastructure, and are they patched or only hunted?</strong> 20 flaws, 13 exploited, 9 new KEV additions.</li>
+<li><strong>How is AI being used as weapon, target and control problem against BFSI?</strong> Cairn autonomous zero-day, ARTEX operators, AI-voice vishing, Dragos prompt theft, MAS agent warning.</li>
+<li><strong>Which actors are targeting BFSI, and by what means — credential theft, vishing, data extortion?</strong> n0n, ARMORY CASTLE, Com-affiliated vishing clusters, the infostealer ecosystem.</li>
+</ol>
+<h3>Source reliability note</h3>
+<p>The assessment rests on vendor, government, regulator and company primary sources plus reputable secondary reporting — Appendix C tiers them as Primary 49, Reputable secondary 44, Aggregator 1, MITRE ATT&amp;CK 54.</p>
+<p><strong>No own telemetry.</strong> Built from published sources only. FS-ISAC alerting is largely member-gated, so absence of an FS-ISAC item is not proof of no news. Social posts and single-source claims are treated as reported or unconfirmed, never as confirmed — for example the Qubole link and the Cloudforce One same-IP note.</p>
+<h3>Confidence scale</h3>
+<p>As used in the report:</p>
+<ul>
+<li><strong>High</strong> — multiple confirmed vendor/company disclosures, regulator confirmations, or law-enforcement confirmation.</li>
+<li><strong>Medium</strong> — event confirmed but a material fact (count, entry route, scope, attribution) undisclosed or contested — Banco do Brasil, Cleverbridge, FFG; LiteLLM attribution contested.</li>
+<li><strong>Low</strong> — unverified actor claim, no victim statement, deadline passed with nothing published (Pixelleaks/Ekwiik).</li>
+</ul>
+<p>Where the weekly report carries a conflict without resolving it, this page carries both values — Wellington IT, about 40 credit unions reported affected, press reporting says 43. The KEPCO per-system counts are also an unresolved conflict, but the brief for this sample gives no per-system values to reproduce, so none are printed here.</p>
+</section>
+<section aria-labelledby="s4">
+<div class="sec-head"><h2 id="s4"><span class="sec-num">4</span> Macro landscape and geopolitical drivers</h2></div>
+<div class="story">
+<p class="story-eyebrow">Korea</p>
+<h3 class="takeaway-head">Korea: breach wave became a sector-wide inspection.</h3>
+<p>The FSI breach — a webshell on 9 November, then an SMS-auth bypass creating a fake FSS-level account — led to an FSC special audit from 16 November. The FSI evaluation system was still shut down at window end, appeals from 2,912 firms blocked, and the FSS called in CISOs and security officers from 227 e-finance and 47 online investment-linked firms (274 total) for an intensive external-attack-surface inspection, self-assessments due 30 November. Surprise on-site inspections hit high-risk branches at four banks — the first in about 10 years — under a wider programme covering about 580 financial companies. The wider Korean wave: 37 firms, about 473,000 records in one month.</p>
+<p><strong>Implication:</strong> Korean counterparties and subsidiaries face a hard 30 November checkpoint; the wave hits peripheral systems (complaints portals, contractor access), not core banking. Check those first.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">KARTE cascade</p>
+<h3 class="takeaway-head">One marketing platform's breach became a systemic credential incident.</h3>
+<p>Attack 13 November; investigation completed 19 November, published 20 November. Data from about 2,200 companies was exposed in four overlapping groups, with published counts passing 140 million records as a tally of company disclosures (not a headcount). Plaid forecasts a ¥2 billion loss; staged restart targeted for mid-January 2027.</p>
+<p><strong>Implication:</strong> a non-financial supplier became a systemic credential incident for banks — SMBC up to about 14 million records maximum, MUFG Bank about 6.5 million, the wider MUFG group about 8 million across five businesses. Concentration risk now sits in marketing and data platforms, not only core banking software.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">AI fraud, confirmed live</p>
+<h3 class="takeaway-head">AI-voice fraud and AI agents confirmed live in the same week.</h3>
+<p>Ukrainian police and the FBI arrested four suspected members of a group behind at least 28 companies paying over $40.5 million, using AI-generated voice calls impersonating IT support. Separately, Cairn agents autonomously found and exploited a zero-day in about 11 minutes. Singapore's MAS warned on 19 November against giving personal AI agents financial-account logins and will facilitate a "know your agent" protocol under SAFR, with an Agentic Money Sandbox (no delivery or start dates given). Singapore's CIDeX exercise, 17–20 November, simulated an AI-agent swarm attacking critical infrastructure including Banking &amp; Finance, with a fully agentic AI Blue Team trialled (results not published).</p>
+<p><strong>Implication:</strong> voice and agent channels are now live attack paths, not emerging risks; banks need terms, channels and limits for agent-directed transactions until a "know your agent" channel exists.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">European Commission</p>
+<h3 class="takeaway-head">EU confirmed its first AI-tool campaign against itself; tool unattributed.</h3>
+<p>On 19 November the European Commission confirmed it had responded to an AI-generated cyber campaign detected 22 October and confirmed 26 October; several applications were taken down temporarily, most restored. No attribution, ransom demand, tool, entry point or affected application was named, and no evidence of a data breach affecting Commission staff "as a whole". Press reporting (POLITICO via The Record) attributes ARTEX use via CERT-EU; the Commission has <strong>not</strong> confirmed this.</p>
+<p><strong>Implication:</strong> defend against AI-generated campaigns as a class — the confirmed fact is the campaign, not the tool named in press reporting.</p>
+</div>
+<div class="gap-box">
+<h3>GAP — macro items the framework wants but the report does not cover</h3>
+<ul>
+<li><strong>Sanctions:</strong> none in the weekly report.</li>
+<li><strong>Regional conflicts:</strong> no conflict-driven item; ARMORY CASTLE is "suspected PRC-nexus" (suspected, not confirmed), with no sanctions/conflict linkage stated.</li>
+<li><strong>Hacktivism/DDoS:</strong> no DDoS item in the report.</li>
+<li><strong>Post-quantum timelines:</strong> the report mentions only separate UK "effective practices" documents on AI and quantum risks, with no timeline or content given.</li>
+<li><strong>Macroeconomic pressures:</strong> no macroeconomic analysis in the report.</li>
+</ul>
+<p>Listed as explicit gaps; no paragraph has been invented to fill them.</p>
+</div>
+</section>
+<section aria-labelledby="s5">
+<div class="sec-head"><h2 id="s5"><span class="sec-num">5</span> Priority threat themes</h2><p>Grouped by intent and capability, not by malware family.</p></div>
+<h3>Theme A — Supplier-mediated credential exposure</h3>
+<p><em>Steal reusable access at scale by abusing trusted vendor access.</em></p>
+<div class="story">
+<p class="story-eyebrow">KARTE</p>
+<h3 class="takeaway-head">754 client companies' integration credentials exposed; no key misuse disclosed as of 20 November.</h3>
+<p>Secret keys and access tokens for 754 client companies were exposed, with 570 companies' linked-in data and 487 companies' end-user behaviour data; up to 409 companies' cached data is treated as potentially leaked — an estimate, as the cache was overwritten quickly and Plaid cannot tell what was read. Handovers begin 24 November.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Qubole / n0n</p>
+<h3 class="takeaway-head">Qubole link: reported, not confirmed.</h3>
+<p>Wiz documented an attacker using IAM credentials from Qubole's AWS account (14–26 October) to assume customer integration roles and steal secrets and S3 data. n0n claims it attacked Qubole on 11 November — <strong>reported, not confirmed</strong>; Qubole has not responded and none of the three firms has named a vendor. n0n's claimed volumes (53.9 GB / 30,743 files; "nearly a petabyte") are unverified and not used.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">BankWeaver</p>
+<h3 class="takeaway-head">One misconfigured Temenos service gave anonymous administrator access.</h3>
+<p>A misconfigured Temenos Quantum Fabric authentication service — anonymous access, internet-reachable — let an anonymous token be exchanged for an administrator token without credentials; FabricShell and FabricShadow were deployed. One unnamed financial services institution is confirmed compromised (breach from early September 2026); six further banks share the exposure, compromise <strong>not</strong> confirmed. No MITRE IDs published.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Barracuda / Bitrise</p>
+<h3 class="takeaway-head">Entry was an ordinary credential failure in every case.</h3>
+<p><strong>Barracuda:</strong> an unretired cloud key issued to an outside AI vendor for a finished project, sitting in a config file in the vendor's GitHub repo; used 1–2 November (about 44 hours, about 10 cloud accounts). <strong>Bitrise:</strong> a dormant internal test bot account, unused since 2022, no 2FA, signed in 13 November at 11:46:48 UTC with a valid username and password; within under 11 minutes agents were using cloud keys. 15 customer workspaces accessed; 919 cloud service-account keys revoked.</p>
+</div>
+<p><strong>Business-model shift (v3-supported):</strong> access comes through the supplier's credential, not by breaking the bank — valid accounts, unretired keys, dormant accounts. The week's dominant initial-access pattern: Credential Access is the largest published tactic, 11 of 53 IDs.</p>
+<h3>Theme B — Exploitation of edge and infrastructure flaws</h3>
+<p><em>Gain unauthenticated access via public-facing RCE; old flaws becoming urgent.</em></p>
+<div class="story">
+<p class="story-eyebrow">vCenter zero-day</p>
+<h3 class="takeaway-head">9.8 vCenter zero-day exploited since early September.</h3>
+<p>Scored 9.8 by Broadcom, exploited since early September 2026 by ARMORY CASTLE (suspected PRC-nexus, formerly UNC5221) via a BeyondTrust Remote Support zero-day, CVE-2026-102764. The actor created a vSphere SSO admin account, exfiltrated the directory database and stole the STS SAML signing key ("Golden SAML"). Patched 19 November, listed in KEV 20 November, federal due date 23 November. No verified public proof of concept; at least one reported fake.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">NGINX2Root</p>
+<h3 class="takeaway-head">Five unauthenticated NGINX RCE flaws, public PoC, no reported exploitation.</h3>
+<p>Lead CVE-2026-123007, each 9.2 (CVSS 4.0) / 8.1 (CVSS 3.1) per F5, with a working public proof of concept. No in-the-wild exploitation reported; not in KEV as of 23 November.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Apache Axis</p>
+<h3 class="takeaway-head">End-of-life Axis 1.x exploited; no fixed release, fix is per product.</h3>
+<p>Unsafe reflection in end-of-life Axis 1.x (CVE-2026-90436), scored 9.8 by CISA and 9.3 by Atlassian; exploited 13 November against Confluence Data Center and N-central, Metasploit module on 17 November. There is <strong>no fixed Axis 1.x release</strong>; the fix is per product.</p>
+</div>
+<p><strong>Supporting count:</strong> 20 flaws tracked: 13 exploited, 1 reportedly exploited, 3 with public proof of concept and no confirmed exploitation, 3 with no exploitation reported or probing only. Nine entered KEV (1 on 17 November, 4 on 18 November, 4 on 20 November); catalogue v2026.11.20, 1,790 entries.</p>
+<div class="gap-box">
+<h3>GAP — anonymised peer case</h3>
+<p>No anonymised peer case study exists for this theme — the report names vendors and products throughout — so no vignette has been invented; the named product cases above are used instead.</p>
+</div>
+<h3>Theme C — AI-accelerated fraud and social engineering</h3>
+<p><em>Bypass human and MFA controls: voice cloning, adversary-in-the-middle, autonomous agents.</em></p>
+<div class="story">
+<p class="story-eyebrow">AI-voice vishing arrests</p>
+<h3 class="takeaway-head">AI-voice calls impersonating IT support: 28 companies, over $40.5 million paid.</h3>
+<p>Employees were tricked into disclosing credentials or installing TeamViewer/AnyDesk; at least 28 companies paid over $40.5 million. The wider network is 27+ members, 60+ people across eight jurisdictions; four arrested 18–19 November. Named victims in court records: Warren Oil ($5m paid after a $10m demand), Newpark Resources ($1.5m), Quantum Health ($5m after a $15m demand). No group name published; no MITRE mapping published.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Com-affiliated vishing</p>
+<h3 class="takeaway-head">Vishing waves accelerated from August 2026; passwords and MFA approvals captured live.</h3>
+<p>Com-affiliated actors run vishing waves in which the caller, posing as internal IT, steers the employee to an adversary-in-the-middle proxy capturing password and MFA approval in real time, then enrols their own MFA device (Vortex: within minutes). Exfiltration covers mailbox, OneDrive and SharePoint; targets are data-rich industries including financial services (investment portfolios, deal data), primarily US, UK and Australia. No victim names or counts published.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">India fraud at scale</p>
+<h3 class="takeaway-head">Loan-diversion and payout-API fraud at crore scale; NBFC figures do not reconcile.</h3>
+<p><strong>PayU payout-API manipulation:</strong> ₹25.67 crore (about US$2.9m) via 265 unauthorised transactions to 156 accounts; two arrested 15 November; access method still under audit. <strong>NBFC loan-diversion fraud:</strong> Delhi Police report 12 NBFCs in Delhi-NCR lost over ₹65 crore in three months, diverting approved-but-undisbursed loans; one lender lost ₹41.27 crore in about 90 minutes on 16 November; "traces of AI" reported; CyberStrikeAI used in at least one October case. A wider figure of about ₹105.67 crore across 14 NBFCs is <strong>unreconciled — neither figure is used as the loss total</strong>. Separately, Delhi Police arrested 22 people in a fake-banking-app crackdown: 22,139 victims, proceeds of more than ₹20 crore.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Infostealer feedstock</p>
+<h3 class="takeaway-head">Compromised machines roughly tripled; session-cookie theft outlasts password resets.</h3>
+<p>Hudson Rock weekly report, 9–16 November: 37,241 compromised machines (prior week 12,382 — roughly tripled), 8,382 compromised employees, 6,715 compromised users, 22,144 Android devices, 406,864 domains; top families Generic Stealer 29,138 and Lumma 7,232. A new log shop sells AI-written profiles of infected owners (job, employer, software, most valuable accounts); machines listed at $9–$10, operator claims tens of millions of logs — <strong>unverified</strong>.</p>
+</div>
+<p><strong>Business-model shift (v3-supported):</strong> Visa's Fall 2026 Biannual Threats Report (17 November, covering January–June 2026): AI is not creating new fraud categories — it makes existing attacks faster, larger and more precise, increasingly targeting third-party providers. Incidents involving third-party agents rose 62% versus the prior six months; third parties' share of compromised payment credentials is about 56%; recovered payment credentials from breaches rose 1,200%. Agentic tooling also produced named victims via ARTEX/BaaRai and Cairn.</p>
+<h3>Theme D — Data-extortion ransomware</h3>
+<p><em>Extort by publication via credential-only access plus a leak site. No encryption needed.</em></p>
+<div class="story">
+<p class="story-eyebrow">n0n publications</p>
+<h3 class="takeaway-head">n0n published three brands' customer data on 19 November, after its deadline.</h3>
+<p><strong>JPMorgan Chase:</strong> about 16,000 invitation-only Reserve programme customer email addresses plus 124 employee emails (confirmed; third-party providers targeted; no card numbers, passwords or balances in published sets). <strong>Visa:</strong> over 6,000 premium Asia-Pacific customers' details (confirmed; Asia-Pacific third-party provider; no payment data). <strong>Mastercard:</strong> about 2,000 entries in a 280 KB file (publication confirmed; the set looks like test data, not genuine customer records). Also: Samsung, 220 MB including about 150,000 smart-TV viewing events (publication confirmed, scope unconfirmed), and Alo Yoga, 209,051 customer emails (published 14 November). n0n first seen 18 September 2026; initial access credential-only (infostealer credentials, FortiGate SSL-VPN stuffing, weak RDP/WinRM, exposed AWS keys). No vulnerability exploitation documented; no geographic attribution. Bitdefender caveat: 100+ listed versus just over 20 real targets.</p>
+</div>
+<p><strong>Business-model shift (v3-supported):</strong> the move in ransomware-as-a-service toward pure data extortion is evidenced by publication without encryption. The weekly report's TTP section states Impact has <strong>no</strong> published MITRE technique this week despite n0n's publications and the ransomware arrests: "Impact here was publication and extortion, not encryption". Ransom payments stand at zero transactions across all 55 collected ransom wallets <strong>as of 16 October 2026</strong> — no in-window update, so not presented as current to 23 November.</p>
+<div class="gap-box">
+<h3>GAP — anonymised peer case</h3>
+<p>The weekly report does not anonymise: it names Visa, JPMorgan Chase and Mastercard as confirmed publications. No anonymised peer case study exists for this theme; the named, confirmed publications above are used and labelled as such.</p>
+</div>
+<div class="gap-box">
+<h3>GAP — framework themes with no evidence this week</h3>
+<ul>
+<li><strong>Initial Access Brokers (IABs) targeting edge appliances as a named business model:</strong> the report documents edge-appliance exploitation and credential theft, but names no IAB market or broker for this week. Omitted as a theme.</li>
+<li><strong>Nation-state groups targeting financial messaging systems (for example SWIFT):</strong> no item targets SWIFT or a financial messaging system this week; SWIFT appears only in the standing source tier, not as a victim or target. Omitted as a theme.</li>
+</ul>
+</div>
+</section>
+<section aria-labelledby="s6">
+<div class="sec-head"><h2 id="s6"><span class="sec-num">6</span> Business-service impact map</h2><p>Filled only from the report's evidence. "No evidence this week" means the report contains no item for that cell — not that the risk is zero.</p></div>
+<p>The report quantifies only where a primary source published a figure, and never reconciles or sums unreconciled pairs (NBFC ₹65 crore versus about ₹105.67 crore; Binance $2.35bn versus $1.09bn; OPTIMJACK $7,040 versus $2,300); a tally is never a headcount.</p>
+<div class="table-scroll"><table>
+<thead><tr><th>Business service</th><th>Financial loss</th><th>Operational downtime</th><th>Customer trust / reputation</th><th>Regulatory penalties</th></tr></thead>
+<tbody>
+<tr><th>Retail banking</th>
+<td>PayU payout-API theft ₹25.67 crore (about US$2.9m), 265 transactions. KEPCO breach exposes bank/card data for about 1.52m people — fraud feedstock, no loss figure stated.</td>
+<td>Paydon halted at four Kagoshima institutions at 06:20 JST 20 November; the provider whose data leaked remains suspended, no restart date.</td>
+<td>Rakuten Securities: up to about 15.72m accounts (11.25m login IDs plus 4.47m with names, date of birth, address, bank accounts, income and assets — non-overlapping groups); class-action recruitment passed 20,000 registrants by 14:00 JST 20 November; a fake "compensation policy" screenshot is circulating, no compensation announced. Wellington IT: payee data (names, IBANs, BICs, payment references) for about 40 credit unions; members' funds not evidenced as accessed.</td>
+<td>Rakuten: FSA reporting order 19 November; FSA will consider a business improvement order if information-management flaws are found. Wellington IT: Irish Minister called the six-week notification delay "not acceptable".</td></tr>
+<tr><th>Wealth management</th>
+<td>No evidence this week.</td>
+<td>No evidence this week.</td>
+<td>Samsung Securities: 8,241 customers' Voice of Customer complaints data exfiltrated across 13 fields including name, account number, address, contact and driver's licence number; disclosed 23 November; CEO apologised; firm says it will compensate if actual loss is confirmed; trading/payment systems not reported breached. Mirae Asset Life Insurance: 10,418 victims as of 5 November, up from about 6,800, crossing the 10,000-person 72-hour reporting duty.</td>
+<td>Reported to the FSS and the Korea Internet &amp; Security Agency. No penalty stated.</td></tr>
+<tr><th>Treasury</th>
+<td>No evidence this week.</td>
+<td>No evidence this week.</td>
+<td>No evidence this week.</td>
+<td>No evidence this week. <strong>GAP:</strong> the report's only treasury item is MAS's planned Agentic Money Sandbox for corporate treasury and payment services with tokenised deposits — no delivery date, no incident, no duty; not an impact.</td></tr>
+<tr><th>Payment rails</th>
+<td>Cleverbridge: card number, expiry and CVV copied; count, entry method and dwell time undisclosed; only Malwarebytes confirms impact ("a small subset"). POS malware: at least 1m unique card records (PANs, validity, BINs, issuing countries/banks) from 782 compromised terminals across 20+ countries, mostly Brazil — a lower bound from a carding panel, not confirmed fraud losses. Binance laundering (pre-window theft $6.43bn, 29 October): at least 2,310 BTC (about $149m) into coinjoin mixers; about $2.35bn remains in attacker-linked wallets (Elliptic) versus Lookonchain 602,402 ETH at about $1.09bn — <strong>unreconciled, not summed</strong>; about $2.85bn frozen.</td>
+<td>Paydon: all services halted at four banks. KARTE stays offline, staged restart targeted mid-January 2027.</td>
+<td>n0n published Visa and Mastercard customer data (see Theme D); Visa confirmed no payment data affected; Mastercard reported no impact to the payment network. OPTIMJACK skimmer on 178 organisations' sites including HSBC, 32 of 178 in banking/finance; card-loss count unknown; exposure does not by itself prove theft.</td>
+<td>No penalty stated in the weekly report.</td></tr>
+</tbody></table></div>
+</section>
+<section aria-labelledby="s7">
+<div class="sec-head"><h2 id="s7"><span class="sec-num">7</span> Third-party and supply chain</h2><p>Five findings.</p></div>
+<div class="story">
+<p class="story-eyebrow">KARTE</p>
+<h3 class="takeaway-head">KARTE: the systemic concentration story.</h3>
+<p>One marketing platform: attack on 13 November via a vulnerability behind a public data-retrieval route, then stolen credentials to the admin console. Data from about 2,200 companies leaked or may have leaked — 754 integration credentials, 570 companies' linked-in data, 487 companies' behaviour data, up to 409 companies' cached data (estimate); published counts passed 140 million records (a tally, not a headcount). Former clients hit too: Stripe International data retained after ending KARTE in May 2026; Overflow data retained about 3 years after the contract ended in November 2023. Plaid forecasts a ¥2 billion loss; platform offline until a staged restart targeted for mid-January 2027.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">One vendor, many banks</p>
+<h3 class="takeaway-head">One vendor, many banks: a repeated pattern.</h3>
+<p><strong>BankWeaver:</strong> one misconfigured Temenos Quantum Fabric auth service — one confirmed financial institution compromised, six further banks sharing the exposure. <strong>Wellington IT:</strong> CU Online runs mobile banking for more than a third of Ireland's credit unions; about 40 credit unions affected (press: 43); attack 2–4 October, about 5m requests with valid credentials, disclosed six weeks late. <strong>Paydon/Infcurion:</strong> one contractor's Wallet Station platform halted Paydon at four banks at once; 251,172 records leaked including passwords and bank account information. <strong>FFG Industries:</strong> a vendor-run analytics tool exposed up to 1,221 corporate customers' login IDs and password hashes.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Trusted scripts</p>
+<h3 class="takeaway-head">Trusted scripts and payment processors: the cascade path.</h3>
+<p><strong>OPTIMJACK:</strong> a flaw in Optimizely's signup flow allowed admin impersonation and unauthorised changes to Project JavaScript — 188 infected snippets across 178 organisations including HSBC, 32 in banking/finance; most sites exposed about 16 hours; no organisation's own servers breached. <strong>Cleverbridge:</strong> a payment processor was breached; card numbers and CVVs copied; count and merchants undisclosed.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Three-brand publication</p>
+<h3 class="takeaway-head">Three-brand publication assessed as one supplier breach, not 59.</h3>
+<p><strong>Assessed, not confirmed</strong>; the Qubole link is reported, not confirmed. Wiz documented the underlying Qubole cross-account campaign of 14–26 October.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">AI supply chain</p>
+<h3 class="takeaway-head">AI supply chain: a new concentration; attackers already inside inference providers.</h3>
+<p>Dragos canary research (19 November): attackers were already inside at least three AI inference providers, stealing prompts and credentials; a Zero Data Retention flag did not stop them. About 2m prompts carried canaries from July to November 2026; OpenRouter off-boarded three providers and removed 125 endpoints from Zero Data Retention eligibility on 22 November; whether Dragos's three are OpenRouter's three is <strong>unconfirmed</strong>. Microsoft agent-framework PyPI hijack: malicious versions 1.26.1 and 1.26.2 for about 1 hour on 17 November via a compromised ESRP client certificate and key (assessed, not confirmed); three victim exfiltrations in a 50-request sample — not a verified victim total.</p>
+</div>
+</section>
+<section aria-labelledby="s8">
+<div class="sec-head"><h2 id="s8"><span class="sec-num">8</span> Regulatory alignment</h2><p>Only mappings the report actually supports. Where no duty applies, that is stated.</p></div>
+<div class="table-scroll"><table>
+<thead><tr><th>Item (weekly report)</th><th>Duty / expectation</th></tr></thead>
+<tbody>
+<tr><td>UK — five further Critical Third Parties designated 16 November (SI 2026/1203, in force 23 November): BlackRock Financial Management, Bloomberg, Bottomline Technologies, Broadridge Financial Solutions, Form3 UK; total now nine, joint BoE/PRA/FCA oversight.</td><td>UK Critical Third Parties regime: systemic services of designated firms under joint oversight; no specific firm-level duty beyond designation stated.</td></tr>
+<tr><td>UK — BoE/PRA/FCA joint consultation on cyber risk and resilience management (PRA CP17/26, FCA GC26/9), published 19 November: principles-based, outcome-focused, consolidating existing requirements, with separate "effective practices" on AI and quantum; closes 26 February 2027, final guidance expected 2027.</td><td>Consultation, not yet a rule; firms in scope (banks, insurers, FMIs, FCA-regulated firms subject to operational-resilience requirements) should respond by 26 February 2027. <strong>No new rule is introduced by the consultation.</strong></td></tr>
+<tr><td>Singapore — MAS warning 19 November on AI agents, plus a "know your agent" protocol under SAFR; Agentic Money Sandbox with the Future of Finance Institute.</td><td>Emerging expectation, no dated duty: banks need terms/channels for agent access and limits on agent-directed transactions until the protocol exists; no delivery date for the protocol, no start date for the sandbox. <strong>GAP: MAS TRM named in the framework but not cited in the report — no item mapped to MAS TRM.</strong></td></tr>
+<tr><td>India — Supreme Court digital-arrest case; RBI KYC Amendment Directions to be notified by 30 November 2026, operationalised by 31 December 2026; banks to compensate victims in full where due diligence fails.</td><td>RBI KYC duties (notification 30 November; operationalisation 31 December 2026). <strong>Caveat:</strong> 23 November hearing outcome not verified in-window — source is a secondary summary, no primary order text found.</td></tr>
+<tr><td>Korea — FSS inspection of 274 firms, self-assessments due 30 November; FSC to require large firms to run vulnerability assessments twice a year (was once) and identify/classify all IT assets.</td><td>FSS/FSC inspection and assessment duties; 30 November is the first checkpoint; FSS warned of strict accountability if a breach followed a poorly done inspection.</td></tr>
+<tr><td>Korea — Mirae Asset Life: 10,418 victims crossing the 10,000-person 72-hour reporting duty.</td><td>Korean 72-hour reporting duty triggered at 10,000 persons (as stated in the report). No further detail in the report.</td></tr>
+<tr><td>Ireland — Wellington IT: Department of Finance aware 17 November; Minister called the delay "not acceptable"; firm engaging with NCSC, Gardaí, Data Protection Commission and Central Bank of Ireland.</td><td>Breach-notification expectation (timeliness) — ministerial intervention, not a stated penalty in the report.</td></tr>
+<tr><td>France — Maileva: CNIL notified, criminal complaint filed, Paris prosecutor opened a judicial investigation 15 November.</td><td>French data-protection notification plus criminal investigation. No penalty stated in the report.</td></tr>
+<tr><td>Brazil — Banco do Brasil notifying authorities under LGPD, which requires reporting to ANPD and notification of affected people where relevant risk exists.</td><td>LGPD breach-reporting duty. Victim count undisclosed in the report.</td></tr>
+<tr><td>KEV due dates (federal, US): four due 23 November (vCenter, Roller, NetWeaver, Expressway); Puppet 1 December; LiteLLM 2 December.</td><td><strong>No duty applies to a bank directly.</strong> A KEV due date is the remediation deadline for US federal civilian agencies, not a bank duty — used here as a prioritisation signal only.</td></tr>
+</tbody></table></div>
+<div class="gap-box">
+<h3>GAP — framework-named duties with no item this week</h3>
+<p><strong>DORA</strong> (not mentioned in the report); <strong>MAS TRM</strong> (not mentioned in the report); <strong>CBEST, TIBER-EU, iCAST</strong> (none mentioned — no threat-led penetration-testing item this week). Listed as "No item this week — not mapped"; no DORA, CBEST, TIBER-EU or iCAST paragraph invented.</p>
+</div>
+</section>
+<section aria-labelledby="s9">
+<div class="sec-head"><h2 id="s9"><span class="sec-num">9</span> Recommendations and capability roadmap</h2><p>Reframed from the Top 5 actions; owners and deadlines preserved exactly. No new actions invented.</p></div>
+<div class="table-scroll"><table>
+<thead><tr><th>#</th><th>Capability move</th><th>Underlying action</th><th>Owner</th><th>Deadline</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>Close the exploited-infrastructure backlog and fund hunt capability, not just patching</strong> — budget/staffing: stand up a hunt run-book for virtualisation compromise (rogue SSO admins, stolen SAML keys, unauthorised SSH keys) alongside the patch window.</td><td>Patch VMware vCenter, Apache Roller, SAP NetWeaver, Cisco Expressway — CVE-2026-123890, CVE-2026-129448, CVE-2025-42884, CVE-2026-76466; for vCenter, hunt as well as patch. No workaround for vCenter.</td><td>Vulnerability management + SOC</td><td><strong>23 November 2026 (today)</strong></td></tr>
+<tr><td>2</td><td><strong>Treat vendor credentials as a governed asset class</strong> — governance/architecture: inventory every key that has touched a supplier platform, rotate on a supplier-incident trigger, and include former-client data retention in third-party risk reviews.</td><td>Rotate the 754 leaked KARTE integration credentials and check for misuse; treat any key that touched KARTE as exposed until checked. Former clients count too (Stripe International; Overflow data retained about 3 years after contract end).</td><td>Third-party risk + SOC</td><td><strong>Before 24 November 2026</strong>, when per-company handovers begin</td></tr>
+<tr><td>3</td><td><strong>Compress the patch window ahead of public exploit code</strong> — architecture/process: patch internet-facing systems first, then check bundled-Ruby products (GitLab, Mastodon, Discourse).</td><td>Finish ruby2shell patching, internet-facing first; upgrade to fixed Ruby releases 3.3.14 / 3.4.13 / 4.0.10. No workaround.</td><td>Vulnerability management + application owners</td><td><strong>About 25 November 2026</strong>, when the Veria Labs PoC is expected</td></tr>
+<tr><td>4</td><td><strong>Govern the AI/privileged-infrastructure estate as critical infrastructure</strong> — governance/IAM: patch Puppet first, check the CA signing key and auto-signing policy; patch LiteLLM, rotate inference keys and admin credentials, watch LLM spend.</td><td>Patch Perforce Puppet (CVE-2026-115731) then LiteLLM to 1.83.11+ (CVE-2026-40217), rotate inference keys and admin credentials, watch LLM spend for unexplained growth.</td><td>Vulnerability management (+ IAM for the Puppet CA check)</td><td><strong>1 December 2026</strong> (Puppet); <strong>2 December 2026</strong> (LiteLLM)</td></tr>
+<tr><td>5</td><td><strong>Fund the exit from end-of-life platforms, not just the next patch</strong> — budget/architecture: start the PHP 8.2 exit now; 8.1 and older get nothing.</td><td>Patch PHP to the 19 November release (8.5.13 / 8.4.28 / 8.3.37 / 8.2.36), fixing 17 flaws, seven critical. Version 8.2.36 is one of the last fixes that branch will get.</td><td>Vulnerability management + application owners</td><td><strong>Patch now; 31 December 2026</strong> (PHP 8.2 security support ends)</td></tr>
+</tbody></table></div>
+<p><strong>Supporting control — not a sixth action:</strong> the weekly report's "So what" lines support passkeys for privileged and finance staff and callback verification for help-desk resets, noted here as supporting rows 1–2. No invented owner, no invented deadline, not a sixth action.</p>
+</section>
+<section aria-labelledby="s10">
+<div class="sec-head"><h2 id="s10"><span class="sec-num">10</span> Outlook and intelligence gaps</h2><p>Judgments for the next 6–12 months, labelled as judgments, not facts. Each carries a falsifying signpost; first check for all five is the 30 November edition (Outlook 4 interim; quarterly thereafter).</p></div>
+<div class="story">
+<p class="story-eyebrow">Outlook 1</p>
+<h3 class="takeaway-head">It is likely that the KARTE disclosure wave will widen from 24 November.</h3>
+<p><span class="mchip conf-high">High confidence</span></p>
+<p>Per-company handovers begin 24 November; the weekly report forecasts "a further wave of company disclosures as each firm learns its exposure".</p>
+<p><strong>Falsified if:</strong> no new company disclosure naming KARTE exposure by 30 November, or Plaid confirming no key misuse.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Outlook 2</p>
+<h3 class="takeaway-head">It is likely that vCenter exploitation will widen once public exploit code lands.</h3>
+<p><span class="mchip conf-medium">Medium confidence</span></p>
+<p>No verified public proof of concept as of 23 November 09:00 SGT (Rapid7's Metasploit module still had no code then; at least one public repo reported fake). ARMORY CASTLE exploited it silently since early September, so other actors may already hold access.</p>
+<p><strong>Falsified if:</strong> no verified public proof of concept and no new victim or hunt finding by 30 November.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Outlook 3</p>
+<h3 class="takeaway-head">It is likely that the Korean FSI inspection will surface further peripheral-system breaches by 30 November.</h3>
+<p><span class="mchip conf-medium">Medium confidence</span></p>
+<p>Self-assessments from 274 firms due 30 November; intrusion attempts through external contact points continued in-window, above all at small and mid-sized operators.</p>
+<p><strong>Falsified if:</strong> FSS reports no new breach in the 30 November checkpoint, or the FSI audit restores the evaluation system without new findings.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Outlook 4</p>
+<h3 class="takeaway-head">It is likely that AI-voice vishing and agentic exploitation will produce a further confirmed bank-adjacent case within the next quarter.</h3>
+<p><span class="mchip conf-medium">Medium confidence</span></p>
+<p>Two vishing waves reached banks and customers this week (Ukraine/FBI arrests; Unit 42 Com waves), and Cairn/ARTEX agents are confirmed in live intrusions with named victims (Barracuda, Bitrise). Visa frames AI as accelerating existing fraud, not creating new categories.</p>
+<p><strong>Falsified if:</strong> no new law-enforcement or vendor-confirmed AI-voice or agentic case affecting BFSI by the next quarterly check, or MAS publishes its "know your agent" protocol with a dated delivery plan.</p>
+</div>
+<div class="story">
+<p class="story-eyebrow">Outlook 5</p>
+<h3 class="takeaway-head">It is unlikely that n0n's deadlines will become a reliable predictor of publication.</h3>
+<p><span class="mchip conf-high">High confidence</span></p>
+<p>Three deadline sets passed quietly in-window (retail batch, Vortex/Carrington, Pixelleaks/Ekwiik); publication followed a <em>different</em> deadline's expiry a day late.</p>
+<p><strong>Falsified if:</strong> the two Pixelleaks deadlines on 24 November (Aixia Group AB 21:21 UTC; MT5 algo-trading farm 22:22 UTC) both result in publication on time.</p>
+</div>
+<div class="gap-box">
+<h3>GAP — outlook judgments with no basis</h3>
+<p>No basis in the weekly report for a 6–12 month judgment on sanctions, post-quantum timelines, or SWIFT/financial-messaging targeting. None has been added.</p>
+</div>
+<h3>Intelligence gaps</h3>
+<p>The report's own stated blind spots:</p>
+<ul>
+<li><strong>No own telemetry.</strong> Built from published vendor, government and company sources only. No FS-ISAC member-shared telemetry is in the report; its alerting is member-gated, so absence is not proof of no news.</li>
+<li><strong>KARTE key misuse unknown.</strong> None disclosed as of 20 November; the true number of affected people is unknown until per-company handovers from 24 November.</li>
+<li><strong>Qubole link unconfirmed.</strong> Qubole has not responded, no victim firm has named a vendor, and Wiz has not verified n0n's claim.</li>
+<li><strong>Closed vendor channels and undisclosed counts.</strong> Banco do Brasil victim count, credential owner and acquisition method undisclosed; Cleverbridge count, entry method, dwell time and affected merchants undisclosed; FFG cause, entry route and full scope under investigation; Wellington IT exact accounts/users not established, activity logs lacking.</li>
+<li><strong>Attribution gaps.</strong> ARMORY CASTLE "suspected PRC-nexus" (suspected, not confirmed); Cairn China-nexus moderate-confidence, second university network inferred, not confirmed; LiteLLM attribution contested (GTIG versus Corgea); European Commission ARTEX link unconfirmed by the Commission; Cloudforce One same-IP note reported/unconfirmed, no IP named.</li>
+<li><strong>TTP mapping gap.</strong> 53 published MITRE IDs, but 43 come from a single FBI document (FLASH-20261113-001, 13 November, first carried 16 November); the biggest stories — vCenter zero-day, BankWeaver, Com vishing, Cairn — have <strong>no</strong> published mapping; Resource Development and Impact tactics have zero published techniques.</li>
+<li><strong>Unverified in-window outcomes.</strong> Supreme Court of India 23 November hearing outcome not verified; MAS speech text not retrieved verbatim (press reporting only); FSS AI-exposure ask reported, no primary FSS document retrieved.</li>
+<li><strong>Single-source claims excluded.</strong> ThreatMon (Block, Servier, Chiesi, HappyFresh, Nielsen), Comerica/ERBANK/Banco Carrefour/Novo Banco/EndZone, and the 22.7m-record Banco do Brasil forum sale — all left out as single-source or unverified.</li>
+</ul>
+</section>
+<section aria-labelledby="s11">
+<div class="sec-head"><h2 id="s11"><span class="sec-num">11</span> Appendix — full report</h2></div>
+<p>This sample carries no IOCs and no detection logic. For full MITRE TTP mappings, complete vulnerability entries and all 396 sources, see the full report: <a href="weekly-20261123-v3.html">Weekly strategic cyber intelligence report — 16–23 November 2026 (full report)</a> — its appendix holds the vulnerability roll-up, TTP table, tiered source list, unreconciled-pairs note and "not included and why" list.</p>
+</section>
+</main>
+</div>
+<a class="bfsi-back-btn" href="index.html" aria-label="Back to main page">← Back to main page</a>
+</body>
+</html>
