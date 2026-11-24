@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Resident registration numbers, dates of birth, phone numbers and home and workplace addresses for 552 customers enables identity theft and highly targeted voice phishing against Hana Savings Bank customers; the bank itself warns of secondary damage from identity theft. The intrusion hit the bank's customer identity re-verification system, so other Korean financial firms using similar mobile-web verification channels should check theirs. Hana is the fifth Korean savings bank hit since the end of September, bringing the savings-bank wave to 46,514 exposed cases, and it follows the separate commercial-bank wave and the Korean FSI special audit now under way.",
+      "headline": "Hana Savings Bank confirms hack of identity re-verification system; personal data of 552 customers leaked",
+      "id": "breaking-hana-savings-bank-20261124",
+      "known": "Hana Savings Bank, an affiliate of Hana Financial Group, confirmed that an unauthorised outsider broke into its mobile web system for re-verifying customers' identities on 16 November 2026, exposing the personal data of 552 customers. The leaked fields span 19 categories used for customer identity verification, including customer numbers, names, English names, dates of birth, phone numbers, resident registration numbers, genders, nationalities, home addresses and workplace names. The bank posted an apology from chief executive Yang Dong-won on its website on 19 November and informed affected customers. It has blocked external IP access to the system, activated 24-hour monitoring, and is investigating whether any additional data was exposed; it warned customers to beware of identity theft and voice phishing using the leaked information. Hana is the fifth Korean savings bank hit since the end of September, after Yeogaram, Welcome, DB and OK Savings Banks, bringing the savings-bank wave to 46,514 exposed cases. (Chosun Biz, Aju Press, Herald Business, MK/Yonhap and News1, 24 November 2026, translated from Korean.)",
+      "severity": "high",
+      "source_name": "Chosun Biz, 24 November 2026 (translated from Korean); Aju Press; Herald Business; MK/Yonhap; News1",
+      "source_url": "https://biz.chosun.com/en/en-finance/2026/11/24/SEJ3CI3ITVHOLCGXCF2YKE6OMY/",
+      "status": "confirmed",
+      "summary": "Hana Savings Bank confirmed an intrusion on 16 November 2026 into its mobile web customer identity re-verification system, leaking personal data of 552 customers across 19 categories including resident registration numbers, dates of birth, phone numbers and home addresses. The bank apologised on 19 November, blocked external access and is investigating whether more data was exposed. It is the fifth Korean savings bank hit since late September; the savings-bank wave now totals 46,514 exposed cases.",
+      "timestamp_sgt": "2026-11-24T17:41:56+08:00",
+      "type": "Major breach — Korean savings bank, customer data",
+      "unknown": "Who carried out the intrusion and how they entered the identity re-verification system; whether any of the leaked data has been misused for identity theft or voice phishing; and whether the investigation finds additional exposed data."
+    },
+    {
       "bfsi_impact": "Client data leaked from a French private bank enables targeted phishing and impersonation against Delubac customers, including fake bank-adviser calls citing the incident; the bank warns its staff never ask for codes or passwords by phone, email or text. The fraud attempt failed and no client or bank funds moved, so the immediate risk is social engineering using the leaked data rather than direct account takeover. Delubac is the second French bank hit this month after Crédit Mutuel Arkéa, where attackers did move about €100 million, so French banks should treat vendor and payment-workflow intrusion attempts as an active pattern, not isolated events.",
       "headline": "Banque Delubac discloses intrusion and client data leak; attempted fraudulent transfers failed",
       "id": "breaking-banque-delubac-20261123",
@@ -1893,8 +1907,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-24T16:00:00+08:00",
-  "next_check_sgt": "2026-11-24T20:00:00+08:00",
-  "updated_sgt": "2026-11-24T16:00:00+08:00",
+  "last_checked_sgt": "2026-11-24T20:00:00+08:00",
+  "next_check_sgt": "2026-11-25T00:00:00+08:00",
+  "updated_sgt": "2026-11-24T20:00:00+08:00",
   "version": 1
 }
