@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "FinCEN holds the suspicious activity reports and other Bank Secrecy Act filings banks submit, so any access to that data could expose sensitive financial-intelligence and customer information and aid money-laundering or sanctions-evasion actors. The immediate operational impact is filing disruption: institutions that used Secure Data Transfer Mode have until 30 December 2026 for reports due 18 November to 29 December, and must still meet their other anti-money-laundering obligations, including ongoing monitoring for suspicious transactions. Banks should use the unaffected Financial Institutions Hotline (1-866-556-3974) to expedite urgent suspicious-activity information to law enforcement, watch for FinCEN updates on scope, and be alert to phishing or impersonation citing the disruption.",
+      "headline": "US Treasury's FinCEN discloses unauthorised access; takes systems offline and extends BSA filing deadlines",
+      "id": "breaking-fincen-unauthorised-access-20261125",
+      "known": "The Financial Crimes Enforcement Network (FinCEN), the US Treasury bureau that collects the financial intelligence banks file under the Bank Secrecy Act (BSA), disclosed on Tuesday 24 November 2026 that it is investigating a cybersecurity incident that \"resulted in unauthorized access to a limited subset of its systems\". In an alert on its BSA E-Filing site, FinCEN said it has taken some systems offline \"as a proactive measure\"; the e-filing website itself remains operational, but some services may be temporarily unavailable. FinCEN has not said which systems were accessed, whether any data was taken, when the intrusion happened or who was behind it. The bureau collects suspicious activity reports and other BSA reports from banks and financial institutions, and also receives beneficial ownership information reports from companies. The same day FinCEN issued order FIN-2026-R002, granting temporary, limited exceptive relief because of \"a service disruption that is hindering filers' ability to adhere to reporting obligations\": financial institutions that used Secure Data Transfer Mode (SDTM) to submit BSA reports, companies that must file beneficial ownership information reports, and individuals who must update a FinCEN ID, with submissions due from 18 November to 29 December 2026, may file by 30 December 2026. The order does not mention the cybersecurity incident. The relief reaches back to submissions due from 18 November, six days before the alert; FinCEN has not said when the incident began. Institutions must still meet their other anti-money-laundering obligations, including ongoing monitoring for suspicious transactions, and can use the Financial Institutions Hotline, 1-866-556-3974, which FinCEN says is not affected, to expedite suspicious activity information to law enforcement. The disclosure came the same day as reports that hackers breached an open-source intelligence system at the CIA and the Office of the Director of National Intelligence; FinCEN has not linked its incident to that breach or to any other, and The Verge says it is unclear whether they are related. (FinCEN BSA E-Filing alert, via The Verge, 24 November 2026; FinCEN Order FIN-2026-R002, 24 November 2026; CyberSIXT, 25 November 2026, 01:57 UTC.)",
+      "severity": "high",
+      "source_name": "FinCEN BSA E-Filing alert (primary source, via The Verge, 24 November 2026); FinCEN Order FIN-2026-R002, 24 November 2026; CyberSIXT, 25 November 2026",
+      "source_url": "https://cybersixt.com/originals/fincen-cybersecurity-incident",
+      "status": "confirmed",
+      "summary": "The Financial Crimes Enforcement Network (FinCEN), the US Treasury bureau that collects the financial intelligence banks file under the Bank Secrecy Act, disclosed on 24 November 2026 that it is investigating a cybersecurity incident that resulted in unauthorised access to a limited subset of its systems. It has taken some systems offline as a precaution; the BSA E-Filing site remains operational but some services may be temporarily unavailable. FinCEN has not said which systems were accessed, whether any data was taken, when the intrusion happened or who was behind it. The same day it issued order FIN-2026-R002, extending Bank Secrecy Act and beneficial-ownership filing deadlines to 30 December 2026 for reports due 18 November to 29 December.",
+      "timestamp_sgt": "2026-11-25T09:30:00+08:00",
+      "type": "Confirmed incident — US Treasury financial-intelligence bureau, unauthorised access",
+      "unknown": "Which systems were accessed; whether any data was taken, including suspicious activity reports or other BSA filings; when the intrusion began and how the attackers got in; who is behind it; and whether the incident is linked to the reported breach of an open-source intelligence system at the CIA and the Office of the Director of National Intelligence."
+    },
+    {
       "bfsi_impact": "Social Security numbers, driver's licence and passport numbers and financial account numbers for 422,332 people enable identity theft, new-account fraud and highly targeted phishing impersonating Herring Bank, including calls or messages citing real account details. Affected customers should review statements, consider a credit freeze and use the bank's complimentary monitoring; other community banks should note the breach was discovered in September and only surfaced publicly in late November through the state filing, so notification lag can hide exposure for weeks.",
       "headline": "Herring Bank discloses breach affecting 422,332 people; Social Security numbers and financial account data exposed",
       "id": "breaking-herring-bank-20261124",
@@ -1935,8 +1949,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-25T08:00:00+08:00",
-  "next_check_sgt": "2026-11-25T12:00:00+08:00",
-  "updated_sgt": "2026-11-25T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-25T12:00:00+08:00",
+  "next_check_sgt": "2026-11-25T16:00:00+08:00",
+  "updated_sgt": "2026-11-25T12:00:00+08:00",
   "version": 1
 }
