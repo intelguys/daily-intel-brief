@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Names, dates of birth, genders, mobile phone numbers and connecting information (CI) for 86,433 customers enable identity theft and highly targeted voice phishing impersonating Korea Investment Savings Bank. The mobile-website entry point mirrors the Hana Savings Bank attack on a mobile-web identity system, so other Korean financial firms should review similar mobile-web channels. It is the sixth Korean savings bank hit since late September and the largest disclosed count in the wave — more than double Yegaram's 43,246 — taking the savings-bank wave to about 132,947 exposed cases on reported counts.",
+      "headline": "Korea Investment Savings Bank confirms hack; personal data of 86,433 customers leaked, largest in savings-bank sector",
+      "id": "breaking-korea-investment-savings-bank-20261125",
+      "known": "Korea Investment Savings Bank, a subsidiary of Korea Investment Holdings, posted a personal-information leakage notice and apology on its website on 24 November 2026, saying the personal data of 86,433 customers had leaked. The bank found abnormal external access to its mobile website during a system check on 23 November; investigation showed an intrusion from 22:42 on 22 November to 03:35 on 23 November. The leaked fields are customer name, date of birth, gender, mobile phone number and connecting information (CI). The bank says account passwords and other sensitive financial-transaction information were not leaked. It blocked the IP address and the illegal access route, suspended the related services, applied new security policies and strengthened system monitoring. It is the sixth savings bank hit since late September, after Yegaram, OK, Welcome, DB and Hana, and the largest disclosed victim count in the sector — more than double Yegaram Savings Bank's 43,246. Newsis reports a second round of abnormal access on the morning of 25 November (09:43-10:02) exposing 178 more customers, which would take the total to 86,611. (SBS, 25 November 2026; Yonhap, 25 November 2026; Maeil Business Newspaper, 25 November 2026; Newsis, 25 November 2026; all translated from Korean.)",
+      "severity": "high",
+      "source_name": "SBS, 25 November 2026 (translated from Korean); Yonhap, 25 November 2026 (translated from Korean); Maeil Business Newspaper, 25 November 2026; Newsis, 25 November 2026",
+      "source_url": "https://news.sbs.co.kr/english/article.do?news_id=N1008863537",
+      "status": "confirmed",
+      "summary": "Korea Investment Savings Bank confirmed a hack of its mobile website, leaking the personal data of 86,433 customers — names, dates of birth, genders, mobile phone numbers and connecting information (CI). The intrusion ran from 22:42 on 22 November to 03:35 on 23 November and was found during a system check on 23 November; the bank posted its notice and apology on 24 November. Account passwords and other sensitive financial-transaction information were not leaked. It is the sixth Korean savings bank hit since late September and the largest disclosed count in the sector, more than double Yegaram's 43,246.",
+      "timestamp_sgt": "2026-11-25T17:49:00+08:00",
+      "type": "Major breach — Korean savings bank, customer data",
+      "unknown": "Who carried out the intrusion and how they entered the mobile website; whether any of the leaked data has been misused for identity theft or voice phishing; whether the bank's total now stands at 86,611 including the second round of 178 customers Newsis reports on the morning of 25 November, or at the 86,433 in its notice; and whether the regulator has taken action."
+    },
+    {
       "bfsi_impact": "FinCEN holds the suspicious activity reports and other Bank Secrecy Act filings banks submit, so any access to that data could expose sensitive financial-intelligence and customer information and aid money-laundering or sanctions-evasion actors. The immediate operational impact is filing disruption: institutions that used Secure Data Transfer Mode have until 30 December 2026 for reports due 18 November to 29 December, and must still meet their other anti-money-laundering obligations, including ongoing monitoring for suspicious transactions. Banks should use the unaffected Financial Institutions Hotline (1-866-556-3974) to expedite urgent suspicious-activity information to law enforcement, watch for FinCEN updates on scope, and be alert to phishing or impersonation citing the disruption.",
       "headline": "US Treasury's FinCEN discloses unauthorised access; takes systems offline and extends BSA filing deadlines",
       "id": "breaking-fincen-unauthorised-access-20261125",
@@ -394,6 +408,34 @@
     }
   ],
   "entries": [
+    {
+      "bfsi_impact": "Grupo Procuradoria provides legal representation, claims management and insurance-related advisory services, so a genuine breach could expose client, claims and insurance data for fraud or impersonation. No samples, volume or demand have been published and the firm has not confirmed a breach, so this stays an unverified claim to watch until corroboration appears.",
+      "headline": "The Gentlemen lists Brazilian legal and insurance firm Grupo Procuradoria; claim unverified",
+      "id": "entry-grupo-procuradoria-thegentlemen-20261125",
+      "known": "The Gentlemen ransomware group listed Grupo Procuradoria, a Brazilian legal and insurance services firm, on its leak site on 25 November 2026, with a countdown timer after which the group says the data will be published or sold. The firm provides legal representation, claims management and insurance-related advisory services to corporate and individual clients across Brazil. No data samples, volume or ransom demand have been published, and the firm has not confirmed a breach. (Breach House record of The Gentlemen leak-site listing, 25 November 2026.)",
+      "severity": "watch",
+      "source_name": "Breach House record of The Gentlemen leak-site listing, 25 November 2026",
+      "source_url": "https://www.breach.house/ransomware-victim/thegentlemen-grupo-procuradoria-hs1JIlzO1u88",
+      "status": "reported/unconfirmed",
+      "summary": "The Gentlemen ransomware group listed Brazilian legal and insurance services firm Grupo Procuradoria on its leak site on 25 November 2026, with a countdown timer before the data is published or sold. No samples, volume or demand have been published and the firm has not confirmed a breach; the claim is unverified.",
+      "timestamp_sgt": "2026-11-25T12:00:00+08:00",
+      "type": "Ransomware claim — legal/insurance firm, unverified",
+      "unknown": "Whether a breach happened, what data was taken and how the attackers got in; whether the group publishes data when the timer expires."
+    },
+    {
+      "bfsi_impact": "Kegler, Brown, Hill & Ritter is a US insurance and risk management firm, so a genuine breach could expose client insurance, claims and risk data. No samples, volume or demand have been published and the firm has not confirmed a breach, so this stays an unverified claim to watch until corroboration appears.",
+      "headline": "SilentRansomGroup lists US insurance firm Kegler, Brown, Hill & Ritter; claim unverified",
+      "id": "entry-kegler-brown-silentransom-20261124",
+      "known": "The SilentRansomGroup listed Kegler, Brown, Hill & Ritter, a US insurance and risk management firm, on its leak site on 24 November 2026. The listing status is 'to be announced'; no data samples, volume or ransom demand have been published. The firm has not confirmed a breach. (Dark Eye record of SilentRansomGroup leak-site listing, 24 November 2026.)",
+      "severity": "watch",
+      "source_name": "Dark Eye record of SilentRansomGroup leak-site listing, 24 November 2026",
+      "source_url": "https://crawler.darkeye.io/ransomware-victim/silentransomgroup-kegler-brown-hill-ritter-qUy1fgbn3gVx",
+      "status": "reported/unconfirmed",
+      "summary": "The SilentRansomGroup listed US insurance and risk management firm Kegler, Brown, Hill & Ritter on its leak site on 24 November 2026. No samples, volume or demand have been published and the firm has not confirmed a breach; the claim is unverified.",
+      "timestamp_sgt": "2026-11-24T12:00:00+08:00",
+      "type": "Ransomware claim — US insurance firm, unverified",
+      "unknown": "Whether a breach happened, what data was taken and how the attackers got in; whether the group publishes samples or data."
+    },
     {
       "bfsi_impact": "If genuine, a ransomware listing naming a US SEC-registered investment advisory firm would be a significant BFSI incident; treat as unverified until the firm or a primary source confirms it. Watch for a company statement, a published data sample or corroboration, and warn staff and clients about phishing using the claimed data.",
       "headline": "IncRansom ransomware group lists US investment advisory Foundations Investment Advisors (fiwealth.com); claim unverified",
@@ -1949,8 +1991,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-25T16:00:00+08:00",
-  "next_check_sgt": "2026-11-25T20:00:00+08:00",
-  "updated_sgt": "2026-11-25T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-25T20:00:00+08:00",
+  "next_check_sgt": "2026-11-26T00:00:00+08:00",
+  "updated_sgt": "2026-11-25T20:00:00+08:00",
   "version": 1
 }
