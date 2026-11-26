@@ -465,6 +465,20 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "A state development bank's public website is offline after its IT provider was hacked — a supply-chain pattern reaching a public-sector bank, though with no confirmed data leak and customer portals still reachable via a replacement page. Other banks using shared regional IT providers should check their exposure to Planet IC; the incident shows a provider compromise can take a bank's public presence offline even when the bank's own systems are untouched.",
+      "headline": "NRW.Bank takes website offline after hack on IT provider; no customer data leak confirmed",
+      "id": "entry-nrw-bank-20261126",
+      "known": "NRW.Bank, the development bank of North Rhine-Westphalia, took its website offline as a precaution on 26 November 2026 after a hacker attack on its IT service provider Planet IC in Schwerin. The hackers intruded into Planet IC's systems on Saturday 21 November; the provider took several web servers and services offline as a precaution. NRW.Bank set up a replacement page through which customer portals remain accessible, and says its IT department is working to restore the website fully. Planet IC has engaged the State Criminal Police Office of Mecklenburg-Vorpommern (LKA MV); the state data protection officer and the Federal Office for Information Security (BSI) have also been informed. Websites of several city administrations in Mecklenburg-Vorpommern, including Schwerin, Greifswald and Waren an der Müritz, were also affected and were still unreachable on Thursday morning. No restoration time has been given, and no customer data leak has been confirmed. (dpa, 26 November 2026, translated from German.)",
+      "severity": "watch",
+      "source_name": "dpa, 26 November 2026 (translated from German)",
+      "source_url": "https://www.ad-hoc-news.de/boerse/news/corporate-news/hackerangriff-seite-von-nrw-bank-vorsorglich-abgeschaltet/70558014",
+      "status": "confirmed",
+      "summary": "NRW.Bank, the German state development bank, took its website offline as a precaution on 26 November 2026 after a hacker attack on its IT service provider Planet IC, which was intruded on Saturday 21 November. A replacement page keeps customer portals accessible. No customer data leak has been confirmed; the state criminal police and the Federal Office for Information Security (BSI) have been informed. City websites in Mecklenburg-Vorpommern were also affected.",
+      "timestamp_sgt": "2026-11-26T20:13:00+08:00",
+      "type": "Precautionary outage — development bank, IT provider hacked",
+      "unknown": "Whether any NRW.Bank data was accessed via the provider; when the website will be fully restored; and who is behind the attack on Planet IC."
+    },
+    {
       "bfsi_impact": "Thailand's securities regulator had its own filing system breached, leaking national ID numbers and hashed passwords for 155 users across 10 companies and agencies that file with the SEC. The combination enables identity theft and phishing impersonating the regulator or the affected firms; market participants that use the SEC's Electronic Information Submission Management System should watch for impersonation attempts and change credentials.",
       "headline": "Thailand SEC confirms breach of its filing system; personal data of 155 users leaked",
       "id": "entry-thailand-sec-breach-20261126",
