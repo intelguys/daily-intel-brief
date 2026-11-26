@@ -409,6 +409,76 @@
   ],
   "entries": [
     {
+      "bfsi_impact": "A genuine breach of a Canadian financial planning and insurance practice could expose client financial correspondence, registered-plan and net-worth records and life-insurance policyholder data for fraud or impersonation. As it stands the claim is unverified, so the action is to watch for an Atlantis Financial statement, a data sample or corroboration before treating it as a breach.",
+      "headline": "n0n lists Canadian financial planning firm Atlantis Financial; claim unverified",
+      "id": "entry-atlantis-financial-n0n-20261125",
+      "known": "The n0n extortion group listed Atlantis Financial, a Canadian financial planning and insurance practice, on its leak site on 25 November 2026, as republished by RedPacket Security on 26 November at 00:23 UTC (08:23 SGT). The group claims 113,978 distinct email addresses and 6,457 telephone numbers, plus client financial correspondence, registered-plan, net-worth and insurance information, life-insurance policyholder records, client questionnaires and locked-in-funds applications. The listing is marked unpaid and exposed; no ransom amount and no screenshots have been published, and Atlantis Financial has not confirmed a breach. (RedPacket Security; cyberthreatintelligence.net, 25-26 November 2026.) n0n listings have included unverified and fabricated claims, so a leak-site listing alone does not establish a breach.",
+      "severity": "watch",
+      "source_name": "RedPacket Security, 26 November 2026; cyberthreatintelligence.net",
+      "source_url": "https://www.redpacketsecurity.com/n0n-ransomware-victim-atlantis-financial/",
+      "status": "reported / unconfirmed",
+      "summary": "n0n listed Canadian financial planning and insurance firm Atlantis Financial on its leak site on 25 November 2026, claiming 113,978 email addresses, 6,457 telephone numbers and client financial, plan and insurance records. No ransom amount, screenshots or victim confirmation have been published; the claim is unverified.",
+      "timestamp_sgt": "2026-11-26T08:23:00+08:00",
+      "type": "Ransomware claim — n0n, financial planning/insurance",
+      "unknown": "Whether Atlantis Financial was breached; what data, if any, was taken; whether the group holds genuine samples."
+    },
+    {
+      "bfsi_impact": "A genuine breach of a Mexican digital payments platform could expose sellers' identity documents and bank account details plus card transaction, payout and bank settlement records for fraud and account takeover. As it stands the claim is unverified, so the action is to watch for a PayClip statement, a data sample or corroboration before treating it as a breach.",
+      "headline": "n0n lists Mexican payments platform PayClip; claim unverified",
+      "id": "entry-payclip-n0n-20261125",
+      "known": "The n0n extortion group listed PayClip (Clip), a Mexican digital payments platform, on its leak site on 25 November 2026; the listing was discovered at 22:33 UTC on 25 November (06:33 SGT on 26 November). The group claims identity documents and bank account details of payment-platform sellers, 70,579 customer-service call recordings, card transaction, payout and bank settlement records, plus a 2018 backup of the merchant admin dashboard web application. The listing is marked NOT PAID - EXPOSED. No screenshots or victim confirmation have been published. (Ransomware.live record of the n0n listing, 25 November 2026.)",
+      "severity": "watch",
+      "source_name": "Ransomware.live record of the n0n listing, 25 November 2026",
+      "source_url": "https://www.ransomware.live/id/UGF5Q2xpcEBOMG4",
+      "status": "reported / unconfirmed",
+      "summary": "n0n listed Mexican digital payments platform PayClip on its leak site on 25 November 2026, claiming sellers' identity documents and bank account details, 70,579 customer-service call recordings and card transaction, payout and settlement records. No victim confirmation has been published; the claim is unverified.",
+      "timestamp_sgt": "2026-11-26T06:33:00+08:00",
+      "type": "Ransomware claim — n0n, payments platform",
+      "unknown": "Whether PayClip was breached; what data, if any, was taken; whether the group holds genuine samples."
+    },
+    {
+      "bfsi_impact": "A genuine breach of a Canadian wealth manager could expose client account forms, tax slips and financial records for fraud or impersonation. As it stands the claim is unverified, so the action is to watch for a ClearPath Wealth Management statement, a data sample or corroboration before treating it as a breach.",
+      "headline": "n0n lists Canadian wealth manager ClearPath Wealth Management; claim unverified",
+      "id": "entry-clearpath-wealth-n0n-20261125",
+      "known": "The n0n extortion group listed ClearPath Wealth Management, a Canadian wealth management firm, on its leak site on 25 November 2026; the listing was discovered at 22:25 UTC on 25 November (06:25 SGT on 26 November). The group claims client records including account forms, tax slips and client financial records. No data counts, screenshots, ransom amount or victim confirmation have been published. (HookPhish, 25 November 2026; cyberthreatintelligence.net.)",
+      "severity": "watch",
+      "source_name": "HookPhish, 25 November 2026; cyberthreatintelligence.net",
+      "source_url": "https://www.hookphish.com/blog/ransomware-group-n0n-hits-clearpath-wealth-management/",
+      "status": "reported / unconfirmed",
+      "summary": "n0n listed Canadian wealth manager ClearPath Wealth Management on its leak site on 25 November 2026, claiming client account forms, tax slips and financial records. No counts, screenshots or victim confirmation have been published; the claim is unverified.",
+      "timestamp_sgt": "2026-11-26T06:25:00+08:00",
+      "type": "Ransomware claim — n0n, wealth management",
+      "unknown": "Whether ClearPath Wealth Management was breached; what data, if any, was taken; whether the group holds genuine samples."
+    },
+    {
+      "bfsi_impact": "A genuine breach of a US life-insurance brokerage serving high-net-worth clients could expose names with dates of birth, Social Security numbers, home addresses, policy numbers and bank authorisation forms for identity theft and fraud. As it stands the claim is unverified, so the action is to watch for an American Business statement, a data sample or corroboration before treating it as a breach.",
+      "headline": "n0n lists US life-insurance brokerage American Business; claim unverified",
+      "id": "entry-american-business-n0n-20261125",
+      "known": "The n0n extortion group listed American Business, a US life-insurance brokerage and New York advanced life-insurance practice serving high-net-worth clients, on its leak site on 25 November 2026; the listing was discovered at 22:24 UTC on 25 November (06:24 SGT on 26 November). The group claims a client database of 55,656 distinct email addresses, 9,135 telephone numbers and 965 distinct Social Security number strings (names with dates of birth, SSNs and home addresses), plus underwriting correspondence, policy numbers, medical-record orders, trust and beneficiary designations, a $41,179,989 loan-modification letter and bank authorisation forms. The listing is marked NOT PAID - EXPOSED. No screenshots or victim confirmation have been published. (Ransomware.live record of the n0n listing, 25 November 2026.)",
+      "severity": "watch",
+      "source_name": "Ransomware.live record of the n0n listing, 25 November 2026",
+      "source_url": "https://www.ransomware.live/id/QW1lcmljYW4gQnVzaW5lc3NATjBu",
+      "status": "reported / unconfirmed",
+      "summary": "n0n listed US life-insurance brokerage American Business on its leak site on 25 November 2026, claiming a client database of 55,656 email addresses, 9,135 telephone numbers and 965 Social Security number strings plus policy and bank authorisation forms. No victim confirmation has been published; the claim is unverified.",
+      "timestamp_sgt": "2026-11-26T06:24:00+08:00",
+      "type": "Ransomware claim — n0n, life-insurance brokerage",
+      "unknown": "Whether American Business was breached; what data, if any, was taken; whether the group holds genuine samples. Do not sum the email counts across victims."
+    },
+    {
+      "bfsi_impact": "A genuine breach of a US real-estate buyer agency could expose client purchase correspondence and contracts for fraud or impersonation, though this is a property-services firm rather than a financial institution. As it stands the claim is unverified, so the action is to watch for a Buyers Advisors statement, a data sample or corroboration before treating it as a breach.",
+      "headline": "n0n lists US real-estate buyer agency Buyers Advisors; claim unverified",
+      "id": "entry-buyers-advisors-n0n-20261125",
+      "known": "The n0n extortion group listed Buyers Advisors, a US real-estate buyer agency in New Jersey, on its leak site, surfacing on 25 November 2026 (CTI.fyi records interception at 21:06 UTC on 25 November, 05:06 SGT on 26 November; cyberthreatintelligence.net dates the listing 25 November). The group claims a client database of 245,111 distinct email addresses and years of home-purchase correspondence, plus an 845-file document archive of purchase contracts, inspection reports and disclosures. RedPacket Security dates the leak-site post to 18 November, so the post date is disputed; treat the claim as surfaced 25 November. No screenshots or victim confirmation have been published. (RedPacket Security; CTI.fyi; cyberthreatintelligence.net, November 2026.)",
+      "severity": "watch",
+      "source_name": "RedPacket Security; CTI.fyi; cyberthreatintelligence.net, November 2026",
+      "source_url": "https://www.redpacketsecurity.com/n0n-ransomware-victim-buyers-advisors/",
+      "status": "reported / unconfirmed",
+      "summary": "n0n listed US real-estate buyer agency Buyers Advisors on its leak site, surfacing 25 November 2026, claiming a client database of 245,111 email addresses and home-purchase correspondence. The leak-site post date is disputed (18 November per RedPacket, surfaced 25 November per trackers); no victim confirmation has been published and the claim is unverified.",
+      "timestamp_sgt": "2026-11-26T05:06:00+08:00",
+      "type": "Ransomware claim — n0n, real-estate buyer agency",
+      "unknown": "Whether Buyers Advisors was breached; what data, if any, was taken; whether the leak-site post dates to 18 November or 25 November."
+    },
+    {
       "bfsi_impact": "Grupo Procuradoria provides legal representation, claims management and insurance-related advisory services, so a genuine breach could expose client, claims and insurance data for fraud or impersonation. No samples, volume or demand have been published and the firm has not confirmed a breach, so this stays an unverified claim to watch until corroboration appears.",
       "headline": "The Gentlemen lists Brazilian legal and insurance firm Grupo Procuradoria; claim unverified",
       "id": "entry-grupo-procuradoria-thegentlemen-20261125",
@@ -1991,8 +2061,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-26T08:00:00+08:00",
-  "next_check_sgt": "2026-11-26T12:00:00+08:00",
-  "updated_sgt": "2026-11-26T08:00:00+08:00",
+  "last_checked_sgt": "2026-11-26T12:00:00+08:00",
+  "next_check_sgt": "2026-11-26T16:00:00+08:00",
+  "updated_sgt": "2026-11-26T12:00:00+08:00",
   "version": 1
 }
