@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Jeonbuk Bank is the sixth Korean bank confirmed hit in the ongoing banking hack wave, and the second bank confirmed on 26 November after SH Suhyup Bank — the wave is still widening to new banks, this time reported as an AI-agent attack on a mobile product-subscription service. Account numbers plus phone numbers and email addresses enable impersonation and phishing against the 467 affected people, so other Korean banks should check the same AI-agent pattern against their own mobile subscription services. The bank says customer identification from the leaked data is limited, which bounds the direct risk, but the count of affected banks keeps rising.",
+      "headline": "Jeonbuk Bank confirms AI-agent hack; account and contact data of 467 people leaked, sixth Korean bank in the wave",
+      "id": "breaking-jeonbuk-bank-20261126",
+      "known": "Jeonbuk Bank confirmed on 26 November 2026 that an AI-agent hacking attack on the afternoon of 24 November leaked the credit information of 467 people — 462 customers and 5 employees — including account numbers, telephone numbers and email addresses. An overseas IP address used an AI agent to attack the server for the bank's mobile website non-face-to-face product subscription service. The bank detected the attack and blocked the attacking IP within 20 minutes, reported the leak to the Financial Supervisory Service (FSS) and the Financial Services Commission (FSC) on 25 November, and is carrying out additional internal verification. The bank will notify affected customers and take preventive and recurrence measures. The bank says the leaked information does not include important information and that customer identification from it is limited. With SH Suhyup Bank and Jeonbuk Bank confirmed on 26 November, the count of bank-sector cases in the wave rose to six. The FSC counted 37 companies and 40 cases across the financial sector as of 3 November. (MoneyToday, 26 November 2026, translated from Korean.)",
+      "severity": "high",
+      "source_name": "MoneyToday, 26 November 2026 (translated from Korean)",
+      "source_url": "https://www.mt.co.kr/finance/2026/11/26/2026112620485332875",
+      "status": "confirmed",
+      "summary": "Jeonbuk Bank confirmed on 26 November 2026 that an AI-agent hacking attack on the afternoon of 24 November leaked the account numbers, phone numbers, email addresses and other credit information of 467 people — 462 customers and 5 employees. The bank blocked the attacking IP within 20 minutes of detection and reported the leak to the Financial Supervisory Service and the Financial Services Commission on 25 November. It is the sixth Korean bank confirmed hit in the ongoing banking hack wave, after Shinhan, KB Kookmin, Hana, BNK Busan and SH Suhyup Bank.",
+      "timestamp_sgt": "2026-11-26T19:48:00+08:00",
+      "type": "Major breach — Korean bank, customer data",
+      "unknown": "Whether an AI agent was actually used — the AI-agent characterisation comes from the reporting and is not independently confirmed; the exact intrusion route and cause; whether more customers are affected; and who is behind the attack."
+    },
+    {
       "bfsi_impact": "A bank-owned digital-asset custodian was breached, so institutional crypto clients should watch for targeted phishing and impersonation using the leaked contact details. No funds, private keys or cryptographic material were reported accessed and no unauthorised transactions occurred, so direct asset risk looks low — but Standard Chartered only raised its stake to 100% weeks ago, making this a group-level incident for the bank, and other custodians should check whether the same probing attempts reached them.",
       "headline": "Standard Chartered crypto unit Zodia Custody discloses security breach; client and staff data exposed",
       "id": "breaking-zodia-custody-20261126",
@@ -2173,8 +2187,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-26T20:00:00+08:00",
-  "next_check_sgt": "2026-11-27T00:00:00+08:00",
-  "updated_sgt": "2026-11-26T20:00:00+08:00",
+  "last_checked_sgt": "2026-11-27T00:00:00+08:00",
+  "next_check_sgt": "2026-11-27T04:00:00+08:00",
+  "updated_sgt": "2026-11-27T00:00:00+08:00",
   "version": 1
 }
