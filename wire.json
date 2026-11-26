@@ -1,6 +1,34 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "A bank-owned digital-asset custodian was breached, so institutional crypto clients should watch for targeted phishing and impersonation using the leaked contact details. No funds, private keys or cryptographic material were reported accessed and no unauthorised transactions occurred, so direct asset risk looks low — but Standard Chartered only raised its stake to 100% weeks ago, making this a group-level incident for the bank, and other custodians should check whether the same probing attempts reached them.",
+      "headline": "Standard Chartered crypto unit Zodia Custody discloses security breach; client and staff data exposed",
+      "id": "breaking-zodia-custody-20261126",
+      "known": "Zodia Custody, Standard Chartered's cryptocurrency custody unit, suffered a security breach detected on Monday 23 November 2026 after probing attempts. Zodia took its institutional connectivity software offline, then restored it. An unauthorised party accessed business contact names and email addresses for a small number of clients and employees. No unauthorised transactions occurred; affected clients and regulators have been notified. Zodia chief executive Richard Clark confirmed the breach to Reuters in an emailed statement on 26 November 2026. Reuters reports Zodia manages about $30 billion in custody assets; Standard Chartered raised its stake in the unit to 100% weeks ago. (Reuters, 26 November 2026; Channel NewsAsia, 26 November 2026.)",
+      "severity": "high",
+      "source_name": "Reuters, 26 November 2026; Channel NewsAsia, 26 November 2026",
+      "source_url": "https://www.reuters.com/business/finance/stancharts-crypto-unit-zodia-custody-suffers-security-breach-client-data-exposed-2026-11-26/",
+      "status": "confirmed",
+      "summary": "Standard Chartered's cryptocurrency custody unit Zodia Custody disclosed a security breach detected on 23 November 2026, exposing business contact names and email addresses for a small number of clients and employees. No unauthorised transactions occurred and no funds or private keys were reported accessed. Chief executive Richard Clark confirmed the breach to Reuters on 26 November.",
+      "timestamp_sgt": "2026-11-26T18:44:00+08:00",
+      "type": "Major breach — bank-owned crypto custodian, client data",
+      "unknown": "How many clients and employees were affected; how the attacker got in; whether the probing attempts are linked to a known actor; and whether any data beyond names and email addresses was accessed."
+    },
+    {
+      "bfsi_impact": "SH Suhyup Bank is the fifth Korean bank confirmed hit in the ongoing banking hack wave, after Shinhan, KB Kookmin, Hana and BNK Busan — the wave keeps widening to new banks, so other Korean banks should check the same authentication pattern: resident registration numbers combined with brute-forced service codes, from a suspected overseas IP. The count is small (54 customers), but the pattern matters more than the number; the FSC counted 37 companies and 40 cases across the financial sector as of 3 November, with about 473,000 leaked cases in total.",
+      "headline": "SH Suhyup Bank confirms hack; data of 54 customers leaked, fifth Korean bank in the wave",
+      "id": "breaking-sh-suhyup-bank-20261126",
+      "known": "SH Suhyup Bank (Sh수협은행) confirmed on 26 November 2026 that a hacking attack leaked the personal data of 54 customers — loan information, credit information, addresses and other personal data — and reported the incident to the Financial Supervisory Service (FSS) on the afternoon of 26 November. Hackers are understood to have used multiple resident registration numbers to repeatedly access the bank's system and query customer information, guessing the additional service codes needed for authentication by random input. The attack is suspected to have come from an overseas IP address; the exact route and cause are under investigation. The bank will notify affected customers, set up a victim-report centre, post an apology on its website and build a lookup system so customers can check whether their data was leaked. It is the fifth bank confirmed hit in the recent Korean banking hack wave, after Shinhan, KB Kookmin, Hana and BNK Busan. The FSC counted 37 companies and 40 cases across the financial sector as of 3 November, with about 473,000 leaked cases in total. (MoneyToday, 26 November 2026, translated from Korean; Yonhap Infomax, 26 November 2026.)",
+      "severity": "high",
+      "source_name": "MoneyToday, 26 November 2026 (translated from Korean); Yonhap Infomax, 26 November 2026",
+      "source_url": "https://www.mt.co.kr/amp/finance/2026/11/26/2026112618003425503",
+      "status": "confirmed",
+      "summary": "SH Suhyup Bank confirmed on 26 November 2026 that hackers leaked the personal data of 54 customers — loan and credit information, addresses and other personal data — and reported the incident to the Financial Supervisory Service the same afternoon. It is the fifth Korean bank confirmed hit in the ongoing banking hack wave, after Shinhan, KB Kookmin, Hana and BNK Busan. The attack is suspected to have come from an overseas IP; whether AI was used is only suspected, not confirmed.",
+      "timestamp_sgt": "2026-11-26T17:00:00+08:00",
+      "type": "Major breach — Korean bank, customer data",
+      "unknown": "The exact intrusion route and cause, still under investigation; whether AI was actually used in the attack — the 'AI-assisted' characterisation is suspected, not confirmed; whether more customers are affected; and who is behind the attack."
+    },
+    {
       "bfsi_impact": "Internal customer management numbers for up to 33,224 Mizuho Bank customers were exposed through the Plaid KARTE breach. The numbers alone carry no names, addresses or account credentials and have been invalidated, so direct fraud risk is low — but the disclosure extends the KARTE supply-chain breach to a third Japanese megabank after MUFG Bank and SMBC, and banks using Plaid KARTE should confirm with Plaid whether their own customer data was involved.",
       "headline": "Mizuho Bank discloses KARTE-linked leak of up to 33,224 customer management numbers",
       "id": "breaking-mizuho-bank-karte-20261126",
@@ -423,18 +451,32 @@
   ],
   "entries": [
     {
-      "bfsi_impact": "Remote-control phone malware is draining deposits from customers of 22 Taiwanese financial institutions, mostly late at night. No bank's systems were breached — the compromise is on victims' phones — so the control problem is customer-device hygiene and late-night transaction monitoring, and the FSC Banking Bureau is studying stronger late-night controls with the Bankers Association.",
+      "bfsi_impact": "Thailand's securities regulator had its own filing system breached, leaking national ID numbers and hashed passwords for 155 users across 10 companies and agencies that file with the SEC. The combination enables identity theft and phishing impersonating the regulator or the affected firms; market participants that use the SEC's Electronic Information Submission Management System should watch for impersonation attempts and change credentials.",
+      "headline": "Thailand SEC confirms breach of its filing system; personal data of 155 users leaked",
+      "id": "entry-thailand-sec-breach-20261126",
+      "known": "Thailand's Securities and Exchange Commission (SEC) said on 26 November 2026 that it detected unauthorised access on 25 November to personal data of users of its Electronic Information Submission Management System (EF), the system for appointing contacts to submit electronic information. The personal data of 155 users across 10 companies or agencies leaked, including names, gender, dates of birth, national ID numbers, email addresses, telephone numbers, fax numbers, hashed passwords and departments. The SEC has blocked access to the system and stopped the leak, raised cyber-monitoring, notified affected data owners, reported the incident to the National Cyber Security Agency and is coordinating with the Technology Crime Suppression Division police for legal action. (eFinanceThai, 26 November 2026, reporting the SEC statement, translated from Thai.)",
+      "severity": "watch",
+      "source_name": "eFinanceThai, 26 November 2026 (translated from Thai), reporting the SEC statement",
+      "source_url": "https://www.efin.finance/th/stock/news/detail/WjR1AA",
+      "status": "confirmed",
+      "summary": "Thailand's Securities and Exchange Commission said on 26 November 2026 that unauthorised access detected on 25 November to its Electronic Information Submission Management System leaked the personal data of 155 users across 10 companies and agencies, including national ID numbers and hashed passwords. The SEC has blocked the system, notified those affected and reported the incident to the National Cyber Security Agency.",
+      "timestamp_sgt": "2026-11-26T15:19:00+08:00",
+      "type": "Regulator breach — securities regulator, user data",
+      "unknown": "How the attacker got into the EF system; whether the leaked data has been misused; and whether any data beyond the 155 users was accessed."
+    },
+    {
+      "bfsi_impact": "Remote-control phone malware is draining deposits from customers of 22 Taiwanese financial institutions, mostly late at night. No bank's systems were breached — the compromise is on victims' phones — so the control problem is customer-device hygiene and late-night transaction monitoring, and the FSC Banking Bureau is studying stronger late-night controls with the Bankers Association. Eight banks have now filed major-incident reports — CTBC, E.SUN, Hua Nan, Taipei Fubon, Cooperative Bank, Chang Hwa Bank, First Bank and Taishin Bank — with bank-reported losses of NT$1.82 million across 10 customers, well below the police count of more than 100 cases and NT$17.42 million, so the two counts measure different things.",
       "headline": "Taiwan police: phone malware remotely drained NT$17.42m from users of 22 financial institutions",
       "id": "entry-taiwan-phone-malware-theft-20261126",
-      "known": "Taiwan's Criminal Investigation Bureau said on 26 November 2026 that malware planted on victims' phones was remotely controlled to steal NT$17.42 million from users of 22 domestic financial institutions. Victims were mostly drained late at night into the early hours, which police assess was to avoid prompt detection. The Financial Supervisory Commission's Banking Bureau said the Bankers Association will study stronger controls, including additional late-night transaction measures, and that the FSC will keep pressing financial institutions to strengthen cyber-security defences and incident response, liaise with police and warn customers about malicious apps and links. No bank's own systems were reported breached. (UDN, 26 November 2026, translated from Chinese.)",
+      "known": "Taiwan's Criminal Investigation Bureau said on 26 November 2026 that malware planted on victims' phones was remotely controlled to steal NT$17.42 million from users of 22 domestic financial institutions. Victims were mostly drained late at night into the early hours, which police assess was to avoid prompt detection. The Financial Supervisory Commission's Banking Bureau said the Bankers Association will study stronger controls, including additional late-night transaction measures, and that the FSC will keep pressing financial institutions to strengthen cyber-security defences and incident response, liaise with police and warn customers about malicious apps and links. No bank's own systems were reported breached. (UDN, 26 November 2026, translated from Chinese.) At its regular press conference later on 26 November, the FSC said eight banks had now filed major-incident reports — the original four (CTBC, E.SUN, Hua Nan, Taipei Fubon) plus Cooperative Bank, Chang Hwa Bank, First Bank and Taishin Bank — with bank-reported losses of NT$1.82 million across 10 customers, against police figures of more than 100 cases and NT$17.42 million across 22 institutions. (CNA, 26 November 2026, translated from Chinese.)",
       "severity": "watch",
-      "source_name": "UDN (United Daily News), 26 November 2026 (translated from Chinese)",
+      "source_name": "UDN (United Daily News), 26 November 2026 (translated from Chinese); CNA, 26 November 2026 (translated from Chinese) — FSC update",
       "source_url": "https://udn.com/news/amp/story/124490/9903287",
       "status": "confirmed",
-      "summary": "Taiwan police said on 26 November 2026 that malware on victims' phones was remotely controlled to steal NT$17.42 million from users of 22 domestic financial institutions, mostly late at night. No bank's systems were breached; the FSC Banking Bureau said the Bankers Association will study stronger late-night controls.",
+      "summary": "Taiwan police said on 26 November 2026 that malware on victims' phones was remotely controlled to steal NT$17.42 million from users of 22 domestic financial institutions, mostly late at night. No bank's systems were breached; the FSC Banking Bureau said the Bankers Association will study stronger late-night controls. The FSC said later on 26 November that eight banks had now filed major-incident reports, with bank-reported losses of NT$1.82 million across 10 customers.",
       "timestamp_sgt": "2026-11-26T12:20:00+08:00",
       "type": "Fraud — phone malware, deposit theft across 22 institutions",
-      "unknown": "Which malware family was used and how it was distributed; how many victims there were; whether the late-night controls under study will be mandatory."
+      "unknown": "Which malware family was used and how it was distributed; why the bank-reported losses (NT$1.82 million, 10 customers) are far below the police count (more than 100 cases, NT$17.42 million); and whether the late-night controls under study will be mandatory."
     },
     {
       "bfsi_impact": "A genuine breach of a Bursa-listed financial services group whose subsidiary is a Bank Negara Malaysia-regulated general insurer could expose policyholder and customer data for fraud. As it stands the claim is unverified, so the action is to watch for a Pacific & Orient statement, a Bursa filing, a data sample or corroboration before treating it as a breach.",
@@ -519,6 +561,34 @@
       "timestamp_sgt": "2026-11-26T05:06:00+08:00",
       "type": "Ransomware claim — n0n, real-estate buyer agency",
       "unknown": "Whether Buyers Advisors was breached; what data, if any, was taken; whether the leak-site post dates to 18 November or 25 November."
+    },
+    {
+      "bfsi_impact": "Client policy and claims correspondence plus 95,817 correspondent email records from a US insurance brokerage enable highly targeted phishing impersonating Signet Pacific, including messages citing real client and policy details. The claim is unverified — no victim statement — so the risk is contingent on the data being genuine.",
+      "headline": "n0n lists US insurance brokerage Signet Pacific Insurance Services; claim unverified",
+      "id": "entry-signet-pacific-n0n-20261125",
+      "known": "The n0n ransomware group listed US insurance brokerage Signet Pacific Insurance Services on its leak site on 25 November 2026, claiming to have exposed a customer database with 95,817 distinct correspondent email records plus client policy and claims correspondence. The post also claims a group-benefits working directory of 8,851 files, including client employee census records, quotes and renewal records dated 2002 to 2019, QuickBooks company backups from 2018 to 2022 and scanned financial statements. The data is marked as exposed and payment not made; no ransom amount is stated and no screenshots were supplied. The claim has not been independently verified and no victim statement has been found. (RedPacket Security, 26 November 2026, scraped from the n0n leak site.)",
+      "severity": "watch",
+      "source_name": "RedPacket Security, 26 November 2026 (scraped from the n0n leak site)",
+      "source_url": "https://www.redpacketsecurity.com/n0n-ransomware-victim-signet-pacific-insurance-services/",
+      "status": "reported / unconfirmed",
+      "summary": "The n0n ransomware group listed US insurance brokerage Signet Pacific Insurance Services on 25 November 2026, claiming 95,817 correspondent email records, client policy and claims correspondence, an 8,851-file group-benefits directory, QuickBooks backups and scanned financial statements. The claim is unverified and no victim statement has been found.",
+      "timestamp_sgt": "2026-11-26T06:36:00+08:00",
+      "type": "Extortion claim — US insurance brokerage, client data",
+      "unknown": "Whether the claimed data is genuine; whether the brokerage has confirmed or denied the claim; and whether any data sample has been published."
+    },
+    {
+      "bfsi_impact": "Wills, estate and probate files, insurance policies, tax and banking records and identity documents for more than 1,000 clients, plus a client-relationship database with 83,000-plus email addresses, would enable identity theft and highly targeted phishing impersonating Generations Wealth. The claim is unverified — no victim statement — so the risk is contingent on the data being genuine.",
+      "headline": "n0n lists Canadian wealth manager Generations Wealth; claim unverified",
+      "id": "entry-generations-wealth-n0n-20261125",
+      "known": "The n0n ransomware group posted a leak listing for Generations Wealth, a Canadian financial advisory and wealth management firm, dated 18 November 2026 and discovered on 25 November 2026. The post claims client financial and estate records were exposed, including wills, probate files, insurance policies, tax and banking records and identity documents relating to more than a thousand clients, plus a client-relationship database with correspondence histories and more than 83,000 unique email addresses, and thousands of voicemail and fax recordings of client calls. The data is marked as exposed and payment not made; no ransom amount is stated and no screenshots were supplied. The claims have not been independently verified and no victim statement has been found. Most sources describe the firm as Canadian; one tracker places it in Mason, Ohio — the location is unresolved. (RedPacket Security, 26 November 2026, scraped from the n0n leak site.)",
+      "severity": "watch",
+      "source_name": "RedPacket Security, 26 November 2026 (scraped from the n0n leak site)",
+      "source_url": "https://www.redpacketsecurity.com/n0n-ransomware-victim-generations-wealth/",
+      "status": "reported / unconfirmed",
+      "summary": "The n0n ransomware group listed Canadian wealth manager Generations Wealth, claiming wills, estate and probate files, insurance policies, tax and banking records and identity documents for more than 1,000 clients, plus a client database with 83,000-plus email addresses and voicemail and fax recordings. The post is dated 18 November and was discovered on 25 November; the claim is unverified and no victim statement has been found.",
+      "timestamp_sgt": "2026-11-26T06:28:00+08:00",
+      "type": "Extortion claim — Canadian wealth manager, client data",
+      "unknown": "Whether the claimed data is genuine; the firm's location — most sources say Canada, one tracker says Mason, Ohio; and whether the firm has confirmed or denied the claim."
     },
     {
       "bfsi_impact": "Grupo Procuradoria provides legal representation, claims management and insurance-related advisory services, so a genuine breach could expose client, claims and insurance data for fraud or impersonation. No samples, volume or demand have been published and the firm has not confirmed a breach, so this stays an unverified claim to watch until corroboration appears.",
@@ -2103,8 +2173,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-26T16:00:00+08:00",
-  "next_check_sgt": "2026-11-26T20:00:00+08:00",
-  "updated_sgt": "2026-11-26T16:00:00+08:00",
+  "last_checked_sgt": "2026-11-26T20:00:00+08:00",
+  "next_check_sgt": "2026-11-27T00:00:00+08:00",
+  "updated_sgt": "2026-11-26T20:00:00+08:00",
   "version": 1
 }
