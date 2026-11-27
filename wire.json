@@ -1,6 +1,34 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Octopus is Hong Kong's dominant stored-value payment system, used for transit and retail payments, so a breach of its customer and merchant data is a payment-system incident at city scale even though no card or bank account data was taken. Banks and payment firms should watch for phishing and impersonation using the leaked names, photographs and bank codes, and for any follow-on extortion claim naming Octopus.",
+      "headline": "Hong Kong payment operator Octopus confirms cyberattack; data of about 7,500 customers and 22,000 merchants compromised",
+      "id": "breaking-octopus-cards-cyberattack-20261127",
+      "known": "Octopus Cards Limited said on 27 November 2026 that it detected abnormal activity from a cyberattack on Friday morning. The compromised customer data included names and photographs; some users of the Automatic Add Value Service also had their bank codes and top-up amounts accessed. The company said no credit card or bank account information was leaked. Data of about 22,000 merchants was also compromised, including names, titles, email addresses and phone numbers of contact persons. Core Octopus services continue to operate normally, with only a small number of features temporarily affected as a precaution. The Hong Kong Privacy Commissioner received a breach notification on Friday and opened a compliance review. Affected customers will be contacted directly. (Octopus Cards statement, 27 November 2026, published 14:23 UTC.)",
+      "severity": "high",
+      "source_name": "Octopus Cards statement, 27 November 2026 (via HK Businesswire)",
+      "source_url": "https://hkbusinesswire.com/personal-data-of-7500-octopus-users-leaked/",
+      "status": "confirmed",
+      "summary": "Hong Kong payment operator Octopus Cards confirmed on 27 November 2026 that a cyberattack compromised personal data of about 7,500 customers and contact data of about 22,000 merchants. Core services continue to operate normally and no financial loss has been detected so far.",
+      "timestamp_sgt": "2026-11-27T22:23:52+08:00",
+      "type": "Confirmed incident — payment operator, customer and merchant data compromised",
+      "unknown": "The intrusion route; which threat actor was responsible; whether the incident is linked to the earlier unconfirmed dark-web seller claim of 38.19 million Octopus records; and the full extent of the merchant data compromised."
+    },
+    {
+      "bfsi_impact": "Social Security numbers are a durable identity credential in the US, so the exposed application data creates a lasting account-takeover and synthetic-identity fraud risk for affected applicants. Banks and card issuers should watch for impersonation and new-account fraud using the exposed details, and for any further Barclays disclosure on scale.",
+      "headline": "Barclays Bank Delaware confirms breach exposing credit card application data including Social Security numbers",
+      "id": "breaking-barclays-bank-delaware-20261127",
+      "known": "Barclays Bank Delaware said an unauthorised third party accessed the system where customers check the status of their credit card applications. The bank detected suspicious activity on 4 November 2026. The exposed data includes full names, contact information, dates of birth and Social Security numbers. The bank says the breach is limited to credit card applications, has reported the incident to law enforcement and relevant regulators, and is offering affected people 24 months of complimentary identity monitoring and protection. No victim count has been disclosed. (Barclays breach notice filed with the California Department of Justice, reported by Cybernews, 27 November 2026, published 11:42 UTC.)",
+      "severity": "high",
+      "source_name": "Cybernews, 27 November 2026 (Barclays breach notice filed with California DoJ)",
+      "source_url": "https://cybernews.com/security/barclays-us-data-breach/",
+      "status": "confirmed",
+      "summary": "Barclays Bank Delaware confirmed a data breach affecting its credit card application status system, exposing names, contact details, dates of birth and Social Security numbers. The bank detected suspicious activity on 4 November 2026 and says the breach is limited to credit card applications.",
+      "timestamp_sgt": "2026-11-27T19:42:07+08:00",
+      "type": "Confirmed breach — bank, credit card application data including SSNs",
+      "unknown": "How many people are affected; how the attacker gained access; and whether the exposed data has been misused."
+    },
+    {
       "bfsi_impact": "DWP administers pensions and benefits for more than 20 million people, so a disruption to its online services is a payments-system incident at national scale even though payments themselves are unaffected. Banks and payment firms should watch for phishing impersonating DWP — the department warned it will never message claimants to ask for bank details — and for any DWP update on scope, including whether personal data was accessed.",
       "headline": "UK Department for Work and Pensions takes online services offline after cyber incident; payments unaffected",
       "id": "breaking-dwp-cyber-incident-20261127",
@@ -32,10 +60,10 @@
       "bfsi_impact": "Affected clients face credential-reset and targeted phishing risk. This is the second Spanish investment firm to disclose an incident in 24 hours, alongside Renta 4 Banco, so firms should watch for a possible pattern and for further statements from GVC Gaesco and the Spanish regulator.",
       "headline": "Spanish investment firm GVC Gaesco detects security incident possibly affecting customer login credentials",
       "id": "breaking-gvc-gaesco-20261126",
-      "known": "GVC Gaesco detected a security incident with possible effect on certain customer access credentials and informed clients by statement, Europa Press reported on 26 November 2026 (Madrid dateline; exact hour not stated). The firm has not said how many clients are affected, which credentials are involved, or whether any data was actually taken, and no confirmed theft or financial impact was stated. The disclosure first surfaced in a Rankia forum post at 22:24 CET on 26 November. GVC Gaesco is the second Spanish investment firm to disclose an incident in 24 hours, alongside Renta 4 Banco, which is already on the wire. (Europa Press wire, 26 November 2026, via Bolsarama, translated from Spanish.)",
+      "known": "GVC Gaesco detected a security incident with possible effect on certain customer access credentials and informed clients by statement, Europa Press reported on 26 November 2026 (Madrid dateline; exact hour not stated). The firm has not said how many clients are affected, which credentials are involved, or whether any data was actually taken, and no confirmed theft or financial impact was stated. The disclosure first surfaced in a Rankia forum post at 22:24 CET on 26 November. GVC Gaesco is the second Spanish investment firm to disclose an incident in 24 hours, alongside Renta 4 Banco, which is already on the wire. (Europa Press, 26 November 2026, translated from Spanish.)",
       "severity": "high",
-      "source_name": "Europa Press wire, 26 November 2026 (via Bolsarama; translated from Spanish)",
-      "source_url": "https://bolsarama.es/noticias/mercados/eeuu-presenta-demanda-recuperar-1100-dolares-ciberataque-binance--24275736.html",
+      "source_name": "Europa Press, 26 November 2026 (translated from Spanish)",
+      "source_url": "https://www.europapress.es/economia/finanzas-00340/noticia-gvc-gaesco-detecta-incidente-seguridad-podido-afectar-determinadas-credenciales-20261126191126.html",
       "status": "confirmed",
       "summary": "GVC Gaesco detected a security incident possibly affecting certain customer login credentials and informed clients by statement, Europa Press reported on 26 November 2026. The firm has not said how many clients are affected or whether any data was actually taken.",
       "timestamp_sgt": "2026-11-27T05:24:00+08:00",
@@ -2313,8 +2341,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-27T20:00:00+08:00",
-  "next_check_sgt": "2026-11-28T00:00:00+08:00",
-  "updated_sgt": "2026-11-27T20:00:00+08:00",
+  "last_checked_sgt": "2026-11-28T00:00:00+08:00",
+  "next_check_sgt": "2026-11-28T04:00:00+08:00",
+  "updated_sgt": "2026-11-28T00:00:00+08:00",
   "version": 1
 }
