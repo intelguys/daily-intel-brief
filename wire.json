@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "SAP software runs the finance, supply-chain and HR operations of many of the world's largest companies, including banks, so tampering in its development pipeline is a supply-chain question for every financial firm running SAP or pulling SAP libraries and tools from GitHub into its own builds. The open question is whether any altered code was published or reached customer builds — SAP has not said so either way. Banks should ask SAP for assurance that no tampered code reached shipped builds, watch for SAP security advisories, and treat SAP-hosted GitHub code pulled into their own pipelines with caution until SAP confirms the scope. The shared lesson with the 1Password breach the same week, which also began with a compromised employee GitHub account, is developer-token hygiene: rotate tokens, scope them tightly, and monitor for unusual repository access.",
+      "headline": "SAP confirms 'Project Granite' security incident; hackers reportedly stole GitHub tokens and altered source code",
+      "id": "breaking-sap-project-granite-20261126",
+      "known": "SAP confirmed on 26 November 2026 that it identified suspicious activity and is handling an 'active security incident' internally under the code name 'Project Granite'. Der Spiegel first reported the attack on the evening of 26 November: an insider told the magazine that attackers stole authentication tokens belonging to SAP employees and used them to copy and alter SAP source code on GitHub, and that the attackers may have used AI agents. According to Handelsblatt, citing people inside the company, SAP restricted access to GitHub, paused automated build and delivery pipelines, rotated its code-signing keys, and asked staff to check and change their credentials. SAP told dpa it 'immediately took the necessary measures to protect its customers and ensure the security of its services' and that, based on the current state of its investigation, it has found no evidence of unauthorised access to customers' business data. SAP has not said how the attackers got in, who they are, or which code or repositories were affected, and has not confirmed the token theft or the AI angle. It is SAP's second brush with a code supply-chain attack this year, after official SAP npm packages were compromised in April 2026. (Der Spiegel, 26 November 2026, via Dealroom summary; SAP statement to dpa, 26 November 2026; Handelsblatt, 26 November 2026.)",
+      "severity": "high",
+      "source_name": "Der Spiegel, 26 November 2026; SAP statement to dpa, 26 November 2026; Handelsblatt, 26 November 2026 (via Dealroom summary)",
+      "source_url": "https://app.dealroom.co/news/note/sap-hit-by-project-granite-cyberattack-as-hackers-reportedly-steal-github-tokens-and-alter-source-code",
+      "status": "confirmed",
+      "summary": "SAP confirmed on 26 November 2026 that it is handling an 'active security incident', internally codenamed 'Project Granite'. Der Spiegel reports, citing an insider, that attackers stole SAP employee GitHub authentication tokens and used them to copy and alter SAP source code; SAP has not confirmed the token theft. SAP restricted GitHub access, paused build and delivery pipelines and rotated code-signing keys, and says it has found no evidence of unauthorised access to customers' business data so far.",
+      "timestamp_sgt": "2026-11-27T03:14:00+08:00",
+      "type": "Supply-chain incident — enterprise software vendor, source-code tampering reported",
+      "unknown": "Whether any altered code was published or reached customer builds; which repositories or code were affected; how many tokens were stolen and whose; how the attackers got in and who they are; whether AI agents were used, as Der Spiegel reports; and whether any customer data beyond business data was reached."
+    },
+    {
       "bfsi_impact": "Personal identification data for customers of a Spanish investment bank with about 154,000 own-network accounts and €48.2 billion in total client assets enables impersonation and targeted phishing against those customers, so other Spanish and European investment firms should warn clients to treat messages citing their accounts with caution. No access credentials or financial information were taken and no client funds were affected, which bounds the direct risk — but the number of customers affected has not been disclosed, so the scale is still open, and the DORA 24-hour notification duty means peers should expect the regulator to ask how they would evidence the same containment.",
       "headline": "Renta 4 Banco confirms intrusion; customer personal data exposed, no credentials or financial data taken",
       "id": "breaking-renta-4-banco-20261126",
@@ -2215,8 +2229,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-27T12:00:00+08:00",
+  "last_checked_sgt": "2026-11-27T13:38:00+08:00",
   "next_check_sgt": "2026-11-27T16:00:00+08:00",
-  "updated_sgt": "2026-11-27T08:00:00+08:00",
+  "updated_sgt": "2026-11-27T13:38:00+08:00",
   "version": 1
 }
