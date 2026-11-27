@@ -1,6 +1,48 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "DWP administers pensions and benefits for more than 20 million people, so a disruption to its online services is a payments-system incident at national scale even though payments themselves are unaffected. Banks and payment firms should watch for phishing impersonating DWP — the department warned it will never message claimants to ask for bank details — and for any DWP update on scope, including whether personal data was accessed.",
+      "headline": "UK Department for Work and Pensions takes online services offline after cyber incident; payments unaffected",
+      "id": "breaking-dwp-cyber-incident-20261127",
+      "known": "The UK Department for Work and Pensions (DWP) said on 27 November 2026 that it has taken some online services offline as a precaution after identifying a cyber incident affecting its systems. It is working with the National Cyber Security Centre and the Government Cyber Coordination Centre to investigate and bring services back online as quickly as possible. Regular benefit and pension payments are not affected and will be paid as normal. DWP warned that it will never message claimants to ask for bank details or to click on links. Press reports said Universal Credit sign-in, pension and Personal Independence Payment applications and the Tell Us Once service were inaccessible (BBC, Glasgow Times, 27 November 2026). (GOV.UK statement, 27 November 2026, published 08:11 UTC.)",
+      "severity": "high",
+      "source_name": "GOV.UK statement, 27 November 2026",
+      "source_url": "https://www.gov.uk/government/news/temporary-disruption-to-some-dwp-online-services",
+      "status": "confirmed",
+      "summary": "The UK Department for Work and Pensions said on 27 November 2026 that it took some online services offline as a precaution after identifying a cyber incident, and is investigating with the National Cyber Security Centre and the Government Cyber Coordination Centre. Regular benefit and pension payments are unaffected and will be paid as normal.",
+      "timestamp_sgt": "2026-11-27T16:11:20+08:00",
+      "type": "Confirmed incident — government payments and pensions, services offline",
+      "unknown": "The nature of the incident; whether any personal data was accessed; which services are affected and when they will return; who is behind the incident; and whether it is linked to any other incident."
+    },
+    {
+      "bfsi_impact": "Asset Planner aggregates users' bank and brokerage account data, so email addresses combined with linked-account and balance information enable highly targeted investment-fraud phishing, even though no login credentials are held. Firms should watch for impersonation citing real account details, and note this is the third MINKABU-related incident in two months, pointing to third-party and authentication exposure.",
+      "headline": "Japanese financial information service MINKABU discloses unauthorised access; about 172,000 records possibly leaked",
+      "id": "breaking-minkabu-unauthorised-access-20261127",
+      "known": "Mincabu the Infonoid, listed on the Tokyo Stock Exchange Growth market, said in a timely disclosure on 27 November 2026 that its asset-formation information media service MINKABU and its asset-management service MINKABU Asset Planner were accessed by an unauthorised third party, and that users' personal information may have leaked. About 153,000 email addresses and about 19,000 records of linked financial-institution accounts and amounts may have leaked; the figures are item counts, not headcounts. Unauthorised use was detected on 25 November; the affected Asset Planner functions were suspended from 26 November. No evidence of password leakage was found at disclosure time, and Asset Planner holds no bank or brokerage login IDs or passwords, so the company says the data alone cannot be used to withdraw funds or trade. A security issue in the authentication infrastructure is under investigation; the intrusion route was not disclosed. The company will report to the Personal Information Protection Commission and notify affected users. This is the third MINKABU-related incident in two months: a MONO Investment link was suspended on 30 October and an Arara mail-delivery vendor incident was disclosed on 6 November (about 4,000 email addresses). (Company timely disclosure via TDnet, 27 November 2026; Security Measures Lab summary, translated from Japanese.)",
+      "severity": "high",
+      "source_name": "Mincabu the Infonoid timely disclosure via TDnet, 27 November 2026 (via Security Measures Lab summary, translated from Japanese)",
+      "source_url": "https://rocket-boys.co.jp/security-measures-lab/minkabu-asset-planner-unauthorized-access-202611/",
+      "status": "confirmed",
+      "summary": "Mincabu the Infonoid said on 27 November 2026 that its MINKABU media service and MINKABU Asset Planner asset-management service were accessed by an unauthorised third party, and that about 153,000 email addresses and about 19,000 records of linked bank and brokerage accounts and amounts may have leaked. The affected Asset Planner functions were suspended from 26 November.",
+      "timestamp_sgt": "2026-11-27T15:40:25+08:00",
+      "type": "Confirmed incident — financial information and asset-management service, possible data leak",
+      "unknown": "Whether the data was actually taken; the intrusion route and the authentication issue's role; how many people are affected, since the figures are item counts rather than headcounts; and when the suspended functions will resume."
+    },
+    {
+      "bfsi_impact": "Affected clients face credential-reset and targeted phishing risk. This is the second Spanish investment firm to disclose an incident in 24 hours, alongside Renta 4 Banco, so firms should watch for a possible pattern and for further statements from GVC Gaesco and the Spanish regulator.",
+      "headline": "Spanish investment firm GVC Gaesco detects security incident possibly affecting customer login credentials",
+      "id": "breaking-gvc-gaesco-20261126",
+      "known": "GVC Gaesco detected a security incident with possible effect on certain customer access credentials and informed clients by statement, Europa Press reported on 26 November 2026 (Madrid dateline; exact hour not stated). The firm has not said how many clients are affected, which credentials are involved, or whether any data was actually taken, and no confirmed theft or financial impact was stated. The disclosure first surfaced in a Rankia forum post at 22:24 CET on 26 November. GVC Gaesco is the second Spanish investment firm to disclose an incident in 24 hours, alongside Renta 4 Banco, which is already on the wire. (Europa Press wire, 26 November 2026, via Bolsarama, translated from Spanish.)",
+      "severity": "high",
+      "source_name": "Europa Press wire, 26 November 2026 (via Bolsarama; translated from Spanish)",
+      "source_url": "https://bolsarama.es/noticias/mercados/eeuu-presenta-demanda-recuperar-1100-dolares-ciberataque-binance--24275736.html",
+      "status": "confirmed",
+      "summary": "GVC Gaesco detected a security incident possibly affecting certain customer login credentials and informed clients by statement, Europa Press reported on 26 November 2026. The firm has not said how many clients are affected or whether any data was actually taken.",
+      "timestamp_sgt": "2026-11-27T05:24:00+08:00",
+      "type": "Confirmed incident — investment firm, customer credentials possibly affected",
+      "unknown": "How many clients are affected; which credentials are involved; whether any data was actually taken; the intrusion route; and whether the incident is linked to the Renta 4 Banco incident."
+    },
+    {
       "bfsi_impact": "Haiti's fourth-largest bank by assets, with 27 branches, has had customer transaction data publicly exposed — a reminder that an October disruption presented to customers as a technical issue can surface weeks later as a public data exposure. Banks and financial firms with Haitian exposure should warn affected customers about phishing and account-takeover attempts using the leaked names, account numbers and transaction details, and watch for a Capital Bank statement and for the outlet's continuing review. The Bank of the Republic of Haiti's 20 October notice bars financial institutions from negotiating with cybercriminals in response to ransom demands, which frames how any institution operating in Haiti should handle extortion.",
       "headline": "Capital Bank (Haiti) customer data exposed on leak site after October cyberattack; outlet verifies records with six customers",
       "id": "breaking-capital-bank-haiti-20261126",
@@ -506,6 +548,34 @@
     }
   ],
   "entries": [
+    {
+      "bfsi_impact": "If true, a third-party breach at the insurance sector's core analytics provider would expose client insurance contracts and catastrophe models — a systemic third-party data-exposure event for insurers, brokers and their clients. Until then the claim is unverified and should not be treated as a confirmed breach.",
+      "headline": "INCEPTION ransomware group claims 1.01 TB stolen from insurance analytics firm Verisk; claim unverified",
+      "id": "entry-verisk-inception-20261126",
+      "known": "New extortion group INCEPTION listed Verisk, the insurance-industry analytics firm, on its leak site on 26 November 2026 (detected 15:35 UTC), claiming 1.01 TB of data including 4,062 tables / 854.6 million rows, 17.5 million real client insurance contracts (London-market book), 6.91 million de-identified USAA location records, 458+ modelled-loss analyses and reinsurance and catastrophe-modelling data. The contact deadline falls on 27 November (about 23:23 SGT). Verisk has not publicly confirmed any incident; INCEPTION is a new and emerging group and trackers advise treating the claim with caution. No evidence was found that the data was published as of this check, and trackers still show the leak status as pending. (Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker.)",
+      "severity": "watch",
+      "source_name": "Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker",
+      "source_url": "https://cyber.netsecops.io/articles/new-ransomware-group-inception-claims-attack-on-verisk/",
+      "status": "reported / unconfirmed",
+      "summary": "New extortion group INCEPTION listed Verisk on its leak site on 26 November 2026, claiming 1.01 TB of data including 17.5 million client insurance contracts. Verisk has not confirmed any incident and no data has been published; the contact deadline falls today, 27 November.",
+      "timestamp_sgt": "2026-11-26T23:35:00+08:00",
+      "type": "Ransomware claim — insurance analytics provider, unverified",
+      "unknown": "Whether the claim is genuine; whether any data was taken; whether data will be published after the deadline; and whether Verisk will comment."
+    },
+    {
+      "bfsi_impact": "A crypto exchange holding passport numbers, ID copies and account numbers widens identity-theft and account-takeover risk for affected customers. The 15-day dwell time, against a first report of one hour, is a reminder that initial breach scope figures can understate the incident.",
+      "headline": "Bithumb says breach victims exceed 7,159 and intrusion lasted 15 days, not one hour",
+      "id": "entry-bithumb-expanded-breach-20261125",
+      "known": "Bithumb said in a notice on 25 November 2026 that the number of people whose personal data leaked in its October hack exceeds the initially reported 7,159 (6,444 customers and 715 staff), and that the intrusion ran from 12 to 27 October — about 15 days, not the one hour first reported. Leaked data includes names, resident registration numbers, passport numbers, account numbers, ID copies and workplace addresses, and partner-company staff were also affected. Bithumb is notifying affected customers individually by email and text and says it will take responsibility for all confirmed damage and run support and compensation procedures. (ETNews, 25 November 2026, translated from Korean, reporting Bithumb's notice.)",
+      "severity": "watch",
+      "source_name": "ETNews, 25 November 2026 (translated from Korean), reporting Bithumb's notice",
+      "source_url": "https://www.etnews.com/20261125000606",
+      "status": "confirmed",
+      "summary": "Bithumb said in a 25 November 2026 notice that the number of people whose personal data leaked in its October hack exceeds the initially reported 7,159, and that the intrusion ran from 12 to 27 October — about 15 days, not the one hour first reported. Leaked data includes passport numbers, account numbers and ID copies.",
+      "timestamp_sgt": "2026-11-25T19:46:00+08:00",
+      "type": "Breach update — crypto exchange, expanded scope",
+      "unknown": "The exact added victim total, which was not disclosed; how the attackers maintained access for 15 days; and whether the leaked data has been misused."
+    },
     {
       "bfsi_impact": "A state development bank's public website is offline after its IT provider was hacked — a supply-chain pattern reaching a public-sector bank, though with no confirmed data leak and customer portals still reachable via a replacement page. Other banks using shared regional IT providers should check their exposure to Planet IC; the incident shows a provider compromise can take a bank's public presence offline even when the bank's own systems are untouched.",
       "headline": "NRW.Bank takes website offline after hack on IT provider; no customer data leak confirmed",
@@ -2243,8 +2313,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-27T16:00:00+08:00",
-  "next_check_sgt": "2026-11-27T20:00:00+08:00",
-  "updated_sgt": "2026-11-27T16:00:00+08:00",
+  "last_checked_sgt": "2026-11-27T20:00:00+08:00",
+  "next_check_sgt": "2026-11-28T00:00:00+08:00",
+  "updated_sgt": "2026-11-27T20:00:00+08:00",
   "version": 1
 }
