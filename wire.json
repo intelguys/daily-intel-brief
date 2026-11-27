@@ -1,6 +1,20 @@
 {
   "breaking": [
     {
+      "bfsi_impact": "Personal identification data for customers of a Spanish investment bank with about 154,000 own-network accounts and €48.2 billion in total client assets enables impersonation and targeted phishing against those customers, so other Spanish and European investment firms should warn clients to treat messages citing their accounts with caution. No access credentials or financial information were taken and no client funds were affected, which bounds the direct risk — but the number of customers affected has not been disclosed, so the scale is still open, and the DORA 24-hour notification duty means peers should expect the regulator to ask how they would evidence the same containment.",
+      "headline": "Renta 4 Banco confirms intrusion; customer personal data exposed, no credentials or financial data taken",
+      "id": "breaking-renta-4-banco-20261126",
+      "known": "Renta 4 Banco confirmed on 26 November 2026 that an unauthorised intrusion detected in the early hours of Monday 23 November exposed customers' personal identification data. The bank told clients by email that its protection systems identified the unauthorised access and that it blocked and contained the information the intruders sought to take the same morning, limiting it to personal identification data, without reaching access credentials or financial information. The bank says there has been no patrimonial impact. It has not disclosed how many customers are affected or exactly which personal data was exposed. The bank has reported the incident to the Banco de España and the Spanish Data Protection Agency (AEPD), is investigating the origin with specialist firms, and has warned clients to exercise maximum caution over any message seeking data or information about their accounts. The bank has about 153,614 own-network accounts and €48.2 billion in total client assets. (Europa Press, 26 November 2026, translated from Spanish; Business People, 26 November 2026, translated from Spanish.)",
+      "severity": "high",
+      "source_name": "Europa Press, 26 November 2026 (translated from Spanish); Business People, 26 November 2026 (translated from Spanish)",
+      "source_url": "https://business-people.es/economia/renta-4-sufre-un-ciberataque-que-expone-datos-personales-de-sus-clientes/",
+      "status": "confirmed",
+      "summary": "Renta 4 Banco confirmed on 26 November 2026 that an unauthorised intrusion detected in the early hours of 23 November exposed customers' personal identification data. The bank says it contained the intrusion the same morning, and that no access credentials, financial information or client funds were affected. The number of customers affected and the exact data types have not been disclosed. The bank has reported the incident to the Banco de España and the Spanish Data Protection Agency (AEPD).",
+      "timestamp_sgt": "2026-11-26T20:54:00+08:00",
+      "type": "Major breach — Spanish investment bank, customer data",
+      "unknown": "How many customers are affected and exactly which personal data was exposed; who carried out the intrusion and how they entered; and whether any of the exposed data has been misused."
+    },
+    {
       "bfsi_impact": "Jeonbuk Bank is the sixth Korean bank confirmed hit in the ongoing banking hack wave, and the second bank confirmed on 26 November after SH Suhyup Bank — the wave is still widening to new banks, this time reported as an AI-agent attack on a mobile product-subscription service. Account numbers plus phone numbers and email addresses enable impersonation and phishing against the 467 affected people, so other Korean banks should check the same AI-agent pattern against their own mobile subscription services. The bank says customer identification from the leaked data is limited, which bounds the direct risk, but the count of affected banks keeps rising.",
       "headline": "Jeonbuk Bank confirms AI-agent hack; account and contact data of 467 people leaked, sixth Korean bank in the wave",
       "id": "breaking-jeonbuk-bank-20261126",
@@ -2201,8 +2215,8 @@
       "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
     }
   ],
-  "last_checked_sgt": "2026-11-27T00:00:00+08:00",
-  "next_check_sgt": "2026-11-27T04:00:00+08:00",
-  "updated_sgt": "2026-11-27T00:00:00+08:00",
+  "last_checked_sgt": "2026-11-27T08:00:00+08:00",
+  "next_check_sgt": "2026-11-27T12:00:00+08:00",
+  "updated_sgt": "2026-11-27T08:00:00+08:00",
   "version": 1
 }
