@@ -1,6 +1,62 @@
 {
  "breaking": [
   {
+   "bfsi_impact": "Korea Post runs postal savings and insurance alongside mail, so a breach of 113,855 customers' names, addresses and phone numbers is a large-scale exposure at a state-run financial-services provider, usable for phishing and impersonation. Banks and payment firms should watch for fraud using the leaked recipient details, and for any follow-on claim that financial-account data was also taken — Korea Post has confirmed only mailing-record data so far.",
+   "headline": "Korea Post confirms Internet Post Office hack; personal data of at least 113,855 customers leaked",
+   "id": "breaking-korea-post-internet-post-office-20261128",
+   "known": "Korea Post, under the Ministry of Science and ICT, said on 28 November 2026 that a hacking attack on the Internet Post Office exposed the personal information of at least 113,855 customers, with the full scope still under investigation. Attackers accessed the mobile Internet Post Office's delivery-location change service and viewed the names, addresses and phone numbers of recipients of registered mail being delivered between 17 and 24 November; an analysis of a single day's data alone found 113,855 people exposed. Korea Post became aware of signs of the breach on 25 November and requested a police investigation. It temporarily suspended some services, including the delivery-location change function, and blocked access to its mobile website from overseas IP addresses. Korea Post chief Park In-hwan apologised and said the cause would be thoroughly investigated. (Yonhap, 28 November 2026.)",
+   "severity": "high",
+   "source_name": "Yonhap, 28 November 2026",
+   "source_url": "https://en.yna.co.kr/view/AEN20261128001400315?section=national/national",
+   "status": "confirmed",
+   "summary": "Korea Post confirmed on 28 November 2026 that a hacking attack on the Internet Post Office exposed the personal information of at least 113,855 customers — names, addresses and phone numbers of registered-mail recipients from 17 to 24 November. Korea Post detected signs of the breach on 25 November, notified police, and suspended the delivery-location change service.",
+   "timestamp_sgt": "2026-11-28T10:38:00+08:00",
+   "type": "Major breach — postal service with financial services, customer data",
+   "unknown": "The full scope of the breach; how attackers entered the delivery-location change service; and whether any data beyond mailing records was accessed."
+  },
+  {
+   "bfsi_impact": "A remittance firm losing about KRW 2.5 billion in customer settlement funds to hacking is a direct theft of money, not just data, and the largest recent financial-sector hacking loss in Korea — it shows small fintech and payment firms are being hit for funds, not only for records. The Financial Supervisory Service has started an on-site inspection and plans a sector-wide check of about 580 financial firms by year-end; banks and payment firms should review controls on settlement accounts and repeated-attack patterns.",
+   "headline": "Korean remittance firm E9Pay loses about KRW 2.5 billion to hacking; regulator starts on-site inspection",
+   "id": "breaking-e9pay-funds-theft-20261127",
+   "known": "E9Pay (inainepay), Korea's first small-amount overseas remittance company, was hit by about 90 hacking attacks and had about KRW 2.5 billion stolen, Yonhap reported on 27 November 2026, citing financial authorities. The stolen funds were mainly payment money due to merchants and sellers. The Financial Supervisory Service received the incident report from E9Pay and sent an on-site inspection team on 27 November to establish the exact scale of the loss and how the attack happened; the authorities are still confirming the precise amount. The loss is described as the largest among the recent series of hacking incidents in the financial sector. E9Pay was preparing for a KOSDAQ listing. (Yonhap, 27 November 2026, translated from Korean; also ETNews, Maeil Business, JoongAng.)",
+   "severity": "high",
+   "source_name": "Yonhap, 27 November 2026 (translated from Korean)",
+   "source_url": "https://www.yna.co.kr/amp/view/AKR20261127162500002",
+   "status": "confirmed",
+   "summary": "Korean remittance firm E9Pay was hit by about 90 hacking attacks and lost about KRW 2.5 billion — mainly merchant settlement funds — in the largest recent financial-sector hacking loss in Korea. The Financial Supervisory Service began an on-site inspection on 27 November 2026; the exact loss figure is still being confirmed.",
+   "timestamp_sgt": "2026-11-27T19:48:00+08:00",
+   "type": "Funds theft — remittance firm, direct loss of customer money",
+   "unknown": "The exact amount stolen; how the attackers got in and moved the funds; whether any customer personal data was also taken; and whether the stolen funds can be recovered."
+  },
+  {
+   "bfsi_impact": "A mutual-aid and pension body holding the identity records of essentially every active science and technology professional in Korea is a high-value target: about 210,000 records including encrypted resident registration numbers and passwords enable identity fraud and highly targeted phishing against national research staff. No financial information was leaked, so the immediate risk is impersonation and social engineering rather than direct account theft; firms should watch for phishing citing the incident.",
+   "headline": "Korea Science & Technology Mutual Aid Association confirms hack; about 210,000 members' personal data leaked",
+   "id": "breaking-korea-science-tech-mutual-aid-20261127",
+   "known": "The Korea Science & Technology Mutual Aid Association said on 27 November 2026 that a cyberattack on 8 November exposed about 210,000 members' personal data across 16 categories, Yonhap reported. The leaked fields include member number, name (Korean and English), date of birth, login ID, mobile phone number, email, home and workplace addresses, workplace name, department, rank and position, and membership dates; resident registration numbers and passwords were also leaked but in encrypted form. The association's membership is about 201,385, so the leak covers essentially all current members plus former members. An external attacker exploited a server vulnerability for unauthorised access at about 04:10 on 8 November; the association detected it about 17 hours later and confirmed the leak on 25 November after a detailed investigation by an external security firm. The association operates retirement pension, savings-type mutual aid and lump-sum benefit schemes for science and technology personnel. No financial information was leaked. (Yonhap, 27 November 2026, translated from Korean; also Chosun Biz, Maeil Business, Herald.)",
+   "severity": "high",
+   "source_name": "Yonhap, 27 November 2026 (translated from Korean)",
+   "source_url": "https://www.yna.co.kr/view/AKR20261127047651017?section=industry/all",
+   "status": "confirmed",
+   "summary": "The Korea Science & Technology Mutual Aid Association confirmed on 27 November 2026 that a hack on 8 November leaked about 210,000 members' personal data across 16 categories, including names, dates of birth, phone numbers, addresses and encrypted resident registration numbers and passwords — effectively all current and former members. No financial information was leaked.",
+   "timestamp_sgt": "2026-11-27T10:42:00+08:00",
+   "type": "Major breach — pension and mutual-aid body, member data",
+   "unknown": "Whether the encrypted resident registration numbers or passwords can be used; whether any leaked data has been misused; and the full details of the server vulnerability exploited."
+  },
+  {
+   "bfsi_impact": "A flaw in a vendor's foreign-exchange service exposed corporate clients' transfer orders — sender and recipient names and addresses, account numbers, amounts and transfer reasons — at a named bank. Firms using third-party payment and FX services should check vendor incident-reporting and log access, and watch for business-email-compromise and payment-redirection fraud using the exposed transfer details.",
+   "headline": "Yamagata Bank transfer data exposed after flaw in vendor NS Solutions' CrossMeetz foreign-exchange service",
+   "id": "breaking-yamagata-bank-crossmeetz-20261127",
+   "known": "NS Solutions announced on 27 November 2026 that unauthorised access to the environment of its CrossMeetz foreign-exchange service, used by a financial institution, let an attacker read data including information on 22 corporate clients' overseas transfer orders. The access happened overnight on 24 November and the data read was confirmed the next morning; the attacker exploited an application vulnerability. The exposed transfer data included sender and recipient names and addresses, account numbers, amounts and transfer reasons, plus user IDs, login history and connection information; hashed (non-reversible) passwords and expired one-time passwords were also exposed, which the vendor says cannot be used to log in. The affected bank was identified as Yamagata Bank, which issued its own customer notice on 27 November. NS Solutions blocked the attack source, patched the vulnerability and temporarily suspended the service. No unauthorised access was confirmed in other banks' CrossMeetz environments, and no secondary misuse of the exposed data was found. (NS Solutions, 27 November 2026, via SecurHub, 28 November 2026, translated from Polish.)",
+   "severity": "high",
+   "source_name": "SecurHub, 28 November 2026 (translated from Polish); NS Solutions notice, 27 November 2026",
+   "source_url": "https://www.securhub.pl/blog/2026-11-28-wyciek-danych-przelewow-w-yamagata-bank-napastnik-wykorzystal-luke-w",
+   "status": "confirmed",
+   "summary": "NS Solutions announced on 27 November 2026 that unauthorised access to its CrossMeetz foreign-exchange service exposed data on 22 corporate clients' overseas transfer orders at Yamagata Bank, including names, addresses, account numbers, amounts and transfer reasons. The flaw is patched and the service suspended; no misuse of the data has been found.",
+   "timestamp_sgt": "2026-11-28T13:30:00+08:00",
+   "type": "Confirmed incident — bank, customer transfer data via vendor",
+   "unknown": "The exact hour NS Solutions announced the incident on 27 November; the identity of the attacker; and whether any other data beyond the 22 transfer orders was read."
+  },
+  {
    "bfsi_impact": "Octopus is Hong Kong's dominant stored-value payment system, used for transit and retail payments, so a breach of its customer and merchant data is a payment-system incident at city scale even though no card or bank account data was taken. Banks and payment firms should watch for phishing and impersonation using the leaked names, photographs and bank codes, and for any follow-on extortion claim naming Octopus.",
    "headline": "Hong Kong payment operator Octopus confirms cyberattack; data of about 7,500 customers and 22,000 merchants compromised",
    "id": "breaking-octopus-cards-cyberattack-20261127",
@@ -253,15 +309,15 @@
    "unknown": "What client data leaked, how many clients are affected, and how the attackers entered the bank's systems; whether any of the leaked data has been misused for fraud."
   },
   {
-   "bfsi_impact": "Name, account number and driver's licence number for 8,241 Samsung Securities customers enables identity fraud and highly targeted phishing against those customers, and gives attackers a verified customer list for impersonation calls and messages citing the incident. Only customers who filed through the Voice of Customer complaints system are affected; the firm's trading and payment systems are not reported breached, so the immediate risk is social engineering and identity fraud rather than direct account takeover. The disclosure adds a fourth Korean securities firm to the current breach wave and comes days after the Financial Supervisory Service summoned 227 e-finance and 47 investment-linked firms over the sector's security failures.",
-   "headline": "Samsung Securities discloses breach of customer-complaints system; account numbers and driver's licence numbers of 8,241 customers leaked",
+   "bfsi_impact": "Name, account number and driver's licence number for 12,168 Samsung Securities customers enables identity fraud and highly targeted phishing against those customers, and gives attackers a verified customer list for impersonation calls and messages citing the incident. Only customers who filed through the Voice of Customer complaints system are affected; the firm's trading and payment systems are not reported breached, so the immediate risk is social engineering and identity fraud rather than direct account takeover. The disclosure adds a fourth Korean securities firm to the current breach wave and comes days after the Financial Supervisory Service summoned 227 e-finance and 47 investment-linked firms over the sector's security failures.",
+   "headline": "Samsung Securities discloses breach of customer-complaints system; account numbers and driver's licence numbers of 12,168 customers leaked",
    "id": "breaking-samsung-securities-20261123",
-   "known": "Samsung Securities disclosed on 23 November 2026 that an unauthorised outsider accessed its website's Voice of Customer (VOC) complaints system and exfiltrated attachments customers had uploaded with complaints. The firm found traces of the intrusion on the afternoon of 21 November. Attachments belonging to 8,241 customers leaked; the leaked fields total 13 items, varying by person, including name, account number, address, contact details and driver's licence number. Only customers who had filed via the VOC system are affected; other customers are not. Chief executive Park Jong-moon posted an apology on the company website on 23 November. The firm blocked the IP address used, suspended the VOC service, applied firewall blocking, reported to the Financial Supervisory Service and the Korea Internet & Security Agency, and will notify affected customers individually; it says it will compensate customers if actual loss is confirmed.",
+   "known": "Samsung Securities disclosed on 23 November 2026 that an unauthorised outsider accessed its website's Voice of Customer (VOC) complaints system and exfiltrated attachments customers had uploaded with complaints. The firm found traces of the intrusion on the afternoon of 21 November. Attachments belonging to 8,241 customers leaked at first count; on 28 November 2026 the firm said a second detailed review of the leaked files found a further 3,927 customers' personal and credit information exposed, bringing the total to 12,168. the leaked fields total 13 items, varying by person, including name, account number, address, contact details and driver's licence number. Only customers who had filed via the VOC system are affected; other customers are not. Chief executive Park Jong-moon posted an apology on the company website on 23 November. The firm blocked the IP address used, suspended the VOC service, applied firewall blocking, reported to the Financial Supervisory Service and the Korea Internet & Security Agency, and will notify affected customers individually; it says it will compensate customers if actual loss is confirmed. (Boan News, 28 November 2026, translated from Korean.)",
    "severity": "high",
-   "source_name": "YTN, 23 November 2026 (translated from Korean); Yonhap; Donga Ilbo; SBS; CNA",
+   "source_name": "YTN, 23 November 2026 (translated from Korean); Yonhap; Donga Ilbo; SBS; CNA; Boan News, 28 November 2026 (translated from Korean)",
    "source_url": "https://www.ytn.co.kr/_ln/0102_202611231029292963",
    "status": "confirmed",
-   "summary": "Samsung Securities disclosed on 23 November 2026 that an unauthorised outsider accessed its Voice of Customer complaints system on 21 November and exfiltrated attachments from 8,241 customers, including names, account numbers, addresses, contact details and driver's licence numbers across 13 fields. Only customers who filed via the complaints system are affected. The firm blocked the IP, suspended the service, reported to the Financial Supervisory Service and the Korea Internet & Security Agency, and will notify affected customers individually.",
+   "summary": "Samsung Securities disclosed on 23 November 2026 that an unauthorised outsider accessed its Voice of Customer complaints system on 21 November and exfiltrated attachments from 8,241 customers at first count — revised to 12,168 on 28 November after a second review found a further 3,927 customers affected, including names, account numbers, addresses, contact details and driver's licence numbers across 13 fields. Only customers who filed via the complaints system are affected. The firm blocked the IP, suspended the service, reported to the Financial Supervisory Service and the Korea Internet & Security Agency, and will notify affected customers individually.",
    "timestamp_sgt": "2026-11-23T09:29:00+08:00",
    "type": "Major breach — Korean securities firm, customer data",
    "unknown": "Who carried out the attack and how they entered the Voice of Customer system; whether any of the leaked data has been misused for fraud; and whether any affected customer has suffered a loss."
@@ -608,12 +664,12 @@
    "bfsi_impact": "If true, a third-party breach at the insurance sector's core analytics provider would expose client insurance contracts and catastrophe models — a systemic third-party data-exposure event for insurers, brokers and their clients. Until then the claim is unverified and should not be treated as a confirmed breach.",
    "headline": "INCEPTION ransomware group claims 1.01 TB stolen from insurance analytics firm Verisk; claim unverified",
    "id": "entry-verisk-inception-20261126",
-   "known": "New extortion group INCEPTION listed Verisk, the insurance-industry analytics firm, on its leak site on 26 November 2026 (detected 15:35 UTC), claiming 1.01 TB of data including 4,062 tables / 854.6 million rows, 17.5 million real client insurance contracts (London-market book), 6.91 million de-identified USAA location records, 458+ modelled-loss analyses and reinsurance and catastrophe-modelling data. The contact deadline on 27 November (about 23:23 SGT) passed with no publication as of 12:00 SGT on 28 November (about 12.5 hours past the deadline), and trackers still show the leak status as pending. Verisk has not publicly confirmed any incident; INCEPTION is a new and emerging group and trackers advise treating the claim with caution. (Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker; GalaxyWarden tracker checked 28 November 2026.)",
+   "known": "New extortion group INCEPTION listed Verisk, the insurance-industry analytics firm, on its leak site on 26 November 2026 (detected 15:35 UTC), claiming 1.01 TB of data including 4,062 tables / 854.6 million rows, 17.5 million real client insurance contracts (London-market book), 6.91 million de-identified USAA location records, 458+ modelled-loss analyses and reinsurance and catastrophe-modelling data. The contact deadline on 27 November (about 23:23 SGT) passed with no publication as of 16:00 SGT on 28 November (about 16.5 hours past the deadline), and trackers still show the leak status as pending. Verisk has not publicly confirmed any incident; INCEPTION is a new and emerging group and trackers advise treating the claim with caution. (Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker; GalaxyWarden tracker checked 28 November 2026.)",
    "severity": "watch",
    "source_name": "Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker",
    "source_url": "https://cyber.netsecops.io/articles/new-ransomware-group-inception-claims-attack-on-verisk/",
    "status": "reported / unconfirmed",
-   "summary": "New extortion group INCEPTION listed Verisk on its leak site on 26 November 2026, claiming 1.01 TB of data including 17.5 million client insurance contracts. Verisk has not confirmed any incident and no data has been published; the contact deadline passed on 27 November with no publication as of 12:00 SGT on 28 November.",
+   "summary": "New extortion group INCEPTION listed Verisk on its leak site on 26 November 2026, claiming 1.01 TB of data including 17.5 million client insurance contracts. Verisk has not confirmed any incident and no data has been published; the contact deadline passed on 27 November with no publication as of 16:00 SGT on 28 November.",
    "timestamp_sgt": "2026-11-26T23:35:00+08:00",
    "type": "Ransomware claim — insurance analytics provider, unverified",
    "unknown": "Whether the claim is genuine; whether any data was taken; whether data will be published after the deadline; and whether Verisk will comment."
@@ -2369,8 +2425,8 @@
    "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
   }
  ],
- "last_checked_sgt": "2026-11-28T12:00:00+08:00",
- "next_check_sgt": "2026-11-28T16:00:00+08:00",
- "updated_sgt": "2026-11-28T12:00:00+08:00",
+ "last_checked_sgt": "2026-11-28T16:00:00+08:00",
+ "next_check_sgt": "2026-11-28T20:00:00+08:00",
+ "updated_sgt": "2026-11-28T16:00:00+08:00",
  "version": 1
 }
