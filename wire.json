@@ -608,12 +608,12 @@
    "bfsi_impact": "If true, a third-party breach at the insurance sector's core analytics provider would expose client insurance contracts and catastrophe models — a systemic third-party data-exposure event for insurers, brokers and their clients. Until then the claim is unverified and should not be treated as a confirmed breach.",
    "headline": "INCEPTION ransomware group claims 1.01 TB stolen from insurance analytics firm Verisk; claim unverified",
    "id": "entry-verisk-inception-20261126",
-   "known": "New extortion group INCEPTION listed Verisk, the insurance-industry analytics firm, on its leak site on 26 November 2026 (detected 15:35 UTC), claiming 1.01 TB of data including 4,062 tables / 854.6 million rows, 17.5 million real client insurance contracts (London-market book), 6.91 million de-identified USAA location records, 458+ modelled-loss analyses and reinsurance and catastrophe-modelling data. The contact deadline on 27 November (about 23:23 SGT) passed with no publication as of 08:00 SGT on 28 November (about 8.5 hours past the deadline), and trackers still show the leak status as pending. Verisk has not publicly confirmed any incident; INCEPTION is a new and emerging group and trackers advise treating the claim with caution. (Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker; GalaxyWarden tracker checked 28 November 2026.)",
+   "known": "New extortion group INCEPTION listed Verisk, the insurance-industry analytics firm, on its leak site on 26 November 2026 (detected 15:35 UTC), claiming 1.01 TB of data including 4,062 tables / 854.6 million rows, 17.5 million real client insurance contracts (London-market book), 6.91 million de-identified USAA location records, 458+ modelled-loss analyses and reinsurance and catastrophe-modelling data. The contact deadline on 27 November (about 23:23 SGT) passed with no publication as of 12:00 SGT on 28 November (about 12.5 hours past the deadline), and trackers still show the leak status as pending. Verisk has not publicly confirmed any incident; INCEPTION is a new and emerging group and trackers advise treating the claim with caution. (Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker; GalaxyWarden tracker checked 28 November 2026.)",
    "severity": "watch",
    "source_name": "Cyber NetSecOps, 26 November 2026; Kalir Pulse tracker",
    "source_url": "https://cyber.netsecops.io/articles/new-ransomware-group-inception-claims-attack-on-verisk/",
    "status": "reported / unconfirmed",
-   "summary": "New extortion group INCEPTION listed Verisk on its leak site on 26 November 2026, claiming 1.01 TB of data including 17.5 million client insurance contracts. Verisk has not confirmed any incident and no data has been published; the contact deadline passed on 27 November with no publication as of 08:00 SGT on 28 November.",
+   "summary": "New extortion group INCEPTION listed Verisk on its leak site on 26 November 2026, claiming 1.01 TB of data including 17.5 million client insurance contracts. Verisk has not confirmed any incident and no data has been published; the contact deadline passed on 27 November with no publication as of 12:00 SGT on 28 November.",
    "timestamp_sgt": "2026-11-26T23:35:00+08:00",
    "type": "Ransomware claim — insurance analytics provider, unverified",
    "unknown": "Whether the claim is genuine; whether any data was taken; whether data will be published after the deadline; and whether Verisk will comment."
@@ -2369,8 +2369,8 @@
    "unknown": "The FSC has not named all 37 firms or broken down the 40 incidents by firm, and whether any leaked data is exploited in secondary crime such as voice phishing remains unconfirmed."
   }
  ],
- "last_checked_sgt": "2026-11-28T08:00:00+08:00",
- "next_check_sgt": "2026-11-28T12:00:00+08:00",
- "updated_sgt": "2026-11-28T08:00:00+08:00",
+ "last_checked_sgt": "2026-11-28T12:00:00+08:00",
+ "next_check_sgt": "2026-11-28T16:00:00+08:00",
+ "updated_sgt": "2026-11-28T12:00:00+08:00",
  "version": 1
 }
